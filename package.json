@@ -1,0 +1,26 @@
+{
+  "name": "vois_hub",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/vineet-k09/vois_hub#readme",
+  "bugs": {
+    "url": "https://github.com/vineet-k09/vois_hub/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://vineet-k09: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@github.com/vineet-k09/vois_hub.git"
+  },
+  "license": "ISC",
+  "author": "vineet",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx server.ts"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  }
+}
