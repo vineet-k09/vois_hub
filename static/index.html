@@ -31,11 +31,8 @@
     </style>
 </head>
 <body>
-    <h1>Served Files</h1>
     <div id="navbar" class="navbar"></div>
-    <div id="content" class="content-area">
-        <p>Select a file from the navigation bar above to view its content.</p>
-    </div>
+    <div id="content" class="content-area"></div>
 
     <script>
         const navbar = document.getElementById('navbar');
@@ -60,7 +57,8 @@
             .then(files => {
                 files.forEach(file => {
                     const button = document.createElement('button');
-                    button.textContent = file.name;
+                    button.textContent = file.name.replace('.html', '').replace('vois_hub_', '').replaceAll('_', ' ')
+;
                     button.onclick = () => {
                         if (currentActiveButton) {
                             currentActiveButton.classList.remove('active');
