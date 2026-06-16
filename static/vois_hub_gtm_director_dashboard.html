@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VOIS Hub — GTM Director Persona View (Chris)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --grad-1:#e60000;
+    --grad-2:#b8000a;
+    --grad-3:#5a0006;
+    --grad-4:#0a0000;
+
+    --p1:#e60000;
+    --p2:#b8000a;
+    --p3:#1a0000;
+
+    --bg:#f3f1f1;
+    --panel:#e8e3e3;
+    --panel-2:#d8d0d0;
+    --panel-border:#b59c9c;
+    --rail:#1a0000;
+    --rail-text:#f0d8d8;
+    --ink:#1a0000;
+    --ink-soft:#4a2a2a;
+    --muted:#8c7878;
+    --green:#0a8a3a;
+    --amber:#e08a00;
+    --red:#cc1f1f;
+    --tbd:#8c7878;
+    --accent:#e60000;
+    --card-shadow:0 1px 0 rgba(255,255,255,.5) inset, 0 6px 16px -8px rgba(26,0,0,.25);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#ddd5d5;font-family:'Inter',sans-serif;color:var(--ink);font-size:13px;line-height:1.4}
+  .frame{max-width:1280px;margin:14px auto;background:var(--bg);box-shadow:0 12px 40px rgba(0,0,0,.18);}
+
+  /* TOP BAR */
+  .topbar{height:46px;background:linear-gradient(90deg,var(--grad-1) 0%,var(--grad-2) 35%,var(--grad-3) 65%,var(--grad-4) 100%);display:flex;align-items:center;padding:0 18px;color:#fff}
+  .logo{display:flex;align-items:center;gap:10px}
+  .logo .mark{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:2px;font-size:22px;background:rgba(255,255,255,.08);padding:2px 10px;border:1px solid rgba(255,255,255,.25)}
+  .logo .name{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:20px;letter-spacing:1px}
+  .topbar .right{margin-left:auto;display:flex;align-items:center;gap:14px;font-size:12px;opacity:.95}
+  .topbar .right .user{display:flex;align-items:center;gap:8px}
+  .avatar{width:26px;height:26px;border-radius:50%;background:#fff;color:var(--p1);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px}
+  .anno-toggle{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;padding:4px 10px;font-size:10.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif}
+  .anno-toggle:hover{background:rgba(255,255,255,.25)}
+  .anno-toggle.on{background:#ffd8d8;color:#1a0000;border-color:#ffd8d8}
+  .anno-toggle .led{width:7px;height:7px;border-radius:50%;background:#9a82a0}
+  .anno-toggle.on .led{background:var(--green);box-shadow:0 0 8px rgba(10,138,58,.6)}
+
+  /* NAV */
+  .nav{background:#cfbcbc;border-top:1px solid #b59c9c;border-bottom:1px solid #b59c9c;display:flex;align-items:stretch;padding:0 14px;height:34px;font-size:11.5px;font-weight:600;letter-spacing:.5px;color:#1a0000}
+  .nav .item{display:flex;align-items:center;padding:0 14px;cursor:pointer;border-right:1px solid #b59c9c;text-transform:uppercase;gap:6px}
+  .nav .item.active{color:var(--p1);border-bottom:3px solid var(--p1);background:rgba(255,255,255,.25)}
+  .nav .item .caret{font-size:9px;opacity:.7}
+
+  /* HERO */
+  .hero{position:relative;background:linear-gradient(90deg,rgba(26,0,0,.85) 0%,rgba(90,0,6,.65) 55%,rgba(184,0,10,.45) 100%),radial-gradient(circle at 75% 40%,#e60000 0%,#b8000a 50%,#1a0000 100%);color:#fff;padding:24px 22px 18px;overflow:hidden}
+  .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 50%,rgba(255,255,255,.08) 0%,transparent 30%),repeating-linear-gradient(45deg,rgba(255,255,255,.025) 0 2px,transparent 2px 8px);pointer-events:none}
+  .hero h1{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:44px;letter-spacing:.5px;line-height:1}
+  .hero h1 .accent{color:#ffd8d8;font-weight:500}
+  .hero p{margin-top:10px;max-width:980px;font-size:12.5px;line-height:1.55;color:#f0d8d8;font-weight:300}
+  .hero p b{color:#fff;font-weight:500}
+  .hero .tools{position:absolute;right:22px;top:24px;display:flex;gap:8px}
+  .hero .tools .pill{width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer}
+
+  /* FILTERS */
+  .filters{background:#f0e8e8;border-bottom:1px solid #b59c9c;display:flex;align-items:center;gap:14px;padding:8px 14px;font-size:11.5px}
+  .filters .f{display:flex;align-items:center;gap:8px;color:#1a0000;font-weight:600}
+  .filters .f .sel{background:#fff;border:1px solid #b59c9c;padding:4px 8px;min-width:120px;display:flex;align-items:center;justify-content:space-between;color:#1a0000;font-weight:500}
+  .filters .f .sel:after{content:"▾";font-size:9px;margin-left:8px;color:#4a2a2a}
+  .filters .reload{margin-left:auto;color:#4a2a2a;cursor:pointer;font-size:14px}
+  .legend{display:flex;align-items:center;gap:10px;font-size:10px;color:#4a2a2a}
+  .legend .lg{display:flex;align-items:center;gap:4px}
+  .legend .lg span{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+  /* ANNOTATION SYSTEM */
+  .anno-banner{background:linear-gradient(90deg,#fff7d9,#fde9c2);border-top:2px solid #e08a00;border-bottom:2px solid #e08a00;padding:8px 14px;font-size:11px;color:#5a3a00;display:none;align-items:center;gap:14px}
+  .anno-banner.on{display:flex}
+  .anno-banner b{color:#1a0000}
+  .anno-banner .leg{display:flex;align-items:center;gap:6px}
+  .anno-banner .leg .pin{width:28px;height:20px;border-radius:10px;background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:'Barlow Condensed',sans-serif}
+  .anno-banner .key{display:flex;gap:10px;margin-left:auto;font-size:10.5px;flex-wrap:wrap}
+  .anno-banner .key span{display:inline-flex;align-items:center;gap:4px}
+  .anno-banner .key i{width:9px;height:9px;border-radius:2px;display:inline-block}
+
+  /* LAYOUT */
+  .canvas{padding:14px 14px 18px;display:grid;grid-template-columns:1fr 280px;gap:12px}
+  .main{display:flex;flex-direction:column;gap:12px}
+  .section{position:relative;background:var(--panel);border:1px solid var(--panel-border);padding:10px 12px 12px 38px}
+  .section .rail{position:absolute;left:0;top:0;bottom:0;width:26px;background:var(--rail);display:flex;align-items:center;justify-content:center}
+  .section .rail span{color:var(--rail-text);writing-mode:vertical-rl;transform:rotate(180deg);font-family:'Barlow Condensed',sans-serif;letter-spacing:3px;font-size:12px;font-weight:500;text-transform:uppercase}
+
+  .req-pin{position:absolute;top:-12px;left:-14px;z-index:20;min-width:48px;height:28px;padding:0 8px;border-radius:14px;background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;display:none;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.5px;box-shadow:0 4px 10px rgba(230,0,0,.45),0 0 0 3px #fff;cursor:help}
+  body.anno-on .req-pin{display:flex}
+
+  .anno-card{display:none;background:#fffdf2;border:1px solid #e08a00;border-left:4px solid #e08a00;padding:10px 12px 12px;margin-top:10px;font-size:11px;line-height:1.5;color:#1a0000;box-shadow:0 4px 14px rgba(224,138,0,.18);position:relative}
+  body.anno-on .anno-card{display:block}
+  .anno-card::before{content:"📝 ANNOTATION";position:absolute;top:-10px;left:10px;background:#fffdf2;padding:0 8px;font-size:9.5px;font-weight:700;color:#e08a00;letter-spacing:1px}
+  .anno-card .anno-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed #e08a00}
+  .anno-card .anno-head .nr{background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;min-width:54px;height:24px;padding:0 10px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;font-family:'Barlow Condensed',sans-serif;flex-shrink:0;letter-spacing:.5px}
+  .anno-card .anno-head h5{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600;color:#1a0000;letter-spacing:.3px;flex:1}
+  .anno-card .status{font-size:9.5px;font-weight:700;padding:3px 8px;letter-spacing:.5px;color:#fff}
+  .status.green{background:var(--green)}
+  .status.amber{background:var(--amber)}
+  .status.red{background:var(--red)}
+  .anno-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}
+  .anno-block h6{font-size:9.5px;font-weight:700;letter-spacing:.8px;color:var(--p1);text-transform:uppercase;margin-bottom:3px;display:flex;align-items:center;gap:4px}
+  .anno-block h6::before{content:"▸";color:#e08a00}
+  .anno-block p{font-size:10.5px;line-height:1.5;color:#1a0000}
+  .anno-block ul{list-style:none;padding:0;margin:0;font-size:10.5px;line-height:1.5;color:#1a0000}
+  .anno-block li{padding-left:12px;position:relative;margin-bottom:2px}
+  .anno-block li::before{content:"•";position:absolute;left:2px;color:#e08a00;font-weight:700}
+  .anno-block.us{background:rgba(230,0,0,.06);padding:7px 10px;border-left:2px solid var(--p2);font-style:italic;margin-top:8px}
+  .anno-block.us h6{color:var(--p2)}
+  .anno-block.us p{font-size:10.5px;color:#1a0000;font-style:italic}
+  body.anno-on .section{outline:1px dashed rgba(224,138,0,.5);outline-offset:2px}
+
+  /* Generic helpers */
+  .row{display:grid;gap:8px}
+  .row.r2{grid-template-columns:1fr 1fr}
+  .row.r3{grid-template-columns:1fr 1fr 1fr}
+  .row.r4{grid-template-columns:repeat(4,1fr)}
+
+  /* KPI tiles */
+  .kpi{background:#f4eded;border:1px solid var(--panel-border);padding:6px 8px 8px;text-align:center;position:relative;min-height:88px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--card-shadow)}
+  .kpi .label{font-size:10.5px;color:#1a0000;font-weight:600;letter-spacing:.3px}
+  .kpi .value{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:28px;line-height:1;margin-top:4px}
+  .kpi .sub{font-size:10px;color:#4a2a2a;line-height:1.35;margin-top:2px}
+  .kpi .month{font-size:9.5px;color:#8c7878;margin-top:auto;padding-top:4px}
+  .kpi .rag{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%}
+  .rag.g{background:var(--green);box-shadow:0 0 0 2px rgba(10,138,58,.18)}
+  .rag.a{background:var(--amber);box-shadow:0 0 0 2px rgba(224,138,0,.18)}
+  .rag.r{background:var(--red);box-shadow:0 0 0 2px rgba(204,31,31,.18)}
+  .val-g{color:var(--green)}
+  .val-a{color:var(--amber)}
+  .val-r{color:var(--red)}
+
+  /* Section title */
+  .section-title-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:8px}
+  .section-title-bar h2{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;color:#1a0000;letter-spacing:.5px;display:flex;align-items:center;gap:8px}
+  .section-title-bar h2 .reqid{font-size:9.5px;background:#1a0000;color:#fff;padding:2px 6px;letter-spacing:.5px;font-family:'Inter',sans-serif;font-weight:600}
+  .section-title-bar .note{font-size:10px;color:#4a2a2a;font-style:italic}
+
+  /* Generic card */
+  .card{background:#fff;border:1px solid var(--panel-border)}
+  .card-head{background:#cba8a8;padding:6px 10px;font-weight:700;font-size:11.5px;color:#1a0000;display:flex;align-items:center;justify-content:space-between}
+  .card-head .tag{font-size:9.5px;background:#1a0000;color:#fff;padding:2px 6px;letter-spacing:.5px}
+  .card-body{padding:10px}
+
+  /* =========== PIPELINE FUNNEL (GTM.1) =========== */
+  .pipe-row{display:grid;grid-template-columns:1.2fr 1.2fr 1.2fr 1.2fr 1.2fr;gap:8px;margin-bottom:10px}
+  .pipe-stage{background:linear-gradient(180deg,#fff,#faf2f2);border:1px solid #e8d8d8;padding:8px 10px;position:relative;border-left:4px solid var(--p1)}
+  .pipe-stage .ps{font-size:9.5px;color:#4a2a2a;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+  .pipe-stage .pv{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:24px;color:#1a0000;line-height:1.1;margin-top:2px}
+  .pipe-stage .pn{font-size:9.5px;color:#4a2a2a;margin-top:2px}
+  .pipe-stage .pp{font-size:9.5px;color:var(--green);font-weight:600;margin-top:2px}
+  .pipe-stage:nth-child(1){border-left-color:#cfbcbc}
+  .pipe-stage:nth-child(2){border-left-color:#b59c9c}
+  .pipe-stage:nth-child(3){border-left-color:#cc1f1f}
+  .pipe-stage:nth-child(4){border-left-color:#b8000a}
+  .pipe-stage:nth-child(5){border-left-color:#0a8a3a}
+
+  .pipe-cross{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px}
+  .pcc{background:#faf2f2;border:1px solid #e8d8d8;padding:8px 10px}
+  .pcc h5{font-size:10px;color:#4a2a2a;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;display:flex;align-items:center;gap:6px}
+  .pcc h5 .b{background:#1a0000;color:#fff;font-size:8.5px;padding:1px 4px;letter-spacing:.5px}
+  .pcc .pcv{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:600;color:#1a0000;line-height:1}
+  .pcc .pcs{font-size:9.5px;color:#4a2a2a;margin-top:2px}
+
+  /* =========== REVENUE RECOGNITION (GTM.1.1) =========== */
+  .rr-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:0}
+  .rr-left{padding:10px;border-right:1px solid #e8d8d8}
+  .rr-chart{height:200px;background:#faf2f2;border:1px solid #e8d8d8;padding:14px 16px 22px;position:relative}
+  .rr-chart svg{width:100%;height:100%;overflow:visible}
+  .rr-chart .axis{stroke:#cba8a8;stroke-width:1}
+  .rr-chart .grid{stroke:#e8d8d8;stroke-width:1;stroke-dasharray:2 3}
+  .rr-chart .proj-bar{fill:rgba(26,0,0,.15);stroke:#1a0000;stroke-width:1}
+  .rr-chart .act-bar{fill:#e60000}
+  .rr-chart .var-bar{fill:rgba(204,31,31,.6)}
+  .rr-chart .x-label,.rr-chart .y-label{font-family:'Inter',sans-serif;font-size:9px;fill:#4a2a2a}
+  .rr-chart .y-label{text-anchor:end}
+  .rr-chart .x-label{text-anchor:middle}
+  .rr-legend{display:flex;gap:14px;margin-top:6px;font-size:10px;color:#4a2a2a;flex-wrap:wrap}
+  .rr-legend .l{display:flex;align-items:center;gap:5px}
+  .rr-legend .l i{width:14px;height:10px;display:inline-block}
+  .rr-right{padding:10px}
+  .rr-right h5{font-size:10.5px;color:#1a0000;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+  .rr-deal{padding:6px 8px;border:1px solid #e8d8d8;background:#faf2f2;margin-bottom:4px;display:grid;grid-template-columns:1.4fr 1fr 1fr 50px;gap:6px;align-items:center;font-size:10px}
+  .rr-deal.head{background:#f4eded;font-weight:700;font-size:9.5px;color:#1a0000;text-transform:uppercase;letter-spacing:.4px}
+  .rr-deal .v{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13px;color:#1a0000}
+  .rr-deal .v.r{color:var(--red)}
+  .rr-deal .v.a{color:var(--amber)}
+  .rr-deal .v.g{color:var(--green)}
+  .rr-deal .pill{padding:1px 5px;font-size:9px;font-weight:700;color:#fff;letter-spacing:.3px;text-align:center}
+  .rr-deal .pill.r{background:var(--red)}
+  .rr-deal .pill.a{background:var(--amber)}
+  .rr-deal .pill.g{background:var(--green)}
+
+  /* =========== DELIVERY RISK TOP-10 (GTM.1.2) =========== */
+  .risk-table{background:#fff;border:1px solid var(--panel-border)}
+  .risk-table .rt-head{background:#cba8a8;padding:6px 10px;font-weight:700;font-size:11.5px;color:#1a0000;display:flex;align-items:center;justify-content:space-between}
+  .rt-grid{display:grid;grid-template-columns:30px 1.4fr 1fr .8fr 1fr 1.2fr 1.4fr 60px;font-size:10.5px}
+  .rt-grid > div{padding:6px 8px;border-top:1px solid #e8d8d8;border-right:1px solid #e8d8d8}
+  .rt-grid .rh{background:#f4eded;font-weight:700;font-size:9.5px;color:#1a0000;text-transform:uppercase;letter-spacing:.5px;border-top:none}
+  .rt-grid .rn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;color:var(--p1);text-align:center}
+  .rt-grid .deal{font-weight:600;color:#1a0000}
+  .rt-grid .meta{font-size:9.5px;color:#4a2a2a}
+  .rt-grid .v{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13px;color:#1a0000}
+  .rt-grid .rag{display:inline-block;padding:1px 6px;font-size:9.5px;font-weight:700;color:#fff;letter-spacing:.3px;text-transform:uppercase}
+  .rt-grid .rag.r{background:var(--red)}
+  .rt-grid .rag.a{background:var(--amber)}
+  .rt-grid .rag.g{background:var(--green)}
+  .rt-grid a{color:var(--accent);font-size:9.5px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;text-decoration:none}
+  .risk-foot{display:flex;align-items:center;justify-content:space-between;background:#faf2f2;padding:6px 10px;font-size:10px;color:#4a2a2a;border-top:1px solid #e8d8d8;flex-wrap:wrap;gap:8px}
+  .risk-foot .src{display:flex;gap:14px;align-items:center}
+  .risk-foot .src b{color:#1a0000}
+  .risk-foot .chip{font-size:9px;background:#1a0000;color:#fff;padding:1px 5px;letter-spacing:.5px;font-weight:700}
+
+  /* =========== SERVICE OFFERING ROADMAP (GTM.2) =========== */
+  .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .twr{background:#fff;border:1px solid #e8d8d8;padding:8px}
+  .twr .twh{background:linear-gradient(90deg,#1a0000,#5a0006);color:#fff;font-size:10.5px;font-weight:700;padding:4px 8px;margin:-8px -8px 8px;letter-spacing:.3px;text-transform:uppercase}
+  .twr .of{padding:5px 0;border-bottom:1px dashed #e8d8d8;font-size:10px}
+  .twr .of:last-child{border-bottom:none}
+  .twr .of .ot{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+  .twr .of .on{font-weight:600;color:#1a0000}
+  .twr .of .ost{font-size:8.5px;padding:1px 5px;letter-spacing:.3px;color:#fff;font-weight:700}
+  .twr .of .ost.live{background:var(--green)}
+  .twr .of .ost.beta{background:var(--amber)}
+  .twr .of .ost.plan{background:#8c7878}
+  .twr .of .od{font-size:9.5px;color:#4a2a2a;line-height:1.35}
+  .twr .of .om{font-size:9px;color:var(--p1);margin-top:2px;font-weight:600}
+  .twr-foot{font-size:9.5px;color:#4a2a2a;margin-top:8px;text-align:center;padding:6px;background:#faf2f2;border:1px dashed #e08a00}
+  .twr-foot b{color:#1a0000}
+
+  /* =========== SHARE OF WALLET (GTM.3) =========== */
+  .sow-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:0}
+  .sow-left{padding:10px;border-right:1px solid #e8d8d8}
+  .sow-h{font-size:10.5px;color:#1a0000;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+  .sow-bar-row{margin-bottom:8px}
+  .sow-bar-row .sl{display:flex;justify-content:space-between;font-size:10px;color:#1a0000;margin-bottom:3px}
+  .sow-bar-row .sl b{font-family:'Barlow Condensed',sans-serif;font-size:14px}
+  .sow-bar{height:14px;display:flex;background:#e8d8d8;border:1px solid #cba8a8}
+  .sow-bar i{display:block;height:100%}
+  .sow-bar i.vois{background:linear-gradient(90deg,var(--p1),var(--p2))}
+  .sow-bar i.c1{background:#5a0006}
+  .sow-bar i.c2{background:#8c7878}
+  .sow-bar i.c3{background:#cba8a8}
+  .sow-leg{display:flex;gap:10px;font-size:9.5px;color:#4a2a2a;margin-top:8px;flex-wrap:wrap}
+  .sow-leg span{display:inline-flex;align-items:center;gap:4px}
+  .sow-leg i{width:10px;height:10px;display:inline-block}
+
+  .sow-right{padding:10px}
+  .sow-right h5{font-size:10.5px;color:#1a0000;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+  .opp{display:grid;grid-template-columns:1.6fr 1fr 1fr 70px;gap:6px;align-items:center;padding:5px 0;border-bottom:1px dashed #e8d8d8;font-size:10px}
+  .opp.head{background:#f4eded;padding:4px 6px;border-bottom:1px solid #e8d8d8;font-size:9.5px;font-weight:700;color:#1a0000;text-transform:uppercase;letter-spacing:.4px}
+  .opp .ov{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13px;color:#1a0000}
+  .opp .ot{font-size:9.5px;color:var(--p1);font-weight:600;padding:1px 5px;background:rgba(230,0,0,.08);text-transform:uppercase;letter-spacing:.3px;text-align:center}
+
+  /* =========== CUSTOMER PERFORMANCE (GTM.4) =========== */
+  .cust-head{background:#cba8a8;padding:6px 10px;font-weight:700;font-size:11.5px;color:#1a0000;display:flex;align-items:center;justify-content:space-between}
+  .cust-head .csel{display:flex;align-items:center;gap:8px}
+  .cust-head .csel b{font-family:'Barlow Condensed',sans-serif;font-size:14px;color:var(--p1)}
+  .cust-head .tag{font-size:9.5px;background:#1a0000;color:#fff;padding:2px 6px;letter-spacing:.5px}
+  .cust-body{display:grid;grid-template-columns:1fr 1fr 1.2fr}
+  .cust-col{padding:10px;border-right:1px solid #e8d8d8}
+  .cust-col:last-child{border-right:none}
+  .cust-col h6{font-size:10.5px;color:#4a2a2a;text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-bottom:8px}
+
+  /* NPS trend chart */
+  .nps-stat{display:flex;gap:14px;margin-bottom:8px}
+  .nps-stat .ns{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:600;color:#1a0000;line-height:1}
+  .nps-stat .ns small{display:block;font-size:9.5px;color:#4a2a2a;font-weight:400;font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.5px}
+  .nps-chart{height:80px;background:#faf2f2;border:1px solid #e8d8d8;padding:8px 10px;position:relative}
+  .nps-chart svg{width:100%;height:100%;overflow:visible}
+  .nps-chart .line{stroke:#e60000;stroke-width:2;fill:none}
+  .nps-chart .area{fill:rgba(230,0,0,.10)}
+  .nps-chart .grid{stroke:#e8d8d8;stroke-width:1;stroke-dasharray:2 3}
+  .nps-chart .dot{fill:#e60000;stroke:#fff;stroke-width:1.2}
+  .nps-chart .y-label{font-family:'Inter',sans-serif;font-size:8.5px;fill:#4a2a2a;text-anchor:end}
+
+  .problem{padding:5px 0;border-bottom:1px dashed #e8d8d8;font-size:10px}
+  .problem:last-child{border-bottom:none}
+  .problem .pt{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
+  .problem .pn{font-weight:600;color:#1a0000}
+  .problem .pg{font-size:9px;padding:1px 5px;color:#fff;letter-spacing:.3px;font-weight:700}
+  .problem .pg.r{background:var(--red)}
+  .problem .pg.a{background:var(--amber)}
+  .problem .pd{font-size:9.5px;color:#4a2a2a;line-height:1.35}
+
+  .cust-narr{font-size:10.5px;line-height:1.5;color:#1a0000}
+  .cust-narr p{margin-bottom:6px}
+  .cust-narr p b{color:var(--p1)}
+  .cust-narr .ai-tag{font-size:8.5px;font-weight:700;letter-spacing:1px;background:linear-gradient(90deg,var(--p1),var(--p2));color:#fff;padding:2px 5px;border-radius:3px;margin-right:4px;vertical-align:1px}
+
+  /* =========== COMPETITIVE POSITIONING (GTM.5) =========== */
+  .comp-head{background:#cba8a8;padding:6px 10px;font-weight:700;font-size:11.5px;color:#1a0000;display:flex;align-items:center;justify-content:space-between}
+  .comp-head .ai{font-size:9px;font-weight:700;letter-spacing:1px;background:linear-gradient(90deg,var(--p1),var(--p2));color:#fff;padding:2px 6px}
+  .comp-body{padding:10px}
+  .brief-meta{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#1a0000,#5a0006);color:#fff;padding:10px 12px;margin-bottom:10px}
+  .brief-meta .for{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:500;letter-spacing:.3px}
+  .brief-meta .for b{color:#ffd8d8;font-weight:600}
+  .brief-meta .when{font-size:10px;color:#f0d8d8;letter-spacing:.3px;text-transform:uppercase}
+  .brief-meta .btn{margin-left:auto;background:#fff;color:#1a0000;padding:5px 10px;font-size:10px;font-weight:700;letter-spacing:.5px;cursor:pointer}
+
+  .comp-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .comp-c{background:#faf2f2;border:1px solid #e8d8d8;padding:8px}
+  .comp-c h6{font-family:'Barlow Condensed',sans-serif;font-size:14px;color:#1a0000;font-weight:600;letter-spacing:.3px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center}
+  .comp-c h6 .ind{font-size:9.5px;font-weight:700;letter-spacing:.3px;padding:1px 5px;color:#fff;font-family:'Inter',sans-serif}
+  .comp-c h6 .ind.up{background:var(--green)}
+  .comp-c h6 .ind.down{background:var(--red)}
+  .comp-c h6 .ind.flat{background:#8c7878}
+  .comp-c .signal{padding:4px 0;border-bottom:1px dashed #e8d8d8;font-size:9.5px;color:#4a2a2a;line-height:1.4}
+  .comp-c .signal:last-child{border-bottom:none}
+  .comp-c .signal b{color:#1a0000}
+  .comp-c .signal .when{color:var(--p1);font-size:8.5px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;margin-right:4px}
+
+  /* AI SUMMARY */
+  .ai-panel{background:#fff;border:1px solid var(--panel-border);padding:12px;font-size:11.5px;color:#1a0000;position:relative;overflow:hidden}
+  .ai-panel::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--p1),var(--p2),var(--p3))}
+  .ai-panel h3{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:18px;letter-spacing:.5px;color:#1a0000;display:flex;align-items:center;gap:8px;padding-bottom:6px;border-bottom:1px solid #e8d8d8;margin-bottom:8px}
+  .ai-panel h3 .ai-chip{font-family:'Inter',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;background:linear-gradient(90deg,var(--p1),var(--p2));color:#fff;padding:2px 6px;border-radius:3px}
+  .ai-panel h4{font-size:11px;font-weight:700;color:#1a0000;margin:10px 0 4px;text-transform:uppercase;letter-spacing:.5px}
+  .ai-panel p{font-size:11px;line-height:1.5;color:#1a0000;margin-bottom:6px}
+  .ai-panel ul{list-style:none;padding:0;margin:0 0 6px}
+  .ai-panel li{font-size:10.5px;line-height:1.5;margin-bottom:4px;padding-left:14px;position:relative}
+  .ai-panel li::before{content:"";position:absolute;left:0;top:6px;width:6px;height:6px;border-radius:50%;background:var(--p2)}
+  .ai-panel .pill-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .ai-panel .pill-actions .pa{font-size:9.5px;padding:3px 7px;background:#e8d8d8;border:1px solid var(--panel-border);color:#1a0000;cursor:pointer;letter-spacing:.3px;font-weight:600}
+  .ai-panel .pill-actions .pa.primary{background:linear-gradient(90deg,var(--p1),var(--p2));color:#fff;border-color:transparent}
+  .ai-panel .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-left:3px;vertical-align:middle}
+
+  /* FOOTER */
+  .footer{background:#1a0000;color:#cfbcbc;padding:8px 14px;font-size:10.5px;display:flex;align-items:center;justify-content:space-between;letter-spacing:.5px}
+  .footer .right{color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:14px;letter-spacing:1.5px}
+  .footer .right b{font-weight:600;letter-spacing:2px}
+
+  .drill-hint{font-size:9.5px;color:var(--accent);text-decoration:none;letter-spacing:.3px;font-weight:600;text-transform:uppercase}
+  .drill-hint:after{content:" ↗"}
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="logo">
+      <div class="mark">VOIS</div>
+      <div class="name">Hub</div>
+    </div>
+    <div class="right">
+      <button class="anno-toggle" id="annoBtn" onclick="toggleAnno()">
+        <span class="led"></span> Show Requirements
+      </button>
+      <span style="opacity:.5">|</span>
+      <span>FY27  ·  Mar-26 close</span>
+      <span style="opacity:.5">|</span>
+      <div class="user">
+        <div class="avatar">CB</div>
+        <span>Chris  ·  GTM Director</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotation banner -->
+  <div class="anno-banner" id="annoBanner">
+    <span class="leg"><span class="pin">GTM</span></span>
+    <div><b>Requirements Mode is ON.</b> Numbered pins map to the 7 GTM Director persona requirements. Each annotation shows the agreed Description, Acceptance Criteria and User Story.</div>
+    <div class="key">
+      <span><i style="background:#0a8a3a"></i> Green — ready</span>
+      <span><i style="background:#e08a00"></i> Amber — in progress</span>
+      <span><i style="background:#cc1f1f"></i> Red — gap to build</span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <div class="item active">GTM SUMMARY <span class="caret">▾</span></div>
+    <div class="item">PIPELINE <span class="caret">▾</span></div>
+    <div class="item">REVENUE RECOGNITION <span class="caret">▾</span></div>
+    <div class="item">DELIVERY RISK <span class="caret">▾</span></div>
+    <div class="item">SERVICE OFFERINGS <span class="caret">▾</span></div>
+    <div class="item">SHARE OF WALLET <span class="caret">▾</span></div>
+    <div class="item">CUSTOMERS <span class="caret">▾</span></div>
+    <div class="item">COMPETITIVE <span class="caret">▾</span></div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>GTM <span class="accent">Summary</span></h1>
+    <p>Your <b>commercial-and-delivery lens</b> across VOIS — enriched <b>Salesforce pipeline</b> alongside the cross-functional cuts that matter most: <b>recognised revenue vs sold deals</b>, <b>top-10 delivery risks on major deals</b>, <b>service-offering roadmap per tower</b>, <b>share-of-wallet</b> against competitors, <b>consolidated customer story</b> for meetings, and <b>AI-generated competitive briefs</b> for major deals.</p>
+    <div class="tools">
+      <div class="pill" title="Filters">⚙</div>
+      <div class="pill" title="Expand">⤢</div>
+      <div class="pill" title="More">⋯</div>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <div class="f">Market <div class="sel">All</div></div>
+    <div class="f">Service Tower <div class="sel">All</div></div>
+    <div class="f">Customer <div class="sel">All</div></div>
+    <div class="f">Deal Size <div class="sel">All</div></div>
+    <div class="f">Period <div class="sel">FY27 YTD</div></div>
+    <div class="legend" style="margin-left:14px">
+      <span class="lg"><span style="background:var(--green)"></span>On Track</span>
+      <span class="lg"><span style="background:var(--amber)"></span>At Risk</span>
+      <span class="lg"><span style="background:var(--red)"></span>Off Track</span>
+    </div>
+    <div class="reload">↻</div>
+  </div>
+
+  <!-- CANVAS -->
+  <div class="canvas">
+    <div class="main">
+
+      <!-- ====== HEADLINE KPIs ====== -->
+      <div class="section">
+        <div class="rail"><span>GTM KPIs</span></div>
+        <div class="section-title-bar">
+          <h2>Commercial Headline KPIs</h2>
+          <div class="note">FY27 YTD · enriched from Salesforce + Finance + Delivery</div>
+        </div>
+        <div class="row r4">
+          <div class="kpi"><div class="rag g"></div><div class="label">Qualified Pipeline €M</div><div class="value val-g">1,359</div><div class="sub">Vol 14 · T: 1,500</div><div class="month">Mar-26</div></div>
+          <div class="kpi"><div class="rag g"></div><div class="label">Win Conversion %</div><div class="value val-g">62%</div><div class="sub">T: 55% · ▲ 7pp vs PM</div><div class="month">Mar-26</div></div>
+          <div class="kpi"><div class="rag a"></div><div class="label">New Logos / Gen-2</div><div class="value val-a">7</div><div class="sub">Value €82M · ▲ 2 vs PM</div><div class="month">Mar-26</div></div>
+          <div class="kpi"><div class="rag a"></div><div class="label">Revenue Recognition Gap</div><div class="value val-a">−6.2%</div><div class="sub">€124M vs deal projection</div><div class="month">FY27 YTD</div></div>
+        </div>
+      </div>
+
+      <!-- ====== GTM.1 — PIPELINE & SALESFORCE FEED ====== -->
+      <div class="section">
+        <div class="req-pin" title="Requirement GTM.1">GTM.1</div>
+        <div class="rail"><span>Pipeline</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">GTM.1</span> Enriched Salesforce Pipeline View</h2>
+          <div class="note">Pipeline + linked finance &amp; delivery-risk signals · filter to top deals</div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <span>Sales Pipeline — Salesforce feed enriched with cross-functional signals</span>
+            <span class="tag">SF FEED · FILTER: TOP DEALS</span>
+          </div>
+          <div class="card-body">
+            <div class="pipe-row">
+              <div class="pipe-stage"><div class="ps">Lead / Qualify</div><div class="pv">€842M</div><div class="pn">86 opps</div><div class="pp">▲ 8% vs PM</div></div>
+              <div class="pipe-stage"><div class="ps">Propose</div><div class="pv">€618M</div><div class="pn">42 opps</div><div class="pp">▲ 4% vs PM</div></div>
+              <div class="pipe-stage"><div class="ps">Negotiate</div><div class="pv">€386M</div><div class="pn">21 opps</div><div class="pp" style="color:var(--amber)">▼ 2% vs PM</div></div>
+              <div class="pipe-stage"><div class="ps">Commit</div><div class="pv">€214M</div><div class="pn">14 opps</div><div class="pp">▲ 6% vs PM</div></div>
+              <div class="pipe-stage"><div class="ps">Closed Won (YTD)</div><div class="pv">€482M</div><div class="pn">31 deals</div><div class="pp">▲ 12% vs PM</div></div>
+            </div>
+
+            <div class="pipe-cross">
+              <div class="pcc">
+                <h5>Linked Finance Signal <span class="b">REC. REVENUE</span></h5>
+                <div class="pcv val-a">€124M gap</div>
+                <div class="pcs">−6.2% projection vs actual · concentrated in 3 deals</div>
+              </div>
+              <div class="pcc">
+                <h5>Linked Delivery Risk <span class="b">TOP-10 DEALS</span></h5>
+                <div class="pcv val-r">3 Red · 4 Amber</div>
+                <div class="pcs">€289M of revenue under amber/red RAG</div>
+              </div>
+              <div class="pcc">
+                <h5>Linked HR Signal <span class="b">HIRING DEMAND</span></h5>
+                <div class="pcv val-a">612 open VRFs</div>
+                <div class="pcs">Project Atlas hiring against 1,000-hire commitment</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">GTM.1</div>
+            <h5>GTM.1 — Pipeline &amp; Salesforce Feed</h5>
+            <div class="status green">GREEN · COVERED IN DEPTH</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <p>Enriched Salesforce pipeline view on the GTM persona dashboard, with the cross-functional cuts most relevant to Chris (revenue recognition, delivery risk on major deals) surfaced alongside.</p>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <p>Chris's persona view shows the pipeline plus the linked finance and delivery-risk signals on one screen, with a filter to top deals.</p>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story</h6>
+            <p>As the GTM Director, I want an enriched Salesforce pipeline view on my persona dashboard with the most relevant cross-functional cuts (revenue recognition, delivery risk on major deals) surfaced alongside, so that I see commercial performance and the linked downstream risks on one screen.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== GTM.1.1 — REVENUE RECOGNITION VS TARGETS ====== -->
+      <div class="section">
+        <div class="req-pin" title="Requirement GTM.1.1">GTM.1.1</div>
+        <div class="rail"><span>Rev. Recognition</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">GTM.1.1</span> Revenue Recognition vs Targets — Closed-Loop</h2>
+          <div class="note">Sold deals ↔ recognised revenue over contract life · by deal &amp; aggregate</div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <span>Projected vs Actual Revenue — FY27 YTD (top sold deals + aggregate)</span>
+            <span class="tag">FINANCE + SF · CLOSED-LOOP</span>
+          </div>
+          <div class="rr-grid">
+            <div class="rr-left">
+              <div class="rr-chart">
+                <svg viewBox="0 0 580 170" preserveAspectRatio="none">
+                  <line class="grid" x1="40" y1="20" x2="570" y2="20"/>
+                  <line class="grid" x1="40" y1="60" x2="570" y2="60"/>
+                  <line class="grid" x1="40" y1="100" x2="570" y2="100"/>
+                  <line class="grid" x1="40" y1="140" x2="570" y2="140"/>
+                  <line class="axis" x1="40" y1="140" x2="570" y2="140"/>
+                  <line class="axis" x1="40" y1="10" x2="40" y2="140"/>
+                  <text class="y-label" x="36" y="22">200</text>
+                  <text class="y-label" x="36" y="62">150</text>
+                  <text class="y-label" x="36" y="102">100</text>
+                  <text class="y-label" x="36" y="142">0</text>
+
+                  <!-- Bars: month groups · projected (back) + actual (front) · 12 months -->
+                  <!-- Q1 -->
+                  <rect class="proj-bar" x="55" y="80" width="14" height="60"/>
+                  <rect class="act-bar" x="72" y="84" width="14" height="56"/>
+                  <rect class="proj-bar" x="92" y="76" width="14" height="64"/>
+                  <rect class="act-bar" x="109" y="82" width="14" height="58"/>
+                  <rect class="proj-bar" x="129" y="68" width="14" height="72"/>
+                  <rect class="act-bar" x="146" y="78" width="14" height="62"/>
+                  <!-- Q2 -->
+                  <rect class="proj-bar" x="170" y="60" width="14" height="80"/>
+                  <rect class="act-bar" x="187" y="74" width="14" height="66"/>
+                  <rect class="proj-bar" x="207" y="56" width="14" height="84"/>
+                  <rect class="act-bar" x="224" y="72" width="14" height="68"/>
+                  <rect class="proj-bar" x="244" y="50" width="14" height="90"/>
+                  <rect class="act-bar" x="261" y="66" width="14" height="74"/>
+                  <!-- Q3 -->
+                  <rect class="proj-bar" x="285" y="44" width="14" height="96"/>
+                  <rect class="act-bar" x="302" y="62" width="14" height="78"/>
+                  <rect class="proj-bar" x="322" y="38" width="14" height="102"/>
+                  <rect class="act-bar" x="339" y="56" width="14" height="84"/>
+                  <rect class="proj-bar" x="359" y="32" width="14" height="108"/>
+                  <rect class="act-bar" x="376" y="52" width="14" height="88"/>
+                  <!-- Q4 (forecast vs actual partial) -->
+                  <rect class="proj-bar" x="400" y="28" width="14" height="112"/>
+                  <rect class="act-bar" x="417" y="48" width="14" height="92"/>
+                  <rect class="proj-bar" x="437" y="24" width="14" height="116"/>
+                  <rect class="act-bar" x="454" y="44" width="14" height="96"/>
+                  <rect class="proj-bar" x="474" y="20" width="14" height="120"/>
+                  <rect class="act-bar" x="491" y="42" width="14" height="98"/>
+
+                  <text class="x-label" x="90" y="158">Q1 FY27</text>
+                  <text class="x-label" x="225" y="158">Q2 FY27</text>
+                  <text class="x-label" x="340" y="158">Q3 FY27</text>
+                  <text class="x-label" x="455" y="158">Q4 FY27</text>
+                </svg>
+              </div>
+              <div class="rr-legend">
+                <div class="l"><i style="background:rgba(26,0,0,.15);border:1px solid #1a0000"></i> Projected (Sold)</div>
+                <div class="l"><i style="background:#e60000"></i> Actual Recognised</div>
+                <div class="l" style="margin-left:auto;color:var(--red);font-weight:700">Aggregate variance: −€124M / −6.2%</div>
+              </div>
+            </div>
+            <div class="rr-right">
+              <h5>Variance by Major Deal</h5>
+              <div class="rr-deal head">
+                <span>Deal</span>
+                <span style="text-align:right">Sold</span>
+                <span style="text-align:right">Recognised</span>
+                <span style="text-align:center">Var</span>
+              </div>
+              <div class="rr-deal">
+                <span>Project Helios — DT Group</span>
+                <span class="v" style="text-align:right">€186M</span>
+                <span class="v r" style="text-align:right">€142M</span>
+                <span class="pill r">−24%</span>
+              </div>
+              <div class="rr-deal">
+                <span>Project Atlas — IDEA</span>
+                <span class="v" style="text-align:right">€94M</span>
+                <span class="v a" style="text-align:right">€81M</span>
+                <span class="pill a">−14%</span>
+              </div>
+              <div class="rr-deal">
+                <span>Programme Iris — UKG</span>
+                <span class="v" style="text-align:right">€61M</span>
+                <span class="v g" style="text-align:right">€62M</span>
+                <span class="pill g">+2%</span>
+              </div>
+              <div class="rr-deal">
+                <span>Vantage Cloud — DE-Local</span>
+                <span class="v" style="text-align:right">€48M</span>
+                <span class="v a" style="text-align:right">€40M</span>
+                <span class="pill a">−17%</span>
+              </div>
+              <div class="rr-deal">
+                <span>Project Orion — Vfz</span>
+                <span class="v" style="text-align:right">€42M</span>
+                <span class="v r" style="text-align:right">€26M</span>
+                <span class="pill r">−38%</span>
+              </div>
+              <div class="rr-deal" style="background:#f4eded;font-weight:700">
+                <span>Aggregate (FY27 YTD)</span>
+                <span class="v" style="text-align:right">€2,005M</span>
+                <span class="v a" style="text-align:right">€1,881M</span>
+                <span class="pill a">−6.2%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">GTM.1.1</div>
+            <h5>GTM.1.1 — Revenue Recognition vs Targets</h5>
+            <div class="status amber">AMBER · NEW STRUCTURED VIEW</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <p>Closed-loop view linking sold deals to recognised revenue over the contract life, so the gap between deal projection and actual revenue is visible by deal and in aggregate.</p>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <ul>
+                <li>Each major sold deal shows projected vs actual revenue over time with variance flagged.</li>
+                <li>Aggregate view rolls these up by tower and customer.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story</h6>
+            <p>As the GTM Director, I want a closed-loop view linking sold deals to recognised revenue over the contract life by deal and in aggregate, so that I can see and explain the gap between deal projection and actual revenue delivered.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== GTM.1.2 — TOP-10 DELIVERY RISK ====== -->
+      <div class="section">
+        <div class="req-pin" title="Requirement GTM.1.2">GTM.1.2</div>
+        <div class="rail"><span>Delivery Risk</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">GTM.1.2</span> ★ Top-10 Major-Deal Delivery Risk</h2>
+          <div class="note">SME quarterly inputs + weekly RAG from delivery leads</div>
+        </div>
+
+        <div class="risk-table">
+          <div class="rt-head">
+            <span>Top 10 Deals · above revenue threshold · refreshed weekly (RAG) + quarterly (SME risk)</span>
+            <span class="tag" style="font-size:9.5px;background:#1a0000;color:#fff;padding:2px 6px;letter-spacing:.5px">SME-LED + DELIVERY RAG</span>
+          </div>
+          <div class="rt-grid">
+            <div class="rh">#</div>
+            <div class="rh">Deal / Programme</div>
+            <div class="rh">Customer</div>
+            <div class="rh">Value</div>
+            <div class="rh">RAG (week)</div>
+            <div class="rh">Missed Milestones</div>
+            <div class="rh">SME-identified Risks</div>
+            <div class="rh">Drill</div>
+
+            <div class="rn">1</div>
+            <div><div class="deal">Project Helios — BVOIS</div><div class="meta">7-yr · ENT</div></div>
+            <div>DT Group</div>
+            <div class="v">€186M</div>
+            <div><span class="rag r">Red</span></div>
+            <div><div class="meta"><b>2 missed</b> · Q3 cutover · UAT sign-off slip</div></div>
+            <div><div class="meta">Onshore skill gap · vendor handover risk</div></div>
+            <div><a href="#">Open</a></div>
+
+            <div class="rn">2</div>
+            <div><div class="deal">Project Orion — Tier-3 Ops</div><div class="meta">3-yr · ENT</div></div>
+            <div>Vfz Group</div>
+            <div class="v">€42M</div>
+            <div><span class="rag r">Red</span></div>
+            <div><div class="meta"><b>3 missed</b> · automation rollout · transition gates</div></div>
+            <div><div class="meta">Customer dependency on legacy system</div></div>
+            <div><a href="#">Open</a></div>
+
+            <div class="rn">3</div>
+            <div><div class="deal">Project Atlas — Hire-to-Serve</div><div class="meta">3-yr · Gen-2</div></div>
+            <div>IDEA Group</div>
+            <div class="v">€94M</div>
+            <div><span class="rag a">Amber</span></div>
+            <div><div class="meta"><b>1 missed</b> · VRF approval queue</div></div>
+            <div><div class="meta">1,000-hire target · onboarding pipeline · skills</div></div>
+            <div><a href="#">Open</a></div>
+
+            <div class="rn">4</div>
+            <div><div class="deal">Programme Iris — CARE</div><div class="meta">5-yr · ENT</div></div>
+            <div>UKG</div>
+            <div class="v">€61M</div>
+            <div><span class="rag a">Amber</span></div>
+            <div><div class="meta">On plan · renewal Q2 pending</div></div>
+            <div><div class="meta">Renewal commercial gap · auto-renew unclear</div></div>
+            <div><a href="#">Open</a></div>
+
+            <div class="rn">5</div>
+            <div><div class="deal">Vantage Cloud — DE-Local</div><div class="meta">5-yr · ENT</div></div>
+            <div>DE-Local</div>
+            <div class="v">€48M</div>
+            <div><span class="rag a">Amber</span></div>
+            <div><div class="meta">M3/8 done · 1 week slip</div></div>
+            <div><div class="meta">Network capacity / 3rd-party SoW slip</div></div>
+            <div><a href="#">Open</a></div>
+
+            <div class="rn">6</div>
+            <div><div class="deal">Lumen — Analytics Suite</div><div class="meta">3-yr · MID</div></div>
+            <div>Vfz Spain</div>
+            <div class="v">€38M</div>
+            <div><span class="rag a">Amber</span></div>
+            <div><div class="meta">On plan · pen-test pending</div></div>
+            <div><div class="meta">Data residency clarification</div></div>
+            <div><a href="#">Open</a></div>
+
+            <div class="rn">7</div>
+            <div><div class="deal">Helios+ — Cloud Refresh</div><div class="meta">3-yr · ENT</div></div>
+            <div>DT Group</div>
+            <div class="v">€34M</div>
+            <div><span class="rag g">Green</span></div>
+            <div><div class="meta">All milestones on plan</div></div>
+            <div><div class="meta">No material risks</div></div>
+            <div><a href="#">Open</a></div>
+
+            <div class="rn">8</div>
+            <div><div class="deal">Sirius — Edge Network</div><div class="meta">4-yr · ENT</div></div>
+            <div>UKG</div>
+            <div class="v">€31M</div>
+            <div><span class="rag g">Green</span></div>
+            <div><div class="meta">All milestones on plan</div></div>
+            <div><div class="meta">Watch: hardware lead-times Q3</div></div>
+            <div><a href="#">Open</a></div>
+
+            <div class="rn">9</div>
+            <div><div class="deal">Polaris — Data Platform</div><div class="meta">3-yr · ENT</div></div>
+            <div>NL-Net</div>
+            <div class="v">€28M</div>
+            <div><span class="rag g">Green</span></div>
+            <div><div class="meta">On plan</div></div>
+            <div><div class="meta">No material risks</div></div>
+            <div><a href="#">Open</a></div>
+
+            <div class="rn">10</div>
+            <div><div class="deal">Atlas Lite — Mid-tier Pack</div><div class="meta">3-yr · MID</div></div>
+            <div>3 customers</div>
+            <div class="v">€28M</div>
+            <div><span class="rag r">Red</span></div>
+            <div><div class="meta"><b>2 missed</b> · billing integration</div></div>
+            <div><div class="meta">Mixed auto-renew · customer churn risk</div></div>
+            <div><a href="#">Open</a></div>
+          </div>
+          <div class="risk-foot">
+            <div class="src">
+              <span><span class="chip">SME</span> Quarterly risk population</span>
+              <span><span class="chip">DELIVERY LEAD</span> Weekly RAG comments</span>
+            </div>
+            <div><b>Top 10 total value: €590M</b> · 3 Red (€256M) · 4 Amber (€241M) · 3 Green (€93M)</div>
+          </div>
+        </div>
+
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">GTM.1.2</div>
+            <h5>GTM.1.2 — ★ Delivery Risk per Major Deal</h5>
+            <div class="status red">RED · NEW DATA TO CAPTURE</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <p>Top-10 major-deal delivery-risk view combining SME-led risk inputs (quarterly population) with weekly RAG comments from delivery leads during the contract period.</p>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <p>User sees the top 10 deals (above the revenue threshold) with current RAG, missed milestones, current issues and the SME-identified risks for each, refreshed quarterly with SME inputs.</p>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story</h6>
+            <p>As the GTM Director, I want a top-10 major-deal delivery-risk view combining quarterly SME-led risk inputs with weekly RAG comments from delivery leads, so that pre- and post-contract delivery risks on the biggest deals are visible alongside the commercial view.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== GTM.2 — SERVICE OFFERING ROADMAP ====== -->
+      <div class="section">
+        <div class="req-pin" title="Requirement GTM.2">GTM.2</div>
+        <div class="rail"><span>Offerings</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">GTM.2</span> Service Offering Roadmap — Per Tower</h2>
+          <div class="note">New &amp; evolving offerings · milestone status · sourced from Horizon 2</div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <span>What is coming · what is evolving · across the service towers</span>
+            <span class="tag">HORIZON 2 FEED</span>
+          </div>
+          <div class="card-body">
+            <div class="roadmap">
+              <div class="twr">
+                <div class="twh">BVOIS</div>
+                <div class="of">
+                  <div class="ot"><span class="on">Sovereign Cloud EU</span><span class="ost beta">Beta</span></div>
+                  <div class="od">Data-sovereign hosting · EU residency · scope-3 reporting</div>
+                  <div class="om">GA Q3-26 · M3/5 done</div>
+                </div>
+                <div class="of">
+                  <div class="ot"><span class="on">Cloud FinOps Plus</span><span class="ost live">Live</span></div>
+                  <div class="od">Spend optimisation as managed service</div>
+                  <div class="om">Launched Feb-26 · 4 customers</div>
+                </div>
+                <div class="of">
+                  <div class="ot"><span class="on">DR-as-a-Service v2</span><span class="ost plan">Plan</span></div>
+                  <div class="od">Multi-region, sub-15-min RPO</div>
+                  <div class="om">Build start Q3-26</div>
+                </div>
+              </div>
+              <div class="twr">
+                <div class="twh">D&amp;IT</div>
+                <div class="of">
+                  <div class="ot"><span class="on">AI Co-Pilot Pack</span><span class="ost live">Live</span></div>
+                  <div class="od">Embedded Copilot agents · 18 use-cases</div>
+                  <div class="om">Available now · 12 pilots running</div>
+                </div>
+                <div class="of">
+                  <div class="ot"><span class="on">Industry LLMs</span><span class="ost beta">Beta</span></div>
+                  <div class="od">Pre-tuned vertical models · telco / retail / fin-svcs</div>
+                  <div class="om">GA Q2-26 · 3 customers</div>
+                </div>
+                <div class="of">
+                  <div class="ot"><span class="on">Lakehouse Refresh</span><span class="ost plan">Plan</span></div>
+                  <div class="od">Open-table format · streaming-native</div>
+                  <div class="om">Design Q3-26</div>
+                </div>
+              </div>
+              <div class="twr">
+                <div class="twh">CARE</div>
+                <div class="of">
+                  <div class="ot"><span class="on">AI Triage Bot</span><span class="ost beta">Beta</span></div>
+                  <div class="od">Auto-resolve tier-1 tickets · 38% deflection</div>
+                  <div class="om">GA Q2-26 · 6 customer trials</div>
+                </div>
+                <div class="of">
+                  <div class="ot"><span class="on">Onshore Premium</span><span class="ost live">Live</span></div>
+                  <div class="od">Regulated industry support · onshore SLAs</div>
+                  <div class="om">Launched Q4-25 · uptake +18%</div>
+                </div>
+                <div class="of">
+                  <div class="ot"><span class="on">Predictive Outage</span><span class="ost plan">Plan</span></div>
+                  <div class="od">Anomaly detection → pre-emptive action</div>
+                  <div class="om">Build start Q3-26</div>
+                </div>
+              </div>
+              <div class="twr">
+                <div class="twh">I/O</div>
+                <div class="of">
+                  <div class="ot"><span class="on">Edge-as-a-Service</span><span class="ost beta">Beta</span></div>
+                  <div class="od">Customer-managed edge POPs · 5G hand-off</div>
+                  <div class="om">GA Q2-26 · M5/8 done</div>
+                </div>
+                <div class="of">
+                  <div class="ot"><span class="on">SASE Bundle</span><span class="ost live">Live</span></div>
+                  <div class="od">SD-WAN + Zero-Trust + SWG bundled</div>
+                  <div class="om">Available now · 9 customers</div>
+                </div>
+                <div class="of">
+                  <div class="ot"><span class="on">Quantum-Safe VPN</span><span class="ost plan">Plan</span></div>
+                  <div class="od">Post-quantum cryptography</div>
+                  <div class="om">Design Q3-26</div>
+                </div>
+              </div>
+            </div>
+            <div class="twr-foot">
+              <b>Open question (workshop):</b> KPIs &amp; granularity per offering — and how this is operationalised for GTM leads — still to be agreed with each tower.
+            </div>
+          </div>
+        </div>
+
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">GTM.2</div>
+            <h5>GTM.2 — Service Offering Roadmap</h5>
+            <div class="status amber">AMBER · NOT PRESENT TODAY</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <p>Visibility on new offerings and improvements to existing services across the service towers in the Hub.</p>
+              <p style="margin-top:6px"><b>Open Questions:</b></p>
+              <ul>
+                <li>What kind of KPIs, or at what granularity, do you want to know about each service offering?</li>
+                <li>How is this relevant to the GTM leads?</li>
+              </ul>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <p>GTM user sees per-tower a list of new and evolving service offerings with milestone status, so they know what is coming and can position it with customers.</p>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story</h6>
+            <p>As the GTM Director, I want per-tower visibility of new and evolving service offerings with milestone status sourced from Horizon 2, so that I know what is coming from each service tower and can position it confidently with customers.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== GTM.3 — SHARE OF WALLET ====== -->
+      <div class="section">
+        <div class="req-pin" title="Requirement GTM.3">GTM.3</div>
+        <div class="rail"><span>Share of Wallet</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">GTM.3</span> Share of Wallet / Market Opportunity</h2>
+          <div class="note">Status: RED · VOIS penetration vs external competitors</div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <span>VOIS share vs external competitors · upsell opportunity heatmap</span>
+            <span class="tag" style="background:var(--red);color:#fff">RED · DATA TO BE SOURCED</span>
+          </div>
+          <div class="sow-grid">
+            <div class="sow-left">
+              <div class="sow-h">Share by Key Customer · Mar-26</div>
+
+              <div class="sow-bar-row">
+                <div class="sl"><span>DT Group <small style="color:#8c7878">· total spend €914M</small></span><b>VOIS 38%</b></div>
+                <div class="sow-bar">
+                  <i class="vois" style="width:38%"></i>
+                  <i class="c1" style="width:24%"></i>
+                  <i class="c2" style="width:17%"></i>
+                  <i class="c3" style="width:21%"></i>
+                </div>
+              </div>
+              <div class="sow-bar-row">
+                <div class="sl"><span>UKG <small style="color:#8c7878">· total spend €642M</small></span><b>VOIS 52%</b></div>
+                <div class="sow-bar">
+                  <i class="vois" style="width:52%"></i>
+                  <i class="c1" style="width:18%"></i>
+                  <i class="c2" style="width:14%"></i>
+                  <i class="c3" style="width:16%"></i>
+                </div>
+              </div>
+              <div class="sow-bar-row">
+                <div class="sl"><span>IDEA Group <small style="color:#8c7878">· total spend €488M</small></span><b>VOIS 21%</b></div>
+                <div class="sow-bar">
+                  <i class="vois" style="width:21%"></i>
+                  <i class="c1" style="width:34%"></i>
+                  <i class="c2" style="width:25%"></i>
+                  <i class="c3" style="width:20%"></i>
+                </div>
+              </div>
+              <div class="sow-bar-row">
+                <div class="sl"><span>Vfz Group <small style="color:#8c7878">· total spend €412M</small></span><b>VOIS 44%</b></div>
+                <div class="sow-bar">
+                  <i class="vois" style="width:44%"></i>
+                  <i class="c1" style="width:22%"></i>
+                  <i class="c2" style="width:18%"></i>
+                  <i class="c3" style="width:16%"></i>
+                </div>
+              </div>
+              <div class="sow-bar-row">
+                <div class="sl"><span>NL-Net <small style="color:#8c7878">· total spend €286M</small></span><b>VOIS 29%</b></div>
+                <div class="sow-bar">
+                  <i class="vois" style="width:29%"></i>
+                  <i class="c1" style="width:28%"></i>
+                  <i class="c2" style="width:22%"></i>
+                  <i class="c3" style="width:21%"></i>
+                </div>
+              </div>
+
+              <div class="sow-leg">
+                <span><i class="vois" style="background:linear-gradient(90deg,var(--p1),var(--p2))"></i> VOIS</span>
+                <span><i style="background:#5a0006"></i> Competitor A</span>
+                <span><i style="background:#8c7878"></i> Competitor B</span>
+                <span><i style="background:#cba8a8"></i> Other / Onshore</span>
+              </div>
+            </div>
+            <div class="sow-right">
+              <h5>Upsell Opportunities to Grow Share</h5>
+              <div class="opp head">
+                <span>Customer · Service</span>
+                <span style="text-align:right">Opp. Value</span>
+                <span style="text-align:right">VOIS %</span>
+                <span style="text-align:center">Type</span>
+              </div>
+              <div class="opp">
+                <span><b>IDEA</b> · Analytics platform</span>
+                <span class="ov" style="text-align:right">€48M</span>
+                <span class="ov" style="text-align:right">21%</span>
+                <span class="ot">UPSELL</span>
+              </div>
+              <div class="opp">
+                <span><b>NL-Net</b> · Network refresh</span>
+                <span class="ov" style="text-align:right">€34M</span>
+                <span class="ov" style="text-align:right">29%</span>
+                <span class="ot">UPSELL</span>
+              </div>
+              <div class="opp">
+                <span><b>DT Group</b> · Edge expansion</span>
+                <span class="ov" style="text-align:right">€28M</span>
+                <span class="ov" style="text-align:right">38%</span>
+                <span class="ot">DEFEND</span>
+              </div>
+              <div class="opp">
+                <span><b>UKG</b> · CARE EU</span>
+                <span class="ov" style="text-align:right">€22M</span>
+                <span class="ov" style="text-align:right">52%</span>
+                <span class="ot">DEFEND</span>
+              </div>
+              <div class="opp">
+                <span><b>Vfz</b> · AI Co-Pilot</span>
+                <span class="ov" style="text-align:right">€18M</span>
+                <span class="ov" style="text-align:right">44%</span>
+                <span class="ot">CROSS</span>
+              </div>
+              <p style="font-size:9.5px;color:#4a2a2a;margin-top:8px;font-style:italic;line-height:1.4">Source: paid aggregators &amp; public reports — currently RED; competitor list and refresh cadence to be agreed before go-live.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">GTM.3</div>
+            <h5>GTM.3 — Share of Wallet / Market Opportunity</h5>
+            <div class="status red">RED · DATA TO BE SOURCED</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <p>View of the share-of-wallet with external competitors to track new opportunities that will increase market share for VOIS.</p>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <p>GTM user is able to compare the VOIS share of wallet against its competitors in the VOIS penetration dashboard.</p>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story</h6>
+            <p>As the GTM Director, I want a view of VOIS share-of-wallet versus external competitors and an indication of new opportunities to grow market share, so that I can identify upsell opportunities and target growth more effectively.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== GTM.4 — CUSTOMER PERFORMANCE ====== -->
+      <div class="section">
+        <div class="req-pin" title="Requirement GTM.4">GTM.4</div>
+        <div class="rail"><span>Customer Story</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">GTM.4</span> Customer Satisfaction &amp; Delivery Risks — One Story</h2>
+          <div class="note">NPS + MMD problem jobs + service-impacting incidents · ready for meetings</div>
+        </div>
+
+        <div class="card">
+          <div class="cust-head">
+            <div class="csel">
+              <span>Selected customer:</span>
+              <b>DT Group</b>
+              <span style="font-size:10px;color:#4a2a2a;margin-left:6px">▾ change customer</span>
+            </div>
+            <span class="tag">UPDATED MAR-26 · MEETING-READY</span>
+          </div>
+          <div class="cust-body">
+            <div class="cust-col">
+              <h6>NPS Trend (rolling 12m)</h6>
+              <div class="nps-stat">
+                <div class="ns"><small>NPS</small>+48</div>
+                <div class="ns"><small>vs PM</small><span style="color:var(--green);font-size:18px">▲ 4</span></div>
+                <div class="ns"><small>Status</small><span style="font-size:14px;color:var(--green)">Promoter</span></div>
+              </div>
+              <div class="nps-chart">
+                <svg viewBox="0 0 300 70" preserveAspectRatio="none">
+                  <line class="grid" x1="20" y1="15" x2="290" y2="15"/>
+                  <line class="grid" x1="20" y1="35" x2="290" y2="35"/>
+                  <line class="grid" x1="20" y1="55" x2="290" y2="55"/>
+                  <text class="y-label" x="18" y="17">60</text>
+                  <text class="y-label" x="18" y="37">40</text>
+                  <text class="y-label" x="18" y="57">20</text>
+                  <path class="area" d="M20,42 L48,40 L76,38 L104,35 L132,32 L160,28 L188,24 L216,22 L244,18 L272,16 L290,14 L290,55 L20,55 Z"/>
+                  <path class="line" d="M20,42 L48,40 L76,38 L104,35 L132,32 L160,28 L188,24 L216,22 L244,18 L272,16 L290,14"/>
+                  <circle class="dot" cx="20" cy="42" r="2"/>
+                  <circle class="dot" cx="76" cy="38" r="2"/>
+                  <circle class="dot" cx="132" cy="32" r="2"/>
+                  <circle class="dot" cx="188" cy="24" r="2"/>
+                  <circle class="dot" cx="244" cy="18" r="2"/>
+                  <circle class="dot" cx="290" cy="14" r="3"/>
+                </svg>
+              </div>
+              <p style="font-size:9.5px;color:#4a2a2a;margin-top:6px;line-height:1.4">12 months of survey responses · promoter share <b>62%</b> · detractors <b>8%</b>. Trend trajectory positive despite Helios pressure.</p>
+            </div>
+
+            <div class="cust-col">
+              <h6>Open Problem Jobs (MMD) &amp; Incidents</h6>
+              <div class="problem">
+                <div class="pt"><span class="pn">EU billing-batch latency</span><span class="pg r">P1</span></div>
+                <div class="pd">Open 9 days · workaround in place · scoped fix Q2 · 2nd recurrence</div>
+              </div>
+              <div class="problem">
+                <div class="pt"><span class="pn">Service-now backlog &gt; 7d</span><span class="pg a">P2</span></div>
+                <div class="pd">142 tickets in backlog · Tier-3 capacity gap · staffing in flight</div>
+              </div>
+              <div class="problem">
+                <div class="pt"><span class="pn">Tier-3 onshore staffing</span><span class="pg a">Risk</span></div>
+                <div class="pd">12 critical roles open · MMD engagement lead flagged 25-Feb</div>
+              </div>
+              <div class="problem">
+                <div class="pt"><span class="pn">Cloud region outage — DE-West</span><span class="pg a">P2</span></div>
+                <div class="pd">8-Feb · 47 min impact · RCA shared · credit applied</div>
+              </div>
+              <p style="font-size:9.5px;color:#4a2a2a;margin-top:6px;font-style:italic">Open question (workshop): KPIs for problem-jobs &amp; service-impacting incidents still to be defined.</p>
+            </div>
+
+            <div class="cust-col">
+              <h6>Customer Story — AI Synthesis</h6>
+              <div class="cust-narr">
+                <p><span class="ai-tag">AI · LLM</span><b>DT Group</b> remains a strong promoter (NPS +48, ▲ 4 vs prior month) with positive trajectory over 12 months. Service health is rated green overall and engagement-lead sentiment is positive.</p>
+                <p><b>Pressure points to acknowledge in meeting:</b> recurring EU billing-batch latency (open 9 days, 2nd recurrence) and a Tier-3 onshore staffing gap which is feeding the Service-Now backlog.</p>
+                <p><b>Talking points:</b> AI Triage Bot rollout (Q2-26 GA) directly addresses Tier-3 backlog; Sovereign Cloud EU offer aligns with their data-residency programme; €28M edge-expansion opportunity is ready to position.</p>
+                <p style="font-size:9.5px;color:#4a2a2a;font-style:italic;margin-top:8px">Generated for <b>Chris</b> ahead of CEO Connect · Mar-28 · refreshes hourly.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">GTM.4</div>
+            <h5>GTM.4 — Customer Satisfaction &amp; Delivery Risks</h5>
+            <div class="status amber">AMBER · DATA MOSTLY EXISTS</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <p>Consolidated customer-performance page combining NPS with the MMD problem jobs and service-impacting incidents into one customer-facing story, ready for use in customer meetings.</p>
+              <p style="margin-top:6px"><b>Open Question:</b> What are the KPIs related to problem jobs / service impact and service-related incidents to identify the customer problems?</p>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <p>User selects a customer and sees NPS trend, current open problem jobs, recent service-impacting incidents and the related narrative on one page.</p>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story</h6>
+            <p>As the GTM Director, I want a consolidated customer-performance page combining NPS, MMD problem jobs and service-impacting incidents into one story, so that I can walk into customer-facing meetings with a complete picture of satisfaction and delivery health.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== GTM.5 — COMPETITIVE POSITIONING ====== -->
+      <div class="section">
+        <div class="req-pin" title="Requirement GTM.5">GTM.5</div>
+        <div class="rail"><span>Competitive</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">GTM.5</span> Competitive Positioning — AI Brief</h2>
+          <div class="note">Public sources + paid aggregators · brief ahead of major customer meetings</div>
+        </div>
+
+        <div class="card">
+          <div class="comp-head">
+            <span>Competitor / Customer Brief — Mar-26 cycle</span>
+            <span class="ai">AI · LLM-GENERATED</span>
+          </div>
+          <div class="comp-body">
+            <div class="brief-meta">
+              <div>
+                <div class="for">Brief for: <b>Chris</b> · Meeting <b>DT Group · 28 Mar</b></div>
+                <div class="when">Generated · Mar-26 · refreshed on demand</div>
+              </div>
+              <div class="btn">⤓ Download 1-pager</div>
+            </div>
+
+            <div class="comp-grid">
+              <div class="comp-c">
+                <h6>Competitor A <span class="ind down">Q ▼</span></h6>
+                <div class="signal"><span class="when">Q4</span><b>Revenue −4.2% YoY</b> · soft commercial print, margin pressure cited by CFO.</div>
+                <div class="signal"><span class="when">Mar</span><b>Lost deal</b> at AT-mid: VOIS-style Hire-to-Serve win publicly reported.</div>
+                <div class="signal"><span class="when">Feb</span><b>Supply chain</b> · 90-day shipment delay on edge hardware confirmed in earnings.</div>
+                <div class="signal"><span class="when">Q1</span><b>Strategy shift</b> · de-emphasising mid-market — opportunity to pursue IDEA Group accounts.</div>
+              </div>
+              <div class="comp-c">
+                <h6>Competitor B <span class="ind up">Q ▲</span></h6>
+                <div class="signal"><span class="when">Q4</span><b>Revenue +9.1% YoY</b> · cloud-services growth and AI services traction.</div>
+                <div class="signal"><span class="when">Feb</span><b>Major win</b> · UK public sector framework (£180M / 5y) — credibility boost.</div>
+                <div class="signal"><span class="when">Mar</span><b>New offer</b> · Industry-LLM bundle launched — direct overlap with our AI Co-Pilot Pack.</div>
+                <div class="signal"><span class="when">Q1</span><b>Hiring</b> · 600+ AI roles posted — capacity-building signal.</div>
+              </div>
+              <div class="comp-c">
+                <h6>Customer · DT Group <span class="ind flat">— FLAT</span></h6>
+                <div class="signal"><span class="when">Q4</span><b>Steady results</b> · revenue +1.1% · CapEx programme unchanged.</div>
+                <div class="signal"><span class="when">Feb</span><b>Strategy</b> · public commitment to data-residency programme — Sovereign Cloud EU pitch.</div>
+                <div class="signal"><span class="when">Mar</span><b>Leadership</b> · new CIO appointed Q1 · published comments on AI-Ops.</div>
+                <div class="signal"><span class="when">Q1</span><b>Procurement</b> · multi-vendor framework refresh expected H2 — door for share-shift.</div>
+              </div>
+            </div>
+
+            <p style="font-size:9.5px;color:#4a2a2a;margin-top:10px;font-style:italic">Open question (workshop): KPIs to track as part of competitive positioning still to be defined with the Commercial team.</p>
+          </div>
+        </div>
+
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">GTM.5</div>
+            <h5>GTM.5 — Competitive Positioning</h5>
+            <div class="status amber">AMBER · NEW AI-DRIVEN VIEW</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <ul>
+                <li>Aggregated competitor-positioning view drawn from public sources (company reports, market data, paid aggregators).</li>
+                <li>AI-summary for sales teams ahead of major customer meetings (quarter up / down, supply chain, competitor deal-wins) to gain competitive advantage in deal negotiations.</li>
+              </ul>
+              <p style="margin-top:6px"><b>Open Question:</b> What are the KPIs that we want to track as part of competitive positioning?</p>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <p>Before a major customer meeting, the sales lead can pull a one-page AI-generated competitor / customer brief from the Hub covering recent public data points.</p>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story</h6>
+            <p>As the GTM Director, I want an aggregated competitor-positioning view drawn from public sources with AI-generated competitor / customer briefs ahead of major customer meetings, so that I can take a competitive advantage into deal negotiations.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /MAIN -->
+
+    <!-- ====== AI EXECUTIVE SUMMARY ====== -->
+    <div class="ai-panel">
+      <h3>GTM Executive Summary <span class="ai-chip">AI · LLM</span></h3>
+      <p style="font-size:10.5px;color:#4a2a2a;font-style:italic;margin-bottom:8px">Per-pillar commercial commentary distilled into one narrative · refreshed Mar-26</p>
+
+      <p>Commercial performance is <b>strong on the front-end with material delivery exposure</b>. Pipeline and win-rate are tracking ahead of plan, but recognised revenue is 6.2% behind sold projection — concentrated in three large deals — and the top-10 deal portfolio carries 3 Red / 4 Amber RAGs covering €497M.</p>
+
+      <h4>Key Takeaways <span class="dot" style="background:var(--green)"></span></h4>
+      <ul>
+        <li><b>Pipeline:</b> €1,359M qualified · win conversion 62% (▲ 7pp).</li>
+        <li><b>Bookings:</b> 7 new logos / Gen-2 deals booked in Mar-26.</li>
+        <li><b>Customer health:</b> NPS strong on top-10 customers; DT Group at +48 (▲ 4).</li>
+      </ul>
+
+      <h4>Key Watchpoints <span class="dot" style="background:var(--amber)"></span><span class="dot" style="background:var(--red)"></span></h4>
+      <ul>
+        <li><b>Revenue recognition gap:</b> −€124M (−6.2%) — Helios (−24%) and Orion (−38%) the largest variances.</li>
+        <li><b>Delivery RAG:</b> 3 Red / 4 Amber in top 10 — €497M revenue under risk.</li>
+        <li><b>Share of Wallet:</b> data still RED — IDEA at 21% is the clearest growth opportunity (€48M).</li>
+      </ul>
+
+      <h4>Recommended Actions</h4>
+      <ul>
+        <li>Convene Helios &amp; Orion delivery reviews this week — bring forward SME risk inputs.</li>
+        <li>Position Sovereign Cloud EU + Edge expansion ahead of DT Group meeting (28 Mar).</li>
+        <li>Confirm competitor list and refresh cadence for Share of Wallet view.</li>
+      </ul>
+
+      <div class="pill-actions">
+        <div class="pa primary">Generate Sales Pack</div>
+        <div class="pa">Open Salesforce</div>
+        <div class="pa">Regenerate ✦</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>VOIS Hub  ·  GTM Director Persona View  ·  Data as of Mar-26  ·  Refreshed daily by 06:00 UTC</div>
+    <div class="right">Powered by <b>VOIS</b></div>
+  </div>
+
+</div>
+
+<script>
+  function toggleAnno(){
+    const on = document.body.classList.toggle('anno-on');
+    const btn = document.getElementById('annoBtn');
+    const banner = document.getElementById('annoBanner');
+    btn.classList.toggle('on', on);
+    banner.classList.toggle('on', on);
+    btn.innerHTML = on
+      ? '<span class="led"></span> Hide Requirements'
+      : '<span class="led"></span> Show Requirements';
+  }
+  document.addEventListener('DOMContentLoaded', toggleAnno);
+</script>
+</body>
+</html>

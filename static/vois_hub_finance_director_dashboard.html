@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VOIS Hub — Finance Director Persona View (Sarah)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Vodafone red → black gradient */
+    --grad-1:#e60000;
+    --grad-2:#b8000a;
+    --grad-3:#5a0006;
+    --grad-4:#0a0000;
+
+    /* Persona accent — Vodafone red family (red → black) */
+    --p1:#e60000;
+    --p2:#b8000a;
+    --p3:#1a0000;
+
+    /* Neutral red-tinted greyscale */
+    --bg:#f3f1f1;
+    --panel:#e8e3e3;
+    --panel-2:#d8d0d0;
+    --panel-border:#b59c9c;
+    --rail:#1a0000;
+    --rail-text:#f0d8d8;
+    --ink:#1a0000;
+    --ink-soft:#4a2a2a;
+    --muted:#8c7878;
+    --green:#0a8a3a;
+    --amber:#e08a00;
+    --red:#cc1f1f;
+    --tbd:#8c7878;
+    --accent:#e60000;
+    --card-shadow:0 1px 0 rgba(255,255,255,.5) inset, 0 6px 16px -8px rgba(26,0,0,.25);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#ddd5d5;font-family:'Inter',sans-serif;color:var(--ink);font-size:13px;line-height:1.4}
+  .frame{max-width:1280px;margin:14px auto;background:var(--bg);box-shadow:0 12px 40px rgba(0,0,0,.18);}
+
+  /* =========== TOP BAR =========== */
+  .topbar{
+    height:46px;
+    background:linear-gradient(90deg,var(--grad-1) 0%,var(--grad-2) 35%,var(--grad-3) 65%,var(--grad-4) 100%);
+    display:flex;align-items:center;padding:0 18px;color:#fff;
+  }
+  .logo{display:flex;align-items:center;gap:10px}
+  .logo .mark{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:2px;font-size:22px;
+    background:rgba(255,255,255,.08);padding:2px 10px;border:1px solid rgba(255,255,255,.25);
+  }
+  .logo .name{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:20px;letter-spacing:1px}
+  .topbar .right{margin-left:auto;display:flex;align-items:center;gap:14px;font-size:12px;opacity:.95}
+  .topbar .right .user{display:flex;align-items:center;gap:8px}
+  .avatar{width:26px;height:26px;border-radius:50%;background:#fff;color:var(--p1);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px}
+
+  .anno-toggle{
+    background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;
+    padding:4px 10px;font-size:10.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;
+    display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;
+  }
+  .anno-toggle:hover{background:rgba(255,255,255,.25)}
+  .anno-toggle.on{background:#ffd8d8;color:#1a0000;border-color:#ffd8d8}
+  .anno-toggle .led{width:7px;height:7px;border-radius:50%;background:#9a82a0}
+  .anno-toggle.on .led{background:var(--green);box-shadow:0 0 8px rgba(10,138,58,.6)}
+
+  /* =========== NAV =========== */
+  .nav{
+    background:#cfbcbc;
+    border-top:1px solid #b59c9c;border-bottom:1px solid #b59c9c;
+    display:flex;align-items:stretch;padding:0 14px;height:34px;font-size:11.5px;font-weight:600;letter-spacing:.5px;color:#1a0000;
+  }
+  .nav .item{display:flex;align-items:center;padding:0 14px;cursor:pointer;border-right:1px solid #b59c9c;text-transform:uppercase;gap:6px}
+  .nav .item.active{color:var(--p1);border-bottom:3px solid var(--p1);background:rgba(255,255,255,.25)}
+  .nav .item .caret{font-size:9px;opacity:.7}
+
+  /* =========== HERO =========== */
+  .hero{
+    position:relative;
+    background:
+      linear-gradient(90deg,rgba(26,0,0,.85) 0%,rgba(90,0,6,.65) 55%,rgba(184,0,10,.45) 100%),
+      radial-gradient(circle at 75% 40%,#e60000 0%,#b8000a 50%,#1a0000 100%);
+    color:#fff;padding:24px 22px 18px;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 80% 50%,rgba(255,255,255,.08) 0%,transparent 30%),
+      repeating-linear-gradient(45deg,rgba(255,255,255,.025) 0 2px,transparent 2px 8px);
+    pointer-events:none;
+  }
+  .hero h1{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:44px;letter-spacing:.5px;line-height:1}
+  .hero h1 .accent{color:#ffd8d8;font-weight:500}
+  .hero p{margin-top:10px;max-width:980px;font-size:12.5px;line-height:1.55;color:#f0d8d8;font-weight:300}
+  .hero p b{color:#fff;font-weight:500}
+  .hero .tools{position:absolute;right:22px;top:24px;display:flex;gap:8px}
+  .hero .tools .pill{
+    width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+    display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer
+  }
+
+  /* =========== FILTERS =========== */
+  .filters{
+    background:#f0e8e8;border-bottom:1px solid #b59c9c;display:flex;align-items:center;gap:14px;padding:8px 14px;font-size:11.5px;
+  }
+  .filters .f{display:flex;align-items:center;gap:8px;color:#1a0000;font-weight:600}
+  .filters .f .sel{
+    background:#fff;border:1px solid #b59c9c;padding:4px 8px;min-width:120px;display:flex;align-items:center;justify-content:space-between;color:#1a0000;font-weight:500;
+  }
+  .filters .f .sel:after{content:"▾";font-size:9px;margin-left:8px;color:#4a2a2a}
+  .filters .reload{margin-left:auto;color:#4a2a2a;cursor:pointer;font-size:14px}
+  .legend{display:flex;align-items:center;gap:10px;font-size:10px;color:#4a2a2a}
+  .legend .lg{display:flex;align-items:center;gap:4px}
+  .legend .lg span{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+  /* Annotation banner */
+  .anno-banner{
+    background:linear-gradient(90deg,#fff7d9,#fde9c2);border-top:2px solid #e08a00;border-bottom:2px solid #e08a00;
+    padding:8px 14px;font-size:11px;color:#5a3a00;display:none;align-items:center;gap:14px;
+  }
+  .anno-banner.on{display:flex}
+  .anno-banner b{color:#1a0000}
+  .anno-banner .leg{display:flex;align-items:center;gap:6px}
+  .anno-banner .leg .pin{
+    width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'Barlow Condensed',sans-serif;
+  }
+  .anno-banner .key{display:flex;gap:10px;margin-left:auto;font-size:10.5px;flex-wrap:wrap}
+  .anno-banner .key span{display:inline-flex;align-items:center;gap:4px}
+  .anno-banner .key i{width:9px;height:9px;border-radius:2px;display:inline-block}
+
+  /* =========== LAYOUT =========== */
+  .canvas{padding:14px 14px 18px;display:grid;grid-template-columns:1fr 280px;gap:12px}
+  .main{display:flex;flex-direction:column;gap:12px}
+
+  .section{
+    position:relative;background:var(--panel);border:1px solid var(--panel-border);
+    padding:10px 12px 12px 38px;
+  }
+  .section .rail{
+    position:absolute;left:0;top:0;bottom:0;width:26px;background:var(--rail);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .section .rail span{
+    color:var(--rail-text);writing-mode:vertical-rl;transform:rotate(180deg);
+    font-family:'Barlow Condensed',sans-serif;letter-spacing:3px;font-size:12px;font-weight:500;text-transform:uppercase;
+  }
+
+  .req-pin{
+    position:absolute;top:-12px;left:-12px;z-index:20;
+    width:30px;height:30px;border-radius:50%;
+    background:linear-gradient(135deg,var(--p1),var(--p2));
+    color:#fff;display:none;align-items:center;justify-content:center;
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.5px;
+    box-shadow:0 4px 10px rgba(230,0,0,.45),0 0 0 3px #fff;cursor:help;
+  }
+  body.anno-on .req-pin{display:flex}
+
+  /* Annotation cards */
+  .anno-card{
+    display:none;
+    background:#fffdf2;border:1px solid #e08a00;border-left:4px solid #e08a00;
+    padding:10px 12px 12px;margin-top:10px;font-size:11px;line-height:1.5;color:#1a0000;
+    box-shadow:0 4px 14px rgba(224,138,0,.18);position:relative;
+  }
+  body.anno-on .anno-card{display:block}
+  .anno-card::before{
+    content:"📝 ANNOTATION";position:absolute;top:-10px;left:10px;background:#fffdf2;padding:0 8px;font-size:9.5px;font-weight:700;color:#e08a00;letter-spacing:1px;
+  }
+  .anno-card .anno-head{
+    display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed #e08a00;
+  }
+  .anno-card .anno-head .nr{
+    background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;width:26px;height:26px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;font-family:'Barlow Condensed',sans-serif;flex-shrink:0;
+  }
+  .anno-card .anno-head h5{
+    font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600;color:#1a0000;letter-spacing:.3px;flex:1;
+  }
+  .anno-card .status{
+    font-size:9.5px;font-weight:700;padding:3px 8px;letter-spacing:.5px;color:#fff;
+  }
+  .status.green{background:var(--green)}
+  .status.amber{background:var(--amber)}
+  .status.red{background:var(--red)}
+  .status.scope{background:#1a0000}
+  .status.parked{background:#8c7878}
+
+  .anno-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}
+  .anno-block h6{
+    font-size:9.5px;font-weight:700;letter-spacing:.8px;color:var(--p1);text-transform:uppercase;margin-bottom:3px;
+    display:flex;align-items:center;gap:4px;
+  }
+  .anno-block h6::before{content:"▸";color:#e08a00}
+  .anno-block p{font-size:10.5px;line-height:1.5;color:#1a0000}
+  .anno-block ul{list-style:none;padding:0;margin:0;font-size:10.5px;line-height:1.5;color:#1a0000}
+  .anno-block li{padding-left:12px;position:relative;margin-bottom:2px}
+  .anno-block li::before{content:"•";position:absolute;left:2px;color:#e08a00;font-weight:700}
+  .anno-block.us{background:rgba(230,0,0,.06);padding:7px 10px;border-left:2px solid var(--p2);font-style:italic;margin-top:8px}
+  .anno-block.us h6{color:var(--p2)}
+  .anno-block.us p{font-size:10.5px;color:#1a0000;font-style:italic}
+  .derived-tag{
+    display:inline-block;font-size:8.5px;font-weight:700;letter-spacing:.5px;
+    background:rgba(224,138,0,.18);color:#a05c00;padding:1px 5px;margin-left:5px;font-style:normal;
+  }
+
+  body.anno-on .section{outline:1px dashed rgba(224,138,0,.5);outline-offset:2px}
+
+  .row{display:grid;gap:8px}
+  .row.r2{grid-template-columns:1fr 1fr}
+  .row.r3{grid-template-columns:1fr 1fr 1fr}
+  .row.r4{grid-template-columns:repeat(4,1fr)}
+
+  /* =========== KPI / CLUSTER STYLES =========== */
+  .cluster{display:flex;flex-direction:column;gap:0;border:1px solid var(--panel-border);background:#dcd4d4}
+  .cluster .cluster-head{background:#cba8a8;text-align:center;padding:5px 0;font-weight:700;font-size:11.5px;color:#1a0000;letter-spacing:.5px;border-bottom:1px solid var(--panel-border)}
+  .cluster .cluster-body{display:grid;gap:4px;padding:4px;grid-auto-rows:1fr}
+
+  .kpi{
+    background:#f4eded;border:1px solid var(--panel-border);padding:6px 8px 8px;text-align:center;position:relative;min-height:88px;display:flex;flex-direction:column;justify-content:space-between;
+    box-shadow:var(--card-shadow);
+  }
+  .kpi .label{font-size:10.5px;color:#1a0000;font-weight:600;letter-spacing:.3px}
+  .kpi .value{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:28px;line-height:1;margin-top:4px}
+  .kpi .sub{font-size:10px;color:#4a2a2a;line-height:1.35;margin-top:2px}
+  .kpi .month{font-size:9.5px;color:#8c7878;margin-top:auto;padding-top:4px}
+  .kpi .rag{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%}
+  .rag.g{background:var(--green);box-shadow:0 0 0 2px rgba(10,138,58,.18)}
+  .rag.a{background:var(--amber);box-shadow:0 0 0 2px rgba(224,138,0,.18)}
+  .rag.r{background:var(--red);box-shadow:0 0 0 2px rgba(204,31,31,.18)}
+  .rag.t{background:var(--tbd);box-shadow:0 0 0 2px rgba(122,138,163,.18)}
+  .val-g{color:var(--green)}
+  .val-a{color:var(--amber)}
+  .val-r{color:var(--red)}
+  .val-t{color:var(--tbd)}
+  .kpi .drill{position:absolute;bottom:4px;right:6px;font-size:9px;color:var(--accent);font-weight:600;letter-spacing:.3px;text-transform:uppercase;opacity:.75;text-decoration:none}
+
+  /* =========== SECTION TITLE BAR =========== */
+  .section-title-bar{
+    display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;
+  }
+  .section-title-bar h2{
+    font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;color:#1a0000;letter-spacing:.5px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .section-title-bar h2 .reqid{
+    font-size:9.5px;background:#1a0000;color:#fff;padding:2px 6px;letter-spacing:.5px;font-family:'Inter',sans-serif;font-weight:600;
+  }
+  .section-title-bar .note{font-size:10px;color:#4a2a2a;font-style:italic}
+
+  /* =========== RISK HEATMAP =========== */
+  .heatmap{background:#fff;border:1px solid var(--panel-border)}
+  .heatmap .hhead{background:#cba8a8;padding:6px 10px;font-weight:700;font-size:11.5px;color:#1a0000;display:flex;align-items:center;justify-content:space-between}
+  .heatmap .hhead .tag{font-size:9.5px;background:#1a0000;color:#fff;padding:2px 6px;letter-spacing:.5px}
+  .hgrid{display:grid;grid-template-columns:1.1fr repeat(4,1fr);gap:0}
+  .hcell{padding:8px 10px;border-right:1px solid var(--panel-border);border-top:1px solid var(--panel-border);font-size:10.5px}
+  .hcell:last-child{border-right:none}
+  .hcell.head{background:#e8d8d8;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#1a0000;border-top:none;text-align:center}
+  .hcell.label{font-weight:700;color:#1a0000;background:#f4eded}
+  .hcell.label small{display:block;font-weight:400;font-size:9.5px;color:#4a2a2a;margin-top:2px}
+  .hcell.cell{text-align:center;cursor:pointer;position:relative}
+  .hcell.cell .v{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:600;line-height:1}
+  .hcell.cell .lab{font-size:9px;color:#4a2a2a;margin-top:2px;text-transform:uppercase;letter-spacing:.3px}
+  .hcell.cell.g{background:rgba(10,138,58,.13)}
+  .hcell.cell.a{background:rgba(224,138,0,.15)}
+  .hcell.cell.r{background:rgba(204,31,31,.13)}
+  .hcell.cell.g .v{color:var(--green)}
+  .hcell.cell.a .v{color:var(--amber)}
+  .hcell.cell.r .v{color:var(--red)}
+
+  /* =========== AT-RISK TABLE =========== */
+  .risk-table{background:#fff;border:1px solid var(--panel-border)}
+  .risk-table .rhead{background:#cba8a8;padding:6px 10px;font-weight:700;font-size:11.5px;color:#1a0000;display:flex;align-items:center;justify-content:space-between}
+  .rt-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr 60px;font-size:10.5px}
+  .rt-grid > div{padding:6px 10px;border-top:1px solid #e8d8d8;border-right:1px solid #e8d8d8}
+  .rt-grid > div:nth-last-child(-n+6){}
+  .rt-grid .rh{background:#f4eded;font-weight:700;font-size:9.5px;color:#1a0000;text-transform:uppercase;letter-spacing:.5px;border-top:none}
+  .rt-grid .num{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;color:#1a0000}
+  .rt-grid .num.r{color:var(--red)}
+  .rt-grid .num.a{color:var(--amber)}
+  .rt-grid .num.g{color:var(--green)}
+  .rt-grid .pill{display:inline-block;padding:1px 6px;font-size:9.5px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;color:#fff}
+  .rt-grid .pill.r{background:var(--red)}
+  .rt-grid .pill.a{background:var(--amber)}
+  .rt-grid .pill.g{background:var(--green)}
+  .rt-grid a{color:var(--p1);text-decoration:none;font-weight:600;font-size:9.5px;letter-spacing:.3px;text-transform:uppercase}
+
+  /* =========== BURN COMPARISON =========== */
+  .burn{background:#fff;border:1px solid var(--panel-border);padding:10px 12px}
+  .burn h4{font-size:11.5px;color:#1a0000;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .burn h4 .badge{background:#1a0000;color:#fff;font-size:9px;padding:2px 6px;letter-spacing:.5px}
+  .bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .bcard{border:1px solid #e8d8d8;background:#fbf5f5;padding:8px}
+  .bcard .bt{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+  .bcard .bt h5{font-size:10.5px;color:#1a0000;font-weight:700}
+  .bcard .pct{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600}
+  .barwrap{position:relative;height:18px;background:#e8d8d8;margin-bottom:5px}
+  .barwrap .actual{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--p2),var(--p1))}
+  .barwrap .plan{position:absolute;top:-3px;bottom:-3px;width:2px;background:#1a0000}
+  .barwrap .plan::after{content:"plan";position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:8px;color:#1a0000;font-weight:700;letter-spacing:.3px;text-transform:uppercase}
+  .bcard .leg{display:flex;justify-content:space-between;font-size:9.5px;color:#4a2a2a}
+  .bcard .verdict{margin-top:6px;font-size:10px;font-weight:600;padding:3px 6px}
+  .verdict.g{background:rgba(10,138,58,.13);color:var(--green)}
+  .verdict.a{background:rgba(224,138,0,.15);color:var(--amber)}
+  .verdict.r{background:rgba(204,31,31,.13);color:var(--red)}
+
+  /* =========== PQ BILLING SECTION =========== */
+  .pq-wrap{background:#fff;border:1px solid var(--panel-border)}
+  .pq-head{background:#cba8a8;padding:6px 10px;font-weight:700;font-size:11.5px;color:#1a0000;display:flex;align-items:center;justify-content:space-between}
+  .pq-head .pq-tag{font-size:9.5px;background:#1a0000;color:#fff;padding:2px 6px;letter-spacing:.5px}
+  .pq-body{display:grid;grid-template-columns:1.1fr 1.4fr 1fr;}
+  .pq-col{padding:10px;border-right:1px solid var(--panel-border)}
+  .pq-col:last-child{border-right:none}
+  .pq-col h5{font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:#4a2a2a;margin-bottom:8px}
+  .pq-kpi{display:flex;align-items:baseline;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #e8d8d8;font-size:10.5px}
+  .pq-kpi:last-child{border-bottom:none}
+  .pq-kpi .v{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:18px;color:#1a0000}
+  .pq-svc{display:grid;grid-template-columns:auto 1fr auto;gap:6px;align-items:center;padding:4px 0;border-bottom:1px dashed #e8d8d8;font-size:10.5px}
+  .pq-svc:last-child{border-bottom:none}
+  .pq-svc .lvl{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;background:#e8d8d8;color:#1a0000;padding:1px 5px;letter-spacing:.5px}
+  .pq-svc .n{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13px;color:#1a0000}
+  .pq-svc .pct{font-size:9.5px;color:#4a2a2a}
+  .pq-link{
+    background:linear-gradient(135deg,#f4eded,#e8d8d8);border:1px dashed var(--p2);padding:10px;text-align:center;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:100%;
+  }
+  .pq-link .lh{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;color:#1a0000}
+  .pq-link .lc{font-size:9.5px;color:#4a2a2a;line-height:1.4}
+  .pq-link .lb{background:linear-gradient(90deg,var(--p1),var(--p2));color:#fff;font-size:10px;font-weight:700;padding:4px 10px;letter-spacing:.5px;margin-top:4px}
+
+  /* =========== AI / EXEC SUMMARY =========== */
+  .ai-panel{
+    background:#fff;border:1px solid var(--panel-border);padding:12px;font-size:11.5px;color:#1a0000;
+    position:relative;overflow:hidden;
+  }
+  .ai-panel::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:linear-gradient(180deg,var(--p1),var(--p2),var(--p3));
+  }
+  .ai-panel h3{
+    font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:18px;letter-spacing:.5px;color:#1a0000;
+    display:flex;align-items:center;gap:8px;padding-bottom:6px;border-bottom:1px solid #e8d8d8;margin-bottom:8px
+  }
+  .ai-panel h3 .ai-chip{
+    font-family:'Inter',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;
+    background:linear-gradient(90deg,var(--p1),var(--p2));color:#fff;padding:2px 6px;border-radius:3px
+  }
+  .ai-panel h4{font-size:11px;font-weight:700;color:#1a0000;margin:10px 0 4px;text-transform:uppercase;letter-spacing:.5px}
+  .ai-panel p{font-size:11px;line-height:1.5;color:#1a0000;margin-bottom:6px}
+  .ai-panel ul{list-style:none;padding:0;margin:0 0 6px}
+  .ai-panel li{font-size:10.5px;line-height:1.5;margin-bottom:4px;padding-left:14px;position:relative}
+  .ai-panel li::before{content:"";position:absolute;left:0;top:6px;width:6px;height:6px;border-radius:50%;background:var(--p2)}
+  .ai-panel .pill-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .ai-panel .pill-actions .pa{font-size:9.5px;padding:3px 7px;background:#e8d8d8;border:1px solid var(--panel-border);color:#1a0000;cursor:pointer;letter-spacing:.3px;font-weight:600}
+  .ai-panel .pill-actions .pa.primary{background:linear-gradient(90deg,var(--p1),var(--p2));color:#fff;border-color:transparent}
+  .ai-panel .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-left:3px;vertical-align:middle}
+
+  /* =========== PARKED REQUIREMENT NOTE =========== */
+  .parked-note{
+    background:repeating-linear-gradient(45deg,#f0f0f5 0 8px,#e8e8ee 8px 16px);
+    border:1px dashed #b59c9c;padding:14px 16px;display:flex;align-items:center;gap:16px;
+  }
+  .parked-note .icn{
+    width:42px;height:42px;border-radius:50%;background:#8c7878;color:#fff;display:flex;align-items:center;justify-content:center;
+    font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;flex-shrink:0;
+  }
+  .parked-note .pn-body h4{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;color:#4a2a2a;letter-spacing:.3px;display:flex;align-items:center;gap:8px}
+  .parked-note .pn-body h4 .ptag{font-size:9px;background:#8c7878;color:#fff;padding:2px 6px;letter-spacing:.5px;font-family:'Inter',sans-serif;font-weight:600}
+  .parked-note .pn-body p{font-size:11px;color:#4a2a2a;margin-top:4px;line-height:1.5}
+
+  /* =========== FOOTER =========== */
+  .footer{background:#1a0000;color:#b59c9c;padding:8px 14px;font-size:10.5px;display:flex;align-items:center;justify-content:space-between;letter-spacing:.5px}
+  .footer .right{color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:14px;letter-spacing:1.5px}
+  .footer .right b{font-weight:600;letter-spacing:2px}
+
+  .drill-hint{font-size:9.5px;color:var(--accent);text-decoration:none;letter-spacing:.3px;font-weight:600;text-transform:uppercase}
+  .drill-hint:after{content:" ↗"}
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <!-- =========== TOP BAR =========== -->
+  <div class="topbar">
+    <div class="logo">
+      <div class="mark">VOIS</div>
+      <div class="name">Hub</div>
+    </div>
+    <div class="right">
+      <button class="anno-toggle" id="annoBtn" onclick="toggleAnno()">
+        <span class="led"></span> Show Requirements
+      </button>
+      <span style="opacity:.5">|</span>
+      <span>FY27  ·  Mar-26 close</span>
+      <span style="opacity:.5">|</span>
+      <div class="user">
+        <div class="avatar">SH</div>
+        <span>Sarah  ·  Finance Director</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotation banner -->
+  <div class="anno-banner" id="annoBanner">
+    <span class="leg"><span class="pin">N</span></span>
+    <div><b>Requirements Mode is ON.</b> Numbered pins map to the 3 Finance Director persona requirements (REQ 09–11). Each annotation shows the agreed Description, Acceptance Criteria and the derived User Story.</div>
+    <div class="key">
+      <span><i style="background:#0a8a3a"></i> Tracked</span>
+      <span><i style="background:#e08a00"></i> Partially covered</span>
+      <span><i style="background:#8c7878"></i> Parked / Out of scope</span>
+    </div>
+  </div>
+
+  <!-- =========== NAV =========== -->
+  <div class="nav">
+    <div class="item active">FINANCE SUMMARY <span class="caret">▾</span></div>
+    <div class="item">RISK VIEW <span class="caret">▾</span></div>
+    <div class="item">REVENUE AT RISK <span class="caret">▾</span></div>
+    <div class="item">OPEX / CAPEX BURN <span class="caret">▾</span></div>
+    <div class="item">P×Q / BILLING <span class="caret">▾</span></div>
+    <div class="item">PARTNERSHIP SUCCESS <span class="caret">▾</span></div>
+    <div class="item">DATA GOVERNANCE <span class="caret">▾</span></div>
+    <div class="item">HELP <span class="caret">▾</span></div>
+  </div>
+
+  <!-- =========== HERO =========== -->
+  <div class="hero">
+    <h1>Finance Director <span class="accent">Summary</span></h1>
+    <p>Your <b>cross-functional risk lens</b> on VOIS — the <b>non-finance signals</b> across the organisation that move your <b>OpsAnalytics, CapEx and Revenue forecasts</b>. Track <b>Revenue-at-Risk</b> and <b>Cost-at-Risk</b> on contracts and projects, with a high-level <b>P×Q</b> view linking through to the marketplace dashboard. Core finance control reporting continues to run from Sarah's own systems.</p>
+    <div class="tools">
+      <div class="pill" title="Filters">⚙</div>
+      <div class="pill" title="Expand">⤢</div>
+      <div class="pill" title="More">⋯</div>
+    </div>
+  </div>
+
+  <!-- =========== FILTERS =========== -->
+  <div class="filters">
+    <div class="f">Portfolio <div class="sel">All</div></div>
+    <div class="f">Market <div class="sel">All</div></div>
+    <div class="f">Service Tower <div class="sel">All</div></div>
+    <div class="f">Owner <div class="sel">All</div></div>
+    <div class="f">Period <div class="sel">FY27 YTD</div></div>
+    <div class="legend" style="margin-left:14px">
+      <span class="lg"><span style="background:var(--green)"></span>On Track</span>
+      <span class="lg"><span style="background:var(--amber)"></span>At Risk</span>
+      <span class="lg"><span style="background:var(--red)"></span>Off Track</span>
+    </div>
+    <div class="reload">↻</div>
+  </div>
+
+  <!-- =========== CANVAS =========== -->
+  <div class="canvas">
+    <div class="main">
+
+      <!-- ============ SECTION: REQ 10 — CROSS-FUNCTIONAL RISK VIEW ============ -->
+      <div class="section">
+        <div class="req-pin" title="Requirement #10">10</div>
+        <div class="rail"><span>Risk View</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">REQ 10</span> Cross-Functional Risk View — OpsAnalytics · CapEx · Revenue</h2>
+          <div class="note">Non-finance signals affecting Sarah's forecasts · heatmap / RAG</div>
+        </div>
+
+        <!-- Risk Heatmap -->
+        <div class="heatmap">
+          <div class="hhead">
+            <span>Risk Heatmap — risk signals by portfolio &amp; dimension</span>
+            <span class="tag">CROSS-FUNCTIONAL · MAR-26</span>
+          </div>
+          <div class="hgrid">
+            <div class="hcell head">Portfolio</div>
+            <div class="hcell head">HR / Headcount</div>
+            <div class="hcell head">Pipeline Demand</div>
+            <div class="hcell head">Operational Forecast</div>
+            <div class="hcell head">Contract Lifecycle</div>
+
+            <div class="hcell label">OpsAnalytics<small>BAU services &amp; analytics</small></div>
+            <div class="hcell cell a"><div class="v">Amber</div><div class="lab">Critical role gap 22%</div></div>
+            <div class="hcell cell g"><div class="v">Green</div><div class="lab">Demand +6% vs plan</div></div>
+            <div class="hcell cell a"><div class="v">Amber</div><div class="lab">OpEx burn 112%</div></div>
+            <div class="hcell cell a"><div class="v">Amber</div><div class="lab">3 contracts &lt;6mo</div></div>
+
+            <div class="hcell label">CapEx<small>Strategic investment</small></div>
+            <div class="hcell cell g"><div class="v">Green</div><div class="lab">Resourced</div></div>
+            <div class="hcell cell t" style="background:rgba(122,138,163,.12)"><div class="v val-t">N/A</div><div class="lab">Not applicable</div></div>
+            <div class="hcell cell r"><div class="v">Red</div><div class="lab">CapEx burn 134%</div></div>
+            <div class="hcell cell a"><div class="v">Amber</div><div class="lab">2 vendor SoWs slip</div></div>
+
+            <div class="hcell label">Revenue Forecast<small>Contracted + pipeline</small></div>
+            <div class="hcell cell g"><div class="v">Green</div><div class="lab">Sales coverage 96%</div></div>
+            <div class="hcell cell a"><div class="v">Amber</div><div class="lab">Pipeline stalled €118M</div></div>
+            <div class="hcell cell g"><div class="v">Green</div><div class="lab">Service health 98%</div></div>
+            <div class="hcell cell r"><div class="v">Red</div><div class="lab">€186M auto-renew gap</div></div>
+          </div>
+        </div>
+
+        <!-- Revenue at Risk -->
+        <div class="risk-table" style="margin-top:8px">
+          <div class="rhead">
+            <span>Revenue at Risk — contracts in last 6 months of lifecycle without renewal</span>
+            <span class="tag" style="font-size:9.5px;background:#1a0000;color:#fff;padding:2px 6px;letter-spacing:.5px">NEW LENS</span>
+          </div>
+          <div class="rt-grid">
+            <div class="rh">Contract / Deal</div>
+            <div class="rh">Customer</div>
+            <div class="rh">Value €M</div>
+            <div class="rh">Days to Expiry</div>
+            <div class="rh">Auto-Renew</div>
+            <div class="rh">Risk</div>
+
+            <div>Project Helios — BVOIS</div>
+            <div>DT Group</div>
+            <div class="num r">186.4</div>
+            <div class="num a">42</div>
+            <div>No flag</div>
+            <div><span class="pill r">High</span></div>
+
+            <div>Programme Iris — CARE</div>
+            <div>UKG</div>
+            <div class="num a">61.0</div>
+            <div class="num a">88</div>
+            <div>Pending review</div>
+            <div><span class="pill a">Med</span></div>
+
+            <div>Vantage Connect — Network</div>
+            <div>DE-Local</div>
+            <div class="num a">48.2</div>
+            <div class="num a">114</div>
+            <div>Yes (rate review)</div>
+            <div><span class="pill a">Med</span></div>
+
+            <div>Project Orion — Tier-3 Ops</div>
+            <div>Vfz Group</div>
+            <div class="num r">42.0</div>
+            <div class="num r">21</div>
+            <div>No</div>
+            <div><span class="pill r">High</span></div>
+
+            <div>Atlas Lite — Mid-tier renewal pack</div>
+            <div>3 customers</div>
+            <div class="num a">28.6</div>
+            <div class="num a">155</div>
+            <div>Mixed</div>
+            <div><span class="pill a">Med</span></div>
+          </div>
+        </div>
+
+        <!-- OpEx / CapEx Burn vs Completion -->
+        <div class="burn" style="margin-top:8px">
+          <h4>Cost at Risk — OpEx &amp; CapEx burn vs project completion % <span class="badge">PROJECT LIFECYCLE</span></h4>
+          <div class="bgrid">
+            <div class="bcard">
+              <div class="bt"><h5>OpEx — OpsAnalytics</h5><div class="pct val-a">112% / 78%</div></div>
+              <div class="barwrap">
+                <div class="actual" style="width:78%"></div>
+                <div class="plan" style="left:70%"></div>
+              </div>
+              <div class="leg"><span>Burn 112%</span><span>Completion 78%</span></div>
+              <div class="verdict a">⚠ Over-spend vs progress — 14pp gap</div>
+            </div>
+            <div class="bcard">
+              <div class="bt"><h5>CapEx — Platform refresh</h5><div class="pct val-r">134% / 81%</div></div>
+              <div class="barwrap">
+                <div class="actual" style="width:81%;background:linear-gradient(90deg,#e08a00,#cc1f1f)"></div>
+                <div class="plan" style="left:60%"></div>
+              </div>
+              <div class="leg"><span>Burn 134%</span><span>Completion 81%</span></div>
+              <div class="verdict r">⛔ Material over-spend — escalation required</div>
+            </div>
+            <div class="bcard">
+              <div class="bt"><h5>OpEx — CARE</h5><div class="pct val-g">94% / 96%</div></div>
+              <div class="barwrap">
+                <div class="actual" style="width:96%;background:linear-gradient(90deg,#0a8a3a,#0a6628)"></div>
+                <div class="plan" style="left:95%"></div>
+              </div>
+              <div class="leg"><span>Burn 94%</span><span>Completion 96%</span></div>
+              <div class="verdict g">✓ On plan — ahead of burn vs progress</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Annotation card for REQ 10 -->
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">10</div>
+            <h5>REQ 10 — Cross-Functional Financial View</h5>
+            <div class="status amber">PARTIALLY COVERED — GAP TO BUILD</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <ul>
+                <li>A Finance Director risk view: cross-functional data points from across the org that affect her OpsAnalytics, CapEx and revenue forecasts.</li>
+                <li>A 'revenue at risk' (and cost-at-risk) view: contracts in the last 6 months of lifecycle that haven't renewed, OpEx burn vs project completion %, CapEx burn vs project completion %, exposed by major deal / project.</li>
+                <li>Example: Contract lifecycle data (incl. auto-renewal flags); project completion data (OpEx and CapEx); agreed 'revenue at risk' definition (term recalled by Kali, not consistently used today).</li>
+              </ul>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <p>Sarah opens one page that highlights risk status for individual portfolios: OpsAnalytics, CapEx and Revenue Forecasts.</p>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story <span class="derived-tag">DERIVED · not in source file</span></h6>
+            <p>As the Finance Director, I want a single cross-functional risk view exposing the non-finance signals (HR, pipeline, operations, contract lifecycle) that affect my OpsAnalytics, CapEx and Revenue forecasts — including a Revenue-at-Risk and Cost-at-Risk lens by major deal and project — so that I can influence business decisions early and manage financial risk before it lands in my P&amp;L.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ SECTION: REQ 11 — P×Q / BILLING INTEGRATION ============ -->
+      <div class="section">
+        <div class="req-pin" title="Requirement #11">11</div>
+        <div class="rail"><span>P×Q Billing</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">REQ 11</span> P×Q / Billing Integration — Partnership Success Lens</h2>
+          <div class="note">High-level on Hub · drill-through to PQ marketplace dashboard for L1/L2/L3 detail</div>
+        </div>
+
+        <div class="pq-wrap">
+          <div class="pq-head">
+            <span>P×Q Revenue Summary — already present under Partnership Success</span>
+            <span class="pq-tag">SOURCE: PQ MARKETPLACE</span>
+          </div>
+          <div class="pq-body">
+            <div class="pq-col">
+              <h5>High-Level KPIs</h5>
+              <div class="pq-kpi"><span>Achieved Revenue</span><span class="v val-g">€617.24M</span></div>
+              <div class="pq-kpi"><span>Plan (RF)</span><span class="v">€57.45M</span></div>
+              <div class="pq-kpi"><span>Achievement %</span><span class="v val-g">1074.4%</span></div>
+              <div class="pq-kpi"><span>Invoices Raised</span><span class="v">3,184</span></div>
+              <div class="pq-kpi"><span>Markets In-Scope</span><span class="v">12</span></div>
+            </div>
+            <div class="pq-col">
+              <h5>Service-Type Mix (top L1 categories — preview)</h5>
+              <div class="pq-svc"><span class="lvl">L1</span><span>BVOIS</span><span class="n">€198M <span class="pct">32%</span></span></div>
+              <div class="pq-svc"><span class="lvl">L1</span><span>CARE</span><span class="n">€142M <span class="pct">23%</span></span></div>
+              <div class="pq-svc"><span class="lvl">L1</span><span>I/O</span><span class="n">€118M <span class="pct">19%</span></span></div>
+              <div class="pq-svc"><span class="lvl">L1</span><span>D&amp;IT</span><span class="n">€84M <span class="pct">14%</span></span></div>
+              <div class="pq-svc"><span class="lvl">L1</span><span>CFST</span><span class="n">€75M <span class="pct">12%</span></span></div>
+              <div style="font-size:9.5px;color:#4a2a2a;margin-top:6px;font-style:italic">L2 / L3 service-type breakdown not held on Hub — drill through to source ↗</div>
+            </div>
+            <div class="pq-col" style="padding:0">
+              <div class="pq-link">
+                <div class="lh">PQ Marketplace Dashboard</div>
+                <div class="lc">Full L1 · L2 · L3 service-type breakdown, market-specific views, invoice-level detail.</div>
+                <div class="lb">OPEN DASHBOARD ↗</div>
+                <div style="font-size:8.5px;color:#8c7878;margin-top:4px">Context preserved on click-through</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">11</div>
+            <h5>REQ 11 — P×Q / Billing Integration</h5>
+            <div class="status amber">PARTIALLY COVERED</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <p>High-level PQ revenue summary on the Hub (already present under Partnership Success) with an integration to the existing PQ marketplace dashboard for L1 / L2 / L3 service-type detail.</p>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <p>PQ KPIs visible on the Hub Partnership Success page; one click takes the user to the detailed PQ dashboard with context preserved.</p>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story <span class="derived-tag">DERIVED · not in source file</span></h6>
+            <p>As the Finance Director, I want a high-level P×Q revenue summary visible on the Hub's Partnership Success page with a one-click drill-through to the existing PQ marketplace dashboard, so that I can see invoice-driven revenue at a glance and access the L1 / L2 / L3 service-type detail without duplicating reporting or leaving the Hub blind.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ SECTION: REQ 09 — PARKED ============ -->
+      <div class="section">
+        <div class="req-pin" title="Requirement #9">9</div>
+        <div class="rail"><span>Data Gov.</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">REQ 09</span> ★ Basic Reporting Reliability — Parked</h2>
+          <div class="note">Handed to data-governance workstream under the broader Ether programme</div>
+        </div>
+
+        <div class="parked-note">
+          <div class="icn">⊘</div>
+          <div class="pn-body">
+            <h4>Not tracked as a VOIS Hub requirement <span class="ptag">PARKED — ETHER PROGRAMME</span></h4>
+            <p>Data reliability of monthly / quarterly / annual reporting cycles is a fundamental <b>data-governance and business-process</b> issue (HR ↔ Finance reconciliation, headcount mastership) — not a reporting one. The Hub will remain the single-source-of-truth landing place and will surface the canonical view (or multiple views with explanation) once upstream governance fixes are made.</p>
+          </div>
+        </div>
+
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">9</div>
+            <h5>REQ 09 — ★ Basic Reporting Reliability</h5>
+            <div class="status parked">PARKED · OUT OF SCOPE</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <p>Not tracked as a Hub requirement. Data reliability of monthly / quarterly / annual reporting cycles is treated as a data-governance and business-process workstream under the broader Ether programme.</p>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <p>Out of scope for this requirements gathering — Hub should still surface the canonical view (or the multiple views with explanation) once governance fixes are made upstream.</p>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story <span class="derived-tag">DERIVED · not in source file</span></h6>
+            <p>As the Finance Director, I want upstream data-governance and mastership issues (HR ↔ Finance reconciliation, headcount) resolved under the Ether programme, so that when the Hub surfaces a canonical view of monthly / quarterly / annual figures I can trust its reliability — recognising this work sits outside the Hub remit.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /MAIN -->
+
+    <!-- =========== AI EXECUTIVE SUMMARY =========== -->
+    <div class="ai-panel">
+      <h3>Finance Risk Summary <span class="ai-chip">AI · LLM</span></h3>
+      <p style="font-size:10.5px;color:#4a2a2a;font-style:italic;margin-bottom:8px">Auto-generated commentary across cross-functional risk signals · refreshed Mar-26</p>
+
+      <p>The cross-functional risk picture for Sarah is <b>mixed with two clear red flags</b>. Revenue forecast is largely covered by current sales pipeline but exposed to a small number of large contracts approaching renewal. CapEx is materially over-burn against completion, and OpsAnalytics has both a critical-role gap and an OpEx over-burn.</p>
+
+      <h4>Key Watchpoints <span class="dot" style="background:var(--red)"></span></h4>
+      <ul>
+        <li><b>Revenue at Risk:</b> €186M (DT Group · Project Helios) with no auto-renew flag, 42 days to expiry.</li>
+        <li><b>CapEx burn 134%</b> against 81% project completion — escalation recommended.</li>
+        <li><b>OpsAnalytics:</b> 22% critical-role gap is feeding OpEx over-burn at 112% / 78%.</li>
+      </ul>
+
+      <h4>Stable Signals <span class="dot" style="background:var(--green)"></span></h4>
+      <ul>
+        <li>CARE burn aligned with project completion.</li>
+        <li>Sales coverage at 96% of FY27 plan.</li>
+        <li>P×Q invoiced revenue tracking at 1074% of RF.</li>
+      </ul>
+
+      <h4>Recommended Actions</h4>
+      <ul>
+        <li>Open renewal conversation on DT Group · Project Helios this week.</li>
+        <li>Convene CapEx review on Platform refresh — value vs completion.</li>
+        <li>Align OpsAnalytics critical-role plan with CHRO.</li>
+      </ul>
+
+      <div class="pill-actions">
+        <div class="pa primary">Generate Finance Pack</div>
+        <div class="pa">Export risk register</div>
+        <div class="pa">Regenerate ✦</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========== FOOTER =========== -->
+  <div class="footer">
+    <div>VOIS Hub  ·  Finance Director Persona View  ·  Data as of Mar-26  ·  Refreshed daily by 06:00 UTC</div>
+    <div class="right">Powered by <b>VOIS</b></div>
+  </div>
+
+</div>
+
+<script>
+  function toggleAnno(){
+    const on = document.body.classList.toggle('anno-on');
+    const btn = document.getElementById('annoBtn');
+    const banner = document.getElementById('annoBanner');
+    btn.classList.toggle('on', on);
+    banner.classList.toggle('on', on);
+    btn.innerHTML = on
+      ? '<span class="led"></span> Hide Requirements'
+      : '<span class="led"></span> Show Requirements';
+  }
+  document.addEventListener('DOMContentLoaded', toggleAnno);
+</script>
+</body>
+</html>

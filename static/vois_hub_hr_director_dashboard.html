@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VOIS Hub — HR Director Persona View (Sima)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Vodafone red → black */
+    --grad-1:#e60000;
+    --grad-2:#b8000a;
+    --grad-3:#5a0006;
+    --grad-4:#0a0000;
+
+    /* Persona accent — Vodafone red family */
+    --p1:#e60000;
+    --p2:#b8000a;
+    --p3:#1a0000;
+
+    /* Red-tinted neutrals */
+    --bg:#f3f1f1;
+    --panel:#e8e3e3;
+    --panel-2:#d8d0d0;
+    --panel-border:#b59c9c;
+    --rail:#1a0000;
+    --rail-text:#f0d8d8;
+    --ink:#1a0000;
+    --ink-soft:#4a2a2a;
+    --muted:#8c7878;
+    --green:#0a8a3a;
+    --amber:#e08a00;
+    --red:#cc1f1f;
+    --tbd:#8c7878;
+    --accent:#e60000;
+    --card-shadow:0 1px 0 rgba(255,255,255,.5) inset, 0 6px 16px -8px rgba(26,0,0,.25);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#ddd5d5;font-family:'Inter',sans-serif;color:var(--ink);font-size:13px;line-height:1.4}
+  .frame{max-width:1280px;margin:14px auto;background:var(--bg);box-shadow:0 12px 40px rgba(0,0,0,.18);}
+
+  /* =========== TOP BAR =========== */
+  .topbar{
+    height:46px;
+    background:linear-gradient(90deg,var(--grad-1) 0%,var(--grad-2) 35%,var(--grad-3) 65%,var(--grad-4) 100%);
+    display:flex;align-items:center;padding:0 18px;color:#fff;
+  }
+  .logo{display:flex;align-items:center;gap:10px}
+  .logo .mark{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:2px;font-size:22px;
+    background:rgba(255,255,255,.08);padding:2px 10px;border:1px solid rgba(255,255,255,.25);
+  }
+  .logo .name{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:20px;letter-spacing:1px}
+  .topbar .right{margin-left:auto;display:flex;align-items:center;gap:14px;font-size:12px;opacity:.95}
+  .topbar .right .user{display:flex;align-items:center;gap:8px}
+  .avatar{width:26px;height:26px;border-radius:50%;background:#fff;color:var(--p1);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px}
+
+  .anno-toggle{
+    background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;
+    padding:4px 10px;font-size:10.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;
+    display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;
+  }
+  .anno-toggle:hover{background:rgba(255,255,255,.25)}
+  .anno-toggle.on{background:#ffd8d8;color:#1a0000;border-color:#ffd8d8}
+  .anno-toggle .led{width:7px;height:7px;border-radius:50%;background:#9a82a0}
+  .anno-toggle.on .led{background:var(--green);box-shadow:0 0 8px rgba(10,138,58,.6)}
+
+  /* =========== NAV =========== */
+  .nav{
+    background:#cfbcbc;
+    border-top:1px solid #b59c9c;border-bottom:1px solid #b59c9c;
+    display:flex;align-items:stretch;padding:0 14px;height:34px;font-size:11.5px;font-weight:600;letter-spacing:.5px;color:#1a0000;
+  }
+  .nav .item{display:flex;align-items:center;padding:0 14px;cursor:pointer;border-right:1px solid #b59c9c;text-transform:uppercase;gap:6px}
+  .nav .item.active{color:var(--p1);border-bottom:3px solid var(--p1);background:rgba(255,255,255,.25)}
+  .nav .item .caret{font-size:9px;opacity:.7}
+
+  /* =========== HERO =========== */
+  .hero{
+    position:relative;
+    background:
+      linear-gradient(90deg,rgba(26,0,0,.85) 0%,rgba(90,0,6,.65) 55%,rgba(184,0,10,.45) 100%),
+      radial-gradient(circle at 75% 40%,#e60000 0%,#b8000a 50%,#1a0000 100%);
+    color:#fff;padding:24px 22px 18px;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 80% 50%,rgba(255,255,255,.08) 0%,transparent 30%),
+      repeating-linear-gradient(45deg,rgba(255,255,255,.025) 0 2px,transparent 2px 8px);
+    pointer-events:none;
+  }
+  .hero h1{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:44px;letter-spacing:.5px;line-height:1}
+  .hero h1 .accent{color:#ffd8d8;font-weight:500}
+  .hero p{margin-top:10px;max-width:980px;font-size:12.5px;line-height:1.55;color:#f0d8d8;font-weight:300}
+  .hero p b{color:#fff;font-weight:500}
+  .hero .tools{position:absolute;right:22px;top:24px;display:flex;gap:8px}
+  .hero .tools .pill{
+    width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+    display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer
+  }
+
+  /* =========== FILTERS =========== */
+  .filters{
+    background:#f0e8e8;border-bottom:1px solid #b59c9c;display:flex;align-items:center;gap:14px;padding:8px 14px;font-size:11.5px;
+  }
+  .filters .f{display:flex;align-items:center;gap:8px;color:#1a0000;font-weight:600}
+  .filters .f .sel{
+    background:#fff;border:1px solid #b59c9c;padding:4px 8px;min-width:120px;display:flex;align-items:center;justify-content:space-between;color:#1a0000;font-weight:500;
+  }
+  .filters .f .sel:after{content:"▾";font-size:9px;margin-left:8px;color:#4a2a2a}
+  .filters .reload{margin-left:auto;color:#4a2a2a;cursor:pointer;font-size:14px}
+  .legend{display:flex;align-items:center;gap:10px;font-size:10px;color:#4a2a2a}
+  .legend .lg{display:flex;align-items:center;gap:4px}
+  .legend .lg span{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+  /* Annotation banner */
+  .anno-banner{
+    background:linear-gradient(90deg,#fff7d9,#fde9c2);border-top:2px solid #e08a00;border-bottom:2px solid #e08a00;
+    padding:8px 14px;font-size:11px;color:#5a3a00;display:none;align-items:center;gap:14px;
+  }
+  .anno-banner.on{display:flex}
+  .anno-banner b{color:#1a0000}
+  .anno-banner .leg{display:flex;align-items:center;gap:6px}
+  .anno-banner .leg .pin{
+    width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:'Barlow Condensed',sans-serif;
+  }
+  .anno-banner .key{display:flex;gap:10px;margin-left:auto;font-size:10.5px;flex-wrap:wrap}
+  .anno-banner .key span{display:inline-flex;align-items:center;gap:4px}
+  .anno-banner .key i{width:9px;height:9px;border-radius:2px;display:inline-block}
+
+  /* =========== LAYOUT =========== */
+  .canvas{padding:14px 14px 18px;display:grid;grid-template-columns:1fr 280px;gap:12px}
+  .main{display:flex;flex-direction:column;gap:12px}
+
+  .section{
+    position:relative;background:var(--panel);border:1px solid var(--panel-border);
+    padding:10px 12px 12px 38px;
+  }
+  .section .rail{
+    position:absolute;left:0;top:0;bottom:0;width:26px;background:var(--rail);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .section .rail span{
+    color:var(--rail-text);writing-mode:vertical-rl;transform:rotate(180deg);
+    font-family:'Barlow Condensed',sans-serif;letter-spacing:3px;font-size:12px;font-weight:500;text-transform:uppercase;
+  }
+
+  .req-pin{
+    position:absolute;top:-12px;left:-14px;z-index:20;
+    min-width:38px;height:28px;padding:0 8px;border-radius:14px;
+    background:linear-gradient(135deg,var(--p1),var(--p2));
+    color:#fff;display:none;align-items:center;justify-content:center;
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.5px;
+    box-shadow:0 4px 10px rgba(230,0,0,.45),0 0 0 3px #fff;cursor:help;
+  }
+  body.anno-on .req-pin{display:flex}
+
+  /* Annotation cards */
+  .anno-card{
+    display:none;
+    background:#fffdf2;border:1px solid #e08a00;border-left:4px solid #e08a00;
+    padding:10px 12px 12px;margin-top:10px;font-size:11px;line-height:1.5;color:#1a0000;
+    box-shadow:0 4px 14px rgba(224,138,0,.18);position:relative;
+  }
+  body.anno-on .anno-card{display:block}
+  .anno-card::before{
+    content:"📝 ANNOTATION";position:absolute;top:-10px;left:10px;background:#fffdf2;padding:0 8px;font-size:9.5px;font-weight:700;color:#e08a00;letter-spacing:1px;
+  }
+  .anno-card .anno-head{
+    display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed #e08a00;
+  }
+  .anno-card .anno-head .nr{
+    background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;min-width:42px;height:24px;padding:0 8px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;font-family:'Barlow Condensed',sans-serif;flex-shrink:0;letter-spacing:.5px;
+  }
+  .anno-card .anno-head h5{
+    font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600;color:#1a0000;letter-spacing:.3px;flex:1;
+  }
+  .anno-card .status{
+    font-size:9.5px;font-weight:700;padding:3px 8px;letter-spacing:.5px;color:#fff;
+  }
+  .status.green{background:var(--green)}
+  .status.amber{background:var(--amber)}
+  .status.red{background:var(--red)}
+
+  .anno-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}
+  .anno-block h6{
+    font-size:9.5px;font-weight:700;letter-spacing:.8px;color:var(--p1);text-transform:uppercase;margin-bottom:3px;
+    display:flex;align-items:center;gap:4px;
+  }
+  .anno-block h6::before{content:"▸";color:#e08a00}
+  .anno-block p{font-size:10.5px;line-height:1.5;color:#1a0000}
+  .anno-block ul{list-style:none;padding:0;margin:0;font-size:10.5px;line-height:1.5;color:#1a0000}
+  .anno-block li{padding-left:12px;position:relative;margin-bottom:2px}
+  .anno-block li::before{content:"•";position:absolute;left:2px;color:#e08a00;font-weight:700}
+  .anno-block.us{background:rgba(230,0,0,.06);padding:7px 10px;border-left:2px solid var(--p2);font-style:italic;margin-top:8px}
+  .anno-block.us h6{color:var(--p2)}
+  .anno-block.us p{font-size:10.5px;color:#1a0000;font-style:italic}
+
+  body.anno-on .section{outline:1px dashed rgba(224,138,0,.5);outline-offset:2px}
+
+  .row{display:grid;gap:8px}
+  .row.r2{grid-template-columns:1fr 1fr}
+  .row.r3{grid-template-columns:1fr 1fr 1fr}
+  .row.r4{grid-template-columns:repeat(4,1fr)}
+
+  /* =========== KPI tiles =========== */
+  .kpi{
+    background:#f4eded;border:1px solid var(--panel-border);padding:6px 8px 8px;text-align:center;position:relative;min-height:88px;display:flex;flex-direction:column;justify-content:space-between;
+    box-shadow:var(--card-shadow);
+  }
+  .kpi .label{font-size:10.5px;color:#1a0000;font-weight:600;letter-spacing:.3px}
+  .kpi .value{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:28px;line-height:1;margin-top:4px}
+  .kpi .sub{font-size:10px;color:#4a2a2a;line-height:1.35;margin-top:2px}
+  .kpi .month{font-size:9.5px;color:#8c7878;margin-top:auto;padding-top:4px}
+  .kpi .rag{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%}
+  .rag.g{background:var(--green);box-shadow:0 0 0 2px rgba(10,138,58,.18)}
+  .rag.a{background:var(--amber);box-shadow:0 0 0 2px rgba(224,138,0,.18)}
+  .rag.r{background:var(--red);box-shadow:0 0 0 2px rgba(204,31,31,.18)}
+  .val-g{color:var(--green)}
+  .val-a{color:var(--amber)}
+  .val-r{color:var(--red)}
+
+  /* =========== SECTION TITLE BAR =========== */
+  .section-title-bar{
+    display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:8px;
+  }
+  .section-title-bar h2{
+    font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px;color:#1a0000;letter-spacing:.5px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .section-title-bar h2 .reqid{
+    font-size:9.5px;background:#1a0000;color:#fff;padding:2px 6px;letter-spacing:.5px;font-family:'Inter',sans-serif;font-weight:600;
+  }
+  .section-title-bar .note{font-size:10px;color:#4a2a2a;font-style:italic}
+
+  /* =========== Generic card =========== */
+  .card{background:#fff;border:1px solid var(--panel-border)}
+  .card-head{background:#cba8a8;padding:6px 10px;font-weight:700;font-size:11.5px;color:#1a0000;display:flex;align-items:center;justify-content:space-between}
+  .card-head .tag{font-size:9.5px;background:#1a0000;color:#fff;padding:2px 6px;letter-spacing:.5px}
+  .card-body{padding:10px}
+
+  /* =========== HR.1 — Correlated Storytelling =========== */
+  .corr-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:0;font-size:10.5px}
+  .corr-grid > div{padding:8px 10px;border-right:1px solid #e8d8d8;border-top:1px solid #e8d8d8}
+  .corr-grid .ch{background:#f4eded;font-weight:700;font-size:10px;color:#1a0000;text-transform:uppercase;letter-spacing:.5px;border-top:none}
+  .corr-grid .lab{font-weight:700;color:#1a0000;background:#faf2f2}
+  .corr-grid .lab small{display:block;font-weight:400;font-size:9.5px;color:#4a2a2a;margin-top:2px}
+  .corr-grid .v{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:16px}
+  .corr-grid .vs{font-size:9.5px;color:#4a2a2a}
+  .corr-narr{background:#faf2f2;border:1px solid #e8d8d8;padding:10px;margin-top:8px;font-size:10.5px;line-height:1.55;color:#1a0000}
+  .corr-narr .nh{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;color:var(--p1);display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .corr-narr .nh .ai-chip{
+    font-family:'Inter',sans-serif;font-size:8.5px;font-weight:700;letter-spacing:1px;
+    background:linear-gradient(90deg,var(--p1),var(--p2));color:#fff;padding:2px 6px;border-radius:3px
+  }
+  .corr-narr b{color:var(--p1)}
+  .corr-narr .examples{margin-top:6px;padding-left:14px}
+  .corr-narr .examples li{margin-bottom:2px;list-style:none;position:relative;padding-left:14px}
+  .corr-narr .examples li::before{content:"→";position:absolute;left:0;color:var(--p2);font-weight:700}
+
+  /* =========== Talent Glide Path =========== */
+  .glide{padding:10px}
+  .glide-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+  .glide-stat{background:#faf2f2;border-left:3px solid var(--p1);padding:6px 8px}
+  .glide-stat .l{font-size:10px;color:#4a2a2a;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+  .glide-stat .v{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:22px;color:#1a0000;line-height:1.1}
+  .glide-stat .s{font-size:9.5px;color:#4a2a2a}
+  .glide-chart{
+    position:relative;height:140px;background:#faf2f2;border:1px solid #e8d8d8;padding:18px 20px 24px;
+  }
+  .glide-chart svg{width:100%;height:100%;overflow:visible}
+  .glide-chart .axis{stroke:#cba8a8;stroke-width:1}
+  .glide-chart .grid{stroke:#e8d8d8;stroke-width:1;stroke-dasharray:2 3}
+  .glide-chart .target{stroke:#1a0000;stroke-width:1.5;stroke-dasharray:5 3}
+  .glide-chart .target-label{font-family:'Barlow Condensed',sans-serif;font-size:9px;fill:#1a0000;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+  .glide-chart .actual{stroke:#e60000;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .glide-chart .actual-area{fill:rgba(230,0,0,.10)}
+  .glide-chart .dot{fill:#e60000;stroke:#fff;stroke-width:1.5}
+  .glide-chart .x-label{font-family:'Inter',sans-serif;font-size:9px;fill:#4a2a2a}
+  .glide-chart .y-label{font-family:'Inter',sans-serif;font-size:9px;fill:#4a2a2a;text-anchor:end}
+  .glide-hot{margin-top:10px}
+  .glide-hot h5{font-size:10.5px;color:#1a0000;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .glide-hot h5 .b{background:#1a0000;color:#fff;font-size:8.5px;padding:1px 5px;letter-spacing:.5px}
+  .hot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .hot{padding:6px 8px;border:1px solid #e8d8d8}
+  .hot.r{background:rgba(204,31,31,.10);border-color:rgba(204,31,31,.35)}
+  .hot.a{background:rgba(224,138,0,.10);border-color:rgba(224,138,0,.35)}
+  .hot.g{background:rgba(10,138,58,.10);border-color:rgba(10,138,58,.35)}
+  .hot .ht{font-size:10px;font-weight:700;color:#1a0000;display:flex;justify-content:space-between;align-items:center}
+  .hot .hv{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:600;line-height:1;margin-top:4px}
+  .hot .hs{font-size:9px;color:#4a2a2a;margin-top:2px}
+  .hot.r .hv{color:var(--red)}
+  .hot.a .hv{color:var(--amber)}
+  .hot.g .hv{color:var(--green)}
+
+  /* =========== Headcount + initiative overlay =========== */
+  .hc-chart{position:relative;height:180px;background:#faf2f2;border:1px solid #e8d8d8;padding:14px 16px 22px}
+  .hc-chart svg{width:100%;height:100%;overflow:visible}
+  .hc-chart .axis{stroke:#cba8a8;stroke-width:1}
+  .hc-chart .grid{stroke:#e8d8d8;stroke-width:1;stroke-dasharray:2 3}
+  .hc-chart .actual{stroke:#1a0000;stroke-width:2;fill:none}
+  .hc-chart .actual-area{fill:rgba(26,0,0,.06)}
+  .hc-chart .forecast{stroke:#b8000a;stroke-width:2;fill:none;stroke-dasharray:4 3}
+  .hc-chart .dot{fill:#1a0000;stroke:#fff;stroke-width:1.2}
+  .hc-chart .dot.f{fill:#b8000a}
+  .hc-chart .x-label, .hc-chart .y-label{font-family:'Inter',sans-serif;font-size:9px;fill:#4a2a2a}
+  .hc-chart .y-label{text-anchor:end}
+  .hc-init{
+    position:absolute;background:rgba(230,0,0,.92);color:#fff;font-size:9px;font-weight:600;padding:3px 6px;letter-spacing:.3px;
+    text-transform:uppercase;line-height:1.2;box-shadow:0 2px 6px rgba(0,0,0,.25);max-width:120px;
+  }
+  .hc-init::before{content:"";position:absolute;left:50%;bottom:-5px;transform:translateX(-50%);
+    width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid rgba(230,0,0,.92)}
+  .hc-leg{display:flex;gap:14px;font-size:10px;margin-top:6px;color:#4a2a2a}
+  .hc-leg .ll{display:flex;align-items:center;gap:5px}
+  .hc-leg .ll i{width:18px;height:2px;display:inline-block;background:#1a0000}
+  .hc-leg .ll.f i{background:#b8000a;background-image:linear-gradient(90deg,#b8000a 50%,transparent 50%);background-size:6px 100%}
+  .hc-leg .ll.in i{width:10px;height:10px;background:rgba(230,0,0,.92)}
+
+  .init-list{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+  .ini{background:#faf2f2;border-left:3px solid var(--p1);padding:6px 8px;font-size:10px}
+  .ini .it{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
+  .ini .it strong{font-size:10.5px;color:#1a0000}
+  .ini .it .impact{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;color:var(--p1)}
+  .ini .id{font-size:9.5px;color:#4a2a2a;line-height:1.35}
+
+  /* =========== Talent Demand Funnel =========== */
+  .funnel{padding:10px}
+  .funnel-row{display:grid;grid-template-columns:repeat(5,1fr) 30px;gap:0;align-items:stretch;margin-bottom:8px}
+  .funnel-stage{background:#faf2f2;border:1px solid #e8d8d8;padding:8px 10px;position:relative;display:flex;flex-direction:column;justify-content:space-between}
+  .funnel-stage .fs{font-size:9.5px;color:#4a2a2a;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+  .funnel-stage .fv{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:22px;color:#1a0000;line-height:1.1}
+  .funnel-stage .fd{font-size:9px;color:#4a2a2a;margin-top:2px}
+  .funnel-arrow{display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--p1);font-weight:700}
+  .funnel-stage.first{background:linear-gradient(135deg,#1a0000,#5a0006);border-color:#1a0000;color:#fff}
+  .funnel-stage.first .fs{color:#f0d8d8}
+  .funnel-stage.first .fv{color:#fff}
+  .funnel-stage.first .fd{color:#f0d8d8}
+  .funnel-tag{position:absolute;top:-8px;right:-6px;font-size:8.5px;background:var(--p1);color:#fff;padding:1px 5px;font-weight:700;letter-spacing:.3px}
+  .funnel-note{background:#fff7d9;border:1px dashed #e08a00;padding:6px 10px;font-size:10px;color:#5a3a00;margin-top:6px;display:flex;align-items:center;gap:8px}
+  .funnel-note .b{background:#e08a00;color:#fff;font-size:9px;padding:1px 5px;font-weight:700;letter-spacing:.5px}
+  .funnel-deal{background:#faf2f2;border:1px solid #e8d8d8;padding:8px 10px;margin-top:8px;font-size:10.5px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .funnel-deal b{color:var(--p1)}
+  .funnel-deal .chip{font-size:9.5px;background:#1a0000;color:#fff;padding:1px 6px;letter-spacing:.3px;font-weight:600}
+
+  /* =========== Spirit Beat Why =========== */
+  .spirit-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:0}
+  .spirit-trend{padding:10px;border-right:1px solid #e8d8d8}
+  .spirit-trend .st-stat{display:flex;gap:18px;margin-bottom:8px}
+  .spirit-trend .stv{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:600;color:#1a0000;line-height:1}
+  .spirit-trend .stv small{display:block;font-size:10px;color:#4a2a2a;font-weight:400;font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+  .spirit-trend .delta{font-size:11px;font-weight:600}
+  .spirit-trend .delta.g{color:var(--green)}
+  .spirit-trend .delta.r{color:var(--red)}
+  .spirit-chart{height:120px;background:#faf2f2;border:1px solid #e8d8d8;padding:14px 16px 18px;position:relative}
+  .spirit-chart svg{width:100%;height:100%;overflow:visible}
+  .spirit-chart .axis{stroke:#cba8a8;stroke-width:1}
+  .spirit-chart .grid{stroke:#e8d8d8;stroke-width:1;stroke-dasharray:2 3}
+  .spirit-chart .line{stroke:#e60000;stroke-width:2.5;fill:none}
+  .spirit-chart .area{fill:rgba(230,0,0,.10)}
+  .spirit-chart .dot{fill:#e60000;stroke:#fff;stroke-width:1.5}
+  .spirit-chart .x-label{font-family:'Inter',sans-serif;font-size:9px;fill:#4a2a2a;text-anchor:middle}
+  .spirit-chart .y-label{font-family:'Inter',sans-serif;font-size:9px;fill:#4a2a2a;text-anchor:end}
+
+  .drivers{padding:10px}
+  .drivers h5{font-size:10.5px;color:#1a0000;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+  .drivers h5 .b{background:linear-gradient(90deg,var(--p1),var(--p2));color:#fff;font-size:8.5px;padding:2px 5px;letter-spacing:.5px}
+  .driver{margin-bottom:8px}
+  .driver .dr-t{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;font-size:10.5px}
+  .driver .dr-t .dnm{font-weight:600;color:#1a0000}
+  .driver .dr-t .dco{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px}
+  .driver .dr-t .dco.high{color:var(--red)}
+  .driver .dr-t .dco.med{color:var(--amber)}
+  .driver .dr-t .dco.low{color:var(--green)}
+  .driver .dr-bar{height:6px;background:#e8d8d8;position:relative}
+  .driver .dr-bar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--p1),var(--p2))}
+  .driver .dr-bar.neg i{background:linear-gradient(90deg,#cc1f1f,#8a1414)}
+  .driver .dr-d{font-size:9.5px;color:#4a2a2a;margin-top:2px;line-height:1.4}
+
+  /* =========== L&D Effectiveness =========== */
+  .ld-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:0}
+  .ld-left{padding:10px;border-right:1px solid #e8d8d8}
+  .ld-tile{background:#faf2f2;border:1px solid #e8d8d8;padding:8px 10px;margin-bottom:6px}
+  .ld-tile .lt{font-size:10px;color:#4a2a2a;text-transform:uppercase;letter-spacing:.4px;font-weight:600;display:flex;justify-content:space-between}
+  .ld-tile .lv{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:24px;color:#1a0000;line-height:1.1}
+  .ld-tile .ls{font-size:9.5px;color:#4a2a2a;margin-top:2px}
+  .ld-right{padding:10px}
+  .ld-right h5{font-size:10.5px;color:#1a0000;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+  .corr-row{display:grid;grid-template-columns:1.5fr 60px 1fr 1fr;gap:0;font-size:10.5px}
+  .corr-row > div{padding:6px 8px;border-top:1px solid #e8d8d8;border-right:1px solid #e8d8d8}
+  .corr-row .ch{background:#f4eded;font-weight:700;font-size:9.5px;color:#1a0000;text-transform:uppercase;letter-spacing:.5px;border-top:none}
+  .corr-row .strength{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;text-align:center}
+  .corr-row .strength.s{color:var(--green)}
+  .corr-row .strength.m{color:var(--amber)}
+  .corr-row .strength.w{color:var(--tbd)}
+  .corr-row .strength.n{color:var(--red)}
+  .corr-row .delta{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px}
+  .corr-row .delta.up{color:var(--green)}
+  .corr-row .delta.down{color:var(--red)}
+  .corr-row .win{font-size:9.5px;color:#4a2a2a}
+
+  /* =========== AI EXECUTIVE SUMMARY =========== */
+  .ai-panel{
+    background:#fff;border:1px solid var(--panel-border);padding:12px;font-size:11.5px;color:#1a0000;
+    position:relative;overflow:hidden;
+  }
+  .ai-panel::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:linear-gradient(180deg,var(--p1),var(--p2),var(--p3));
+  }
+  .ai-panel h3{
+    font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:18px;letter-spacing:.5px;color:#1a0000;
+    display:flex;align-items:center;gap:8px;padding-bottom:6px;border-bottom:1px solid #e8d8d8;margin-bottom:8px
+  }
+  .ai-panel h3 .ai-chip{
+    font-family:'Inter',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;
+    background:linear-gradient(90deg,var(--p1),var(--p2));color:#fff;padding:2px 6px;border-radius:3px
+  }
+  .ai-panel h4{font-size:11px;font-weight:700;color:#1a0000;margin:10px 0 4px;text-transform:uppercase;letter-spacing:.5px}
+  .ai-panel p{font-size:11px;line-height:1.5;color:#1a0000;margin-bottom:6px}
+  .ai-panel ul{list-style:none;padding:0;margin:0 0 6px}
+  .ai-panel li{font-size:10.5px;line-height:1.5;margin-bottom:4px;padding-left:14px;position:relative}
+  .ai-panel li::before{content:"";position:absolute;left:0;top:6px;width:6px;height:6px;border-radius:50%;background:var(--p2)}
+  .ai-panel .pill-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .ai-panel .pill-actions .pa{font-size:9.5px;padding:3px 7px;background:#e8d8d8;border:1px solid var(--panel-border);color:#1a0000;cursor:pointer;letter-spacing:.3px;font-weight:600}
+  .ai-panel .pill-actions .pa.primary{background:linear-gradient(90deg,var(--p1),var(--p2));color:#fff;border-color:transparent}
+  .ai-panel .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-left:3px;vertical-align:middle}
+
+  /* =========== FOOTER =========== */
+  .footer{background:#1a0000;color:#cfbcbc;padding:8px 14px;font-size:10.5px;display:flex;align-items:center;justify-content:space-between;letter-spacing:.5px}
+  .footer .right{color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:14px;letter-spacing:1.5px}
+  .footer .right b{font-weight:600;letter-spacing:2px}
+
+  .drill-hint{font-size:9.5px;color:var(--accent);text-decoration:none;letter-spacing:.3px;font-weight:600;text-transform:uppercase}
+  .drill-hint:after{content:" ↗"}
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <!-- =========== TOP BAR =========== -->
+  <div class="topbar">
+    <div class="logo">
+      <div class="mark">VOIS</div>
+      <div class="name">Hub</div>
+    </div>
+    <div class="right">
+      <button class="anno-toggle" id="annoBtn" onclick="toggleAnno()">
+        <span class="led"></span> Show Requirements
+      </button>
+      <span style="opacity:.5">|</span>
+      <span>FY27  ·  Mar-26 close</span>
+      <span style="opacity:.5">|</span>
+      <div class="user">
+        <div class="avatar">SM</div>
+        <span>Sima  ·  HR Director</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotation banner -->
+  <div class="anno-banner" id="annoBanner">
+    <span class="leg"><span class="pin">HR</span></span>
+    <div><b>Requirements Mode is ON.</b> Numbered pins map to the 6 HR Director persona requirements. Each annotation shows the agreed Description, Acceptance Criteria and User Story.</div>
+    <div class="key">
+      <span><i style="background:#0a8a3a"></i> Green — ready</span>
+      <span><i style="background:#e08a00"></i> Amber — in progress</span>
+      <span><i style="background:#cc1f1f"></i> Red — blocked</span>
+    </div>
+  </div>
+
+  <!-- =========== NAV =========== -->
+  <div class="nav">
+    <div class="item active">HR SUMMARY <span class="caret">▾</span></div>
+    <div class="item">CROSS-FUNCTIONAL HR <span class="caret">▾</span></div>
+    <div class="item">TALENT &amp; PROMOTIONS <span class="caret">▾</span></div>
+    <div class="item">HEADCOUNT &amp; EFFICIENCY <span class="caret">▾</span></div>
+    <div class="item">DEMAND OUTLOOK <span class="caret">▾</span></div>
+    <div class="item">SPIRIT BEAT <span class="caret">▾</span></div>
+    <div class="item">L&amp;D EFFECTIVENESS <span class="caret">▾</span></div>
+    <div class="item">HELP <span class="caret">▾</span></div>
+  </div>
+
+  <!-- =========== HERO =========== -->
+  <div class="hero">
+    <h1>HR Director <span class="accent">Summary</span></h1>
+    <p>Your <b>people-and-business correlation lens</b> on VOIS — moving HR reporting from flat data side-by-side to <b>'why' and 'so what'</b>. Track <b>top-talent glide path</b>, <b>headcount with efficiency-initiative overlay</b>, <b>end-to-end contract → VRF → hire</b>, <b>Spirit Beat drivers</b>, and <b>L&amp;D effectiveness</b> against business outcomes — all narrated by AI commentary across service towers and markets.</p>
+    <div class="tools">
+      <div class="pill" title="Filters">⚙</div>
+      <div class="pill" title="Expand">⤢</div>
+      <div class="pill" title="More">⋯</div>
+    </div>
+  </div>
+
+  <!-- =========== FILTERS =========== -->
+  <div class="filters">
+    <div class="f">Service Tower <div class="sel">All</div></div>
+    <div class="f">Market <div class="sel">All</div></div>
+    <div class="f">Line of Business <div class="sel">All</div></div>
+    <div class="f">Job Family <div class="sel">All</div></div>
+    <div class="f">Period <div class="sel">FY27 YTD</div></div>
+    <div class="legend" style="margin-left:14px">
+      <span class="lg"><span style="background:var(--green)"></span>On Track</span>
+      <span class="lg"><span style="background:var(--amber)"></span>At Risk</span>
+      <span class="lg"><span style="background:var(--red)"></span>Off Track</span>
+    </div>
+    <div class="reload">↻</div>
+  </div>
+
+  <!-- =========== CANVAS =========== -->
+  <div class="canvas">
+    <div class="main">
+
+      <!-- ============ HEADLINE KPIs ============ -->
+      <div class="section">
+        <div class="rail"><span>HR KPIs</span></div>
+        <div class="section-title-bar">
+          <h2>People &amp; Engagement — Headline KPIs</h2>
+          <div class="note">FY27 YTD · all towers</div>
+        </div>
+        <div class="row r4">
+          <div class="kpi">
+            <div class="rag g"></div>
+            <div class="label">Top-Talent Promotions</div>
+            <div class="value val-g">24.6%</div>
+            <div class="sub">T: 25%  ·  Glide path on plan</div>
+            <div class="month">Mar-26</div>
+          </div>
+          <div class="kpi">
+            <div class="rag g"></div>
+            <div class="label">Spirit Beat</div>
+            <div class="value val-g">85</div>
+            <div class="sub">▲ 3 vs prior cycle  ·  T: 80</div>
+            <div class="month">Mar-26</div>
+          </div>
+          <div class="kpi">
+            <div class="rag a"></div>
+            <div class="label">L&amp;D Adoption (AI plan)</div>
+            <div class="value val-a">80%</div>
+            <div class="sub">T: 85%  ·  Copilot active 64%</div>
+            <div class="month">Mar-26</div>
+          </div>
+          <div class="kpi">
+            <div class="rag a"></div>
+            <div class="label">Attrition (rolling 12m)</div>
+            <div class="value val-a">11.4%</div>
+            <div class="sub">T: 10%  ·  ▲ 0.6pp vs PM</div>
+            <div class="month">Mar-26</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ HR.1 — CROSS-FUNCTIONAL HR ============ -->
+      <div class="section">
+        <div class="req-pin" title="Requirement HR.1">HR.1</div>
+        <div class="rail"><span>HR Storytelling</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">HR.1</span> Cross-Functional HR View — Correlated Storytelling</h2>
+          <div class="note">Per service tower · AI narrates the 'why' and 'so what'</div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <span>HR signals across service towers — Mar-26</span>
+            <span class="tag">SELECT TOWER · DRILL FOR DETAIL</span>
+          </div>
+          <div class="corr-grid">
+            <div class="ch">Service Tower</div>
+            <div class="ch">L&amp;D Adoption</div>
+            <div class="ch">Spirit Beat</div>
+            <div class="ch">NPS / Business Perf.</div>
+
+            <div class="lab">BVOIS<small>~ 1,840 headcount</small></div>
+            <div><span class="v val-g">88%</span><div class="vs">+4pp vs avg</div></div>
+            <div><span class="v val-g">87</span><div class="vs">Promoters 62%</div></div>
+            <div><span class="v val-g">+48</span><div class="vs">Service health green</div></div>
+
+            <div class="lab">CARE<small>~ 2,310 headcount</small></div>
+            <div><span class="v val-r">61%</span><div class="vs">−19pp vs avg</div></div>
+            <div><span class="v val-r">71</span><div class="vs">Detractors 24%</div></div>
+            <div><span class="v val-a">+28</span><div class="vs">Tier-3 backlog</div></div>
+
+            <div class="lab">D&amp;IT<small>~ 980 headcount</small></div>
+            <div><span class="v val-g">92%</span><div class="vs">Copilot 78%</div></div>
+            <div><span class="v val-g">89</span><div class="vs">Promoters 68%</div></div>
+            <div><span class="v val-g">+55</span><div class="vs">AI cases up 34%</div></div>
+
+            <div class="lab">I/O<small>~ 1,520 headcount</small></div>
+            <div><span class="v val-a">74%</span><div class="vs">In-flight refresh</div></div>
+            <div><span class="v val-a">79</span><div class="vs">Passives 41%</div></div>
+            <div><span class="v val-g">+41</span><div class="vs">SLA 99.4%</div></div>
+
+            <div class="lab">CFST<small>~ 1,150 headcount</small></div>
+            <div><span class="v val-g">85%</span><div class="vs">+1pp vs avg</div></div>
+            <div><span class="v val-g">84</span><div class="vs">Promoters 58%</div></div>
+            <div><span class="v val-a">+33</span><div class="vs">Delivery slip Q2</div></div>
+          </div>
+          <div class="corr-narr">
+            <div class="nh">Correlated HR Narrative <span class="ai-chip">AI · LLM</span></div>
+            <p><b>CARE</b> shows the clearest cause-and-effect pattern this month: <b>L&amp;D adoption at 61% (−19pp vs avg)</b> coincides with a <b>Spirit Beat of 71</b> (24% detractors) and a softer NPS of +28 with persistent Tier-3 backlog. By contrast, <b>D&amp;IT</b> combines <b>92% L&amp;D adoption, Spirit 89 and Copilot 78%</b> with a 34% rise in AI-driven cases — a strong directional read on the AI-productivity hypothesis.</p>
+            <ul class="examples">
+              <li>Areas low on L&amp;D show <b>lower Spirit Beat</b> (CARE vs D&amp;IT: 16-point gap).</li>
+              <li>80% AI learning-plan adoption is associated with <b>+34% AI-driven case volume</b> where Copilot usage is also high.</li>
+              <li>Attrition is up in <b>I/O</b> — investigate against in-flight refresh and Passive concentration (41%).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">HR.1</div>
+            <h5>HR.1 — Cross-Functional HR View</h5>
+            <div class="status amber">PARTIALLY COVERED · NARRATIVE GAP TO BUILD</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <p>Correlated HR storytelling (LLM-based AI commentary) that links HR metrics (L&amp;D adoption, training, Spirit Beat and NPS) to business performance per service tower — to answer 'why' and 'so what', not just present flat data sets side by side.</p>
+              <p style="margin-top:6px"><b>Examples:</b></p>
+              <ul>
+                <li>Do parts of the business low on L&amp;D show lower Spirit Beat scores?</li>
+                <li>What is the actual business / AI-productivity impact of 80% AI learning-plan adoption, and why is attrition up in a specific area?</li>
+              </ul>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <p>For a selected service tower / market, the user sees HR metrics on one page with a narrative explaining likely cause-and-effect (e.g. low L&amp;D in area X correlates with low Spirit score).</p>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story</h6>
+            <p>As the HR Director, I want correlated HR storytelling (AI-generated commentary) that links L&amp;D adoption, training, Spirit Beat and NPS to business performance per service tower, so that I can answer the 'why' and 'so what' rather than read flat data sets side by side.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ TALENT METRICS WITH TARGETS ============ -->
+      <div class="section">
+        <div class="req-pin" title="Talent Metrics with Targets" style="min-width:48px">TLNT</div>
+        <div class="rail"><span>Talent Glide Path</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">TALENT METRICS</span> Top-Talent Promotions — Annualised Glide Path</h2>
+          <div class="note">Flat ~2%/month for 25% annual · drill to LoB / geography hotspots</div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <span>Promotion glide path vs target — FY27 YTD</span>
+            <span class="tag">VALIDATED W/ HR · MAR-26</span>
+          </div>
+          <div class="glide">
+            <div class="glide-top">
+              <div class="glide-stat">
+                <div class="l">YTD Promotion %</div>
+                <div class="v">24.6%</div>
+                <div class="s">+0.2pp vs target glide (24.4%)</div>
+              </div>
+              <div class="glide-stat">
+                <div class="l">Annual Target</div>
+                <div class="v">25%</div>
+                <div class="s">Flat ~2.08% / month progression</div>
+              </div>
+              <div class="glide-stat">
+                <div class="l">Top-Talent Pool</div>
+                <div class="v">1,284</div>
+                <div class="s">Identified across LoBs &amp; geographies</div>
+              </div>
+            </div>
+
+            <div class="glide-chart">
+              <svg viewBox="0 0 600 130" preserveAspectRatio="none">
+                <!-- Grid -->
+                <line class="grid" x1="40" y1="20" x2="590" y2="20"/>
+                <line class="grid" x1="40" y1="50" x2="590" y2="20" style="stroke:none"/>
+                <line class="grid" x1="40" y1="55" x2="590" y2="55"/>
+                <line class="grid" x1="40" y1="90" x2="590" y2="90"/>
+                <!-- Axes -->
+                <line class="axis" x1="40" y1="115" x2="590" y2="115"/>
+                <line class="axis" x1="40" y1="10" x2="40" y2="115"/>
+                <!-- Y labels -->
+                <text class="y-label" x="36" y="22">30%</text>
+                <text class="y-label" x="36" y="57">20%</text>
+                <text class="y-label" x="36" y="92">10%</text>
+                <text class="y-label" x="36" y="117">0%</text>
+                <!-- Target line (diagonal — flat 2.08% per month to 25%) -->
+                <line class="target" x1="40" y1="115" x2="590" y2="29"/>
+                <text class="target-label" x="500" y="36">Target 25%</text>
+                <!-- Actual line (slightly above target, points per month: Apr–Mar) -->
+                <path class="actual-area" d="M40,115 L86,108 L132,99 L178,92 L224,84 L270,76 L316,68 L362,60 L408,52 L454,44 L500,37 L546,30 L592,28 L592,115 Z"/>
+                <path class="actual" d="M40,115 L86,108 L132,99 L178,92 L224,84 L270,76 L316,68 L362,60 L408,52 L454,44 L500,37 L546,30"/>
+                <!-- Dots -->
+                <circle class="dot" cx="40" cy="115" r="3"/>
+                <circle class="dot" cx="86" cy="108" r="3"/>
+                <circle class="dot" cx="132" cy="99" r="3"/>
+                <circle class="dot" cx="178" cy="92" r="3"/>
+                <circle class="dot" cx="224" cy="84" r="3"/>
+                <circle class="dot" cx="270" cy="76" r="3"/>
+                <circle class="dot" cx="316" cy="68" r="3"/>
+                <circle class="dot" cx="362" cy="60" r="3"/>
+                <circle class="dot" cx="408" cy="52" r="3"/>
+                <circle class="dot" cx="454" cy="44" r="3"/>
+                <circle class="dot" cx="500" cy="37" r="3"/>
+                <circle class="dot" cx="546" cy="30" r="4"/>
+                <!-- X labels -->
+                <text class="x-label" x="40" y="128">Apr</text>
+                <text class="x-label" x="86" y="128">May</text>
+                <text class="x-label" x="132" y="128">Jun</text>
+                <text class="x-label" x="178" y="128">Jul</text>
+                <text class="x-label" x="224" y="128">Aug</text>
+                <text class="x-label" x="270" y="128">Sep</text>
+                <text class="x-label" x="316" y="128">Oct</text>
+                <text class="x-label" x="362" y="128">Nov</text>
+                <text class="x-label" x="408" y="128">Dec</text>
+                <text class="x-label" x="454" y="128">Jan</text>
+                <text class="x-label" x="500" y="128">Feb</text>
+                <text class="x-label" x="546" y="128" style="fill:#e60000;font-weight:700">Mar</text>
+              </svg>
+            </div>
+
+            <div class="glide-hot">
+              <h5>Hotspots by Line of Business / Geography <span class="b">DRILL-DOWN</span></h5>
+              <div class="hot-grid">
+                <div class="hot r">
+                  <div class="ht">CARE · DE <span style="font-size:8.5px;background:#cc1f1f;color:#fff;padding:1px 4px">RED</span></div>
+                  <div class="hv">18.2%</div>
+                  <div class="hs">−6.4pp vs target · intervention required</div>
+                </div>
+                <div class="hot a">
+                  <div class="ht">I/O · UK <span style="font-size:8.5px;background:#e08a00;color:#fff;padding:1px 4px">AMBER</span></div>
+                  <div class="hv">22.1%</div>
+                  <div class="hs">−2.5pp vs target · monitor</div>
+                </div>
+                <div class="hot g">
+                  <div class="ht">D&amp;IT · Global <span style="font-size:8.5px;background:#0a8a3a;color:#fff;padding:1px 4px">GREEN</span></div>
+                  <div class="hv">28.4%</div>
+                  <div class="hs">+3.8pp vs target · over-deliver</div>
+                </div>
+                <div class="hot g">
+                  <div class="ht">BVOIS · IT <span style="font-size:8.5px;background:#0a8a3a;color:#fff;padding:1px 4px">GREEN</span></div>
+                  <div class="hv">26.0%</div>
+                  <div class="hs">+1.4pp vs target · on plan</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">TLNT</div>
+            <h5>Talent Metrics with Targets</h5>
+            <div class="status green">GREEN · TARGETS VALIDATED</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <p>Top-talent promotion tracked against the annualised target with a flat month-on-month progression (~2% / month for 25% annual), with the option to drill to hotspots by line of business and geography.</p>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <ul>
+                <li>Top-line promotion % vs target visible with monthly progression.</li>
+                <li>A drill-down view shows hotspots by LoB / location flagged red where targets are missed.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story</h6>
+            <p>As the HR Director, I want top-talent promotion tracked against the annualised target with flat month-on-month progression and the option to drill into hotspots by line of business and geography, so that I can see whether we are on glide path and where intervention is needed.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ HR.1.1 — HEADCOUNT + EFFICIENCY OVERLAY ============ -->
+      <div class="section">
+        <div class="req-pin" title="Requirement HR.1.1">HR.1.1</div>
+        <div class="rail"><span>HC Efficiency</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">HR.1.1</span> Efficiency → Headcount Linkage</h2>
+          <div class="note">Strategic profitability initiatives overlaid on actuals + forecast</div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <span>Group headcount — actual + forecast with initiative drivers</span>
+            <span class="tag">FY26 → FY27 · BAU + INITIATIVES</span>
+          </div>
+          <div class="card-body">
+            <div class="hc-chart">
+              <svg viewBox="0 0 700 165" preserveAspectRatio="none">
+                <!-- Grid -->
+                <line class="grid" x1="40" y1="20" x2="680" y2="20"/>
+                <line class="grid" x1="40" y1="60" x2="680" y2="60"/>
+                <line class="grid" x1="40" y1="100" x2="680" y2="100"/>
+                <line class="grid" x1="40" y1="140" x2="680" y2="140"/>
+                <!-- Axes -->
+                <line class="axis" x1="40" y1="140" x2="680" y2="140"/>
+                <line class="axis" x1="40" y1="10" x2="40" y2="140"/>
+                <!-- Y labels -->
+                <text class="y-label" x="36" y="22">8.0k</text>
+                <text class="y-label" x="36" y="62">7.5k</text>
+                <text class="y-label" x="36" y="102">7.0k</text>
+                <text class="y-label" x="36" y="142">6.5k</text>
+                <!-- Actual (Apr-25 → Mar-26) declining slightly -->
+                <path class="actual-area" d="M40,40 L96,42 L152,38 L208,45 L264,55 L320,70 L376,72 L432,72 L432,140 L40,140 Z"/>
+                <path class="actual" d="M40,40 L96,42 L152,38 L208,45 L264,55 L320,70 L376,72 L432,72"/>
+                <!-- Forecast (Apr-26 → Sep-26) -->
+                <path class="forecast" d="M432,72 L488,80 L544,98 L600,108 L656,116 L680,118"/>
+                <!-- Vertical "today" divider -->
+                <line x1="432" y1="20" x2="432" y2="140" stroke="#1a0000" stroke-width="1" stroke-dasharray="2 2" opacity=".4"/>
+                <text x="436" y="18" font-size="9" font-family="Inter" fill="#1a0000" font-weight="600">Mar-26 (today)</text>
+                <!-- Dots actual -->
+                <circle class="dot" cx="40" cy="40" r="2.5"/>
+                <circle class="dot" cx="96" cy="42" r="2.5"/>
+                <circle class="dot" cx="152" cy="38" r="2.5"/>
+                <circle class="dot" cx="208" cy="45" r="2.5"/>
+                <circle class="dot" cx="264" cy="55" r="2.5"/>
+                <circle class="dot" cx="320" cy="70" r="2.5"/>
+                <circle class="dot" cx="376" cy="72" r="2.5"/>
+                <circle class="dot" cx="432" cy="72" r="3.5"/>
+                <!-- Dots forecast -->
+                <circle class="dot f" cx="488" cy="80" r="2.5"/>
+                <circle class="dot f" cx="544" cy="98" r="2.5"/>
+                <circle class="dot f" cx="600" cy="108" r="2.5"/>
+                <circle class="dot f" cx="656" cy="116" r="2.5"/>
+                <!-- X labels -->
+                <text class="x-label" x="40" y="155">Apr-25</text>
+                <text class="x-label" x="152" y="155">Jul-25</text>
+                <text class="x-label" x="264" y="155">Oct-25</text>
+                <text class="x-label" x="376" y="155">Feb-26</text>
+                <text class="x-label" x="488" y="155">Jun-26</text>
+                <text class="x-label" x="600" y="155">Sep-26</text>
+              </svg>
+
+              <!-- Initiative pin overlays (positioned absolutely) -->
+              <div class="hc-init" style="left:42%;top:8px">★ Vendor consolidation<br><span style="font-weight:400">−140 FTE Sep-25</span></div>
+              <div class="hc-init" style="left:72%;top:42px">★ Platform AI rollout<br><span style="font-weight:400">−210 FTE Jun-26</span></div>
+              <div class="hc-init" style="left:88%;top:74px">★ Tier-3 automation<br><span style="font-weight:400">−95 FTE Sep-26</span></div>
+            </div>
+            <div class="hc-leg">
+              <div class="ll"><i></i> Headcount actual</div>
+              <div class="ll f"><i></i> Forecast</div>
+              <div class="ll in"><i></i> Strategic initiative driver</div>
+            </div>
+
+            <div class="init-list">
+              <div class="ini">
+                <div class="it"><strong>Vendor consolidation</strong><span class="impact">−140</span></div>
+                <div class="id">Profit lever · Q2-25 · Owner: COO · Realised Sep-25</div>
+              </div>
+              <div class="ini">
+                <div class="it"><strong>Platform AI rollout</strong><span class="impact">−210</span></div>
+                <div class="id">Profit lever · H1-26 · Owner: CTO · Forecast Jun-26</div>
+              </div>
+              <div class="ini">
+                <div class="it"><strong>Tier-3 automation</strong><span class="impact">−95</span></div>
+                <div class="id">Profit lever · H2-26 · Owner: Service · Forecast Sep-26</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">HR.1.1</div>
+            <h5>HR.1.1 — Efficiency → Headcount Linkage</h5>
+            <div class="status amber">AMBER · INITIATIVE DATA TO INTEGRATE</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <p>Efficiency-initiative overlay on the existing headcount actual / forecast view, mapping strategic profitability initiatives and cost take-out to the resulting headcount movement.</p>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <p>User opens the headcount page and sees actuals and forecast with a layer showing which efficiency initiatives drove (or are forecast to drive) each material movement.</p>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story</h6>
+            <p>As the HR Director, I want an efficiency-initiative overlay on the existing headcount actual/forecast view that maps strategic profitability initiatives and cost take-out to the resulting headcount movement, so that I understand the 'why' behind every material headcount change.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ HR.1.2 — TALENT DEMAND OUTLOOK ============ -->
+      <div class="section">
+        <div class="req-pin" title="Requirement HR.1.2">HR.1.2</div>
+        <div class="rail"><span>Demand Outlook</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">HR.1.2</span> Talent Demand &amp; Skills Outlook — End-to-End</h2>
+          <div class="note">Contract → Demand → Positions → VRFs → SuccessFactors hires</div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <span>End-to-end demand pipeline · sourced from WFM (transitional) + SuccessFactors</span>
+            <span class="tag">EXAMPLE DEAL · 1,000 HIRES / 3 MONTHS</span>
+          </div>
+          <div class="card-body">
+            <div class="funnel-deal">
+              <span class="chip">DEAL</span>
+              <span><b>Project Atlas — IDEA Group</b> · Gen-2 deal · signed Feb-26 · €94M · requires 1,000 hires in 3 months</span>
+              <span style="margin-left:auto"><a class="drill-hint" href="#">Open deal in Salesforce</a></span>
+            </div>
+
+            <div class="funnel-row">
+              <div class="funnel-stage first">
+                <div class="fs">Contract Demand</div>
+                <div class="fv">1,000</div>
+                <div class="fd">Hires required by Jun-26</div>
+                <span class="funnel-tag">SF DEAL</span>
+              </div>
+              <div class="funnel-arrow">→</div>
+              <div class="funnel-stage">
+                <div class="fs">Positions Created</div>
+                <div class="fv">948</div>
+                <div class="fd">95% · 52 still being scoped</div>
+              </div>
+              <div class="funnel-arrow">→</div>
+              <div class="funnel-stage">
+                <div class="fs">Open VRFs</div>
+                <div class="fv">612</div>
+                <div class="fd">82% approved · 18% pending</div>
+              </div>
+            </div>
+            <div class="funnel-row">
+              <div class="funnel-stage">
+                <div class="fs">SF — Interviewing</div>
+                <div class="fv">438</div>
+                <div class="fd">Active candidates in pipeline</div>
+              </div>
+              <div class="funnel-arrow">→</div>
+              <div class="funnel-stage">
+                <div class="fs">Offers Out</div>
+                <div class="fv">214</div>
+                <div class="fd">Acceptance rate 76%</div>
+              </div>
+              <div class="funnel-arrow">→</div>
+              <div class="funnel-stage" style="background:linear-gradient(135deg,#0a8a3a,#0a6628);color:#fff;border-color:#0a8a3a">
+                <div class="fs" style="color:#d8f0d8">Hires Made</div>
+                <div class="fv" style="color:#fff">163</div>
+                <div class="fd" style="color:#d8f0d8">16% of target · on glide-path</div>
+              </div>
+            </div>
+
+            <div class="funnel-note">
+              <span class="b">WFM TRANSITIONAL</span>
+              <span>Utilisation forecast vs demand by service tower with skills-requirement layer activates once Workforce Management rollout completes (transitional solution under discussion with HR).</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">HR.1.2</div>
+            <h5>HR.1.2 — Talent Demand Outlook</h5>
+            <div class="status amber">AMBER · GATED BY WFM ROLLOUT</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <ul>
+                <li>Talent demand and skills outlook view: capacity utilisation mapped against demand trends and skill requirements. Sourced from Workforce Management once the WFM transitional solution is in place.</li>
+                <li>End-to-end linkage from contract / opportunity → demand → positions → hiring requests (VRFs) → SuccessFactors, so recruitment can be tracked against contract-driven demand (e.g. 1,000 hires in 3 months).</li>
+              </ul>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <ul>
+                <li>Once WFM is live, the page shows utilisation forecast vs demand by service tower with a skills-requirement layer.</li>
+                <li>When a contract is signed that requires new hires, the Hub shows the demand, the positions created, the open VRFs and the hires made — all linked back to the originating deal.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story</h6>
+            <p>As the HR Director, I want a talent demand and skills outlook view linking contract/opportunity → demand → positions → VRFs → SuccessFactors, so that I can forecast utilisation against demand and track recruitment against contract-driven demand from a single Hub view.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ HR.1.3 — SPIRIT BEAT 'WHY' ============ -->
+      <div class="section">
+        <div class="req-pin" title="Requirement HR.1.3">HR.1.3</div>
+        <div class="rail"><span>Spirit 'Why'</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">HR.1.3</span> Spirit Beat 'Why' Analysis — Likely Drivers</h2>
+          <div class="note">One-off historical correlation tracked as ongoing framework</div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <span>Spirit Beat trend + correlated drivers — Glint cycle 2 (Mar-26)</span>
+            <span class="tag">GLINT · NEW PROVIDER · Y1</span>
+          </div>
+          <div class="spirit-grid">
+            <div class="spirit-trend">
+              <div class="st-stat">
+                <div class="stv"><small>Spirit Beat</small>85</div>
+                <div class="stv"><small>vs prior</small><span class="delta g">▲ 3</span></div>
+                <div class="stv"><small>Target</small>80</div>
+              </div>
+              <div class="spirit-chart">
+                <svg viewBox="0 0 380 100" preserveAspectRatio="none">
+                  <line class="grid" x1="30" y1="20" x2="370" y2="20"/>
+                  <line class="grid" x1="30" y1="50" x2="370" y2="50"/>
+                  <line class="grid" x1="30" y1="80" x2="370" y2="80"/>
+                  <line class="axis" x1="30" y1="80" x2="370" y2="80"/>
+                  <line class="axis" x1="30" y1="10" x2="30" y2="80"/>
+                  <text class="y-label" x="26" y="22">90</text>
+                  <text class="y-label" x="26" y="52">80</text>
+                  <text class="y-label" x="26" y="82">70</text>
+                  <!-- Spirit trend over 6 historical cycles -->
+                  <path class="area" d="M30,68 L98,62 L166,58 L234,50 L302,42 L370,30 L370,80 L30,80 Z"/>
+                  <path class="line" d="M30,68 L98,62 L166,58 L234,50 L302,42 L370,30"/>
+                  <circle class="dot" cx="30" cy="68" r="3"/>
+                  <circle class="dot" cx="98" cy="62" r="3"/>
+                  <circle class="dot" cx="166" cy="58" r="3"/>
+                  <circle class="dot" cx="234" cy="50" r="3"/>
+                  <circle class="dot" cx="302" cy="42" r="3"/>
+                  <circle class="dot" cx="370" cy="30" r="4"/>
+                  <text class="x-label" x="30" y="95">H1-24</text>
+                  <text class="x-label" x="98" y="95">H2-24</text>
+                  <text class="x-label" x="166" y="95">H1-25</text>
+                  <text class="x-label" x="234" y="95">H2-25</text>
+                  <text class="x-label" x="302" y="95">H1-26</text>
+                  <text class="x-label" x="370" y="95" style="fill:#e60000;font-weight:700">Mar-26</text>
+                </svg>
+              </div>
+            </div>
+            <div class="drivers">
+              <h5>Likely Drivers <span class="b">CORRELATION FRAMEWORK</span></h5>
+              <div class="driver">
+                <div class="dr-t"><span class="dnm">Work-Life Balance</span><span class="dco high">+0.78</span></div>
+                <div class="dr-bar"><i style="width:88%"></i></div>
+                <div class="dr-d">Strongest positive driver this cycle · flexible-working policy rollout cited 64% of comments.</div>
+              </div>
+              <div class="driver">
+                <div class="dr-t"><span class="dnm">Health Benefits</span><span class="dco high">+0.71</span></div>
+                <div class="dr-bar"><i style="width:80%"></i></div>
+                <div class="dr-d">Positive · Q3-25 benefits refresh tracks with movement in CARE &amp; I/O.</div>
+              </div>
+              <div class="driver">
+                <div class="dr-t"><span class="dnm">Career Growth Opps.</span><span class="dco med">+0.54</span></div>
+                <div class="dr-bar"><i style="width:62%"></i></div>
+                <div class="dr-d">Medium · L&amp;D adoption a partial proxy · gap in CARE.</div>
+              </div>
+              <div class="driver">
+                <div class="dr-t"><span class="dnm">Compensation</span><span class="dco low">−0.18</span></div>
+                <div class="dr-bar neg"><i style="width:22%"></i></div>
+                <div class="dr-d">Weak / flat · not a driver of current movement at population level.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">HR.1.3</div>
+            <h5>HR.1.3 — Spirit Survey 'Why' Analysis</h5>
+            <div class="status amber">AMBER · ONE-OFF ANALYSIS THEN ONGOING</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <p>Spirit Beat 'why' view that correlates survey results with other business data sets based on a one-off historical analysis to identify meaningful correlations, then tracked as an ongoing framework.</p>
+              <p style="margin-top:6px"><b>Example:</b> Analysing low Spirit scores against parameters like compensation, health benefits and work-life balance.</p>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <p>Spirit page shows trend data plus a 'likely drivers' panel listing the business signals that correlate most strongly with the latest movement, refreshed each survey cycle.</p>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story</h6>
+            <p>As the HR Director, I want a Spirit Beat 'why' view that correlates survey results with other business data sets via a one-off historical analysis then tracks those correlations as an ongoing framework, so that I understand the likely drivers behind Spirit trends rather than rely on pockets of narrative in PowerPoints.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ HR.1.4 — L&D EFFECTIVENESS ============ -->
+      <div class="section">
+        <div class="req-pin" title="Requirement HR.1.4">HR.1.4</div>
+        <div class="rail"><span>L&amp;D Impact</span></div>
+        <div class="section-title-bar">
+          <h2><span class="reqid">HR.1.4</span> L&amp;D / Training Effectiveness — Business &amp; AI Productivity</h2>
+          <div class="note">Adoption vs business KPI correlation strength over meaningful window</div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <span>L&amp;D adoption vs hypothesised business / productivity outcomes — rolling 6m</span>
+            <span class="tag">CORRELATION · MAR-26</span>
+          </div>
+          <div class="ld-grid">
+            <div class="ld-left">
+              <div class="ld-tile">
+                <div class="lt">AI Learning-Plan Adoption<span>vs T: 85%</span></div>
+                <div class="lv val-a">80%</div>
+                <div class="ls">▲ 12pp vs prior 6m · Copilot active 64%</div>
+              </div>
+              <div class="ld-tile">
+                <div class="lt">Training Completion (avg)<span>core curriculum</span></div>
+                <div class="lv val-g">92%</div>
+                <div class="ls">Stable · top tower D&amp;IT at 98%</div>
+              </div>
+              <div class="ld-tile">
+                <div class="lt">Time-to-Productivity<span>new joiners</span></div>
+                <div class="lv val-g">28 days</div>
+                <div class="ls">▼ 4 days vs baseline · with Copilot</div>
+              </div>
+              <div class="ld-tile">
+                <div class="lt">L&amp;D Investment<span>FY27 YTD</span></div>
+                <div class="lv">€18.4M</div>
+                <div class="ls">Plan €19.2M · 96% on plan</div>
+              </div>
+            </div>
+            <div class="ld-right">
+              <h5>Correlation strength · L&amp;D adoption ↔ business / productivity KPIs</h5>
+              <div class="corr-row">
+                <div class="ch">Business / Productivity KPI</div>
+                <div class="ch">r</div>
+                <div class="ch">Δ Last 6m</div>
+                <div class="ch">Window</div>
+
+                <div>AI case volume (Copilot-driven)</div>
+                <div class="strength s">+0.82</div>
+                <div class="delta up">▲ +34%</div>
+                <div class="win">6m rolling</div>
+
+                <div>Time-to-resolution (CARE)</div>
+                <div class="strength s">−0.71</div>
+                <div class="delta up">▼ −22%</div>
+                <div class="win">6m rolling</div>
+
+                <div>Delivery throughput (CFST)</div>
+                <div class="strength m">+0.54</div>
+                <div class="delta up">▲ +9%</div>
+                <div class="win">6m rolling</div>
+
+                <div>NPS (rolling top-10 customers)</div>
+                <div class="strength m">+0.48</div>
+                <div class="delta up">▲ +6 pts</div>
+                <div class="win">6m rolling</div>
+
+                <div>Attrition (top-talent pool)</div>
+                <div class="strength w">−0.21</div>
+                <div class="delta down">▲ +0.6pp</div>
+                <div class="win">12m rolling</div>
+
+                <div>Spirit Beat (cross-tower avg)</div>
+                <div class="strength m">+0.46</div>
+                <div class="delta up">▲ +3 pts</div>
+                <div class="win">2 cycles</div>
+              </div>
+              <p style="font-size:9.5px;color:#4a2a2a;margin-top:6px;line-height:1.4">Strength scale: <b>Strong</b> |r| ≥ 0.7 · <b>Moderate</b> 0.4–0.69 · <b>Weak</b> 0.2–0.39 · <b>None</b> &lt; 0.2. Correlation is not causation — flagged as directional read for L&amp;D investment hypothesis.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="anno-card">
+          <div class="anno-head">
+            <div class="nr">HR.1.4</div>
+            <h5>HR.1.4 — L&amp;D / Training Effectiveness</h5>
+            <div class="status amber">AMBER · CORRELATIONS TO VALIDATE</div>
+          </div>
+          <div class="anno-grid">
+            <div class="anno-block">
+              <h6>Description (Updated)</h6>
+              <p>L&amp;D effectiveness view answering 'what is the business / AI-productivity impact of our 80% AI learning-plan adoption' — correlation between training adoption and downstream business KPIs (including Copilot adoption).</p>
+            </div>
+            <div class="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <p>User opens the L&amp;D page and sees training adoption against the business / productivity KPIs it is hypothesised to influence, with the correlation strength surfaced over a meaningful time window.</p>
+            </div>
+          </div>
+          <div class="anno-block us">
+            <h6>User Story</h6>
+            <p>As the HR Director, I want an L&amp;D effectiveness view showing training adoption against the business and AI-productivity KPIs it is hypothesised to influence with correlation strength over a meaningful time window, so that I can demonstrate whether L&amp;D investment is driving real business improvement.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /MAIN -->
+
+    <!-- =========== AI EXECUTIVE SUMMARY =========== -->
+    <div class="ai-panel">
+      <h3>HR Executive Summary <span class="ai-chip">AI · LLM</span></h3>
+      <p style="font-size:10.5px;color:#4a2a2a;font-style:italic;margin-bottom:8px">Per-pillar HR commentary distilled into one narrative · refreshed Mar-26</p>
+
+      <p>Overall people health is <b>resilient with two clear focus areas</b>. Top-talent glide path tracks on plan, Spirit Beat continues to rise, and L&amp;D investment is producing measurable productivity correlation in D&amp;IT. The pressure points are concentrated in <b>CARE</b> and around <b>contract-driven hiring on Project Atlas</b>.</p>
+
+      <h4>Key Takeaways <span class="dot" style="background:var(--green)"></span></h4>
+      <ul>
+        <li><b>Promotions:</b> 24.6% YTD vs 25% annual glide path — on plan.</li>
+        <li><b>Spirit Beat 85</b> (▲ 3) — work-life balance the strongest correlated driver.</li>
+        <li><b>L&amp;D ↔ Productivity:</b> +0.82 correlation with AI case volume; time-to-productivity down 4 days.</li>
+      </ul>
+
+      <h4>Key Watchpoints <span class="dot" style="background:var(--amber)"></span><span class="dot" style="background:var(--red)"></span></h4>
+      <ul>
+        <li><b>CARE · DE</b> hotspot: promotion 18.2% (−6.4pp), L&amp;D 61%, Spirit 71 — intervention required.</li>
+        <li><b>Project Atlas hiring:</b> 163 of 1,000 hires made (16%) — on glide path but bottlenecks in VRF approval queue.</li>
+        <li><b>I/O attrition</b> ▲ during platform refresh; cross-check with Passive concentration.</li>
+      </ul>
+
+      <h4>Recommended Actions</h4>
+      <ul>
+        <li>Tower-level intervention plan for CARE · DE with COO and L&amp;D lead.</li>
+        <li>Unblock VRF approval queue for Project Atlas — target +50 offers / week.</li>
+        <li>Run targeted Glint pulse on I/O ahead of next cycle.</li>
+      </ul>
+
+      <div class="pill-actions">
+        <div class="pa primary">Generate HR Pack</div>
+        <div class="pa">Email to CHRO</div>
+        <div class="pa">Regenerate ✦</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========== FOOTER =========== -->
+  <div class="footer">
+    <div>VOIS Hub  ·  HR Director Persona View  ·  Data as of Mar-26  ·  Refreshed daily by 06:00 UTC</div>
+    <div class="right">Powered by <b>VOIS</b></div>
+  </div>
+
+</div>
+
+<script>
+  function toggleAnno(){
+    const on = document.body.classList.toggle('anno-on');
+    const btn = document.getElementById('annoBtn');
+    const banner = document.getElementById('annoBanner');
+    btn.classList.toggle('on', on);
+    banner.classList.toggle('on', on);
+    btn.innerHTML = on
+      ? '<span class="led"></span> Hide Requirements'
+      : '<span class="led"></span> Show Requirements';
+  }
+  document.addEventListener('DOMContentLoaded', toggleAnno);
+</script>
+</body>
+</html>
