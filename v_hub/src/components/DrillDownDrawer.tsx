@@ -10,9 +10,10 @@ import { X, ClipboardList, BarChart3, MessageSquare, ShieldCheck, History, User 
 import dashboardData from '../data/dashboard_data.json';
 
 interface DrillDownDrawerProps {
-  open: boolean;
-  onClose: () => void;
+  open?: boolean;
+  onClose?: () => void;
   data: any;
+  inline?: boolean;
 }
 
 const TabPanel = (props: any) => {
@@ -26,7 +27,7 @@ const TabPanel = (props: any) => {
       {...other}
     >
       {value === index && (
-        <Box sx={{ py: 3 }}>
+        <Box sx={{ py: 2 }}>
           {children}
         </Box>
       )}
@@ -34,7 +35,12 @@ const TabPanel = (props: any) => {
   );
 };
 
-const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({ open, onClose, data }) => {
+const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({ 
+  open = true, 
+  onClose = () => {}, 
+  data, 
+  inline = false 
+}) => {
   const [tab, setTab] = React.useState(0);
 
   React.useEffect(() => {
@@ -46,10 +52,6 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({ open, onClose, data }
   }, [data]);
 
   if (!data) return null;
-
-  const handleActionClick = (actionName: string) => {
-    alert(`${actionName} triggered. Running with CEO credentials.`);
-  };
 
   // Find requirement metadata
   const reqId = data.requirementId || data.requirement?.replace('REQ ', '') || '1';
@@ -139,7 +141,7 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({ open, onClose, data }
     } else {
       // General Fallback
       return {
-        summary: `Contextual analysis for ${item.label || item.name || 'Dashboard item'}. Performance is currently ${item.rag?.toUpperCase() || 'STEADY'}. Review against the strategic targets indicates alignment on underlying performance, though review process continues.`,
+        summary: item.summary || `Contextual analysis for ${item.label || item.name || 'Dashboard item'}. Performance is currently ${item.rag?.toUpperCase() || 'STEADY'}. Review against the strategic targets indicates alignment on underlying performance, though review process continues.`,
         nextStep: "Review performance reconciliations with service owners",
         owner: "GMT Lead Owner",
         metrics: [
@@ -153,6 +155,244 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({ open, onClose, data }
 
   const insight = getExecutiveInsight(data);
 
+  const handleActionClick = (actionName: string) => {
+    alert(`${actionName} triggered. Running with CEO credentials.`);
+  };
+
+  const content = (
+    <div className={`flex flex-col bg-white ${
+      inline 
+        ? 'border border-slate-200 rounded-2xl shadow-xs overflow-hidden h-[510px] w-full' 
+        : 'h-full'
+    }`}>
+      {/* Header */}
+      <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-white sticky top-0 z-10 shrink-0">
+        <div className="space-y-0.5">
+          <div className="flex items-center gap-2">
+            <span className="text-[9px] font-black text-red-650 uppercase tracking-widest bg-red-50 px-2 py-0.5 rounded border border-red-100/50 leading-none">
+              Detail View
+            </span>
+            <span className={`w-2 h-2 rounded-full ${
+              data.rag === 'green' ? 'bg-emerald-500' : data.rag === 'amber' ? 'bg-amber-500' : data.rag === 'red' ? 'bg-red-500' : 'bg-slate-400'
+            }`} />
+          </div>
+          <h2 className="text-base font-barlow font-bold text-slate-905 uppercase tracking-wide leading-tight">
+            {data.label || data.name}
+          </h2>
+        </div>
+        {!inline && (
+          <IconButton onClick={onClose} className="hover:bg-slate-50 shrink-0 text-slate-405 hover:text-slate-800 p-1">
+            <X size={16} />
+          </IconButton>
+        )}
+      </div>
+
+      {/* Tabs and TabPanels in scroll container */}
+      <div className="flex-1 overflow-y-auto px-5 py-2 min-h-0">
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs 
+            value={tab} 
+            onChange={(_, v) => setTab(v)}
+            sx={{
+              minHeight: 32,
+              '& .MuiTab-root': {
+                fontFamily: 'Inter',
+                fontSize: '10px',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                minWidth: 70,
+                color: '#71717a',
+                minHeight: 32,
+                py: 0.5,
+                px: 1.5
+              },
+              '& .Mui-selected': {
+                color: '#e60000 !important'
+              },
+              '& .MuiTabs-indicator': {
+                backgroundColor: '#e60000',
+                height: 2
+              }
+            }}
+          >
+            <Tab icon={<BarChart3 size={12} className="mb-0.5 mr-1" />} label="Analysis" iconPosition="start" />
+            <Tab icon={<ClipboardList size={12} className="mb-0.5 mr-1" />} label="Requirement" iconPosition="start" />
+            <Tab icon={<History size={12} className="mb-0.5 mr-1" />} label="History" iconPosition="start" />
+          </Tabs>
+        </Box>
+
+        {/* TAB 1: EXECUTIVE ANALYSIS */}
+        <TabPanel value={tab} index={0}>
+          <div className="space-y-4">
+            
+            {/* Context Summary Card */}
+            <div className="bg-slate-50 border border-slate-200/60 rounded-xl p-3.5 shadow-xs">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-7 h-7 rounded bg-red-50 flex items-center justify-center text-red-650">
+                  <MessageSquare size={13} />
+                </div>
+                <div>
+                  <h4 className="text-[10px] font-bold text-slate-900 uppercase tracking-wider leading-none">Executive Performance Note</h4>
+                  <p className="text-[8px] text-slate-400 font-medium italic mt-0.5 leading-none">CEO dashboard synthesis • Mar-26 close</p>
+                </div>
+              </div>
+              
+              <p className="text-[11px] text-slate-700 leading-relaxed font-light mb-3">
+                {insight.summary}
+              </p>
+
+              {/* Next Steps */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2.5 border-t border-slate-200">
+                <div className="bg-white p-2 rounded border border-slate-150">
+                  <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest block mb-0.5 leading-none">Strategic Action Required</span>
+                  <p className="text-[10px] font-semibold text-slate-800 leading-snug">{insight.nextStep}</p>
+                </div>
+                <div className="bg-white p-2 rounded border border-slate-150">
+                  <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest block mb-0.5 leading-none">Action Owner</span>
+                  <p className="text-[10px] font-semibold text-slate-850 leading-snug flex items-center gap-1">
+                    <User size={9} className="text-red-500 shrink-0" />
+                    {insight.owner}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Metric Breakdown */}
+            <div className="space-y-2">
+              <h5 className="text-[9px] font-bold text-slate-400 uppercase tracking-widest pl-1 border-l-2 border-red-600 leading-none">
+                Detailed Metric Breakdown
+              </h5>
+              <div className="grid grid-cols-1 gap-1.5">
+                {insight.metrics.map((stat, i) => {
+                  const isCrit = stat.status.toLowerCase().includes('crit') || stat.status.toLowerCase().includes('risk') || stat.status.toLowerCase().includes('off');
+                  const isGreen = stat.status.toLowerCase().includes('green') || stat.status.toLowerCase().includes('favor') || stat.status.toLowerCase().includes('achieve');
+                  const isWatch = stat.status.toLowerCase().includes('watch') || stat.status.toLowerCase().includes('amber') || stat.status.toLowerCase().includes('flight');
+                  
+                  let chipColor = "bg-slate-50 text-slate-605 border-slate-200";
+                  if (isCrit) chipColor = "bg-red-50 text-red-700 border-red-150";
+                  else if (isWatch) chipColor = "bg-amber-50 text-amber-800 border-amber-150";
+                  else if (isGreen) chipColor = "bg-emerald-50 text-emerald-700 border-emerald-150";
+
+                  return (
+                    <div key={i} className="flex items-center justify-between p-2 rounded-lg border border-slate-100 hover:bg-slate-50/50 transition-colors leading-none">
+                      <span className="text-[11px] font-medium text-slate-600">{stat.label}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-barlow text-sm font-black text-slate-905">{stat.val}</span>
+                        <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded-full border leading-none shrink-0 ${chipColor}`}>
+                          {stat.status}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </TabPanel>
+
+        {/* TAB 2: ALIGNMENT & WORKSHOP REQUIREMENT */}
+        <TabPanel value={tab} index={1}>
+          <div className="space-y-4">
+            {requirement ? (
+              <>
+                <div className="flex items-center justify-between bg-slate-900 text-white p-3 rounded-lg shadow-sm">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded bg-red-655 flex items-center justify-center text-white font-bold font-barlow text-xs">
+                      {reqId}
+                    </div>
+                    <div>
+                      <h4 className="text-[11px] font-bold uppercase tracking-wider leading-none">
+                        {requirement.title.split('—').slice(1).join('—') || requirement.title}
+                      </h4>
+                      <p className="text-[8px] text-slate-400 font-semibold tracking-widest uppercase mt-0.5 leading-none">REQ {reqId}</p>
+                    </div>
+                  </div>
+                  <span className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wide leading-none ${
+                    requirement.status === 'GREEN' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'
+                  }`}>
+                    {requirement.status}
+                  </span>
+                </div>
+
+                <div className="space-y-3 pt-0.5">
+                  <div className="space-y-1">
+                    <h6 className="text-[8px] font-bold text-red-600 uppercase tracking-widest leading-none">Description</h6>
+                    <p className="text-[11px] text-slate-700 leading-normal font-light">{requirement.description}</p>
+                  </div>
+
+                  <div className="space-y-1">
+                    <h6 className="text-[8px] font-bold text-slate-400 uppercase tracking-widest leading-none">CEO Strategic Story</h6>
+                    <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-150 border-l-2 border-red-500 italic">
+                      <p className="text-[11px] text-slate-800 leading-normal font-light">"{requirement.userStory}"</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <h6 className="text-[8px] font-bold text-slate-400 uppercase tracking-widest leading-none">Alignment Feedback & Decisions</h6>
+                    <ul className="space-y-1.5 pl-0 list-none">
+                      {requirement.feedback.map((f: string, i: number) => (
+                        <li key={i} className="flex gap-1.5 text-[11px] text-slate-600 leading-normal items-start">
+                          <span className="text-red-550 font-bold shrink-0">•</span>
+                          <span>{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="pt-1 flex justify-center">
+                    <button 
+                      onClick={() => alert(`Strategic validation triggered for Requirement #${reqId}`)}
+                      className="flex items-center gap-1 text-[9px] font-bold text-white bg-red-600 px-4 py-1.5 rounded-full shadow hover:bg-red-700 transition-all hover:scale-102 cursor-pointer uppercase tracking-wider leading-none">
+                      <ShieldCheck size={11} />
+                      Validate AC Status
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="text-center py-8 text-slate-400 text-[11px]">
+                No workshop requirement mapped to this item.
+              </div>
+            )}
+          </div>
+        </TabPanel>
+
+        {/* TAB 3: HISTORICAL AUDIT */}
+        <TabPanel value={tab} index={2}>
+          <div className="flex flex-col items-center justify-center py-12 text-center space-y-2 opacity-50">
+            <History size={36} className="text-slate-400" />
+            <div>
+              <p className="font-bold text-[11px] uppercase tracking-widest text-slate-700">Historical View</p>
+              <p className="text-[10px] text-slate-400 mt-1">Connecting to VOIS data warehouse for past 12 months...</p>
+            </div>
+            <span className="inline-block text-[8px] bg-slate-100 text-slate-600 border border-slate-200 px-2 py-0.5 rounded mt-2 uppercase tracking-wider font-semibold">
+              ERP Interface Refresher
+            </span>
+          </div>
+        </TabPanel>
+      </div>
+
+      {/* Footer Actions */}
+      <div className="p-3 border-t border-slate-200 bg-slate-50/70 flex gap-2 shrink-0">
+        <button 
+          onClick={() => handleActionClick(`Download Deep-Dive: ${data.label || data.name}`)}
+          className="flex-1 bg-slate-900 text-white py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider hover:bg-slate-800 transition-colors shadow-sm cursor-pointer text-center leading-none">
+          Download Briefing
+        </button>
+        <button 
+          onClick={() => handleActionClick(`Share with GMT: ${data.label || data.name}`)}
+          className="flex-1 border border-slate-250 bg-white text-slate-700 py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider hover:bg-slate-50 transition-colors cursor-pointer text-center leading-none">
+          Share with GMT
+        </button>
+      </div>
+    </div>
+  );
+
+  if (inline) {
+    return content;
+  }
+
   return (
     <Drawer
       anchor="right"
@@ -160,227 +400,11 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({ open, onClose, data }
       onClose={onClose}
       slotProps={{
         paper: {
-          sx: { width: { xs: '100%', sm: 500, lg: 600 }, bgcolor: '#ffffff' }
+          sx: { width: { xs: '100%', sm: 460, lg: 520 }, bgcolor: '#ffffff' }
         }
       }}
     >
-      <div className="h-full flex flex-col font-inter">
-        {/* Header */}
-        <div className="p-5 border-b border-slate-200 flex items-center justify-between bg-white sticky top-0 z-10">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="text-[9px] font-black text-red-600 uppercase tracking-widest bg-red-50 px-2.5 py-0.5 rounded border border-red-100/50">
-                Detail View
-              </span>
-              <span className={`w-2 h-2 rounded-full ${
-                data.rag === 'green' ? 'bg-emerald-500' : data.rag === 'amber' ? 'bg-amber-500' : data.rag === 'red' ? 'bg-red-500' : 'bg-slate-400'
-              }`} />
-            </div>
-            <h2 className="text-xl font-barlow font-bold text-slate-900 uppercase tracking-wide">
-              {data.label || data.name}
-            </h2>
-          </div>
-          <IconButton onClick={onClose} className="hover:bg-slate-50 shrink-0 text-slate-400 hover:text-slate-800">
-            <X size={18} />
-          </IconButton>
-        </div>
-
-        {/* Content Tabs Nav */}
-        <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs 
-              value={tab} 
-              onChange={(_, v) => setTab(v)}
-              sx={{
-                '& .MuiTab-root': {
-                  fontFamily: 'Inter',
-                  fontSize: '10.5px',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.8px',
-                  minWidth: 80,
-                  color: '#71717a',
-                  minHeight: 36,
-                  py: 1
-                },
-                '& .Mui-selected': {
-                  color: '#e60000 !important'
-                },
-                '& .MuiTabs-indicator': {
-                  backgroundColor: '#e60000',
-                  height: 2
-                }
-              }}
-            >
-              <Tab icon={<BarChart3 size={14} className="mb-0.5" />} label="Analysis" iconPosition="start" />
-              <Tab icon={<ClipboardList size={14} className="mb-0.5" />} label="Requirement" iconPosition="start" />
-              <Tab icon={<History size={14} className="mb-0.5" />} label="History" iconPosition="start" />
-            </Tabs>
-          </Box>
-
-          {/* TAB 1: EXECUTIVE ANALYSIS (PERFORMANCE-FIRST INSIGHTS) */}
-          <TabPanel value={tab} index={0}>
-            <div className="space-y-5">
-              
-              {/* Context Summary Card (Dynamic Briefing) */}
-              <div className="bg-slate-50 border border-slate-200/60 rounded-xl p-5 shadow-xs">
-                <div className="flex items-center gap-2.5 mb-3">
-                  <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center text-red-600">
-                    <MessageSquare size={16} />
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Executive Performance Note</h4>
-                    <p className="text-[9px] text-slate-400 font-medium italic">CEO dashboard synthesis • Mar-26 close</p>
-                  </div>
-                </div>
-                
-                <p className="text-xs text-slate-700 leading-relaxed font-light mb-4">
-                  {insight.summary}
-                </p>
-
-                {/* Next Steps Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t border-slate-200/80">
-                  <div className="bg-white p-3 rounded-lg border border-slate-150">
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Strategic Action Required</span>
-                    <p className="text-[11px] font-semibold text-slate-800 leading-snug">{insight.nextStep}</p>
-                  </div>
-                  <div className="bg-white p-3 rounded-lg border border-slate-150">
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">GMT Action Owner</span>
-                    <p className="text-[11px] font-semibold text-slate-850 leading-snug flex items-center gap-1">
-                      <User size={10} className="text-red-500" />
-                      {insight.owner}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Dynamic Key Performance Metrics */}
-              <div className="space-y-3">
-                <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1.5 border-l-2 border-red-600">
-                  Detailed Metric Breakdown
-                </h5>
-                <div className="grid grid-cols-1 gap-2">
-                  {insight.metrics.map((stat, i) => {
-                    const isCrit = stat.status.toLowerCase().includes('crit') || stat.status.toLowerCase().includes('risk') || stat.status.toLowerCase().includes('off');
-                    const isGreen = stat.status.toLowerCase().includes('green') || stat.status.toLowerCase().includes('favor') || stat.status.toLowerCase().includes('achieve');
-                    const isWatch = stat.status.toLowerCase().includes('watch') || stat.status.toLowerCase().includes('amber') || stat.status.toLowerCase().includes('flight');
-                    
-                    let chipColor = "bg-slate-50 text-slate-605 border-slate-200";
-                    if (isCrit) chipColor = "bg-red-50 text-red-700 border-red-150";
-                    else if (isWatch) chipColor = "bg-amber-50 text-amber-800 border-amber-150";
-                    else if (isGreen) chipColor = "bg-emerald-50 text-emerald-700 border-emerald-150";
-
-                    return (
-                      <div key={i} className="flex items-center justify-between p-3 rounded-xl border border-slate-100 hover:bg-slate-50/50 transition-colors">
-                        <span className="text-xs font-medium text-slate-600">{stat.label}</span>
-                        <div className="flex items-center gap-3">
-                          <span className="font-barlow text-base font-black text-slate-900">{stat.val}</span>
-                          <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${chipColor}`}>
-                            {stat.status}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </TabPanel>
-
-          {/* TAB 2: ALIGNMENT & WORKSHOP REQUIREMENT */}
-          <TabPanel value={tab} index={1}>
-            <div className="space-y-5">
-              {requirement ? (
-                <>
-                  <div className="flex items-center justify-between bg-slate-900 text-white p-4 rounded-xl shadow-sm">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white font-bold font-barlow text-sm">
-                        {reqId}
-                      </div>
-                      <div>
-                        <h4 className="text-xs font-bold uppercase tracking-wider">{requirement.title.split('—').slice(1).join('—') || requirement.title}</h4>
-                        <p className="text-[9px] text-slate-400 font-semibold tracking-widest uppercase mt-0.5">Workshop Requirement ID: REQ {reqId}</p>
-                      </div>
-                    </div>
-                    <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wide ${
-                      requirement.status === 'GREEN' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'
-                    }`}>
-                      {requirement.status}
-                    </span>
-                  </div>
-
-                  <div className="space-y-4 pt-1">
-                    <div className="space-y-1">
-                      <h6 className="text-[9px] font-bold text-red-600 uppercase tracking-widest">Description</h6>
-                      <p className="text-xs text-slate-700 leading-relaxed font-light">{requirement.description}</p>
-                    </div>
-
-                    <div className="space-y-1">
-                      <h6 className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">CEO Strategic Story</h6>
-                      <div className="bg-slate-50 p-4 rounded-xl border border-slate-150 border-l-3 border-red-500 italic">
-                        <p className="text-xs text-slate-800 leading-relaxed font-light">"{requirement.userStory}"</p>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <h6 className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Alignment Feedback & Decisions</h6>
-                      <ul className="space-y-2 pl-0 list-none">
-                        {requirement.feedback.map((f: string, i: number) => (
-                          <li key={i} className="flex gap-2 text-xs text-slate-600 leading-relaxed items-start">
-                            <span className="text-red-550 font-bold mt-0.5">•</span>
-                            <span>{f}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="pt-2 flex justify-center">
-                      <button 
-                        onClick={() => alert(`Strategic validation triggered for Requirement #${reqId}`)}
-                        className="flex items-center gap-1.5 text-[10px] font-bold text-white bg-red-600 px-5 py-2 rounded-full shadow-md hover:bg-red-700 transition-all hover:scale-103 cursor-pointer uppercase tracking-wider">
-                        <ShieldCheck size={13} />
-                        Validate AC Status
-                      </button>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <div className="text-center py-12 text-slate-400 text-xs">
-                  No workshop requirement mapped to this item.
-                </div>
-              )}
-            </div>
-          </TabPanel>
-
-          {/* TAB 3: HISTORICAL AUDIT */}
-          <TabPanel value={tab} index={2}>
-            <div className="flex flex-col items-center justify-center py-16 text-center space-y-3 opacity-50">
-              <History size={40} className="text-slate-405" />
-              <div>
-                <p className="font-bold text-xs uppercase tracking-widest text-slate-700">Historical View</p>
-                <p className="text-[11px] text-slate-400 mt-1">Connecting to VOIS data warehouse for past 12 months...</p>
-              </div>
-              <span className="inline-block text-[8px] bg-slate-100 text-slate-600 border border-slate-200 px-2 py-0.5 rounded mt-3 uppercase tracking-wider font-semibold">
-                ERP Interface Refresher
-              </span>
-            </div>
-          </TabPanel>
-        </div>
-
-        {/* Footer Actions */}
-        <div className="p-4 border-t border-slate-200 bg-slate-50/70 flex gap-3">
-          <button 
-            onClick={() => handleActionClick(`Download Deep-Dive: ${data.label || data.name}`)}
-            className="flex-1 bg-slate-900 text-white py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-slate-800 transition-colors shadow-sm cursor-pointer text-center">
-            Download Briefing
-          </button>
-          <button 
-            onClick={() => handleActionClick(`Share with GMT: ${data.label || data.name}`)}
-            className="flex-1 border border-slate-250 bg-white text-slate-705 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-slate-50 transition-colors cursor-pointer text-center">
-            Share with GMT
-          </button>
-        </div>
-      </div>
+      {content}
     </Drawer>
   );
 };

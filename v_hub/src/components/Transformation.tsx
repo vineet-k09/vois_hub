@@ -4,9 +4,10 @@ import AnnotationCard from './AnnotationCard';
 
 interface TransformationProps {
   onDrillDown: (data: any) => void;
+  showAnnotations: boolean;
 }
 
-const Transformation: React.FC<TransformationProps> = ({ onDrillDown }) => {
+const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnotations }) => {
   const req06 = dashboardData.sections.find(s => s.id === "REQ 06") as any;
   if (!req06) return null;
 
@@ -67,7 +68,7 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown }) => {
   };
 
   return (
-    <section className="bg-white border border-slate-200/70 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col justify-between h-full">
+    <section className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative overflow-hidden flex flex-col justify-between h-full">
       {/* Numbered pin for annotation */}
       <div className="req-pin" title="Requirement #6">
         6
@@ -75,27 +76,29 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown }) => {
 
       <div>
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-4 mb-6 pl-2">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-2.5 mb-3.5 pl-1">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
-                REQ 06 · transformation
-              </span>
+              {showAnnotations && (
+                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
+                  REQ 06 · transformation
+                </span>
+              )}
               <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
             </div>
-            <h2 className="text-lg font-barlow font-bold text-slate-800 uppercase tracking-wide mt-1">
+            <h2 className="text-base font-barlow font-bold text-slate-800 uppercase tracking-wide mt-0.5">
               {req06.title.split('—')[0]}
             </h2>
-            <p className="text-slate-400 text-xs italic font-light mt-0.5">{req06.note}</p>
+            <p className="text-slate-400 text-[10px] italic font-light mt-0.5">{req06.note}</p>
           </div>
           
-          <span className="text-[9px] font-black text-red-650 bg-red-50 px-2.5 py-1 rounded-full uppercase tracking-wider border border-red-100">
+          <span className="text-[9px] font-black text-red-650 bg-red-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-red-100 leading-none">
             HORIZON 2 FEED
           </span>
         </div>
 
         {/* Roadmap Items list with high density */}
-        <div className="grid grid-cols-1 gap-3.5 pl-2">
+        <div className="grid grid-cols-1 gap-2.5 pl-1">
           {req06.roadmap?.map((item: any) => {
             const parsed = getProgramDetails(item.name);
             const isGreen = item.rag === 'green';
@@ -105,39 +108,39 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown }) => {
             return (
               <div 
                 key={item.name} 
-                className="group p-4 rounded-xl border border-slate-150 bg-slate-50/20 hover:bg-slate-50 hover:border-slate-200 transition-all cursor-pointer flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4"
+                className="group p-3 rounded-xl border border-slate-150 bg-slate-50/20 hover:bg-slate-50 hover:border-slate-200 transition-all cursor-pointer flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3"
                 onClick={() => handleItemClick(item)}
               >
                 {/* Initiative Name & Owner */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     <h4 className="text-xs font-bold text-slate-900 truncate group-hover:text-red-650 transition-colors">
                       {item.name}
                     </h4>
                     <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${ragColor}`} />
                   </div>
-                  <p className="text-[9px] text-slate-400 font-bold tracking-wider uppercase mt-0.5">
+                  <p className="text-[9px] text-slate-405 font-bold tracking-wider uppercase mt-0.5 leading-none">
                     Owner: {parsed.owner}
                   </p>
                 </div>
 
                 {/* Milestones & Value */}
-                <div className="w-44 shrink-0">
-                  <p className="text-xs text-slate-700 font-semibold leading-none">
+                <div className="w-40 shrink-0">
+                  <p className="text-[11px] text-slate-700 font-semibold leading-none">
                     {parsed.milestones}
                   </p>
-                  <p className="text-[10px] text-emerald-650 font-bold mt-1 leading-none">
+                  <p className="text-[9px] text-emerald-650 font-bold mt-1 leading-none">
                     {parsed.value}
                   </p>
                 </div>
 
                 {/* Progress Bar & Percentage */}
-                <div className="w-32 shrink-0">
-                  <div className="flex justify-between items-baseline text-[9px] text-slate-400 mb-1 leading-none">
+                <div className="w-28 shrink-0">
+                  <div className="flex justify-between items-baseline text-[9px] text-slate-400 mb-0.5 leading-none">
                     <span>Progress</span>
                     <span className="font-bold text-slate-750">{item.progress}%</span>
                   </div>
-                  <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="h-1 bg-slate-100 rounded-full overflow-hidden">
                     <div 
                       className={`h-full rounded-full ${barColor}`} 
                       style={{ width: `${item.progress}%` }}
@@ -146,15 +149,15 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown }) => {
                 </div>
 
                 {/* Risks / Status & Alignment */}
-                <div className="w-48 shrink-0 text-left md:text-right flex flex-row md:flex-col justify-between md:justify-center items-center md:items-end gap-1.5">
-                  <span className={`text-[9px] font-bold px-2 py-0.5 rounded border ${
+                <div className="w-40 shrink-0 text-left md:text-right flex flex-row md:flex-col justify-between md:justify-center items-center md:items-end gap-1 leading-none">
+                  <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded border ${
                     isGreen 
                       ? 'bg-emerald-50 text-emerald-700 border-emerald-150' 
                       : 'bg-amber-50 text-amber-700 border-amber-150'
                   }`}>
                     {parsed.risk}
                   </span>
-                  <p className="text-[9px] text-slate-400 truncate max-w-full">
+                  <p className="text-[8px] text-slate-400 mt-1 truncate max-w-full">
                     {parsed.alignment}
                   </p>
                 </div>
