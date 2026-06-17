@@ -1,100 +1,139 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Milestone, Banknote, User2, ChevronRight } from 'lucide-react';
 import dashboardData from '../data/dashboard_data.json';
 
-const Transformation: React.FC<{ onDrillDown: (data: any) => void }> = ({ onDrillDown }) => {
-  const req06 = dashboardData.sections.find(s => s.id === "REQ 06");
+interface TransformationProps {
+  onDrillDown: (data: any) => void;
+}
+
+const Transformation: React.FC<TransformationProps> = ({ onDrillDown }) => {
+  const req06 = dashboardData.sections.find(s => s.id === "REQ 06") as any;
   if (!req06) return null;
 
+  const req06Anno = (dashboardData.annotations as any)["6"];
+
+  const handleItemClick = (item: any) => {
+    onDrillDown({
+      ...item,
+      type: 'transformation',
+      label: item.name
+    });
+  };
+
   return (
-    <section className="space-y-6">
-      <div className="flex items-end justify-between border-b border-panel-border pb-4">
-        <div className="space-y-1">
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={() => onDrillDown({ label: 'Transformation Tracking', requirementId: 6, type: 'requirement' })}
-              className="bg-ink text-white text-[10px] font-black px-2 py-0.5 rounded tracking-widest hover:bg-grad-1 transition-colors cursor-help"
-            >
-              {req06.id}
-            </button>
-            <h2 className="font-barlow text-2xl font-bold text-ink uppercase tracking-wide">
+    <section className="bg-white border border-slate-200/70 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col justify-between">
+      {/* Visual Accent Rail */}
+      <div className="absolute top-0 left-0 w-2 h-full bg-[#6a1b7a]" />
+
+      <div>
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-4 mb-6 pl-2">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
+                REQ 06 · transformation
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#6a1b7a]" />
+            </div>
+            <h2 className="text-lg font-barlow font-bold text-slate-800 uppercase tracking-wide mt-1">
               {req06.title.split('—')[0]}
             </h2>
+            <p className="text-slate-400 text-xs italic font-light mt-0.5">{req06.note}</p>
           </div>
-          <p className="text-muted-text text-[11px] italic leading-none pl-12">
-            {req06.note}
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] font-bold text-white bg-grad-3 px-3 py-1 rounded-full uppercase tracking-widest shadow-sm">
-            Horizon 2 Feed
+          
+          <span className="text-[9px] font-black text-[#6a1b7a] bg-[#6a1b7a]/10 px-2.5 py-1 rounded-full uppercase tracking-wider">
+            HORIZON 2 FEED
           </span>
         </div>
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {req06.roadmap?.map((item: any) => (
-          <motion.div 
-            key={item.name}
-            whileHover={{ translateY: -4 }}
-            className="bg-white border border-panel-border rounded-2xl p-5 shadow-sm space-y-4 cursor-pointer relative overflow-hidden group"
-            onClick={() => onDrillDown({ ...item, type: 'transformation' })}
-          >
-            {/* Urgency Glow */}
-            {item.rag === 'amber' && (
-              <div className="absolute top-0 left-0 w-full h-1 bg-rag-amber/30" />
-            )}
+        {/* Roadmap Items Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-2">
+          {req06.roadmap?.map((item: any) => {
+            const ragColor = 
+              item.rag === 'green' ? 'bg-emerald-500' : 'bg-amber-500';
 
-            <div className="flex justify-between items-start">
-              <h4 className="text-[14px] font-bold text-ink leading-tight">{item.name}</h4>
-              <div className={`w-2 h-2 rounded-full ${
-                item.rag === 'green' ? 'bg-rag-green' : 'bg-rag-amber'
-              }`} />
-            </div>
+            const barColor = 
+              item.rag === 'green' ? 'bg-emerald-500' : 'bg-gradient-to-r from-amber-500 to-[#6a1b7a]';
 
-            <div className="space-y-1">
-              <div className="flex justify-between items-end">
-                <span className="text-[10px] font-bold text-muted-text uppercase tracking-tighter">Completion</span>
-                <span className={`font-barlow text-xl font-black ${
-                  item.rag === 'green' ? 'text-rag-green' : 'text-rag-amber'
-                }`}>{item.progress}%</span>
-              </div>
-              <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: `${item.progress}%` }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className={`h-full ${
-                    item.rag === 'green' ? 'bg-rag-green' : 'bg-gradient-to-r from-rag-amber to-grad-3'
-                  }`}
-                />
-              </div>
-            </div>
+            const textRagColor = 
+              item.rag === 'green' ? 'text-emerald-600' : 'text-amber-600';
 
-            <div className="space-y-2 pt-2 border-t border-slate-50">
-              <div className="flex items-center gap-2 text-[10px] text-ink-soft">
-                <Milestone size={12} className="opacity-40" />
-                <span className="font-medium">{item.meta.split('·')[0]}</span>
-              </div>
-              <div className="flex items-center gap-2 text-[10px] text-ink-soft">
-                <Banknote size={12} className="opacity-40" />
-                <span className="font-medium text-grad-3">{item.meta.split('·')[1]}</span>
-              </div>
-              {item.meta.split('·')[2] && (
-                <div className="flex items-center gap-2 text-[10px] text-muted-text">
-                  <User2 size={12} className="opacity-40" />
-                  <span className="italic">{item.meta.split('·')[2]}</span>
+            return (
+              <div 
+                key={item.name} 
+                className="group p-4 rounded-2xl border border-slate-100 bg-slate-50/20 hover:bg-slate-50 hover:border-slate-200 transition-all cursor-pointer space-y-3"
+                onClick={() => handleItemClick(item)}
+              >
+                <div className="flex justify-between items-start">
+                  <h4 className="text-xs font-semibold text-slate-700 leading-tight truncate pr-4">
+                    {item.name}
+                  </h4>
+                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${ragColor}`} />
                 </div>
-              )}
-            </div>
 
-            <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-              <ChevronRight size={14} className="text-accent-brand" />
-            </div>
-          </motion.div>
-        ))}
+                <div className="space-y-1">
+                  <div className="flex justify-between items-baseline">
+                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Progress</span>
+                    <span className={`font-barlow text-sm font-black ${textRagColor}`}>
+                      {item.progress}%
+                    </span>
+                  </div>
+                  <div className="h-1 bg-slate-100 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full rounded-full ${barColor}`} 
+                      style={{ width: `${item.progress}%` }}
+                    />
+                  </div>
+                </div>
+
+                <p className="text-[10px] text-slate-400 font-light truncate leading-none pt-1">
+                  {item.meta.split('·')[0]} · {item.meta.split('·')[1]}
+                </p>
+              </div>
+            );
+          })}
+        </div>
       </div>
+
+      {/* REQ 06 Annotation Card */}
+      {req06Anno && (
+        <div className="anno-card mt-8 ml-2">
+          <div className="anno-head">
+            <div className="nr">6</div>
+            <h5>REQ 06 — {req06Anno.title}</h5>
+            <div className="status amber">AMBER</div>
+          </div>
+          <div className="anno-grid">
+            <div className="anno-block">
+              <h6>Workshop Feedback</h6>
+              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
+                {req06Anno.feedback?.map((fb: string, i: number) => (
+                  <li key={i}>{fb}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="anno-block">
+              <h6>Description (Updated)</h6>
+              <p className="text-slate-600 text-[11px] leading-relaxed">{req06Anno.description}</p>
+            </div>
+            <div className="anno-block">
+              <h6>Dependencies</h6>
+              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
+                {req06Anno.dependencies?.map((dep: string, i: number) => (
+                  <li key={i}>{dep}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <p className="text-slate-600 text-[11px] leading-relaxed">{req06Anno.acceptanceCriteria}</p>
+            </div>
+          </div>
+          <div className="anno-block us">
+            <h6>User Story</h6>
+            <p className="text-slate-700 italic text-[11px] font-light">"{req06Anno.userStory}"</p>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

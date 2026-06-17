@@ -1,136 +1,159 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { ArrowUpRight, ArrowDownRight, Info, ExternalLink } from 'lucide-react';
 import dashboardData from '../data/dashboard_data.json';
 
-interface KPICardProps {
-  kpi: any;
-  clusterName: string;
+interface KPIGridProps {
   onDrillDown: (data: any) => void;
 }
 
-const KPICard: React.FC<KPICardProps> = ({ kpi, clusterName, onDrillDown }) => {
-  const isUrgent = kpi.rag === 'red' || kpi.rag === 'amber';
-  
-  const ragStyles: Record<string, string> = {
-    green: 'border-rag-green/20 bg-rag-green/[0.02] text-rag-green',
-    amber: 'border-rag-amber/20 bg-rag-amber/[0.02] text-rag-amber',
-    red: 'border-rag-red/20 bg-rag-red/[0.02] text-rag-red',
-    tbd: 'border-rag-tbd/20 bg-rag-tbd/[0.02] text-rag-tbd',
-  };
-
-  const ragDots: Record<string, string> = {
-    green: 'bg-rag-green shadow-[0_0_8px_rgba(10,138,58,0.4)]',
-    amber: 'bg-rag-amber shadow-[0_0_8px_rgba(224,138,0,0.4)]',
-    red: 'bg-rag-red shadow-[0_0_8px_rgba(204,31,31,0.4)]',
-    tbd: 'bg-rag-tbd shadow-[0_0_8px_rgba(122,107,122,0.4)]',
-  };
-
-  return (
-    <motion.div 
-      layout
-      whileHover={{ scale: 1.01, translateY: -2 }}
-      className={`group relative p-5 rounded-2xl border transition-all duration-300 cursor-pointer overflow-hidden ${
-        isUrgent 
-          ? 'bg-white shadow-md border-panel-border z-10' 
-          : 'bg-white/50 border-panel-border/50 hover:bg-white hover:shadow-sm'
-      }`}
-      onClick={() => onDrillDown({ ...kpi, clusterName })}
-    >
-      {/* Background Decor */}
-      <div className={`absolute top-0 right-0 w-16 h-16 opacity-5 transition-transform group-hover:scale-110 ${ragStyles[kpi.rag]}`}>
-        <Info className="w-full h-full -rotate-12 translate-x-4 -translate-y-4" />
-      </div>
-
-      <div className="flex justify-between items-start mb-4">
-        <div className="space-y-0.5">
-          <span className="text-[10px] font-bold text-muted-text uppercase tracking-widest leading-none">
-            {clusterName}
-          </span>
-          <h4 className="text-[13px] font-semibold text-ink leading-tight">
-            {kpi.label}
-          </h4>
-        </div>
-        <div className={`w-2 h-2 rounded-full ${ragDots[kpi.rag]}`} />
-      </div>
-
-      <div className="flex items-baseline gap-2">
-        <span className={`font-barlow text-4xl font-bold tracking-tight ${
-          isUrgent ? 'text-ink' : 'text-ink/80'
-        }`}>
-          {kpi.value}
-        </span>
-        {kpi.trend && (
-          <span className={`flex items-center text-[11px] font-bold ${
-            kpi.trend.includes('▲') ? 'text-rag-green' : 'text-rag-red'
-          }`}>
-            {kpi.trend.includes('▲') ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
-            {kpi.trend.replace(/[▲▼]/g, '').trim()}
-          </span>
-        )}
-      </div>
-
-      <div className="mt-4 pt-4 border-t border-panel-border/50 flex items-center justify-between">
-        <div className="flex flex-col">
-          <span className="text-[10px] text-muted-text font-medium italic">Target: {kpi.target}</span>
-          <span className="text-[9px] text-muted-text uppercase tracking-tighter opacity-60">{kpi.month}</span>
-        </div>
-        <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-[10px] font-bold text-accent-brand uppercase tracking-wider">
-          Explore <ExternalLink size={10} />
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
-const KPIGrid: React.FC<{ onDrillDown: (data: any) => void }> = ({ onDrillDown }) => {
-  const req01 = dashboardData.sections.find(s => s.id === "REQ 01");
-  
+const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown }) => {
+  const req01 = dashboardData.sections.find(s => s.id === "REQ 01") as any;
   if (!req01) return null;
 
+  const req01Anno = (dashboardData.annotations as any)["1"];
+
+  const handleKPIClick = (kpi: any, clusterName: string) => {
+    onDrillDown({
+      ...kpi,
+      clusterName,
+      type: 'kpi',
+      label: kpi.label
+    });
+  };
+
   return (
-    <section className="space-y-6">
-      <div className="flex items-end justify-between border-b border-panel-border pb-4">
-        <div className="space-y-1">
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={() => onDrillDown({ label: 'Top-Line Performance', requirementId: 1, type: 'requirement' })}
-              className="bg-ink text-white text-[10px] font-black px-2 py-0.5 rounded tracking-widest hover:bg-grad-1 transition-colors cursor-help"
-            >
-              {req01.id}
-            </button>
-            <h2 className="font-barlow text-2xl font-bold text-ink uppercase tracking-wide">
-              {req01.title.split('—')[0]}
-            </h2>
+    <section className="bg-white border border-slate-200/70 rounded-3xl p-6 shadow-sm relative overflow-hidden">
+      {/* Visual Accent Rail */}
+      <div className="absolute top-0 left-0 w-2 h-full bg-emerald-500" />
+      
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-slate-100 pb-4 mb-6 pl-2">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
+              REQ 01 · top-line performance
+            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
           </div>
-          <p className="text-muted-text text-[11px] italic leading-none pl-12">
-            {req01.note}
-          </p>
+          <h2 className="text-lg font-barlow font-bold text-slate-800 uppercase tracking-wide mt-1">
+            {req01.title.split('—')[0]}
+          </h2>
+          <p className="text-slate-400 text-xs italic font-light mt-0.5">{req01.note}</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4 auto-rows-min">
-        {req01.clusters?.map((cluster) => (
-          <React.Fragment key={cluster.name}>
-            {cluster.kpis.map((kpi: any) => (
-              <div 
-                key={kpi.label} 
-                className={`${
-                  kpi.rag === 'red' || kpi.label.includes('Revenue')
-                    ? 'md:col-span-2' 
-                    : 'col-span-1'
-                }`}
-              >
-                <KPICard 
-                  kpi={kpi} 
-                  clusterName={cluster.name} 
-                  onDrillDown={onDrillDown}
-                />
-              </div>
-            ))}
-          </React.Fragment>
+      {/* Grid of Clusters */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pl-2">
+        {req01.clusters?.map((cluster: any) => (
+          <div key={cluster.name} className="space-y-4">
+            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest border-b border-slate-100 pb-2">
+              {cluster.name}
+            </h3>
+            
+            <div className="grid grid-cols-2 gap-4">
+              {cluster.kpis?.map((kpi: any) => {
+                const isUrgent = kpi.rag === 'red' || kpi.rag === 'amber';
+                
+                const ragColor = 
+                  kpi.rag === 'green' ? 'bg-emerald-500' : 
+                  kpi.rag === 'amber' ? 'bg-amber-500' : 
+                  kpi.rag === 'red' ? 'bg-rose-500' : 'bg-slate-300';
+
+                const textRagColor = 
+                  kpi.rag === 'green' ? 'text-emerald-600' : 
+                  kpi.rag === 'amber' ? 'text-amber-600' : 
+                  kpi.rag === 'red' ? 'text-rose-600' : 'text-slate-500';
+
+                return (
+                  <div 
+                    key={kpi.label} 
+                    onClick={() => handleKPIClick(kpi, cluster.name)}
+                    className={`group p-4 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between h-[120px] ${
+                      isUrgent 
+                        ? 'bg-white border-amber-200/60 shadow-sm hover:shadow-md hover:border-amber-300' 
+                        : 'bg-slate-50/50 border-slate-100 hover:bg-white hover:shadow-sm hover:border-slate-200'
+                    }`}
+                  >
+                    <div className="flex justify-between items-start">
+                      <span className="text-[10px] font-bold text-slate-500 group-hover:text-slate-700 leading-tight">
+                        {kpi.label}
+                      </span>
+                      <span className={`w-2 h-2 rounded-full shrink-0 ${ragColor}`} />
+                    </div>
+
+                    <div>
+                      <div className="font-barlow text-2xl font-black text-slate-800 tracking-tight leading-none">
+                        {kpi.value}
+                      </div>
+                      
+                      <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100/50">
+                        <span className="text-[9px] text-slate-400 font-medium">
+                          {kpi.target ? `T: ${kpi.target}` : kpi.month}
+                        </span>
+                        {kpi.trend && (
+                          <span className={`text-[9px] font-bold ${textRagColor}`}>
+                            {kpi.trend}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         ))}
       </div>
+
+      {/* REQ 01 Annotation Card */}
+      {req01Anno && (
+        <div className="anno-card mt-8 ml-2">
+          <div className="anno-head">
+            <div className="nr">1</div>
+            <h5>REQ 01 — {req01Anno.title}</h5>
+            <div className="status green">GREEN</div>
+          </div>
+          <div className="anno-grid">
+            <div className="anno-block">
+              <h6>Workshop Feedback</h6>
+              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
+                {req01Anno.feedback?.map((fb: string, i: number) => (
+                  <li key={i}>{fb}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="anno-block">
+              <h6>Description (Updated)</h6>
+              <p className="text-slate-600 text-[11px] leading-relaxed">{req01Anno.description}</p>
+            </div>
+            <div className="anno-block">
+              <h6>Dependencies</h6>
+              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
+                {req01Anno.dependencies?.map((dep: string, i: number) => (
+                  <li key={i}>{dep}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="anno-block">
+              <h6>Acceptance Criteria</h6>
+              <div className="text-slate-600 text-[11px] leading-relaxed">
+                {Array.isArray(req01Anno.acceptanceCriteria) ? (
+                  <ul className="list-disc pl-4 space-y-1">
+                    {req01Anno.acceptanceCriteria.map((ac: string, i: number) => (
+                      <li key={i}>{ac}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>{req01Anno.acceptanceCriteria}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="anno-block us">
+            <h6>User Story</h6>
+            <p className="text-slate-700 italic text-[11px] font-light">"{req01Anno.userStory}"</p>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
