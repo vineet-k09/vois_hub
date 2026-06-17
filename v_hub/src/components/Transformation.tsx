@@ -3,13 +3,12 @@ import dashboardData from '../data/dashboard_data.json';
 
 interface TransformationProps {
   onDrillDown: (data: any) => void;
+  onSelectReq?: (id: string) => void;
 }
 
-const Transformation: React.FC<TransformationProps> = ({ onDrillDown }) => {
+const Transformation: React.FC<TransformationProps> = ({ onDrillDown, onSelectReq }) => {
   const req06 = dashboardData.sections.find(s => s.id === "REQ 06") as any;
   if (!req06) return null;
-
-  const req06Anno = (dashboardData.annotations as any)["6"];
 
   const handleItemClick = (item: any) => {
     onDrillDown({
@@ -24,9 +23,21 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown }) => {
       {/* Visual Accent Rail */}
       <div className="absolute top-0 left-0 w-2 h-full bg-[#6a1b7a]" />
 
+      {/* Requirement Pin */}
+      <div 
+        className="req-pin cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (onSelectReq) onSelectReq('6');
+        }}
+        title="Requirement #6: Transformation Horizon 2"
+      >
+        6
+      </div>
+
       <div>
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-4 mb-6 pl-2">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-4 mb-4 pl-2">
           <div>
             <div className="flex items-center gap-2">
               <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
@@ -45,8 +56,8 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown }) => {
           </span>
         </div>
 
-        {/* Roadmap Items Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-2">
+        {/* Roadmap Items list (Dense layout) */}
+        <div className="divide-y divide-slate-100 pl-2">
           {req06.roadmap?.map((item: any) => {
             const ragColor = 
               item.rag === 'green' ? 'bg-emerald-500' : 'bg-amber-500';
@@ -60,80 +71,44 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown }) => {
             return (
               <div 
                 key={item.name} 
-                className="group p-4 rounded-2xl border border-slate-100 bg-slate-50/20 hover:bg-slate-50 hover:border-slate-200 transition-all cursor-pointer space-y-3"
+                className="group flex flex-col sm:flex-row items-stretch sm:items-center justify-between py-2.5 hover:bg-slate-50/50 transition-all cursor-pointer gap-2"
                 onClick={() => handleItemClick(item)}
               >
-                <div className="flex justify-between items-start">
-                  <h4 className="text-xs font-semibold text-slate-700 leading-tight truncate pr-4">
+                {/* Name */}
+                <div className="sm:w-1/3 flex items-center gap-2">
+                  <span className={`w-2 h-2 rounded-full shrink-0 ${ragColor}`} />
+                  <span className="text-xs font-bold text-slate-700 group-hover:text-[#6a1b7a] transition-colors">
                     {item.name}
-                  </h4>
-                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${ragColor}`} />
+                  </span>
                 </div>
 
-                <div className="space-y-1">
-                  <div className="flex justify-between items-baseline">
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Progress</span>
-                    <span className={`font-barlow text-sm font-black ${textRagColor}`}>
-                      {item.progress}%
-                    </span>
-                  </div>
-                  <div className="h-1 bg-slate-100 rounded-full overflow-hidden">
+                {/* Progress */}
+                <div className="sm:w-1/3 flex items-center gap-3">
+                  <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                     <div 
                       className={`h-full rounded-full ${barColor}`} 
                       style={{ width: `${item.progress}%` }}
                     />
                   </div>
+                  <span className={`font-barlow text-xs font-black ${textRagColor} w-8 text-right`}>
+                    {item.progress}%
+                  </span>
                 </div>
 
-                <p className="text-[10px] text-slate-400 font-light truncate leading-none pt-1">
-                  {item.meta.split('·')[0]} · {item.meta.split('·')[1]}
-                </p>
+                {/* Milestones & Value */}
+                <div className="sm:w-1/3 text-left sm:text-right pr-2">
+                  <span className="text-[10px] text-slate-500 font-medium leading-none block">
+                    {item.meta.split('·')[0]}
+                  </span>
+                  <span className="text-[9px] text-slate-400 font-light leading-none block mt-0.5">
+                    {item.meta.split('·')[1]}
+                  </span>
+                </div>
               </div>
             );
           })}
         </div>
       </div>
-
-      {/* REQ 06 Annotation Card */}
-      {req06Anno && (
-        <div className="anno-card mt-8 ml-2">
-          <div className="anno-head">
-            <div className="nr">6</div>
-            <h5>REQ 06 — {req06Anno.title}</h5>
-            <div className="status amber">AMBER</div>
-          </div>
-          <div className="anno-grid">
-            <div className="anno-block">
-              <h6>Workshop Feedback</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req06Anno.feedback?.map((fb: string, i: number) => (
-                  <li key={i}>{fb}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Description (Updated)</h6>
-              <p className="text-slate-600 text-[11px] leading-relaxed">{req06Anno.description}</p>
-            </div>
-            <div className="anno-block">
-              <h6>Dependencies</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req06Anno.dependencies?.map((dep: string, i: number) => (
-                  <li key={i}>{dep}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Acceptance Criteria</h6>
-              <p className="text-slate-600 text-[11px] leading-relaxed">{req06Anno.acceptanceCriteria}</p>
-            </div>
-          </div>
-          <div className="anno-block us">
-            <h6>User Story</h6>
-            <p className="text-slate-700 italic text-[11px] font-light">"{req06Anno.userStory}"</p>
-          </div>
-        </div>
-      )}
     </section>
   );
 };

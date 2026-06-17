@@ -3,13 +3,12 @@ import dashboardData from '../data/dashboard_data.json';
 
 interface ExceptionsProps {
   onDrillDown: (data: any) => void;
+  onSelectReq?: (id: string) => void;
 }
 
-const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown }) => {
+const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown, onSelectReq }) => {
   const req03 = dashboardData.sections.find(s => s.id === "REQ 03") as any;
   if (!req03) return null;
-
-  const req03Anno = (dashboardData.annotations as any)["3"];
 
   const handleItemClick = (item: any, groupTitle: string) => {
     onDrillDown({
@@ -23,7 +22,19 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown }) => {
   return (
     <section className="bg-white border border-slate-200/70 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col justify-between">
       {/* Visual Accent Rail */}
-      <div className="absolute top-0 left-0 w-2 h-full bg-blue-500" />
+      <div className="absolute top-0 left-0 w-2 h-full bg-red-600" />
+      
+      {/* Requirement Pin */}
+      <div 
+        className="req-pin cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (onSelectReq) onSelectReq('3');
+        }}
+        title="Requirement #3: Topline Growth & Wins/Losses"
+      >
+        3
+      </div>
 
       <div>
         {/* Header */}
@@ -33,7 +44,7 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown }) => {
               <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
                 REQ 03 · exceptions
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+              <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
             </div>
             <h2 className="text-lg font-barlow font-bold text-slate-800 uppercase tracking-wide mt-1">
               {req03.title.split('—')[0]}
@@ -55,12 +66,12 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown }) => {
                   const ragColor = 
                     item.rag === 'green' ? 'bg-emerald-500' : 
                     item.rag === 'amber' ? 'bg-amber-500' : 
-                    item.rag === 'red' ? 'bg-rose-500' : 'bg-slate-300';
+                    item.rag === 'red' ? 'bg-red-500' : 'bg-slate-300';
 
                   const textRagColor = 
                     item.rag === 'green' ? 'text-emerald-700 bg-emerald-50 border-emerald-100' : 
                     item.rag === 'amber' ? 'text-amber-700 bg-amber-50 border-amber-100' : 
-                    item.rag === 'red' ? 'text-rose-700 bg-rose-50 border-rose-100' : 'text-slate-600 bg-slate-50 border-slate-100';
+                    item.rag === 'red' ? 'text-red-700 bg-red-50 border-red-100' : 'text-slate-600 bg-slate-50 border-slate-100';
 
                   return (
                     <div 
@@ -89,57 +100,6 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown }) => {
           ))}
         </div>
       </div>
-
-      {/* REQ 03 Annotation Card */}
-      {req03Anno && (
-        <div className="anno-card mt-8 ml-2">
-          <div className="anno-head">
-            <div className="nr">3</div>
-            <h5>REQ 03 — {req03Anno.title}</h5>
-            <div className="status amber">AMBER</div>
-          </div>
-          <div className="anno-grid">
-            <div className="anno-block">
-              <h6>Workshop Feedback</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req03Anno.feedback?.map((fb: string, i: number) => (
-                  <li key={i}>{fb}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Description (Updated)</h6>
-              <p className="text-slate-600 text-[11px] leading-relaxed">{req03Anno.description}</p>
-            </div>
-            <div className="anno-block">
-              <h6>Dependencies</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req03Anno.dependencies?.map((dep: string, i: number) => (
-                  <li key={i}>{dep}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Acceptance Criteria</h6>
-              <div className="text-slate-600 text-[11px] leading-relaxed">
-                {Array.isArray(req03Anno.acceptanceCriteria) ? (
-                  <ul className="list-disc pl-4 space-y-1">
-                    {req03Anno.acceptanceCriteria.map((ac: string, i: number) => (
-                      <li key={i}>{ac}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>{req03Anno.acceptanceCriteria}</p>
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="anno-block us">
-            <h6>User Story</h6>
-            <p className="text-slate-700 italic text-[11px] font-light">"{req03Anno.userStory}"</p>
-          </div>
-        </div>
-      )}
     </section>
   );
 };

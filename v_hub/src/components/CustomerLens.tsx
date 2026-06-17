@@ -4,13 +4,12 @@ import { ExternalLink } from 'lucide-react';
 
 interface CustomerLensProps {
   onDrillDown: (data: any) => void;
+  onSelectReq?: (id: string) => void;
 }
 
-const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown }) => {
+const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown, onSelectReq }) => {
   const req04 = dashboardData.sections.find(s => s.id === "REQ 04") as any;
   if (!req04) return null;
-
-  const req04Anno = (dashboardData.annotations as any)["4"];
 
   const handleCustomerClick = () => {
     onDrillDown({
@@ -24,6 +23,18 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown }) => {
     <section className="bg-white border border-slate-200/70 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col justify-between">
       {/* Visual Accent Rail */}
       <div className="absolute top-0 left-0 w-2 h-full bg-amber-500" />
+
+      {/* Requirement Pin */}
+      <div 
+        className="req-pin cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (onSelectReq) onSelectReq('4');
+        }}
+        title="Requirement #4: Customer Performance Connect"
+      >
+        4
+      </div>
 
       <div>
         {/* Header */}
@@ -76,7 +87,7 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown }) => {
                 const textRagColor = 
                   item.rag === 'green' ? 'text-emerald-600 font-semibold' : 
                   item.rag === 'amber' ? 'text-amber-600 font-semibold' : 
-                  item.rag === 'red' ? 'text-rose-600 font-semibold' : 'text-slate-600';
+                  item.rag === 'red' ? 'text-red-600 font-semibold' : 'text-slate-600';
                 
                 return (
                   <div key={item.metric} className="flex justify-between items-center text-xs py-1 border-b border-slate-100/50">
@@ -94,16 +105,18 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown }) => {
               MMD — SME Insights
             </h5>
             <div className="space-y-2.5">
-              <div className="bg-[#ffd1ea]/5 p-3 rounded-xl border border-[#c40089]/5">
-                <span className="text-[9px] font-bold text-[#c40089] uppercase tracking-wider block mb-1">
-                  Problem Jobs ({req04.customerDetail.mmdInputs?.problemJobsCount})
+              <div className="bg-amber-50/20 p-3 rounded-xl border border-amber-200">
+                <span className="text-[9px] font-bold text-amber-700 uppercase tracking-wider block mb-1">
+                  Problem Jobs ({req04.customerDetail.mmdNarrative?.problemJobs?.length || 0})
                 </span>
-                <p className="text-xs text-slate-600 leading-snug">
-                  {req04.customerDetail.mmdInputs?.problemJobsText}
-                </p>
+                <ul className="list-disc pl-3 text-slate-600 text-[11px] space-y-1">
+                  {req04.customerDetail.mmdNarrative?.problemJobs?.map((job: string, i: number) => (
+                    <li key={i}>{job}</li>
+                  ))}
+                </ul>
               </div>
               <p className="text-[11px] text-slate-500 font-light italic leading-relaxed">
-                "{req04.customerDetail.mmdInputs?.narrative}"
+                "{req04.customerDetail.mmdNarrative?.leadNarrative}"
               </p>
             </div>
           </div>
@@ -114,11 +127,11 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown }) => {
               Share-of-Wallet
             </h5>
             <div className="space-y-1.5">
-              {req04.customerDetail.shareOfWallet?.map((item: any) => {
+              {req04.customerDetail.externalSpend?.map((item: any) => {
                 const textRagColor = 
                   item.rag === 'green' ? 'text-emerald-600 font-bold' : 
                   item.rag === 'amber' ? 'text-amber-600 font-bold' : 
-                  item.rag === 'red' ? 'text-rose-600 font-bold' : 'text-slate-700 font-semibold';
+                  item.rag === 'red' ? 'text-red-600 font-bold' : 'text-slate-700 font-semibold';
                 
                 return (
                   <div key={item.label} className="flex justify-between items-center text-xs py-1 border-b border-slate-100/50">
@@ -131,47 +144,6 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown }) => {
           </div>
         </div>
       </div>
-
-      {/* REQ 04 Annotation Card */}
-      {req04Anno && (
-        <div className="anno-card mt-8 ml-2">
-          <div className="anno-head">
-            <div className="nr">4</div>
-            <h5>REQ 04 — {req04Anno.title}</h5>
-            <div className="status amber">AMBER</div>
-          </div>
-          <div className="anno-grid">
-            <div className="anno-block">
-              <h6>Workshop Feedback</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req04Anno.feedback?.map((fb: string, i: number) => (
-                  <li key={i}>{fb}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Description (Updated)</h6>
-              <p className="text-slate-600 text-[11px] leading-relaxed">{req04Anno.description}</p>
-            </div>
-            <div className="anno-block">
-              <h6>Dependencies</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req04Anno.dependencies?.map((dep: string, i: number) => (
-                  <li key={i}>{dep}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Acceptance Criteria</h6>
-              <p className="text-slate-600 text-[11px] leading-relaxed">{req04Anno.acceptanceCriteria}</p>
-            </div>
-          </div>
-          <div className="anno-block us">
-            <h6>User Story</h6>
-            <p className="text-slate-700 italic text-[11px] font-light">"{req04Anno.userStory}"</p>
-          </div>
-        </div>
-      )}
     </section>
   );
 };

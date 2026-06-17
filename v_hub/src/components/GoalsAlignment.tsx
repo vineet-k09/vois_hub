@@ -4,13 +4,12 @@ import { ExternalLink } from 'lucide-react';
 
 interface GoalsAlignmentProps {
   onDrillDown: (data: any) => void;
+  onSelectReq?: (id: string) => void;
 }
 
-const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown }) => {
+const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown, onSelectReq }) => {
   const req07 = dashboardData.sections.find(s => s.id === "REQ 07") as any;
   if (!req07) return null;
-
-  const req07Anno = (dashboardData.annotations as any)["7"];
 
   const handleGoalClick = (goal: any) => {
     onDrillDown({
@@ -24,6 +23,18 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown }) => {
     <section className="bg-white border border-slate-200/70 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col justify-between h-full">
       {/* Visual Accent Rail */}
       <div className="absolute top-0 left-0 w-2 h-full bg-[#c40089]" />
+
+      {/* Requirement Pin */}
+      <div 
+        className="req-pin cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (onSelectReq) onSelectReq('7');
+        }}
+        title="Requirement #7: FY27 Goals Alignment"
+      >
+        7
+      </div>
 
       <div>
         {/* Header */}
@@ -42,13 +53,13 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown }) => {
           </div>
         </div>
 
-        {/* Goals Alignment Grid */}
+        {/* Goals Alignment Grid (wrapping text, no truncation!) */}
         <div className="grid grid-cols-1 gap-2 pl-2">
           {req07.goals?.map((goal: any) => {
             const textRagColor = 
               goal.rag === 'green' ? 'text-emerald-700 bg-emerald-50 border-emerald-100' : 
               goal.rag === 'amber' ? 'text-amber-700 bg-amber-50 border-amber-100' : 
-              goal.rag === 'red' ? 'text-rose-700 bg-rose-50 border-rose-100' : 'text-slate-600 bg-slate-50 border-slate-100';
+              goal.rag === 'red' ? 'text-red-700 bg-red-50 border-red-100' : 'text-slate-600 bg-slate-50 border-slate-100';
 
             return (
               <div 
@@ -56,14 +67,16 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown }) => {
                 className="group flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/10 hover:bg-slate-50 hover:border-slate-200 transition-all cursor-pointer gap-4"
                 onClick={() => handleGoalClick(goal)}
               >
-                <div className="flex items-center gap-3 min-w-0">
-                  <span className="font-barlow text-sm font-black text-[#c40089] bg-[#c40089]/5 w-6 h-6 rounded-lg flex items-center justify-center shrink-0">
+                <div className="flex items-start gap-3 min-w-0">
+                  <span className="font-barlow text-sm font-black text-[#c40089] bg-[#c40089]/5 w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
                     {goal.id}
                   </span>
-                  <div className="truncate">
-                    <p className="text-xs font-semibold text-slate-700 truncate leading-snug">{goal.text}</p>
-                    <p className="text-[10px] text-slate-400 font-light truncate mt-0.5 flex items-center gap-1.5 leading-none">
-                      Linked: <span className="font-medium text-slate-500">{goal.context}</span> <ExternalLink size={10} />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-semibold text-slate-700 leading-snug whitespace-normal break-words">
+                      {goal.text}
+                    </p>
+                    <p className="text-[10px] text-slate-400 font-light mt-1 flex items-center gap-1 leading-none">
+                      Linked: <span className="font-medium text-slate-505">{goal.context}</span> <ExternalLink size={10} />
                     </p>
                   </div>
                 </div>
@@ -76,57 +89,6 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown }) => {
           })}
         </div>
       </div>
-
-      {/* REQ 07 Annotation Card */}
-      {req07Anno && (
-        <div className="anno-card mt-8 ml-2">
-          <div className="anno-head">
-            <div className="nr">7</div>
-            <h5>REQ 07 — {req07Anno.title}</h5>
-            <div className="status amber">AMBER</div>
-          </div>
-          <div className="anno-grid">
-            <div className="anno-block">
-              <h6>Workshop Feedback</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req07Anno.feedback?.map((fb: string, i: number) => (
-                  <li key={i}>{fb}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Description (Updated)</h6>
-              <p className="text-slate-600 text-[11px] leading-relaxed">{req07Anno.description}</p>
-            </div>
-            <div className="anno-block">
-              <h6>Dependencies</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req07Anno.dependencies?.map((dep: string, i: number) => (
-                  <li key={i}>{dep}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Acceptance Criteria</h6>
-              <div className="text-slate-600 text-[11px] leading-relaxed">
-                {Array.isArray(req07Anno.acceptanceCriteria) ? (
-                  <ul className="list-disc pl-4 space-y-1">
-                    {req07Anno.acceptanceCriteria.map((ac: string, i: number) => (
-                      <li key={i}>{ac}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>{req07Anno.acceptanceCriteria}</p>
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="anno-block us">
-            <h6>User Story</h6>
-            <p className="text-slate-700 italic text-[11px] font-light">"{req07Anno.userStory}"</p>
-          </div>
-        </div>
-      )}
     </section>
   );
 };
