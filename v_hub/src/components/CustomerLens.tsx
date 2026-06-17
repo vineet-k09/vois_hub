@@ -1,6 +1,7 @@
 import React from 'react';
 import dashboardData from '../data/dashboard_data.json';
 import { ExternalLink } from 'lucide-react';
+import AnnotationCard from './AnnotationCard';
 
 interface CustomerLensProps {
   onDrillDown: (data: any) => void;
@@ -16,14 +17,17 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown }) => {
     onDrillDown({
       ...req04.customerDetail,
       type: 'customer',
-      label: `Customer Lens: ${req04.customerDetail.name}`
+      label: `Customer Lens: ${req04.customerDetail.name}`,
+      requirementId: '4'
     });
   };
 
   return (
     <section className="bg-white border border-slate-200/70 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col justify-between">
-      {/* Visual Accent Rail */}
-      <div className="absolute top-0 left-0 w-2 h-full bg-amber-500" />
+      {/* Numbered pin for annotation */}
+      <div className="req-pin" title="Requirement #4">
+        4
+      </div>
 
       <div>
         {/* Header */}
@@ -33,7 +37,7 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown }) => {
               <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
                 REQ 04 · customer lens
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+              <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
             </div>
             <h2 className="text-lg font-barlow font-bold text-slate-800 uppercase tracking-wide mt-1">
               {req04.title.split('—')[0]}
@@ -43,7 +47,7 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown }) => {
           
           <button 
             onClick={handleCustomerClick}
-            className="flex items-center gap-1.5 text-xs font-bold text-[#c40089] hover:underline"
+            className="flex items-center gap-1.5 text-xs font-bold text-red-600 hover:text-red-700 hover:underline"
           >
             Customer 360 <ExternalLink size={12} />
           </button>
@@ -94,16 +98,21 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown }) => {
               MMD — SME Insights
             </h5>
             <div className="space-y-2.5">
-              <div className="bg-[#ffd1ea]/5 p-3 rounded-xl border border-[#c40089]/5">
-                <span className="text-[9px] font-bold text-[#c40089] uppercase tracking-wider block mb-1">
-                  Problem Jobs ({req04.customerDetail.mmdInputs?.problemJobsCount})
+              <div className="bg-red-50/10 p-3 rounded-xl border border-red-100">
+                <span className="text-[9px] font-bold text-red-650 uppercase tracking-wider block mb-1.5">
+                  Problem Jobs ({req04.customerDetail.mmdNarrative?.problemJobs?.length || 0})
                 </span>
-                <p className="text-xs text-slate-600 leading-snug">
-                  {req04.customerDetail.mmdInputs?.problemJobsText}
-                </p>
+                <ul className="space-y-1 pl-0 list-none">
+                  {req04.customerDetail.mmdNarrative?.problemJobs?.map((job: string, idx: number) => (
+                    <li key={idx} className="text-[11px] text-slate-600 leading-snug flex items-start gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 mt-1 shrink-0" />
+                      <span>{job}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <p className="text-[11px] text-slate-500 font-light italic leading-relaxed">
-                "{req04.customerDetail.mmdInputs?.narrative}"
+              <p className="text-[11px] text-slate-505 font-light italic leading-relaxed">
+                "{req04.customerDetail.mmdNarrative?.leadNarrative}"
               </p>
             </div>
           </div>
@@ -114,11 +123,11 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown }) => {
               Share-of-Wallet
             </h5>
             <div className="space-y-1.5">
-              {req04.customerDetail.shareOfWallet?.map((item: any) => {
+              {req04.customerDetail.externalSpend?.map((item: any) => {
                 const textRagColor = 
-                  item.rag === 'green' ? 'text-emerald-600 font-bold' : 
-                  item.rag === 'amber' ? 'text-amber-600 font-bold' : 
-                  item.rag === 'red' ? 'text-rose-600 font-bold' : 'text-slate-700 font-semibold';
+                  item.rag === 'green' ? 'text-emerald-605 font-bold' : 
+                  item.rag === 'amber' ? 'text-amber-605 font-bold' : 
+                  item.rag === 'red' ? 'text-rose-605 font-bold' : 'text-slate-700 font-semibold';
                 
                 return (
                   <div key={item.label} className="flex justify-between items-center text-xs py-1 border-b border-slate-100/50">
@@ -134,43 +143,16 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown }) => {
 
       {/* REQ 04 Annotation Card */}
       {req04Anno && (
-        <div className="anno-card mt-8 ml-2">
-          <div className="anno-head">
-            <div className="nr">4</div>
-            <h5>REQ 04 — {req04Anno.title}</h5>
-            <div className="status amber">AMBER</div>
-          </div>
-          <div className="anno-grid">
-            <div className="anno-block">
-              <h6>Workshop Feedback</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req04Anno.feedback?.map((fb: string, i: number) => (
-                  <li key={i}>{fb}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Description (Updated)</h6>
-              <p className="text-slate-600 text-[11px] leading-relaxed">{req04Anno.description}</p>
-            </div>
-            <div className="anno-block">
-              <h6>Dependencies</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req04Anno.dependencies?.map((dep: string, i: number) => (
-                  <li key={i}>{dep}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Acceptance Criteria</h6>
-              <p className="text-slate-600 text-[11px] leading-relaxed">{req04Anno.acceptanceCriteria}</p>
-            </div>
-          </div>
-          <div className="anno-block us">
-            <h6>User Story</h6>
-            <p className="text-slate-700 italic text-[11px] font-light">"{req04Anno.userStory}"</p>
-          </div>
-        </div>
+        <AnnotationCard
+          id="4"
+          title={req04Anno.title}
+          status={req04Anno.status}
+          feedback={req04Anno.feedback}
+          description={req04Anno.description}
+          dependencies={req04Anno.dependencies}
+          acceptanceCriteria={req04Anno.acceptanceCriteria}
+          userStory={req04Anno.userStory}
+        />
       )}
     </section>
   );

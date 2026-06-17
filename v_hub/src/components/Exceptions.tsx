@@ -1,5 +1,6 @@
 import React from 'react';
 import dashboardData from '../data/dashboard_data.json';
+import AnnotationCard from './AnnotationCard';
 
 interface ExceptionsProps {
   onDrillDown: (data: any) => void;
@@ -16,14 +17,17 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown }) => {
       ...item,
       groupTitle,
       type: 'exception',
-      label: item.name
+      label: item.name,
+      requirementId: '3'
     });
   };
 
   return (
     <section className="bg-white border border-slate-200/70 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col justify-between">
-      {/* Visual Accent Rail */}
-      <div className="absolute top-0 left-0 w-2 h-full bg-blue-500" />
+      {/* Numbered pin for annotation */}
+      <div className="req-pin" title="Requirement #3">
+        3
+      </div>
 
       <div>
         {/* Header */}
@@ -33,7 +37,7 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown }) => {
               <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
                 REQ 03 · exceptions
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+              <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
             </div>
             <h2 className="text-lg font-barlow font-bold text-slate-800 uppercase tracking-wide mt-1">
               {req03.title.split('—')[0]}
@@ -46,7 +50,7 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-2">
           {req03.exceptionGroups?.map((group: any) => (
             <div key={group.title} className="space-y-3">
-              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest border-b border-slate-100 pb-2 flex items-center gap-1.5">
+              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2 flex items-center gap-1.5">
                 {group.title.replace('★ ', '')}
               </h3>
               
@@ -59,8 +63,8 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown }) => {
 
                   const textRagColor = 
                     item.rag === 'green' ? 'text-emerald-700 bg-emerald-50 border-emerald-100' : 
-                    item.rag === 'amber' ? 'text-amber-700 bg-amber-50 border-amber-100' : 
-                    item.rag === 'red' ? 'text-rose-700 bg-rose-50 border-rose-100' : 'text-slate-600 bg-slate-50 border-slate-100';
+                    item.rag === 'amber' ? 'text-amber-700 bg-amber-50 border-amber-105' : 
+                    item.rag === 'red' ? 'text-rose-700 bg-rose-50 border-rose-100' : 'text-slate-650 bg-slate-50 border-slate-100';
 
                   return (
                     <div 
@@ -92,53 +96,16 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown }) => {
 
       {/* REQ 03 Annotation Card */}
       {req03Anno && (
-        <div className="anno-card mt-8 ml-2">
-          <div className="anno-head">
-            <div className="nr">3</div>
-            <h5>REQ 03 — {req03Anno.title}</h5>
-            <div className="status amber">AMBER</div>
-          </div>
-          <div className="anno-grid">
-            <div className="anno-block">
-              <h6>Workshop Feedback</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req03Anno.feedback?.map((fb: string, i: number) => (
-                  <li key={i}>{fb}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Description (Updated)</h6>
-              <p className="text-slate-600 text-[11px] leading-relaxed">{req03Anno.description}</p>
-            </div>
-            <div className="anno-block">
-              <h6>Dependencies</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req03Anno.dependencies?.map((dep: string, i: number) => (
-                  <li key={i}>{dep}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Acceptance Criteria</h6>
-              <div className="text-slate-600 text-[11px] leading-relaxed">
-                {Array.isArray(req03Anno.acceptanceCriteria) ? (
-                  <ul className="list-disc pl-4 space-y-1">
-                    {req03Anno.acceptanceCriteria.map((ac: string, i: number) => (
-                      <li key={i}>{ac}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>{req03Anno.acceptanceCriteria}</p>
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="anno-block us">
-            <h6>User Story</h6>
-            <p className="text-slate-700 italic text-[11px] font-light">"{req03Anno.userStory}"</p>
-          </div>
-        </div>
+        <AnnotationCard
+          id="3"
+          title={req03Anno.title}
+          status={req03Anno.status}
+          feedback={req03Anno.feedback}
+          description={req03Anno.description}
+          dependencies={req03Anno.dependencies}
+          acceptanceCriteria={req03Anno.acceptanceCriteria}
+          userStory={req03Anno.userStory}
+        />
       )}
     </section>
   );

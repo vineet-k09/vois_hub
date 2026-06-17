@@ -1,6 +1,7 @@
 import React from 'react';
 import dashboardData from '../data/dashboard_data.json';
 import { ExternalLink } from 'lucide-react';
+import AnnotationCard from './AnnotationCard';
 
 interface GoalsAlignmentProps {
   onDrillDown: (data: any) => void;
@@ -16,14 +17,17 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown }) => {
     onDrillDown({
       ...goal,
       type: 'goal',
-      label: `Goal Alignment: ${goal.id}`
+      label: `Goal Alignment: ${goal.id}`,
+      requirementId: '7'
     });
   };
 
   return (
     <section className="bg-white border border-slate-200/70 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col justify-between h-full">
-      {/* Visual Accent Rail */}
-      <div className="absolute top-0 left-0 w-2 h-full bg-[#c40089]" />
+      {/* Numbered pin for annotation */}
+      <div className="req-pin" title="Requirement #7">
+        7
+      </div>
 
       <div>
         {/* Header */}
@@ -33,7 +37,7 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown }) => {
               <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
                 REQ 07 · GOALS EVIDENCE MAP
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#c40089]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
             </div>
             <h2 className="text-lg font-barlow font-bold text-slate-800 uppercase tracking-wide mt-1">
               {req07.title.split('—')[0]}
@@ -48,7 +52,7 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown }) => {
             const textRagColor = 
               goal.rag === 'green' ? 'text-emerald-700 bg-emerald-50 border-emerald-100' : 
               goal.rag === 'amber' ? 'text-amber-700 bg-amber-50 border-amber-100' : 
-              goal.rag === 'red' ? 'text-rose-700 bg-rose-50 border-rose-100' : 'text-slate-600 bg-slate-50 border-slate-100';
+              goal.rag === 'red' ? 'text-rose-700 bg-rose-50 border-rose-100' : 'text-slate-650 bg-slate-50 border-slate-100';
 
             return (
               <div 
@@ -57,7 +61,7 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown }) => {
                 onClick={() => handleGoalClick(goal)}
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <span className="font-barlow text-sm font-black text-[#c40089] bg-[#c40089]/5 w-6 h-6 rounded-lg flex items-center justify-center shrink-0">
+                  <span className="font-barlow text-sm font-black text-red-600 bg-red-50 w-6 h-6 rounded-lg flex items-center justify-center shrink-0">
                     {goal.id}
                   </span>
                   <div className="truncate">
@@ -79,53 +83,16 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown }) => {
 
       {/* REQ 07 Annotation Card */}
       {req07Anno && (
-        <div className="anno-card mt-8 ml-2">
-          <div className="anno-head">
-            <div className="nr">7</div>
-            <h5>REQ 07 — {req07Anno.title}</h5>
-            <div className="status amber">AMBER</div>
-          </div>
-          <div className="anno-grid">
-            <div className="anno-block">
-              <h6>Workshop Feedback</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req07Anno.feedback?.map((fb: string, i: number) => (
-                  <li key={i}>{fb}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Description (Updated)</h6>
-              <p className="text-slate-600 text-[11px] leading-relaxed">{req07Anno.description}</p>
-            </div>
-            <div className="anno-block">
-              <h6>Dependencies</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req07Anno.dependencies?.map((dep: string, i: number) => (
-                  <li key={i}>{dep}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Acceptance Criteria</h6>
-              <div className="text-slate-600 text-[11px] leading-relaxed">
-                {Array.isArray(req07Anno.acceptanceCriteria) ? (
-                  <ul className="list-disc pl-4 space-y-1">
-                    {req07Anno.acceptanceCriteria.map((ac: string, i: number) => (
-                      <li key={i}>{ac}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>{req07Anno.acceptanceCriteria}</p>
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="anno-block us">
-            <h6>User Story</h6>
-            <p className="text-slate-700 italic text-[11px] font-light">"{req07Anno.userStory}"</p>
-          </div>
-        </div>
+        <AnnotationCard
+          id="7"
+          title={req07Anno.title}
+          status={req07Anno.status}
+          feedback={req07Anno.feedback}
+          description={req07Anno.description}
+          dependencies={req07Anno.dependencies}
+          acceptanceCriteria={req07Anno.acceptanceCriteria}
+          userStory={req07Anno.userStory}
+        />
       )}
     </section>
   );
