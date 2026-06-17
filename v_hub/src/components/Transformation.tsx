@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Rocket, Milestone, Banknote, User2, ChevronRight } from 'lucide-react';
+import { Milestone, Banknote, User2, ChevronRight } from 'lucide-react';
 import dashboardData from '../data/dashboard_data.json';
 
 const Transformation: React.FC<{ onDrillDown: (data: any) => void }> = ({ onDrillDown }) => {

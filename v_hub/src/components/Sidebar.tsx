@@ -9,8 +9,6 @@ import {
   HelpCircle,
   ChevronRight,
   ShieldCheck,
-  Building2,
-  Truck,
   UserCircle
 } from 'lucide-react';
 import dashboardData from '../data/dashboard_data.json';

@@ -4,8 +4,7 @@ import {
   IconButton, 
   Tabs, 
   Tab, 
-  Box, 
-  Typography,
+  Box,
   Chip
 } from '@mui/material';
 import { X, ClipboardList, BarChart3, MessageSquare, ShieldCheck, History } from 'lucide-react';
@@ -58,8 +57,10 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({ open, onClose, data }
       anchor="right"
       open={open}
       onClose={onClose}
-      PaperProps={{
-        sx: { width: { xs: '100%', sm: 500, lg: 650 }, bgcolor: '#fdfcfe' }
+      slotProps={{
+        paper: {
+          sx: { width: { xs: '100%', sm: 500, lg: 650 }, bgcolor: '#fdfcfe' }
+        }
       }}
     >
       <div className="h-full flex flex-col">

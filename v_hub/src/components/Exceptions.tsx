@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { AlertCircle, TrendingUp, ChevronRight, Tags, DollarSign } from 'lucide-react';
+import { AlertCircle, TrendingUp, ChevronRight, Tags } from 'lucide-react';
 import dashboardData from '../data/dashboard_data.json';
 
 const Exceptions: React.FC<{ onDrillDown: (data: any) => void }> = ({ onDrillDown }) => {

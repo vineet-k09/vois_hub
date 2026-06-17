@@ -1,3 +1,38 @@
+@import "tailwindcss";
+
+@theme {
+  --color-grad-1: var(--grad-1);
+  --color-grad-2: var(--grad-2);
+  --color-grad-3: var(--grad-3);
+  --color-grad-4: var(--grad-4);
+  --color-bg-main: var(--bg);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-panel-border: var(--panel-border);
+  --color-rail: var(--rail);
+  --color-rail-text: var(--rail-text);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted-text: var(--muted);
+  --color-green: var(--green);
+  --color-amber: var(--amber);
+  --color-red: var(--red);
+  --color-tbd: var(--tbd);
+  --color-accent: var(--accent);
+
+  /* RAG Colors used in classes like bg-rag-green, text-rag-green, border-rag-green/20 */
+  --color-rag-green: var(--green);
+  --color-rag-amber: var(--amber);
+  --color-rag-red: var(--red);
+  --color-rag-tbd: var(--tbd);
+
+  /* Brand accent used in text-accent-brand, etc. */
+  --color-accent-brand: var(--accent);
+
+  --font-inter: 'Inter', sans-serif;
+  --font-barlow: 'Barlow Condensed', sans-serif;
+}
+
 :root {
   --grad-1: #e60000;
   --grad-2: #c40089;
