@@ -20,37 +20,35 @@
   --card-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset, 0 6px 16px -8px rgba(58, 22, 53, .25);
 }
 
+/* Tailwind-style Utility Mappings for your React Components */
+.bg-bg-main { background-color: var(--bg); }
+.text-grad-3 { color: var(--grad-3); }
+.text-grad-2 { color: var(--grad-2); }
+.bg-ink { background-color: var(--ink); }
+.text-ink-soft { color: var(--ink-soft); }
+.text-muted-text { color: var(--muted); }
+.border-panel-border { border-color: var(--panel-border); }
+.selection\:bg-grad-2::selection { background: var(--grad-2); color: white; }
+.selection\:text-white::selection { color: white; }
+.font-inter { font-family: 'Inter', sans-serif; }
+.font-barlow { font-family: 'Barlow Condensed', sans-serif; }
+
+/* Base Layout Defaults */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* ... include the rest of the styles from vois_hub_ceo_dashboard.html ... */
+html, body {
+  background: #ddd;
+  font-family: 'Inter', sans-serif;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.4;
+}
 
-  :root{
-    --grad-1:#e60000;
-    --grad-2:#c40089;
-    --grad-3:#6a1b7a;
-    --grad-4:#1a0a2a;
-    --bg:#f4eef5;
-    --panel:#f0e1ee;
-    --panel-2:#e9d2e7;
-    --panel-border:#caa3c7;
-    --rail:#3a1635;
-    --rail-text:#f0e1ee;
-    --ink:#2a1228;
-    --ink-soft:#6b4f68;
-    --muted:#9a82a0;
-    --green:#0a8a3a;
-    --amber:#e08a00;
-    --red:#cc1f1f;
-    --tbd:#7a6b7a;
-    --accent:#a4007a;
-    --card-shadow:0 1px 0 rgba(255,255,255,.5) inset, 0 6px 16px -8px rgba(58,22,53,.25);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{background:#ddd;font-family:'Inter',sans-serif;color:var(--ink);font-size:13px;line-height:1.4}
+/* Dashboard Component Styles */
   .frame{max-width:1280px;margin:14px auto;background:var(--bg);box-shadow:0 12px 40px rgba(0,0,0,.18);}
 
   /* =========== TOP BAR =========== */
