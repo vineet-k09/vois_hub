@@ -1,81 +1,144 @@
 import React from 'react';
 import dashboardData from '../data/dashboard_data.json';
+import AnnotationCard from './AnnotationCard';
 
 interface TransformationProps {
   onDrillDown: (data: any) => void;
+  showAnnotations: boolean;
 }
 
-const Transformation: React.FC<TransformationProps> = ({ onDrillDown }) => {
+const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnotations }) => {
   const req06 = dashboardData.sections.find(s => s.id === "REQ 06") as any;
   if (!req06) return null;
 
   const req06Anno = (dashboardData.annotations as any)["6"];
 
+  // Specifically parse and enrich program metadata for presentation
+  const getProgramDetails = (name: string) => {
+    switch (name) {
+      case 'VOE Platform':
+        return {
+          owner: 'Operations (COO)',
+          milestones: 'Milestone 4 of 6 complete',
+          value: '€18M value realized',
+          alignment: 'Goal 07 (Transformation)',
+          risk: 'On track',
+          dependency: 'Global rollout alignment'
+        };
+      case 'CSM Re-platform':
+        return {
+          owner: 'Technology (CIO)',
+          milestones: 'Milestone 3 of 7 complete',
+          value: '€6M value realized',
+          alignment: 'Goal 07 (Transformation)',
+          risk: 'Slipped 4w (Schedule constraint)',
+          dependency: 'Resource allocation gate'
+        };
+      case 'Service-Data Lakehouse':
+        return {
+          owner: 'Data & AI Tower',
+          milestones: 'Milestone 5 of 8 complete',
+          value: '€11M value realized',
+          alignment: 'Goal 07 (Transformation)',
+          risk: 'On track',
+          dependency: 'Data validation sign-off'
+        };
+      case 'AI Ops & Co-pilots':
+      default:
+        return {
+          owner: 'Digital Solutions',
+          milestones: 'Milestone 2 of 6 complete',
+          value: '€3M value realized',
+          alignment: 'Goal 07 (Transformation)',
+          risk: 'Awaiting funding gate',
+          dependency: 'Investment board sign-off'
+        };
+    }
+  };
+
   const handleItemClick = (item: any) => {
+    const details = getProgramDetails(item.name);
     onDrillDown({
       ...item,
+      ...details,
       type: 'transformation',
-      label: item.name
+      label: item.name,
+      requirementId: '6'
     });
   };
 
   return (
-    <section className="bg-white border border-slate-200/70 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col justify-between">
-      {/* Visual Accent Rail */}
-      <div className="absolute top-0 left-0 w-2 h-full bg-[#6a1b7a]" />
+    <section className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative overflow-hidden flex flex-col justify-between h-full">
+      {/* Numbered pin for annotation */}
+      <div className="req-pin" title="Requirement #6">
+        6
+      </div>
 
       <div>
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-4 mb-6 pl-2">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-2.5 mb-3.5 pl-1">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
-                REQ 06 · transformation
-              </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#6a1b7a]" />
+              {showAnnotations && (
+                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
+                  REQ 06 · transformation
+                </span>
+              )}
+              {/* <span className="w-1.5 h-1.5 rounded-full bg-red-600" /> */}
             </div>
-            <h2 className="text-lg font-barlow font-bold text-slate-800 uppercase tracking-wide mt-1">
+            <h2 className="text-base font-barlow font-bold text-slate-800 uppercase tracking-wide mt-0.5">
               {req06.title.split('—')[0]}
             </h2>
-            <p className="text-slate-400 text-xs italic font-light mt-0.5">{req06.note}</p>
+            <p className="text-slate-400 text-[10px] italic font-light mt-0.5">{req06.note}</p>
           </div>
           
-          <span className="text-[9px] font-black text-[#6a1b7a] bg-[#6a1b7a]/10 px-2.5 py-1 rounded-full uppercase tracking-wider">
+          <span className="text-[9px] font-black text-red-650 bg-red-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-red-100 leading-none">
             HORIZON 2 FEED
           </span>
         </div>
 
-        {/* Roadmap Items Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-2">
+        {/* Roadmap Items list with high density */}
+        <div className="grid grid-cols-1 gap-2.5 pl-1">
           {req06.roadmap?.map((item: any) => {
-            const ragColor = 
-              item.rag === 'green' ? 'bg-emerald-500' : 'bg-amber-500';
-
-            const barColor = 
-              item.rag === 'green' ? 'bg-emerald-500' : 'bg-gradient-to-r from-amber-500 to-[#6a1b7a]';
-
-            const textRagColor = 
-              item.rag === 'green' ? 'text-emerald-600' : 'text-amber-600';
+            const parsed = getProgramDetails(item.name);
+            const isGreen = item.rag === 'green';
+            const ragColor = isGreen ? 'bg-emerald-500' : 'bg-amber-500';
+            const barColor = isGreen ? 'bg-emerald-500' : 'bg-amber-500';
 
             return (
               <div 
                 key={item.name} 
-                className="group p-4 rounded-2xl border border-slate-100 bg-slate-50/20 hover:bg-slate-50 hover:border-slate-200 transition-all cursor-pointer space-y-3"
+                className="group p-3 rounded-xl border border-slate-150 bg-slate-50/20 hover:bg-slate-50 hover:border-slate-200 transition-all cursor-pointer flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3"
                 onClick={() => handleItemClick(item)}
               >
-                <div className="flex justify-between items-start">
-                  <h4 className="text-xs font-semibold text-slate-700 leading-tight truncate pr-4">
-                    {item.name}
-                  </h4>
-                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${ragColor}`} />
+                {/* Initiative Name & Owner */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <h4 className="text-xs font-bold text-slate-900 truncate group-hover:text-red-650 transition-colors">
+                      {item.name}
+                    </h4>
+                    <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${ragColor}`} />
+                  </div>
+                  <p className="text-[9px] text-slate-405 font-bold tracking-wider uppercase mt-0.5 leading-none">
+                    Owner: {parsed.owner}
+                  </p>
                 </div>
 
-                <div className="space-y-1">
-                  <div className="flex justify-between items-baseline">
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Progress</span>
-                    <span className={`font-barlow text-sm font-black ${textRagColor}`}>
-                      {item.progress}%
-                    </span>
+                {/* Milestones & Value */}
+                <div className="w-40 shrink-0">
+                  <p className="text-[11px] text-slate-700 font-semibold leading-none">
+                    {parsed.milestones}
+                  </p>
+                  <p className="text-[9px] text-emerald-650 font-bold mt-1 leading-none">
+                    {parsed.value}
+                  </p>
+                </div>
+
+                {/* Progress Bar & Percentage */}
+                <div className="w-28 shrink-0">
+                  <div className="flex justify-between items-baseline text-[9px] text-slate-400 mb-0.5 leading-none">
+                    <span>Progress</span>
+                    <span className="font-bold text-slate-750">{item.progress}%</span>
                   </div>
                   <div className="h-1 bg-slate-100 rounded-full overflow-hidden">
                     <div 
@@ -85,9 +148,19 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown }) => {
                   </div>
                 </div>
 
-                <p className="text-[10px] text-slate-400 font-light truncate leading-none pt-1">
-                  {item.meta.split('·')[0]} · {item.meta.split('·')[1]}
-                </p>
+                {/* Risks / Status & Alignment */}
+                <div className="w-40 shrink-0 text-left md:text-right flex flex-row md:flex-col justify-between md:justify-center items-center md:items-end gap-1 leading-none">
+                  <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded border ${
+                    isGreen 
+                      ? 'bg-emerald-50 text-emerald-700 border-emerald-150' 
+                      : 'bg-amber-50 text-amber-700 border-amber-150'
+                  }`}>
+                    {parsed.risk}
+                  </span>
+                  <p className="text-[8px] text-slate-400 mt-1 truncate max-w-full">
+                    {parsed.alignment}
+                  </p>
+                </div>
               </div>
             );
           })}
@@ -96,43 +169,16 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown }) => {
 
       {/* REQ 06 Annotation Card */}
       {req06Anno && (
-        <div className="anno-card mt-8 ml-2">
-          <div className="anno-head">
-            <div className="nr">6</div>
-            <h5>REQ 06 — {req06Anno.title}</h5>
-            <div className="status amber">AMBER</div>
-          </div>
-          <div className="anno-grid">
-            <div className="anno-block">
-              <h6>Workshop Feedback</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req06Anno.feedback?.map((fb: string, i: number) => (
-                  <li key={i}>{fb}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Description (Updated)</h6>
-              <p className="text-slate-600 text-[11px] leading-relaxed">{req06Anno.description}</p>
-            </div>
-            <div className="anno-block">
-              <h6>Dependencies</h6>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px]">
-                {req06Anno.dependencies?.map((dep: string, i: number) => (
-                  <li key={i}>{dep}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="anno-block">
-              <h6>Acceptance Criteria</h6>
-              <p className="text-slate-600 text-[11px] leading-relaxed">{req06Anno.acceptanceCriteria}</p>
-            </div>
-          </div>
-          <div className="anno-block us">
-            <h6>User Story</h6>
-            <p className="text-slate-700 italic text-[11px] font-light">"{req06Anno.userStory}"</p>
-          </div>
-        </div>
+        <AnnotationCard
+          id="6"
+          title={req06Anno.title}
+          status={req06Anno.status}
+          feedback={req06Anno.feedback}
+          description={req06Anno.description}
+          dependencies={req06Anno.dependencies}
+          acceptanceCriteria={req06Anno.acceptanceCriteria}
+          userStory={req06Anno.userStory}
+        />
       )}
     </section>
   );
