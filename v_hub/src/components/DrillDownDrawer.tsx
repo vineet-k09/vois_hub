@@ -162,7 +162,7 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
   const content = (
     <div className={`flex flex-col bg-white ${
       inline 
-        ? 'border border-slate-200 rounded-2xl shadow-xs overflow-hidden h-[510px] w-full' 
+        ? 'border border-slate-200 rounded-2xl shadow-xs overflow-hidden h-157.5 w-full' 
         : 'h-full'
     }`}>
       {/* Header */}

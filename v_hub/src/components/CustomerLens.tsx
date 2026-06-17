@@ -40,7 +40,7 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown, showAnnotation
                   REQ 04 · customer lens
                 </span>
               )}
-              <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
+              {/* <span className="w-1.5 h-1.5 rounded-full bg-red-600" /> */}
             </div>
             <h2 className="text-base font-barlow font-bold text-slate-800 uppercase tracking-wide mt-0.5">
               {req04.title.split('—')[0]}

@@ -68,9 +68,9 @@
           "name": "Financial Performance",
           "kpis": [
             { "label": "Revenue €M", "value": "2,858", "target": "2,815", "trend": "▲ 1.53%", "rag": "green", "month": "Mar-26" },
+            { "label": "OFCF €M", "value": "617.24", "target": "Achieved RF: 1074.4%", "trend": "", "rag": "green", "month": "Mar-26" },
             { "label": "Cost Takeout €M", "value": "141.62", "target": "102", "trend": "▲ 38.84%", "rag": "amber", "month": "Mar-26" },
-            { "label": "EBITDA €M", "value": "−36.33", "target": "0", "trend": "▼ −100%", "rag": "red", "month": "Mar-26" },
-            { "label": "OFCF €M", "value": "617.24", "target": "Achieved RF: 1074.4%", "trend": "", "rag": "green", "month": "Mar-26" }
+            { "label": "EBITDA €M", "value": "−36.33", "target": "0", "trend": "▼ −100%", "rag": "red", "month": "Mar-26" }
           ]
         },
         {

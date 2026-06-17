@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import KPIGrid from './components/KPIGrid';
 import Exceptions from './components/Exceptions';
 import CustomerLens from './components/CustomerLens';
@@ -16,6 +17,16 @@ const App: React.FC = () => {
   const [activeStakeholder, setActiveStakeholder] = useState('★ Board Members');
   const [activePillar, setActivePillar] = useState('CEO SUMMARY');
   const [viewMode, setViewMode] = useState<'dashboard' | 'split' | 'deep-dive'>('dashboard');
+  const [isDesktop, setIsDesktop] = useState(true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const { branding, navigation, aiSummary, sections } = dashboardData as any;
   
@@ -119,7 +130,7 @@ const App: React.FC = () => {
           </div>
 
           {/* AI Bullet points Split - High Density */}
-          <div className="w-full lg:w-[460px] grid grid-cols-1 md:grid-cols-2 gap-3.5 bg-slate-50/70 p-3.5 rounded-xl border border-slate-100 shrink-0">
+          <div className="w-full lg:w-115 grid grid-cols-1 md:grid-cols-2 gap-3.5 bg-slate-50/70 p-3.5 rounded-xl border border-slate-100 shrink-0">
             <div className="space-y-1.5">
               <span className="text-[9px] font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1 leading-none">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />{" "}
@@ -148,8 +159,8 @@ const App: React.FC = () => {
                 {aiSummary.watchpoints?.map((item: any, i: number) => (
                   <li
                     key={i}
-                    className="text-[10.5px] text-slate-600 leading-tight border-l border-amber-300 pl-1.5">
-                    <b className="text-slate-800 font-bold">
+                    className="text-[10.5px] text-slate-605 leading-tight border-l border-amber-300 pl-1.5">
+                    <b className="text-slate-805 font-bold">
                       {item.text.split(":")[0]}:
                     </b>
                     {item.text.split(":").slice(1).join(":")}
@@ -236,7 +247,7 @@ const App: React.FC = () => {
                             requirementId: '8'
                           })
                         }>
-                        <span className="text-[11px] font-semibold text-slate-750 flex items-center gap-1.5 min-w-0">
+                        <span className="text-[11px] font-semibold text-slate-755 flex items-center gap-1.5 min-w-0">
                           <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${ragColor}`} />
                           <span className="truncate">{item.name}</span>
                         </span>
@@ -299,8 +310,17 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#f4f4f5] text-[#09090b] font-inter flex flex-col pb-6">
       {/* =========== VODAFONE RED-TO-MAGENTA-TO-PURPLE PREMIUM GRADIENT BANNER =========== */}
-      <header className="bg-gradient-to-r from-[#e60000] via-[#b5004d] to-[#6d1b7b] text-white shadow-sm shrink-0">
-        <div className="max-w-7xl mx-auto px-6 py-2.5 flex flex-col sm:flex-row justify-between items-center gap-3">
+      <header className="bg-linear-to-r from-[#e60000] via-[#b5004d] to-[#6d1b7b] text-white shadow-sm shrink-0">
+        <motion.div 
+          layout="position"
+          className="w-full mx-auto py-2.5 flex flex-col sm:flex-row justify-between items-center gap-3"
+          animate={{
+            maxWidth: viewMode === 'split' ? '100%' : '80rem',
+            paddingLeft: viewMode === 'split' ? 16 : 24,
+            paddingRight: viewMode === 'split' ? 16 : 24
+          }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        >
           <div className="flex items-center gap-3">
             <div className="bg-white/15 border border-white/20 px-2.5 py-0.5 font-barlow font-black text-xl tracking-widest rounded">
               {branding.logo}
@@ -321,7 +341,7 @@ const App: React.FC = () => {
               onClick={() => setShowAnnotations(!showAnnotations)}
               className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold border transition-all cursor-pointer ${
                 showAnnotations
-                  ? "bg-white text-red-650 border-white shadow-sm font-bold"
+                  ? "bg-white text-red-655 border-white shadow-sm font-bold"
                   : "bg-white/10 border-white/20 hover:bg-white/20 text-white"
               }`}>
               <span
@@ -341,7 +361,7 @@ const App: React.FC = () => {
 
             {/* User Profile */}
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-full bg-white text-red-650 font-black text-[11px] flex items-center justify-center border border-white/20 shadow-xs">
+              <div className="w-7 h-7 rounded-full bg-white text-red-655 font-black text-[11px] flex items-center justify-center border border-white/20 shadow-xs">
                 {branding.user.initials}
               </div>
               <div className="text-left hidden md:block leading-none">
@@ -354,12 +374,21 @@ const App: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </header>
 
       {/* =========== SUB-HEADER BAR: PILLARS & REVIEW VIEW DROP-DOWNS & VIEW MODES =========== */}
       <section className="bg-white border-b border-slate-200 sticky top-0 z-20 shadow-xs shrink-0 py-1.5">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3">
+        <motion.div 
+          layout="position"
+          className="w-full mx-auto flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3"
+          animate={{
+            maxWidth: viewMode === 'split' ? '100%' : '80rem',
+            paddingLeft: viewMode === 'split' ? 16 : 24,
+            paddingRight: viewMode === 'split' ? 16 : 24
+          }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        >
           
           {/* Dropdown Navigation Selectors (Infinite Scaling) */}
           <div className="flex flex-wrap items-center gap-4">
@@ -453,59 +482,95 @@ const App: React.FC = () => {
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* =========== MAIN VIEWPORT LAYOUT WRAPPER =========== */}
-      <main className="max-w-7xl mx-auto px-6 py-4 flex-1 w-full min-h-0">
-        {viewMode === 'dashboard' && (
-          <div className="space-y-4">
-            {dashboardContent}
-          </div>
-        )}
-
-        {viewMode === 'split' && (
-          <div className="flex flex-col lg:flex-row gap-5 items-start">
-            {/* Left Column: Dashboard (65% width) */}
-            <div className="flex-1 lg:w-2/3 space-y-4 min-w-0">
-              {dashboardContent}
-            </div>
-            
-            {/* Right Column: Persistent KPI Context Details (35% width) */}
-            <div className="w-full lg:w-1/3 shrink-0 lg:sticky lg:top-[56px] z-10">
+      {/* =========== MAIN VIEWPORT LAYOUT WRAPPER (Framer Motion transitions) =========== */}
+      <motion.main 
+        layout="position"
+        className="flex-1 w-full min-h-0 py-3 mx-auto"
+        animate={{
+          maxWidth: viewMode === 'split' ? '100%' : viewMode === 'deep-dive' ? '48rem' : '80rem',
+          paddingLeft: viewMode === 'split' ? 16 : 24,
+          paddingRight: viewMode === 'split' ? 16 : 24
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
+        <AnimatePresence mode="wait">
+          {viewMode === 'deep-dive' ? (
+            <motion.div
+              key="deep-dive-view"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.18, ease: "easeInOut" }}
+              className="w-full"
+            >
+              <button 
+                onClick={() => setViewMode('dashboard')}
+                className="mb-3 text-[10px] font-bold text-red-655 hover:underline flex items-center gap-1 cursor-pointer leading-none"
+              >
+                ← Return to Dashboard View
+              </button>
               <DrillDownDrawer
                 open={true}
                 data={selectedItem || { 
                   label: "Performance Analysis", 
                   type: "fallback", 
-                  summary: "Select any performance metric card, customer account, or initiative milestones in the left panel to display instant analytics, strategic brief notes, actions, and audit owners in this space." 
+                  summary: "Return to the Dashboard page layout and select a KPI or metrics card to populate the full detailed analysis brief." 
                 }}
                 inline={true}
               />
-            </div>
-          </div>
-        )}
-
-        {viewMode === 'deep-dive' && (
-          <div className="max-w-3xl mx-auto">
-            <button 
-              onClick={() => setViewMode('dashboard')}
-              className="mb-3 text-[10px] font-bold text-red-650 hover:underline flex items-center gap-1 cursor-pointer leading-none"
+            </motion.div>
+          ) : (
+            <motion.div
+              key="dashboard-or-split-view"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.12 }}
+              className="w-full flex flex-col lg:flex-row gap-4 items-start"
             >
-              ← Return to Dashboard View
-            </button>
-            <DrillDownDrawer
-              open={true}
-              data={selectedItem || { 
-                label: "Performance Analysis", 
-                type: "fallback", 
-                summary: "Return to the Dashboard page layout and select a KPI or metrics card to populate the full detailed analysis brief." 
-              }}
-              inline={true}
-            />
-          </div>
-        )}
-      </main>
+              {/* Left Column: Dashboard Content */}
+              <motion.div 
+                layout="position"
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="min-w-0 w-full lg:flex-1 space-y-4"
+              >
+                {dashboardContent}
+              </motion.div>
+
+              {/* Right Column: Persistent Context Panel (Slides in/out layout transitions) */}
+              <AnimatePresence>
+                {viewMode === 'split' && (
+                  <motion.div
+                    key="split-panel"
+                    initial={{ opacity: 0, x: 30, width: 0 }}
+                    animate={{ 
+                      opacity: 1, 
+                      x: 0, 
+                      width: isDesktop ? 420 : "100%" 
+                    }}
+                    exit={{ opacity: 0, x: 30, width: 0 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    className="w-full shrink-0 lg:sticky lg:top-13 z-10"
+                  >
+                    <DrillDownDrawer
+                      open={true}
+                      data={selectedItem || { 
+                        label: "Performance Analysis", 
+                        type: "fallback", 
+                        summary: "Select any performance metric card, customer account, or initiative milestones in the left panel to display instant analytics, strategic brief notes, actions, and audit owners in this space." 
+                      }}
+                      inline={true}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.main>
 
       {/* Global Drill-down Overlay Drawer (Dashboard view overlay mode) */}
       <DrillDownDrawer

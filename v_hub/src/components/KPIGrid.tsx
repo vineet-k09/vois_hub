@@ -40,7 +40,7 @@ const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown, showAnnotations }) => {
                 REQ 01 · top-line performance
               </span>
             )}
-            <span className="w-1.5 h-1.5 rounded-full bg-red-650" />
+            {/* <span className="w-1.5 h-1.5 rounded-full bg-red-650" /> */}
           </div>
           <h2 className="text-base font-barlow font-bold text-slate-800 uppercase tracking-wide mt-0.5">
             {req01.title.split('—')[0]}
@@ -94,70 +94,76 @@ const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown, showAnnotations }) => {
                 const trendClass = isRed ? 'text-red-600 font-bold' : isAmber ? 'text-amber-700 font-bold' : 'text-emerald-600 font-semibold';
 
                 return (
-                  <div 
-                    key={kpi.label} 
-                    onClick={() => handleKPIClick(kpi, cluster.name)}
-                    className={`group p-2.5 rounded-xl border flex flex-col justify-between transition-all duration-200 cursor-pointer ${colSpanClass} ${cardClass} ${
-                      isDoubleSpan ? 'h-[88px]' : 'h-[68px]'
-                    }`}
-                  >
-                    {/* Top row */}
-                    <div className="flex justify-between items-start gap-1">
-                      <span className="text-[10px] font-bold text-slate-500 group-hover:text-slate-800 leading-tight truncate">
-                        {kpi.label}
-                      </span>
-                      
-                      {/* RAG Bullet/Icon */}
-                      <span className="flex items-center shrink-0">
-                        {isRed ? (
-                          <span className="flex h-1.5 w-1.5 relative">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
-                          </span>
-                        ) : isAmber ? (
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                        ) : isTbd ? (
-                          <HelpCircle size={9} className="text-slate-400" />
-                        ) : (
-                          <span className="w-1 h-1 rounded-full bg-emerald-500" />
-                        )}
-                      </span>
-                    </div>
+									<div
+										key={kpi.label}
+										onClick={() => handleKPIClick(kpi, cluster.name)}
+										className={`group p-2.5 rounded-xl border flex flex-col justify-between transition-all duration-200 cursor-pointer ${colSpanClass} ${cardClass} ${
+											isDoubleSpan ? "h-22" : "h-17"
+										}`}>
+										{/* Top row */}
+										<div className="flex justify-between items-start gap-1">
+											<span className="text-[10px] font-bold text-slate-500 group-hover:text-slate-800 leading-tight truncate">
+												{kpi.label}
+											</span>
 
-                    {/* Middle: Main value + Action Required banner if watchpoint */}
-                    <div className="flex items-baseline justify-between">
-                      <div className={`font-barlow text-xl font-black tracking-tight leading-none ${valColor}`}>
-                        {kpi.value}
-                      </div>
+											{/* RAG Bullet/Icon */}
+											<span className="flex items-center shrink-0">
+												{isRed ? (
+													<span className="flex h-1.5 w-1.5 relative">
+														<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+														<span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
+													</span>
+												) : isAmber ? (
+													<span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+												) : isTbd ? (
+													<HelpCircle size={9} className="text-slate-400" />
+												) : (
+													<span className="w-1 h-1 rounded-full bg-emerald-500" />
+												)}
+											</span>
+										</div>
 
-                      {/* Display a micro-badge for red/amber indicating review needed */}
-                      {isUrgent && isDoubleSpan && (
-                        <span className={`text-[8px] font-bold px-1 py-0.5 rounded uppercase leading-none ${
-                          isRed ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-800'
-                        }`}>
-                          {isRed ? 'Action' : 'Review'}
-                        </span>
-                      )}
-                    </div>
+										{/* Middle: Main value + Action Required banner if watchpoint */}
+										<div className="flex items-baseline justify-between">
+											<div
+												// font-barlow
+												className={` 
+                        text-xl font-black tracking-tight leading-none ${valColor}`}>
+												{kpi.value}
+											</div>
 
-                    {/* Bottom row: trend & target */}
-                    <div className="flex items-center justify-between border-t border-slate-100/50 pt-1 text-[9px] text-slate-400 leading-none">
-                      <span className="font-medium truncate max-w-[90px]">
-                        {kpi.target ? `T: ${kpi.target}` : kpi.month}
-                      </span>
-                      {kpi.trend && (
-                        <span className={`flex items-center gap-0.5 leading-none ${trendClass}`}>
-                          {kpi.trend.includes('▲') ? (
-                            <TrendingUp size={8} />
-                          ) : kpi.trend.includes('▼') ? (
-                            <TrendingDown size={8} />
-                          ) : null}
-                          {kpi.trend}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                );
+											{/* Display a micro-badge for red/amber indicating review needed */}
+											{isUrgent && isDoubleSpan && (
+												<span
+													className={`text-[8px] font-bold px-1 py-0.5 rounded uppercase leading-none ${
+														isRed
+															? "bg-red-100 text-red-700"
+															: "bg-amber-100 text-amber-800"
+													}`}>
+													{isRed ? "Action" : "Review"}
+												</span>
+											)}
+										</div>
+
+										{/* Bottom row: trend & target */}
+										<div className="flex items-center justify-between border-t border-slate-100/50 pt-1 text-[9px] text-slate-400 leading-none">
+											<span className="font-medium truncate max-w-22.5">
+												{kpi.target ? `T: ${kpi.target}` : kpi.month}
+											</span>
+											{kpi.trend && (
+												<span
+													className={`flex items-center gap-0.5 leading-none ${trendClass}`}>
+													{kpi.trend.includes("▲") ? (
+														<TrendingUp size={8} />
+													) : kpi.trend.includes("▼") ? (
+														<TrendingDown size={8} />
+													) : null}
+													{kpi.trend}
+												</span>
+											)}
+										</div>
+									</div>
+								);
               })}
             </div>
           </div>

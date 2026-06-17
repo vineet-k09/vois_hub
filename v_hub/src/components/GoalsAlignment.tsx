@@ -40,7 +40,7 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown, showAnnota
                   REQ 07 · GOALS EVIDENCE MAP
                 </span>
               )}
-              <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
+              {/* <span className="w-1.5 h-1.5 rounded-full bg-red-600" /> */}
             </div>
             <h2 className="text-base font-barlow font-bold text-slate-800 uppercase tracking-wide mt-0.5">
               {req07.title.split('—')[0]}

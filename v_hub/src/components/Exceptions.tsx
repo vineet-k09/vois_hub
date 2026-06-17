@@ -40,7 +40,7 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown, showAnnotations })
                   REQ 03 · exceptions
                 </span>
               )}
-              <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
+              {/* <span className="w-1.5 h-1.5 rounded-full bg-red-600" /> */}
             </div>
             <h2 className="text-base font-barlow font-bold text-slate-800 uppercase tracking-wide mt-0.5">
               {req03.title.split('—')[0]}
