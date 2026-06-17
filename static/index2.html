@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Server</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        .navbar { background-color: #333; padding: 10px; border-radius: 5px; display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+        .navbar button {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        .navbar button:hover { background-color: #777; }
+        .navbar button.active { background-color: #007bff; }
+        .content-area {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            min-height: 400px;
+            overflow-x: auto; /* Allow horizontal scrolling for very long lines */
+        }
+        .content-area pre { margin: 0; }
+    </style>
+</head>
+<body>
+    <div id="navbar" class="navbar"></div>
+    <div id="content" class="content-area"></div>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        const contentArea = document.getElementById('content');
+        let currentActiveButton = null;
+
+        async function loadFileContent(filename, url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                contentArea.innerHTML = text;
+            } catch (error) {
+                contentArea.innerHTML = `<p style="color: red;">Error loading ${filename}: ${error.message}</p>`;
+            }
+        }
+
+        fetch('/api/files')
+            .then(response => response.json())
+            .then(files => {
+                files.forEach(file => {
+                    const button = document.createElement('button');
+                    button.textContent = file.name.replace('.html', '').replace('vois_hub_', '').replaceAll('_', ' ')
+;
+                    button.onclick = () => {
+                        if (currentActiveButton) {
+                            currentActiveButton.classList.remove('active');
+                        }
+                        button.classList.add('active');
+                        currentActiveButton = button;
+                        loadFileContent(file.name, file.url);
+                    };
+                    navbar.appendChild(button);
+                });
+                // Optionally load the first file by default
+                if (files.length > 0) {
+                    navbar.children[0].click();
+                }
+            })
+            .catch(error => {
+                navbar.innerHTML = `<p style="color: red;">Error loading file list: ${error.message}</p>`;
+            });
+    </script>
+</body>
+</html>

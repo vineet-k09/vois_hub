@@ -23,6 +23,7 @@ app.get('/api/files', (req, res) => {
                 name: file,
                 url: `/${file}`
             }));
+
         res.json(htmlFiles);
     });
 });
