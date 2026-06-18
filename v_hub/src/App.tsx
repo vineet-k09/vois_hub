@@ -11,6 +11,26 @@ import dashboardData from './data/dashboard_data.json';
 import { Sparkles, FileText, Send, Layers } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { jsPDF } from 'jspdf';
+import Tooltip from './components/Tooltip';
+
+const getGmtGripTooltip = (name: string) => {
+  switch (name) {
+    case 'Cost overshoot — Operations (COO)':
+      return 'Operations cost takeout is running €39M above budget. COO alignment required.';
+    case 'EBITDA pressure — Finance (CFO)':
+      return 'Critical EBITDA gap (-€36M) under review by Finance. CFO tracking action items.';
+    case 'Talent — Critical role gap (CHRO)':
+      return '78% fill rate vs 85% target in critical roles. CHRO reviewing HR pipeline.';
+    case 'Gen-2 categorisation — Commercial (CCO)':
+      return 'Salesforce tag updates outstanding for 14 active deals. CCO team finalizing review.';
+    case 'NPS & service health — Customer (CCSO)':
+      return 'NPS at 89, Service Health is green. CCSO confirming Q1 customer feedback.';
+    case 'CSM re-platform slippage — Transformation':
+      return 'Milestone delayed by 4 weeks. Transformation Lead reviewing resource gates.';
+    default:
+      return 'GMT Executive review item. Click to open detailed strategic dashboard.';
+  }
+};
 
 const App: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<any>(null);
@@ -163,26 +183,30 @@ const App: React.FC = () => {
             </div>
 
             <div className="flex gap-2">
-              <button
-                onClick={generatePDF}
-                disabled={isGenerating}
-                className={`flex items-center gap-1.5 bg-ink text-panel px-2.5 py-1 rounded-md text-[10px] font-bold hover:opacity-90 transition-all shadow-xs cursor-pointer leading-none ${isGenerating ? 'opacity-75 cursor-not-allowed' : ''}`}>
-                {isGenerating ? (
-                  <svg className="animate-spin h-2.5 w-2.5 text-panel" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                ) : (
-                  <FileText size={10} />
-                )}
-                {isGenerating ? 'Generating...' : 'Generate Board PDF'}
-              </button>
-              <button
-                onClick={() => handleActionClick("Email Monthly Pack")}
-                className="flex items-center gap-1.5 border border-panel-border text-ink-soft px-2.5 py-1 rounded-md text-[10px] font-bold hover:bg-panel-2 transition-all cursor-pointer leading-none">
-                <Send size={10} />
-                Email Monthly Pack
-              </button>
+              <Tooltip content="Export the full executive dashboard view into a high-quality PDF report for Board review" position="bottom">
+                <button
+                  onClick={generatePDF}
+                  disabled={isGenerating}
+                  className={`flex items-center gap-1.5 bg-ink text-panel px-2.5 py-1 rounded-md text-[10px] font-bold hover:opacity-90 transition-all shadow-xs cursor-pointer leading-none ${isGenerating ? 'opacity-75 cursor-not-allowed' : ''}`}>
+                  {isGenerating ? (
+                    <svg className="animate-spin h-2.5 w-2.5 text-panel" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  ) : (
+                    <FileText size={10} />
+                  )}
+                  {isGenerating ? 'Generating...' : 'Generate Board PDF'}
+                </button>
+              </Tooltip>
+              <Tooltip content="Directly email the executive monthly package PDF to all board-level stakeholders" position="bottom">
+                <button
+                  onClick={() => handleActionClick("Email Monthly Pack")}
+                  className="flex items-center gap-1.5 border border-panel-border text-ink-soft px-2.5 py-1 rounded-md text-[10px] font-bold hover:bg-panel-2 transition-all cursor-pointer leading-none">
+                  <Send size={10} />
+                  Email Monthly Pack
+                </button>
+              </Tooltip>
             </div>
           </div>
 
@@ -284,45 +308,46 @@ const App: React.FC = () => {
                     const isGreen = item.rag === 'green';
                     const isUrgent = isRed || isAmber;
                     
-                    const colSpanClass = isUrgent ? 'md:col-span-2' : 'md:col-span-1';
+                    const colSpanClass = 'md:col-span-2'
                     const ragColor = 
                       isGreen ? "bg-emerald-500" : 
                       isAmber ? "bg-amber-500" : 
                       isRed ? "bg-red-500" : "bg-muted-text";
 
                     return (
-                      <div
-                        key={item.name}
-                        className={`group flex justify-between items-center ${isUrgent ? 'p-2.5' : 'p-2'} rounded-lg border transition-all cursor-pointer leading-none ${colSpanClass} ${
-                          isRed ? 'bg-red-500/10 hover:bg-red-500/20 border-red-500/30' : 
-                          isAmber ? 'bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/30' : 
-                          'bg-panel-2/20 hover:bg-panel-2 border-panel-border'
-                        }`}
-                        onClick={() =>
-                          handleDrillDown({
-                            ...item,
-                            type: "exception",
-                            label: item.name,
-                            requirementId: '8'
-                          })
-                        }>
-                        <span className={`${isUrgent ? 'text-xs' : 'text-[11px]'} font-semibold text-ink flex items-center gap-1.5 min-w-0`}>
-                          <span className="flex items-center shrink-0">
-                            {isRed ? (
-                              <span className="flex h-1.5 w-1.5 relative">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
-                              </span>
-                            ) : (
-                              <span className={`w-1.5 h-1.5 rounded-full ${ragColor}`} />
-                            )}
+                      <Tooltip key={item.name} content={getGmtGripTooltip(item.name)} position="top">
+                        <div
+                          className={`group flex justify-between items-center ${isUrgent ? 'p-2.5' : 'p-2'} rounded-lg border transition-all cursor-pointer leading-none ${colSpanClass} ${
+                            isRed ? 'bg-red-500/10 hover:bg-red-500/20 border-red-500/30' : 
+                            isAmber ? 'bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/30' : 
+                            'bg-panel-2/20 hover:bg-panel-2 border-panel-border'
+                          }`}
+                          onClick={() =>
+                            handleDrillDown({
+                              ...item,
+                              type: "exception",
+                              label: item.name,
+                              requirementId: '8'
+                            })
+                          }>
+                          <span className={`${isUrgent ? 'text-xs' : 'text-[11px]'} font-semibold text-ink flex items-center gap-1.5 min-w-0`}>
+                            <span className="flex items-center shrink-0">
+                              {isRed ? (
+                                <span className="flex h-1.5 w-1.5 relative">
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
+                                </span>
+                              ) : (
+                                <span className={`w-1.5 h-1.5 rounded-full ${ragColor}`} />
+                              )}
+                            </span>
+                            <span className="truncate">{item.name}</span>
                           </span>
-                          <span className="truncate">{item.name}</span>
-                        </span>
-                        <span className="text-[8px] font-bold text-accent uppercase tracking-wider hover:underline shrink-0 pl-1.5">
-                          Grip →
-                        </span>
-                      </div>
+                          <span className="text-[8px] font-bold text-accent uppercase tracking-wider hover:underline shrink-0 pl-1.5">
+                            Grip →
+                          </span>
+                        </div>
+                      </Tooltip>
                     );
                   })}
                 </div>

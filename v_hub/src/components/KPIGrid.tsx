@@ -2,6 +2,7 @@ import React from 'react';
 import { TrendingUp, TrendingDown, HelpCircle } from 'lucide-react';
 import dashboardData from '../data/dashboard_data.json';
 import AnnotationCard from './AnnotationCard';
+import Tooltip from './Tooltip';
 
 interface KPIGridProps {
   onDrillDown: (data: any) => void;
@@ -130,86 +131,118 @@ const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown, showAnnotations }) => {
                   const ragColorClass = isRed ? 'bg-rag-red' : isAmber ? 'bg-rag-amber' : 'bg-rag-green';
                   const ragTextClass = isRed ? 'text-rag-red' : isAmber ? 'text-rag-amber' : 'text-rag-green';
 
+                  const getKPITooltip = (kpi: any) => {
+                    switch (kpi.label) {
+                      case 'Revenue €M':
+                        return 'Revenue is currently €2,858M, which is 1.53% above the target of €2,815M. Click to view trend details.';
+                      case 'OFCF €M':
+                        return 'Operating Free Cash Flow is €617.24M. Target fully achieved (1074.4% of RF). Click to view details.';
+                      case 'Cost Takeout €M':
+                        return 'Cost Takeout is €141.62M, up 38.84% vs target of €102M. Click to view cost breakdowns.';
+                      case 'EBITDA €M':
+                        return 'EBITDA is -€36.33M, below target of €0M due to operations margin pressure. Action required.';
+                      case 'Pipeline (Qual.) €M':
+                        return 'Qualified Pipeline is €1,359M vs €1,500M target. Volume of active deals: 14.';
+                      case 'New Logos / Gen-2 Deals':
+                        return '7 New Logos / Gen-2 deals signed, representing €82M in value. 2 more than last month.';
+                      case 'Win Conversion %':
+                        return 'Win Conversion rate is 62%, exceeding the target of 55% by 7pp.';
+                      case 'Share of Wallet':
+                        return 'Share of Wallet tracker. Annual refresh scheduled for Q1.';
+                      case 'NPS':
+                        return 'Net Promoter Score is 89. Click to see details about client feedback.';
+                      case 'Spirit Beat':
+                        return 'Spirit Beat score is 85, exceeding target of 80. Out of 100 maximum.';
+                      case 'Talent — Critical Roles':
+                        return '78% of critical roles filled vs 85% target. HR refresh is currently in-flight.';
+                      case 'KPI Met %':
+                        return '90%+ of top-line KPIs are met. 7 of 8 have met their FY27 goals.';
+                      default:
+                        return `Click to drill down into ${kpi.label} details.`;
+                    }
+                  };
+
                   return (
-                    <div
-                      key={kpi.label}
-                      onClick={() => handleKPIClick(kpi, cluster.name)}
-                      className={`group p-3 rounded-xl border flex flex-col justify-between transition-all duration-200 cursor-pointer col-span-1 h-[108px] ${cardClass} relative overflow-hidden`}>
-                      {/* Top row: Label & RAG Status Indicator */}
-                      <div className="flex justify-between items-start gap-1">
-                        <span className="text-[10px] font-bold text-ink-soft group-hover:text-ink leading-tight uppercase tracking-wider">
-                          {kpi.label}
-                        </span>
-
-                        {/* RAG Bullet/Icon */}
-                        <span className="flex items-center shrink-0 mt-0.5">
-                          {isRed ? (
-                            <span className="flex h-1.5 w-1.5 relative">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rag-red opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-rag-red"></span>
-                            </span>
-                          ) : isAmber ? (
-                            <span className="w-1.5 h-1.5 rounded-full bg-rag-amber" />
-                          ) : isTbd ? (
-                            <HelpCircle size={9} className="text-muted-text" />
-                          ) : (
-                            <span className="w-1.5 h-1.5 rounded-full bg-rag-green" />
-                          )}
-                        </span>
-                      </div>
-
-                      {/* Middle: Main value, Trend indicator, and Badge */}
-                      <div className="flex items-baseline justify-between gap-1.5 flex-wrap">
-                        <div className="flex items-baseline gap-1.5">
-                          <span className={`text-xl font-black tracking-tight leading-none ${valColor}`}>
-                            {kpi.value}
+                    <Tooltip key={kpi.label} content={getKPITooltip(kpi)} position="top">
+                      <div
+                        onClick={() => handleKPIClick(kpi, cluster.name)}
+                        className={`group p-3 rounded-xl border flex flex-col justify-between transition-all duration-200 cursor-pointer col-span-1 h-[108px] ${cardClass} relative overflow-hidden`}>
+                        {/* Top row: Label & RAG Status Indicator */}
+                        <div className="flex justify-between items-start gap-1">
+                          <span className="text-[10px] font-bold text-ink-soft group-hover:text-ink leading-tight uppercase tracking-wider">
+                            {kpi.label}
                           </span>
-                          {kpi.trend && (
-                            <span className={`flex items-center gap-0.5 text-[9px] leading-none shrink-0 ${trendClass}`}>
-                              {kpi.trend.includes("▲") ? (
-                                <TrendingUp size={9} />
-                              ) : kpi.trend.includes("▼") ? (
-                                <TrendingDown size={9} />
-                              ) : null}
-                              {kpi.trend}
+
+                          {/* RAG Bullet/Icon */}
+                          <span className="flex items-center shrink-0 mt-0.5">
+                            {isRed ? (
+                              <span className="flex h-1.5 w-1.5 relative">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rag-red opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-rag-red"></span>
+                              </span>
+                            ) : isAmber ? (
+                              <span className="w-1.5 h-1.5 rounded-full bg-rag-amber" />
+                            ) : isTbd ? (
+                              <HelpCircle size={9} className="text-muted-text" />
+                            ) : (
+                              <span className="w-1.5 h-1.5 rounded-full bg-rag-green" />
+                            )}
+                          </span>
+                        </div>
+
+                        {/* Middle: Main value, Trend indicator, and Badge */}
+                        <div className="flex items-baseline justify-between gap-1.5 flex-wrap">
+                          <div className="flex items-baseline gap-1.5">
+                            <span className={`text-xl font-black tracking-tight leading-none ${valColor}`}>
+                              {kpi.value}
+                            </span>
+                            {kpi.trend && (
+                              <span className={`flex items-center gap-0.5 text-[9px] leading-none shrink-0 ${trendClass}`}>
+                                {kpi.trend.includes("▲") ? (
+                                  <TrendingUp size={9} />
+                                ) : kpi.trend.includes("▼") ? (
+                                  <TrendingDown size={9} />
+                                ) : null}
+                                {kpi.trend}
+                              </span>
+                            )}
+                          </div>
+                          
+                          {isUrgent && isImportant && (
+                            <span
+                              className={`text-[8px] font-bold px-1.5 py-0.5 rounded border uppercase leading-none shrink-0 ${
+                                isRed
+                                  ? "bg-red-500/20 text-red-500 border-red-500/30"
+                                  : "bg-amber-500/20 text-amber-500 border-amber-500/30"
+                              }`}>
+                              {isRed ? "Action" : "Review"}
                             </span>
                           )}
                         </div>
-                        
-                        {isUrgent && isImportant && (
-                          <span
-                            className={`text-[8px] font-bold px-1.5 py-0.5 rounded border uppercase leading-none shrink-0 ${
-                              isRed
-                                ? "bg-red-500/20 text-red-500 border-red-500/30"
-                                : "bg-amber-500/20 text-amber-500 border-amber-500/30"
-                            }`}>
-                            {isRed ? "Action" : "Review"}
-                          </span>
-                        )}
-                      </div>
 
-                      {/* Bottom Section: Unified Divider and Progress/Metadata */}
-                      <div className="border-t border-panel-border/60 pt-2 flex flex-col justify-end h-7">
-                        {progress !== null ? (
-                          <div className="space-y-1.5">
+                        {/* Bottom Section: Unified Divider and Progress/Metadata */}
+                        <div className="border-t border-panel-border/60 pt-2 flex flex-col justify-end h-7">
+                          {progress !== null ? (
+                            <div className="space-y-1.5">
+                              <div className="flex justify-between items-center text-[9px] text-ink-soft leading-none">
+                                <span>{kpi.target ? `Target: ${kpi.target}` : kpi.month || ''}</span>
+                                <span className={`font-black ${ragTextClass}`}>{Math.round(progress)}%</span>
+                              </div>
+                              <div className="h-1 bg-panel-2 rounded-full overflow-hidden">
+                                <div 
+                                  className={`${ragColorClass} h-full transition-all duration-700`} 
+                                  style={{ width: `${Math.min(Math.max(progress, 0), 100)}%` }}
+                                />
+                              </div>
+                            </div>
+                          ) : (
                             <div className="flex justify-between items-center text-[9px] text-ink-soft leading-none">
                               <span>{kpi.target ? `Target: ${kpi.target}` : kpi.month || ''}</span>
-                              <span className={`font-black ${ragTextClass}`}>{Math.round(progress)}%</span>
                             </div>
-                            <div className="h-1 bg-panel-2 rounded-full overflow-hidden">
-                              <div 
-                                className={`${ragColorClass} h-full transition-all duration-700`} 
-                                style={{ width: `${Math.min(Math.max(progress, 0), 100)}%` }}
-                              />
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="flex justify-between items-center text-[9px] text-ink-soft leading-none">
-                            <span>{kpi.target ? `Target: ${kpi.target}` : kpi.month || ''}</span>
-                          </div>
-                        )}
+                          )}
+                        </div>
                       </div>
-                    </div>
+                    </Tooltip>
                   );
                 })}
             </div>

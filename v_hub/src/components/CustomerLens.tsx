@@ -2,6 +2,7 @@ import React from 'react';
 import dashboardData from '../data/dashboard_data.json';
 import { ExternalLink } from 'lucide-react';
 import AnnotationCard from './AnnotationCard';
+import Tooltip from './Tooltip';
 
 interface CustomerLensProps {
   onDrillDown: (data: any) => void;
@@ -47,12 +48,14 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown, showAnnotation
             <p className="text-ink-soft text-[10px] italic font-light mt-0.5">{req04.note}</p>
           </div>
           
-          <button 
-            onClick={handleCustomerClick}
-            className="flex items-center gap-1 text-[11px] font-bold text-accent hover:underline cursor-pointer"
-          >
-            Customer 360 <ExternalLink size={10} />
-          </button>
+          <Tooltip content="Open Vfz Group Customer 360 workspace for granular billing, SLAs, and roadmap details" position="left">
+            <button 
+              onClick={handleCustomerClick}
+              className="flex items-center gap-1 text-[11px] font-bold text-accent hover:underline cursor-pointer"
+            >
+              Customer 360 <ExternalLink size={10} />
+            </button>
+          </Tooltip>
         </div>
 
         {/* Selected Customer profile */}
@@ -84,11 +87,30 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown, showAnnotation
                   item.rag === 'amber' ? 'text-amber-500 font-semibold' : 
                   item.rag === 'red' ? 'text-rose-500 font-semibold' : 'text-ink';
                 
+                const getPerformanceTooltip = (metric: string) => {
+                  switch (metric) {
+                    case 'NPS (rolling)':
+                      return 'Net Promoter Score (rolling average). Green indicator shows high customer satisfaction.';
+                    case 'Service Health':
+                      return 'Overall health of operations. Green indicates zero critical SLA breaches.';
+                    case 'Incidents (P1/P2)':
+                      return 'Priority 1 & 2 incidents raised. Amber: 3 items require monitoring.';
+                    case 'Change Success':
+                      return 'Percentage of successful system changes. Above the 95% baseline.';
+                    case 'Contract Margin':
+                      return 'Financial margin on the contract. Amber: currently below optimal 10% threshold.';
+                    default:
+                      return 'Key internal performance indicator for this account.';
+                  }
+                };
+
                 return (
-                  <div key={item.metric} className="flex justify-between items-center text-[11px] py-1 border-b border-panel-border/50 leading-none">
-                    <span className="text-ink-soft font-medium">{item.metric}</span>
-                    <span className={textRagColor}>{item.value}</span>
-                  </div>
+                  <Tooltip key={item.label} content={getPerformanceTooltip(item.label)} position="top">
+                    <div className="flex justify-between items-center text-[11px] py-1 border-b border-panel-border/50 leading-none cursor-help hover:bg-panel-2/30 px-1 rounded transition-colors">
+                      <span className="text-ink-soft font-medium">{item.label}</span>
+                      <span className={textRagColor}>{item.value}</span>
+                    </div>
+                  </Tooltip>
                 );
               })}
             </div>
@@ -105,12 +127,28 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown, showAnnotation
                   Problem Jobs ({req04.customerDetail.mmdNarrative?.problemJobs?.length || 0})
                 </span>
                 <ul className="space-y-1 pl-0 list-none">
-                  {req04.customerDetail.mmdNarrative?.problemJobs?.map((job: string, idx: number) => (
-                    <li key={idx} className="text-[10px] text-ink-soft leading-tight flex items-start gap-1">
-                      <span className="w-1 h-1 rounded-full bg-red-500 mt-1 shrink-0" />
-                      <span>{job}</span>
-                    </li>
-                  ))}
+                  {req04.customerDetail.mmdNarrative?.problemJobs?.map((job: string, idx: number) => {
+                    const getProblemJobTooltip = (j: string) => {
+                      switch (j) {
+                        case 'latency on EU-billing batch':
+                          return 'Batch latency currently exceeding target of 2 hours. Fixing in Q2.';
+                        case 'service-now backlog on tickets > 7d':
+                          return 'Backlog reduction plan active. Operations team is reviewing ticket load.';
+                        case 'onshore staffing gap in Tier-3':
+                          return 'Open headcount for 2 engineers. Actively recruiting to resolve.';
+                        default:
+                          return 'Active problem area identified by service delivery managers.';
+                      }
+                    };
+                    return (
+                      <Tooltip key={idx} content={getProblemJobTooltip(job)} position="top">
+                        <li className="text-[10px] text-ink-soft leading-tight flex items-start gap-1 cursor-help hover:bg-red-500/5 p-0.5 rounded transition-colors">
+                          <span className="w-1 h-1 rounded-full bg-red-500 mt-1 shrink-0" />
+                          <span>{job}</span>
+                        </li>
+                      </Tooltip>
+                    );
+                  })}
                 </ul>
               </div>
               <p className="text-[10px] text-ink-soft font-light italic leading-normal">
@@ -131,11 +169,28 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown, showAnnotation
                   item.rag === 'amber' ? 'text-amber-500 font-bold' : 
                   item.rag === 'red' ? 'text-rose-500 font-bold' : 'text-ink font-semibold';
                 
+                const getWalletTooltip = (l: string) => {
+                  switch (l) {
+                    case 'Total external spend':
+                      return 'Total annual technology spend of Vfz Group (inclusive of external vendors).';
+                    case 'VOIS share':
+                      return 'VOIS share of Vfz Group technology spend. Green indicator: on track.';
+                    case '3rd-party share':
+                      return 'Competitor/Third-party spend share (Accenture, Capgemini, etc.).';
+                    case 'Onshore spend':
+                      return 'Spend on onshore consulting. High potential for offshore migration.';
+                    default:
+                      return 'External spend and share-of-wallet analysis.';
+                  }
+                };
+
                 return (
-                  <div key={item.label} className="flex justify-between items-center text-[11px] py-1 border-b border-panel-border/50 leading-none">
-                    <span className="text-ink-soft font-medium">{item.label}</span>
-                    <span className={textRagColor}>{item.value}</span>
-                  </div>
+                  <Tooltip key={item.label} content={getWalletTooltip(item.label)} position="top">
+                    <div className="flex justify-between items-center text-[11px] py-1 border-b border-panel-border/50 leading-none cursor-help hover:bg-panel-2/30 px-1 rounded transition-colors">
+                      <span className="text-ink-soft font-medium">{item.label}</span>
+                      <span className={textRagColor}>{item.value}</span>
+                    </div>
+                  </Tooltip>
                 );
               })}
             </div>

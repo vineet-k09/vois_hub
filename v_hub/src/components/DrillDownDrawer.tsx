@@ -9,6 +9,67 @@ import {
 import { X, ClipboardList, BarChart3, MessageSquare, ShieldCheck, History, User } from 'lucide-react';
 import dashboardData from '../data/dashboard_data.json';
 
+// Deterministic hash to map dashboard items to unique realistic contents
+const getHash = (str: string) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash);
+};
+
+const poolSummaries = [
+  "Strategic execution indicates steady Q1 momentum. Efficiencies driven by Digital Service layers have buffered local margin pressures. Core deliveries are tracking according to alignment baselines, though commercial negotiations in key European recipient markets are ongoing to lock the Q2 run-rate.",
+  "Operational performance shows positive variance following resource optimization. Standard SLA compliance metrics remain high (+99.4%), and vendor optimization exercises have yielded favorable savings. Management focus is on automating reporting pipelines to minimize manual data reconciliation.",
+  "Performance run-rate meets expectations with stable demand across primary stakeholder divisions. Transition milestones are fully aligned with Board-approved targets. A minor headcount capacity gap is noted in delivery centers, which is being resolved through target hiring.",
+  "Core KPI trends demonstrate favorable progress. Efficiency milestones have been successfully delivered on time, though transition overheads slightly offset net budget gains. Steering committee is actively reviewing process automation templates to simplify the flow.",
+  "Satisfactory progress is observed against long-term strategic plans. Program governance is functioning as expected, and cross-functional taskforces are successfully tracking dependency resolution. Focus for the next month is validation of data feeds in secondary delivery markets."
+];
+
+const poolNextSteps = [
+  "Approve revised delivery milestones and validate resource allocations in the upcoming steering connect",
+  "Conduct detailed run-rate analysis and finalize budget offsets with local Finance heads",
+  "Review headcount capacity targets and confirm alignment on automation templates",
+  "Audit contract value realization metrics and confirm sign-offs for secondary delivery sites",
+  "Establish dedicated taskforce to resolve minor data reconciliation gaps across regional towers"
+];
+
+const poolOwners = [
+  "Sarah Connor (GMT Lead)",
+  "J. Vasseur (VP Operations)",
+  "David Miller (Head of Delivery)",
+  "Elena Rostova (Strategic Program Manager)",
+  "H. Schmidt (Commercial Director)"
+];
+
+const poolMetrics = [
+  [
+    { label: "Efficiency Trend", val: "+12.4% YoY", status: "Favorable" },
+    { label: "Risk Coefficient", val: "Low / Stable", status: "Steady" },
+    { label: "SLA Adherence", val: "99.8%", status: "Green" }
+  ],
+  [
+    { label: "Variance to Budget", val: "-€1.4M", status: "Watch" },
+    { label: "Resource Deficit", val: "-2 FTE", status: "Amber" },
+    { label: "Milestone Compliance", val: "91%", status: "On Track" }
+  ],
+  [
+    { label: "Automation Index", val: "68%", status: "Growth" },
+    { label: "Account NPS", val: "+42", status: "Green" },
+    { label: "Operational Risk", val: "Minor", status: "Stable" }
+  ],
+  [
+    { label: "Run-Rate Forecast", val: "On Plan", status: "Steady" },
+    { label: "Sponsor Sign-off", val: "Approved", status: "Green" },
+    { label: "Audit Readiness", val: "Completed", status: "Pass" }
+  ],
+  [
+    { label: "Contract Value Gap", val: "-€210K", status: "Watch" },
+    { label: "Negotiation Progress", val: "Phase 3 of 4", status: "In Flight" },
+    { label: "Sponsor Sign-off", val: "Awaiting", status: "Amber" }
+  ]
+];
+
 interface DrillDownDrawerProps {
   open?: boolean;
   onClose?: () => void;
@@ -44,11 +105,7 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
   const [tab, setTab] = React.useState(0);
 
   React.useEffect(() => {
-    if (data?.requirementId) {
-      setTab(1); // Default to requirement tab if it was a strategy drill-down
-    } else {
-      setTab(0); // Default to analysis tab
-    }
+    setTab(0); // Default to analysis tab
   }, [data]);
 
   if (!data) return null;
@@ -139,24 +196,70 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
         ]
       };
     } else {
-      // General Fallback
+      // General Fallback with deterministic shuffled content pools
+      const nameStr = item.label || item.name || 'Dashboard item';
+      const hash = getHash(nameStr);
+      const summary = poolSummaries[hash % poolSummaries.length];
+      const nextStep = poolNextSteps[hash % poolNextSteps.length];
+      const owner = poolOwners[hash % poolOwners.length];
+      const metrics = poolMetrics[hash % poolMetrics.length];
+
       return {
-        summary: item.summary || `Contextual analysis for ${item.label || item.name || 'Dashboard item'}. Performance is currently ${item.rag?.toUpperCase() || 'STEADY'}. Review against the strategic targets indicates alignment on underlying performance, though review process continues.`,
-        nextStep: "Review performance reconciliations with service owners",
-        owner: "GMT Lead Owner",
-        metrics: [
-          { label: "Report Value", val: item.value || "TBD", status: item.rag === 'green' ? 'Favorable' : 'Watch' },
-          { label: "Trend", val: item.trend || "Stable", status: 'Standard' },
-          { label: "Cadence", val: "Monthly Review", status: 'Steady' }
-        ]
+        summary: item.summary || `Contextual analysis for ${nameStr}. ${summary}`,
+        nextStep: item.nextStep || nextStep,
+        owner: item.owner || owner,
+        metrics: item.metrics || metrics
       };
     }
   };
 
   const insight = getExecutiveInsight(data);
 
+  const handleDownloadBriefing = () => {
+    const insight = getExecutiveInsight(data);
+    const textContent = `============================================================
+VOIS EXECUTIVE BRIEFING: ${data.label || data.name}
+============================================================
+Status: ${data.rag?.toUpperCase() || 'STEADY'}
+Owner: ${insight.owner}
+Strategic Alignment: REQ ${reqId}
+------------------------------------------------------------
+EXECUTIVE PERFORMANCE SUMMARY:
+${insight.summary}
+
+STRATEGIC ACTION REQUIRED:
+${insight.nextStep}
+
+KEY METRICS BREAKDOWN:
+${insight.metrics.map((m: any) => `- ${m.label}: ${m.val} (${m.status})`).join('\n')}
+
+------------------------------------------------------------
+WORKSHOP REQUIREMENT DETAILS:
+${requirement ? `Title: ${requirement.title}
+Story: ${requirement.userStory}
+Description: ${requirement.description}
+Decisions & Feedback:
+${requirement.feedback.map(f => `  * ${f}`).join('\n')}` : 'No workshop requirement mapped.'}
+============================================================
+Generated via VOIS CEO Strategic Portal on ${new Date().toLocaleDateString()}
+`;
+
+    const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `VOIS_Executive_Briefing_${(data.label || data.name).replace(/\s+/g, '_')}.txt`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleActionClick = (actionName: string) => {
-    alert(`${actionName} triggered. Running with CEO credentials.`);
+    if (actionName.startsWith('Download Deep-Dive:') || actionName.startsWith('Download Briefing')) {
+      handleDownloadBriefing();
+    } else {
+      alert(`${actionName} triggered. Running with CEO credentials.`);
+    }
   };
 
   const content = (
@@ -263,7 +366,7 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
                 Detailed Metric Breakdown
               </h5>
               <div className="grid grid-cols-1 gap-1.5">
-                {insight.metrics.map((stat, i) => {
+                {insight.metrics.map((stat: any, i: number) => {
                   const isCrit = stat.status.toLowerCase().includes('crit') || stat.status.toLowerCase().includes('risk') || stat.status.toLowerCase().includes('off');
                   const isGreen = stat.status.toLowerCase().includes('green') || stat.status.toLowerCase().includes('favor') || stat.status.toLowerCase().includes('achieve');
                   const isWatch = stat.status.toLowerCase().includes('watch') || stat.status.toLowerCase().includes('amber') || stat.status.toLowerCase().includes('flight');

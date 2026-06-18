@@ -1,11 +1,39 @@
 import React from 'react';
 import dashboardData from '../data/dashboard_data.json';
 import AnnotationCard from './AnnotationCard';
+import Tooltip from './Tooltip';
 
 interface ExceptionsProps {
   onDrillDown: (data: any) => void;
   showAnnotations: boolean;
 }
+
+const getExceptionTooltip = (name: string) => {
+  switch (name) {
+    case 'Project Helios — DT Group':
+      return 'Renewal project for DT Group. Successfully completed at €186M with on-track status.';
+    case 'Project Atlas — IDEA':
+      return 'Gen-2 deal with IDEA valued at €94M. Strategic expansion milestone completed.';
+    case 'Programme Iris — UKG':
+      return 'Deal value: €61M. Slipped from Q2 to Q3. Reviewing pipeline risk mitigation.';
+    case 'Vantage Cloud — DE-Local':
+      return 'New badge project at €48M. On track, client validation completed.';
+    case 'Project Orion — Vfz':
+      return 'Red Alert: Margin pressure on the €42M Vfz deal. Operations team is reviewing onshore costs.';
+    case 'Margin overshoot — Operations Tower':
+      return 'Red Alert: Cost is +38.8% vs budget (-€36M impact). Corrective staffing plan required.';
+    case 'Win→Loss lifecycle not closed':
+      return 'Amber: Salesforce tagging gap. Stalled opportunities require CRM cleanup.';
+    case 'Gen-2 categorisation incomplete':
+      return 'Amber: Commercial owner review is required for proper product classification.';
+    case 'Pipeline stalled > 90 days':
+      return 'Amber: €118M of pipeline has been inactive for >90 days across 6 opportunities.';
+    case 'Customer churn — Mid-tier':
+      return 'Red Alert: 2 accounts lost representing -€19M. SLA breach review in progress.';
+    default:
+      return 'Click to drill down into exception details and action items.';
+  }
+};
 
 const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown, showAnnotations }) => {
   const req03 = dashboardData.sections.find(s => s.id === "REQ 03") as any;
@@ -69,25 +97,26 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown, showAnnotations })
                     item.rag === 'red' ? 'text-rose-600 bg-rose-500/10 border-rose-500/20' : 'text-ink-soft bg-panel-2 border-panel-border';
 
                   return (
-                    <div 
-                      key={item.name} 
-                      onClick={() => handleItemClick(item, group.title)}
-                      className="group flex justify-between items-center p-2 rounded-lg border border-panel-border bg-panel-2/20 hover:bg-panel-2 hover:border-ink-soft transition-all cursor-pointer"
-                    >
-                      <div className="flex items-center gap-2 min-w-0">
-                        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${ragColor}`} />
-                        <div className="truncate">
-                          <p className="text-[11px] font-semibold text-ink truncate leading-tight">{item.name}</p>
-                          {item.meta && (
-                            <p className="text-[9px] text-ink-soft font-light mt-0.5 truncate leading-none">{item.meta}</p>
-                          )}
+                    <Tooltip key={item.name} content={getExceptionTooltip(item.name)} position="top">
+                      <div 
+                        onClick={() => handleItemClick(item, group.title)}
+                        className="group flex justify-between items-center p-2 rounded-lg border border-panel-border bg-panel-2/20 hover:bg-panel-2 hover:border-ink-soft transition-all cursor-pointer"
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${ragColor}`} />
+                          <div className="truncate">
+                            <p className="text-[11px] font-semibold text-ink truncate leading-tight">{item.name}</p>
+                            {item.meta && (
+                              <p className="text-[9px] text-ink-soft font-light mt-0.5 truncate leading-none">{item.meta}</p>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className={`px-2 py-0.5 rounded text-[11px] font-bold border shrink-0 ${textRagColor}`}>
+                          {item.value}
                         </div>
                       </div>
-                      
-                      <div className={`px-2 py-0.5 rounded text-[11px] font-bold border shrink-0 ${textRagColor}`}>
-                        {item.value}
-                      </div>
-                    </div>
+                    </Tooltip>
                   );
                 })}
               </div>

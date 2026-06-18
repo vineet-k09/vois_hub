@@ -1,6 +1,7 @@
 import React from 'react';
 import dashboardData from '../data/dashboard_data.json';
 import AnnotationCard from './AnnotationCard';
+import Tooltip from './Tooltip';
 
 interface TransformationProps {
   onDrillDown: (data: any) => void;
@@ -123,67 +124,72 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
               cardStyleClass = 'bg-panel-2/30 border-panel-border hover:bg-panel-2 hover:border-accent/40 text-ink';
             }
 
-            return (
-              <div 
-                key={item.name} 
-                className={`group rounded-xl border transition-all cursor-pointer flex flex-col gap-3 lg:grid lg:grid-cols-[1fr_320px] lg:items-center lg:gap-x-6 lg:gap-y-1.5 ${cardStyleClass} ${containerSizeClass}`}
-                onClick={() => handleItemClick(item)}
-              >
-                {/* 1. Initiative Name */}
-                <div className="lg:col-start-1 lg:row-start-1 min-w-0 flex items-center gap-1.5">
-                  {isRed && (
-                    <span className="flex h-1.5 w-1.5 relative shrink-0">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
-                    </span>
-                  )}
-                  <h4 className={`${nameFontClass} font-bold text-ink group-hover:text-accent transition-colors truncate`}>
-                    {item.name}
-                  </h4>
-                </div>
+            const getProgramTooltip = (name: string, prog: number, details: any) => {
+              return `${name} (${prog}% complete): Managed by ${details.owner}. Value outcome: ${details.value}. Risk profile: ${details.risk}. Primary dependency: ${details.dependency}. Click for drilldown detail.`;
+            };
 
-                {/* 2. Progress and stuff (Milestones, Progress Bar, Status/Risk) */}
-                <div className="lg:col-start-2 lg:row-start-1 lg:row-span-2 flex flex-col gap-2 w-full min-w-0">
-                  {/* Row 1: Milestones & Progress */}
-                  <div className="flex justify-between items-center gap-3 text-xs leading-none">
-                    <span className="font-semibold text-ink truncate">{parsed.milestones}</span>
-                    <div className="flex items-center gap-2 shrink-0">
-                      <span className="text-[10px] font-bold text-ink-soft">Progress</span>
-                      <span className="font-bold text-ink text-[11px]">{item.progress}%</span>
-                      <div className="w-12 h-1 bg-panel rounded-full overflow-hidden">
-                        <div 
-                           className={`h-full rounded-full ${barColor}`} 
-                          style={{ width: `${item.progress}%` }}
-                        />
+            return (
+              <Tooltip key={item.name} content={getProgramTooltip(item.name, item.progress, parsed)} position="top">
+                <div 
+                  className={`group rounded-xl border transition-all cursor-pointer flex flex-col gap-3 lg:grid lg:grid-cols-[1fr_320px] lg:items-center lg:gap-x-6 lg:gap-y-1.5 ${cardStyleClass} ${containerSizeClass}`}
+                  onClick={() => handleItemClick(item)}
+                >
+                  {/* 1. Initiative Name */}
+                  <div className="lg:col-start-1 lg:row-start-1 min-w-0 flex items-center gap-1.5">
+                    {isRed && (
+                      <span className="flex h-1.5 w-1.5 relative shrink-0">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
+                      </span>
+                    )}
+                    <h4 className={`${nameFontClass} font-bold text-ink group-hover:text-accent transition-colors `}>
+                      {item.name}
+                    </h4>
+                  </div>
+
+                  {/* 2. Progress and stuff (Milestones, Progress Bar, Status/Risk) */}
+                  <div className="lg:col-start-2 lg:row-start-1 lg:row-span-2 flex flex-col gap-2 w-full min-w-0">
+                    {/* Row 1: Milestones & Progress */}
+                    <div className="flex justify-between items-center gap-3 text-xs leading-none">
+                      <span className="font-semibold text-ink truncate">{parsed.milestones}</span>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="text-[10px] font-bold text-ink-soft">Progress</span>
+                        <span className="font-bold text-ink text-[11px]">{item.progress}%</span>
+                        <div className="w-12 h-1 bg-panel rounded-full overflow-hidden">
+                          <div 
+                             className={`h-full rounded-full ${barColor}`} 
+                            style={{ width: `${item.progress}%` }}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Row 2: Value, Risk, and Alignment */}
-                  <div className="flex justify-between items-center gap-3 leading-none">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <span className="text-[10px] text-rag-green font-bold shrink-0">{parsed.value}</span>
-                      <span className="text-[8.5px] text-ink-soft truncate hidden sm:inline">• {parsed.alignment}</span>
+                    {/* Row 2: Value, Risk, and Alignment */}
+                    <div className="flex justify-between items-center gap-3 leading-none">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-[10px] text-rag-green font-bold shrink-0">{parsed.value}</span>
+                        <span className="text-[8.5px] text-ink-soft truncate hidden sm:inline">• {parsed.alignment}</span>
+                      </div>
+                      <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded border shrink-0 ${
+                        isGreen
+                          ? 'bg-emerald-500/20 text-emerald-500 border-emerald-500/30'
+                          : isAmber
+                            ? 'bg-amber-500/20 text-amber-500 border-amber-500/30'
+                            : 'bg-red-500/20 text-red-500 border-red-500/30'
+                      }`}>
+                        {parsed.risk}
+                      </span>
                     </div>
-                    <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded border shrink-0 ${
-                      isGreen
-                        ? 'bg-emerald-500/20 text-emerald-500 border-emerald-500/30'
-                        : isAmber
-                          ? 'bg-amber-500/20 text-amber-500 border-amber-500/30'
-                          : 'bg-red-500/20 text-red-500 border-red-500/30'
-                    }`}>
-                      {parsed.risk}
-                    </span>
+                  </div>
+
+                  {/* 3. Owner */}
+                  <div className="lg:col-start-1 lg:row-start-2 min-w-0 mt-0.5 lg:mt-0">
+                    <p className={`${ownerFontClass} text-ink-soft font-medium tracking-wide leading-none`}>
+                      Owner: <span className="font-semibold text-ink">{parsed.owner}</span>
+                    </p>
                   </div>
                 </div>
-
-                {/* 3. Owner */}
-                <div className="lg:col-start-1 lg:row-start-2 min-w-0 mt-0.5 lg:mt-0">
-                  <p className={`${ownerFontClass} text-ink-soft font-medium tracking-wide leading-none`}>
-                    Owner: <span className="font-semibold text-ink">{parsed.owner}</span>
-                  </p>
-                </div>
-              </div>
+              </Tooltip>
             );
           })}
         </div>
