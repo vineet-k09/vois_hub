@@ -42,7 +42,7 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown, showAnnota
               )}
               {/* <span className="w-1.5 h-1.5 rounded-full bg-red-600" /> */}
             </div>
-            <h2 className="text-base font-barlow font-bold text-slate-800 uppercase tracking-wide mt-0.5">
+            <h2 className="text-base  font-bold text-slate-800 uppercase tracking-wide mt-0.5">
               {req07.title.split('—')[0]}
             </h2>
             <p className="text-slate-400 text-[10px] italic font-light mt-0.5">{req07.note}</p>
@@ -64,7 +64,7 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown, showAnnota
                 onClick={() => handleGoalClick(goal)}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <span className="font-barlow text-[11px] font-black text-red-600 bg-red-50 w-5 h-5 rounded flex items-center justify-center shrink-0">
+                  <span className=" text-[11px] font-black text-red-600 bg-red-50 w-5 h-5 rounded flex items-center justify-center shrink-0">
                     {goal.id}
                   </span>
                   <div className="truncate">

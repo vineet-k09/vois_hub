@@ -87,7 +87,7 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
               )}
               {/* <span className="w-1.5 h-1.5 rounded-full bg-red-600" /> */}
             </div>
-            <h2 className="text-base font-barlow font-bold text-slate-800 uppercase tracking-wide mt-0.5">
+            <h2 className="text-base  font-bold text-slate-800 uppercase tracking-wide mt-0.5">
               {req06.title.split('—')[0]}
             </h2>
             <p className="text-slate-400 text-[10px] italic font-light mt-0.5">{req06.note}</p>
@@ -109,9 +109,9 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
             const barColor = isGreen ? 'bg-emerald-500' : isAmber ? 'bg-amber-500' : 'bg-rose-500';
 
             // Importance scaling based on RAG - showing prominence via footprint
-            const containerSizeClass = isRed ? 'py-4.5 px-4 shadow-xs' : isAmber ? 'py-3.5 px-3.5' : 'py-2.5 px-3';
-            const nameFontClass = isRed ? 'text-sm' : 'text-xs';
-            const ownerFontClass = isRed ? 'text-[11px]' : 'text-[10px]';
+            const containerSizeClass = isRed ? 'py-4.5 px-4 shadow-xs' : isAmber ? 'py-3.5 px-3.5' : 'py-3 px-3';
+            const nameFontClass = isRed ? 'text-sm' : 'text-[13px]';
+            const ownerFontClass = isRed ? 'text-[11px]' : 'text-[10.5px]';
 
             // Theme styling consistent with KPIGrid.tsx
             let cardStyleClass = '';
@@ -126,64 +126,61 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
             return (
               <div 
                 key={item.name} 
-                className={`group rounded-xl border transition-all cursor-pointer flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3 ${cardStyleClass} ${containerSizeClass}`}
+                className={`group rounded-xl border transition-all cursor-pointer flex flex-col gap-3 lg:grid lg:grid-cols-[1fr_320px] lg:items-center lg:gap-x-6 lg:gap-y-1.5 ${cardStyleClass} ${containerSizeClass}`}
                 onClick={() => handleItemClick(item)}
               >
-                {/* Initiative Name & Owner */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-1.5">
-                    {isRed && (
-                      <span className="flex h-1.5 w-1.5 relative shrink-0">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
-                      </span>
-                    )}
-                    <h4 className={`${nameFontClass} font-bold text-slate-900 group-hover:text-red-650 transition-colors `}>
-                      {item.name}
-                    </h4>
-                  </div>
-                  <p className={`${ownerFontClass} text-slate-405 font-bold tracking-wider mt-1.5 leading-none `}>
-                    Owner: {parsed.owner}
-                  </p>
+                {/* 1. Initiative Name */}
+                <div className="lg:col-start-1 lg:row-start-1 min-w-0 flex items-center gap-1.5">
+                  {isRed && (
+                    <span className="flex h-1.5 w-1.5 relative shrink-0">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
+                    </span>
+                  )}
+                  <h4 className={`${nameFontClass} font-bold text-slate-900 group-hover:text-red-655 transition-colors truncate`}>
+                    {item.name}
+                  </h4>
                 </div>
 
-                {/* Milestones & Value */}
-                <div className="flex-1 min-w-0">
-                  <p className="text-[11px] text-slate-700 font-semibold leading-none ">
-                    {parsed.milestones}
-                  </p>
-                  <p className="text-[9px] text-emerald-650 font-bold mt-1 leading-none truncate">
-                    {parsed.value}
-                  </p>
+                {/* 2. Progress and stuff (Milestones, Progress Bar, Status/Risk) */}
+                <div className="lg:col-start-2 lg:row-start-1 lg:row-span-2 flex flex-col gap-2 w-full min-w-0">
+                  {/* Row 1: Milestones & Progress */}
+                  <div className="flex justify-between items-center gap-3 text-xs leading-none">
+                    <span className="font-semibold text-slate-700 truncate">{parsed.milestones}</span>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="text-[10px] font-bold text-slate-400">Progress</span>
+                      <span className="font-bold text-slate-750 text-[11px]">{item.progress}%</span>
+                      <div className="w-12 h-1 bg-slate-100 rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full rounded-full ${barColor}`} 
+                          style={{ width: `${item.progress}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Row 2: Value, Risk, and Alignment */}
+                  <div className="flex justify-between items-center gap-3 leading-none">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="text-[10px] text-emerald-650 font-bold shrink-0">{parsed.value}</span>
+                      <span className="text-[8.5px] text-slate-400 truncate hidden sm:inline">• {parsed.alignment}</span>
+                    </div>
+                    <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded border shrink-0 ${
+                      isGreen
+                        ? 'bg-emerald-50 text-emerald-700 border-emerald-150'
+                        : isAmber
+                          ? 'bg-amber-50 text-amber-700 border-amber-150'
+                          : 'bg-red-50 text-red-700 border-red-150'
+                    }`}>
+                      {parsed.risk}
+                    </span>
+                  </div>
                 </div>
 
-                {/* Progress Bar & Percentage */}
-                <div className="flex-none w-24 md:w-28 min-w-0">
-                  <div className="flex justify-between items-baseline text-[9px] text-slate-400 mb-0.5 leading-none">
-                    <span>Progress</span>
-                    <span className="font-bold text-slate-750">{item.progress}%</span>
-                  </div>
-                  <div className="h-1 bg-slate-100 rounded-full overflow-hidden">
-                    <div 
-                      className={`h-full rounded-full ${barColor}`} 
-                      style={{ width: `${item.progress}%` }}
-                    />
-                  </div>
-                </div>
-
-                {/* Risks / Status & Alignment */}
-                <div className="flex-none w-32 md:w-40 min-w-0 text-left md:text-right flex flex-row md:flex-col justify-between md:justify-center items-center md:items-end gap-1 leading-none">
-                  <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded border ${
-                    isGreen
-                      ? 'bg-emerald-50 text-emerald-700 border-emerald-150'
-                      : isAmber
-                        ? 'bg-amber-50 text-amber-700 border-amber-150'
-                        : 'bg-red-50 text-red-700 border-red-150'
-                  } whitespace-nowrap overflow-hidden text-ellipsis`}>
-                    {parsed.risk}
-                  </span>
-                  <p className="text-[8px] text-slate-400 mt-1 truncate max-w-full">
-                    {parsed.alignment}
+                {/* 3. Owner */}
+                <div className="lg:col-start-1 lg:row-start-2 min-w-0 mt-0.5 lg:mt-0">
+                  <p className={`${ownerFontClass} text-slate-500 font-medium tracking-wide leading-none`}>
+                    Owner: <span className="font-semibold text-slate-700">{parsed.owner}</span>
                   </p>
                 </div>
               </div>

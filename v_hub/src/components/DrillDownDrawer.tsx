@@ -176,7 +176,7 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
               data.rag === 'green' ? 'bg-emerald-500' : data.rag === 'amber' ? 'bg-amber-500' : data.rag === 'red' ? 'bg-red-500' : 'bg-slate-400'
             }`} />
           </div>
-          <h2 className="text-base font-barlow font-bold text-slate-905 uppercase tracking-wide leading-tight">
+          <h2 className="text-base  font-bold text-slate-905 uppercase tracking-wide leading-tight">
             {data.label || data.name}
           </h2>
         </div>
@@ -278,7 +278,7 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
                     <div key={i} className="flex items-center justify-between p-2 rounded-lg border border-slate-100 hover:bg-slate-50/50 transition-colors leading-none">
                       <span className="text-[11px] font-medium text-slate-600">{stat.label}</span>
                       <div className="flex items-center gap-2">
-                        <span className="font-barlow text-sm font-black text-slate-905">{stat.val}</span>
+                        <span className="text-sm text-slate-905">{stat.val}</span>
                         <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded-full border leading-none shrink-0 ${chipColor}`}>
                           {stat.status}
                         </span>
@@ -298,7 +298,7 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
               <>
                 <div className="flex items-center justify-between bg-slate-900 text-white p-3 rounded-lg shadow-sm">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-7 h-7 rounded bg-red-655 flex items-center justify-center text-white font-bold font-barlow text-xs">
+                    <div className="w-7 h-7 rounded bg-red-655 flex items-center justify-center text-white font-bold text-xs">
                       {reqId}
                     </div>
                     <div>

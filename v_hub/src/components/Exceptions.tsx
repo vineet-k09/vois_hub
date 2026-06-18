@@ -42,7 +42,7 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown, showAnnotations })
               )}
               {/* <span className="w-1.5 h-1.5 rounded-full bg-red-600" /> */}
             </div>
-            <h2 className="text-base font-barlow font-bold text-slate-800 uppercase tracking-wide mt-0.5">
+            <h2 className="text-base  font-bold text-slate-800 uppercase tracking-wide mt-0.5">
               {req03.title.split('—')[0]}
             </h2>
             <p className="text-slate-400 text-[10px] italic font-light mt-0.5">{req03.note}</p>
@@ -85,7 +85,7 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown, showAnnotations })
                         </div>
                       </div>
                       
-                      <div className={`px-2 py-0.5 rounded text-[11px] font-barlow font-bold border shrink-0 ${textRagColor}`}>
+                      <div className={`px-2 py-0.5 rounded text-[11px]  font-bold border shrink-0 ${textRagColor}`}>
                         {item.value}
                       </div>
                     </div>

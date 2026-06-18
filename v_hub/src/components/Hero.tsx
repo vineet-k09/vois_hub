@@ -19,7 +19,7 @@ const Hero: React.FC<{ onDrillDown: (data: any) => void }> = ({ onDrillDown }) =
               <span className="w-1 h-1 rounded-full bg-panel-border" />
               <span>Refreshed daily</span>
             </div>
-            <h1 className="font-barlow text-5xl font-light tracking-tight text-ink">
+            <h1 className=" text-5xl font-light tracking-tight text-ink">
               {hero.title.replace('Summary', '')} <span className="font-semibold text-grad-2">{hero.accent}</span>
             </h1>
             <p className="text-ink-soft text-sm leading-relaxed max-w-2xl font-light">
@@ -54,7 +54,7 @@ const Hero: React.FC<{ onDrillDown: (data: any) => void }> = ({ onDrillDown }) =
 
           <div className="space-y-4">
             <div className="flex items-center gap-3 border-b border-panel-border pb-3">
-              <h3 className="font-barlow text-lg font-bold text-ink uppercase tracking-wider">{aiSummary.title}</h3>
+              <h3 className=" text-lg font-bold text-ink uppercase tracking-wider">{aiSummary.title}</h3>
               <button 
                 onClick={() => onDrillDown({ label: 'AI Executive Summary', requirementId: 2, type: 'requirement' })}
                 className="text-[10px] text-muted-text font-bold uppercase hover:text-grad-1 transition-colors cursor-help"

@@ -13,12 +13,11 @@ import { toPng } from 'html-to-image';
 import { jsPDF } from 'jspdf';
 
 const App: React.FC = () => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [showAnnotations, setShowAnnotations] = useState(false);
   const [activeStakeholder, setActiveStakeholder] = useState('★ Board Members');
   const [activePillar, setActivePillar] = useState('CEO SUMMARY');
-  const [viewMode, setViewMode] = useState<'dashboard' | 'split' | 'deep-dive'>('dashboard');
+  const [viewMode, setViewMode] = useState<'split' | 'deep-dive'>('split');
   const [isDesktop, setIsDesktop] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -49,9 +48,6 @@ const App: React.FC = () => {
 
   const handleDrillDown = (item: any) => {
     setSelectedItem(item);
-    if (viewMode === 'dashboard') {
-      setDrawerOpen(true);
-    }
   };
 
   const handleActionClick = (actionName: string) => {
@@ -147,7 +143,7 @@ const App: React.FC = () => {
                   </span>
                 )}
               </div>
-              <h2 className="text-sm font-barlow font-bold text-slate-800 uppercase tracking-wide mt-1.5 leading-none">
+              <h2 className="text-sm  font-bold text-slate-800 uppercase tracking-wide mt-1.5 leading-none">
                 {aiSummary.title}
               </h2>
               <p
@@ -260,9 +256,8 @@ const App: React.FC = () => {
                           REQ 08 · GMT Owner Grip
                         </span>
                       )}
-                      {/* <span className="w-1.5 h-1.5 rounded-full bg-red-600" /> */}
                     </div>
-                    <h2 className="text-base font-barlow font-bold text-slate-800 uppercase tracking-wide mt-0.5">
+                    <h2 className="text-base font-bold text-slate-800 uppercase tracking-wide mt-0.5">
                       GMT Owner Grip
                     </h2>
                     <p className="text-slate-450 text-[10px] italic font-light mt-0.5">
@@ -386,11 +381,11 @@ const App: React.FC = () => {
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
           <div className="flex items-center gap-3">
-            <div className="bg-white/15 border border-white/20 px-2.5 py-0.5 font-barlow font-black text-xl tracking-widest rounded">
+            <div className="bg-white/15 border border-white/20 px-2.5 py-0.5  font-black text-xl tracking-widest rounded">
               {branding.logo}
             </div>
             <div>
-              <h1 className="font-barlow text-lg font-bold tracking-wide leading-none">
+              <h1 className=" text-lg font-bold tracking-wide leading-none">
                 {branding.name}
               </h1>
               <p className="text-white/85 text-[9px] uppercase font-bold tracking-widest mt-0.5">
@@ -550,14 +545,6 @@ const App: React.FC = () => {
             <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider leading-none">Layout</span>
             <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200">
               <button
-                onClick={() => setViewMode('dashboard')}
-                className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase transition-all cursor-pointer leading-none ${
-                  viewMode === 'dashboard' ? 'bg-white text-slate-800 shadow-xs' : 'text-slate-500 hover:text-slate-800'
-                }`}
-              >
-                Dashboard
-              </button>
-              <button
                 onClick={() => setViewMode('split')}
                 className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase transition-all cursor-pointer leading-none ${
                   viewMode === 'split' ? 'bg-white text-slate-800 shadow-xs' : 'text-slate-500 hover:text-slate-800'
@@ -600,10 +587,10 @@ const App: React.FC = () => {
               className="w-full"
             >
               <button 
-                onClick={() => setViewMode('dashboard')}
+                onClick={() => setViewMode('split')}
                 className="mb-3 text-[10px] font-bold text-red-655 hover:underline flex items-center gap-1 cursor-pointer leading-none"
               >
-                ← Return to Dashboard View
+                ← Return to Split View
               </button>
               <DrillDownDrawer
                 open={true}
@@ -664,14 +651,6 @@ const App: React.FC = () => {
           )}
         </AnimatePresence>
       </motion.main>
-
-      {/* Global Drill-down Overlay Drawer (Dashboard view overlay mode) */}
-      <DrillDownDrawer
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        data={selectedItem}
-        inline={false}
-      />
     </div>
   );
 };

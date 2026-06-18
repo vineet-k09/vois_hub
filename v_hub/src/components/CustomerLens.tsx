@@ -42,7 +42,7 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown, showAnnotation
               )}
               {/* <span className="w-1.5 h-1.5 rounded-full bg-red-600" /> */}
             </div>
-            <h2 className="text-base font-barlow font-bold text-slate-800 uppercase tracking-wide mt-0.5">
+            <h2 className="text-base  font-bold text-slate-800 uppercase tracking-wide mt-0.5">
               {req04.title.split('—')[0]}
             </h2>
             <p className="text-slate-400 text-[10px] italic font-light mt-0.5">{req04.note}</p>
@@ -60,7 +60,7 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown, showAnnotation
         <div className="bg-slate-50/50 p-3 rounded-xl border border-slate-100 mb-4 pl-2.5 flex justify-between items-center">
           <div>
             <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">SELECTED ACCOUNT</span>
-            <h4 className="text-lg font-barlow font-bold text-slate-800 tracking-wide mt-0.5 leading-none">
+            <h4 className="text-lg  font-bold text-slate-800 tracking-wide mt-0.5 leading-none">
               {req04.customerDetail.name}
             </h4>
           </div>

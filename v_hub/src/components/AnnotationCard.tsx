@@ -64,7 +64,7 @@ const AnnotationCard: React.FC<AnnotationCardProps> = ({
       {/* Brief Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pb-3.5 border-b border-slate-200/60">
         <div className="flex items-center gap-3">
-          <div className="bg-slate-900 text-white font-barlow text-sm font-black w-8 h-8 rounded-lg flex items-center justify-center shadow-sm">
+          <div className="bg-slate-900 text-white text-sm font-black w-8 h-8 rounded-lg flex items-center justify-center shadow-sm">
             {id.padStart(2, '0')}
           </div>
           <div>

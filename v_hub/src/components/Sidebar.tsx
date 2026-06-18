@@ -32,10 +32,10 @@ const Sidebar: React.FC = () => {
   return (
     <aside className="w-64 h-screen bg-rail text-rail-text flex flex-col sticky top-0 left-0 overflow-y-auto">
       <div className="p-6 flex items-center gap-3">
-        <div className="bg-white/10 border border-white/20 px-3 py-1 font-barlow font-bold text-2xl tracking-widest uppercase">
+        <div className="bg-white/10 border border-white/20 px-3 py-1  font-bold text-2xl tracking-widest uppercase">
           {branding.logo}
         </div>
-        <div className="font-barlow font-light text-xl tracking-wider">
+        <div className=" font-light text-xl tracking-wider">
           {branding.name}
         </div>
       </div>

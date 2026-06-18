@@ -50,7 +50,7 @@ const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown, showAnnotations }) => {
             )}
             {/* <span className="w-1.5 h-1.5 rounded-full bg-red-650" /> */}
           </div>
-          <h2 className="text-base font-barlow font-bold text-slate-800 uppercase tracking-wide mt-0.5">
+          <h2 className="text-base  font-bold text-slate-800 uppercase tracking-wide mt-0.5">
             {req01.title.split('—')[0]}
           </h2>
           <p className="text-slate-400 text-[10px] italic font-light mt-0.5">{req01.note}</p>
