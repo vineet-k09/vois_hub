@@ -107,7 +107,7 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown, showAnnotation
                 return (
                   <Tooltip key={item.label} content={getPerformanceTooltip(item.label)} position="top">
                     <div className="flex justify-between items-center text-[11px] py-1 border-b border-panel-border/50 leading-none cursor-help hover:bg-panel-2/30 px-1 rounded transition-colors">
-                      <span className="text-ink-soft font-medium">{item.label}</span>
+                      <span className="text-ink font-medium">{item.label}</span>
                       <span className={textRagColor}>{item.value}</span>
                     </div>
                   </Tooltip>
@@ -187,7 +187,7 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown, showAnnotation
                 return (
                   <Tooltip key={item.label} content={getWalletTooltip(item.label)} position="top">
                     <div className="flex justify-between items-center text-[11px] py-1 border-b border-panel-border/50 leading-none cursor-help hover:bg-panel-2/30 px-1 rounded transition-colors">
-                      <span className="text-ink-soft font-medium">{item.label}</span>
+                      <span className="text-ink font-medium">{item.label}</span>
                       <span className={textRagColor}>{item.value}</span>
                     </div>
                   </Tooltip>

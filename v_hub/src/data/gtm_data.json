@@ -1,0 +1,255 @@
+{
+  "branding": {
+    "user": {
+      "initials": "CB",
+      "name": "Chris",
+      "role": "GTM Director"
+    },
+    "period": "FY27 · Mar-26 close"
+  },
+  "hero": {
+    "title": "GTM Summary",
+    "accent": "Summary",
+    "description": "Your commercial-and-delivery lens across VOIS — enriched Salesforce pipeline alongside the cross-functional cuts that matter most: recognised revenue vs sold deals, top-10 delivery risks on major deals, service-offering roadmap per tower, share-of-wallet against competitors, consolidated customer story for meetings, and AI-generated competitive briefs for major deals."
+  },
+  "kpis": [
+    { "label": "Qualified Pipeline €M", "value": "1,359", "target": "T: 1,500", "trend": "Vol 14", "rag": "green", "month": "Mar-26" },
+    { "label": "Win Conversion %", "value": "62%", "target": "T: 55%", "trend": "▲ 7pp vs PM", "rag": "green", "month": "Mar-26" },
+    { "label": "New Logos / Gen-2", "value": "7", "target": "Value €82M", "trend": "▲ 2 vs PM", "rag": "amber", "month": "Mar-26" },
+    { "label": "Revenue Recognition Gap", "value": "-6.2%", "target": "€124M vs deal projection", "trend": "-6.2% projection", "rag": "amber", "month": "FY27 YTD" }
+  ],
+  "pipelineFunnel": {
+    "stages": [
+      { "stage": "Lead / Qualify", "value": 842, "opps": 86, "trend": "▲ 8% vs PM" },
+      { "stage": "Propose", "value": 618, "opps": 42, "trend": "▲ 4% vs PM" },
+      { "stage": "Negotiate", "value": 386, "opps": 21, "trend": "▼ 2% vs PM" },
+      { "stage": "Commit", "value": 214, "opps": 14, "trend": "▲ 6% vs PM" },
+      { "stage": "Closed Won (YTD)", "value": 482, "opps": 31, "trend": "▲ 12% vs PM" }
+    ],
+    "links": {
+      "revenueRecognition": "€124M gap | -6.2% projection vs actual · concentrated in 3 deals",
+      "deliveryRisk": "3 Red · 4 Amber | €289M of revenue under amber/red RAG",
+      "hrSignal": "612 open VRFs | Project Atlas hiring against 1,000-hire commitment"
+    }
+  },
+  "revenueRecognition": {
+    "monthlyData": [
+      { "month": "Apr", "projected": 140, "actual": 128 },
+      { "month": "May", "projected": 142, "actual": 130 },
+      { "month": "Jun", "projected": 148, "actual": 132 },
+      { "month": "Jul", "projected": 156, "actual": 142 },
+      { "month": "Aug", "projected": 162, "actual": 148 },
+      { "month": "Sep", "projected": 168, "actual": 152 },
+      { "month": "Oct", "projected": 172, "actual": 158 },
+      { "month": "Nov", "projected": 178, "actual": 162 },
+      { "month": "Dec", "projected": 182, "actual": 166 },
+      { "month": "Jan", "projected": 188, "actual": 172 },
+      { "month": "Feb", "projected": 194, "actual": 176 },
+      { "month": "Mar", "projected": 200, "actual": 182 }
+    ],
+    "majorDeals": [
+      { "deal": "Project Helios — DT Group", "sold": 186, "recognised": 142, "variance": -24, "rag": "red" },
+      { "deal": "Project Atlas — IDEA", "sold": 94, "recognised": 81, "variance": -14, "rag": "amber" },
+      { "deal": "Programme Iris — UKG", "sold": 61, "recognised": 62, "variance": 2, "rag": "green" },
+      { "deal": "Vantage Cloud — DE-Local", "sold": 48, "recognised": 40, "variance": -17, "rag": "amber" },
+      { "deal": "Project Orion — Vfz", "sold": 42, "recognised": 26, "variance": -38, "rag": "red" },
+      { "deal": "Aggregate (FY27 YTD)", "sold": 2005, "recognised": 1881, "variance": -6.2, "rag": "amber" }
+    ]
+  },
+  "deliveryRisk": {
+    "deals": [
+      { "rank": 1, "deal": "Project Helios — BVOIS", "meta": "7-yr · ENT", "customer": "DT Group", "value": "€186M", "rag": "red", "milestones": "2 missed · Q3 cutover · UAT sign-off slip", "risks": "Onshore skill gap · vendor handover risk" },
+      { "rank": 2, "deal": "Project Orion — Tier-3 Ops", "meta": "3-yr · ENT", "customer": "Vfz Group", "value": "€42M", "rag": "red", "milestones": "3 missed · automation rollout · transition gates", "risks": "Customer dependency on legacy system" },
+      { "rank": 3, "deal": "Project Atlas — Hire-to-Serve", "meta": "3-yr · Gen-2", "customer": "IDEA Group", "value": "€94M", "rag": "amber", "milestones": "1 missed · VRF approval queue", "risks": "1,000-hire target · onboarding pipeline · skills" },
+      { "rank": 4, "deal": "Programme Iris — CARE", "meta": "5-yr · ENT", "customer": "UKG", "value": "€61M", "rag": "amber", "milestones": "On plan · renewal Q2 pending", "risks": "Renewal commercial gap · auto-renew unclear" },
+      { "rank": 5, "deal": "Vantage Cloud — DE-Local", "meta": "5-yr · ENT", "customer": "DE-Local", "value": "€48M", "rag": "amber", "milestones": "M3/8 done · 1 week slip", "risks": "Network capacity / 3rd-party SoW slip" },
+      { "rank": 6, "deal": "Lumen — Analytics Suite", "meta": "3-yr · MID", "customer": "Vfz Spain", "value": "€38M", "rag": "amber", "milestones": "On plan · pen-test pending", "risks": "Data residency clarification" },
+      { "rank": 7, "deal": "Helios+ — Cloud Refresh", "meta": "3-yr · ENT", "customer": "DT Group", "value": "€34M", "rag": "green", "milestones": "All milestones on plan", "risks": "No material risks" },
+      { "rank": 8, "deal": "Sirius — Edge Network", "meta": "4-yr · ENT", "customer": "UKG", "value": "€31M", "rag": "green", "milestones": "All milestones on plan", "risks": "Watch: hardware lead-times Q3" },
+      { "rank": 9, "deal": "Polaris — Data Platform", "meta": "3-yr · ENT", "customer": "NL-Net", "value": "€28M", "rag": "green", "milestones": "On plan", "risks": "No material risks" },
+      { "rank": 10, "deal": "Atlas Lite — Mid-tier Pack", "meta": "3-yr · MID", "customer": "3 customers", "value": "€28M", "rag": "red", "milestones": "2 missed · billing integration", "risks": "Mixed auto-renew · customer churn risk" }
+    ],
+    "footerText": "Top 10 total value: €590M · 3 Red (€256M) · 4 Amber (€241M) · 3 Green (€93M)"
+  },
+  "serviceOfferings": [
+    {
+      "tower": "BVOIS",
+      "offerings": [
+        { "name": "Sovereign Cloud EU", "status": "beta", "desc": "Data-sovereign hosting · EU residency · scope-3 reporting", "milestone": "GA Q3-26 · M3/5 done" },
+        { "name": "Cloud FinOps Plus", "status": "live", "desc": "Spend optimisation as managed service", "milestone": "Launched Feb-26 · 4 customers" },
+        { "name": "DR-as-a-Service v2", "status": "plan", "desc": "Multi-region, sub-15-min RPO", "milestone": "Build start Q3-26" }
+      ]
+    },
+    {
+      "tower": "D&IT",
+      "offerings": [
+        { "name": "AI Co-Pilot Pack", "status": "live", "desc": "Embedded Copilot agents · 18 use-cases", "milestone": "Available now · 12 pilots running" },
+        { "name": "Industry LLMs", "status": "beta", "desc": "Pre-tuned vertical models · telco / retail / fin-svcs", "milestone": "GA Q2-26 · 3 customers" },
+        { "name": "Lakehouse Refresh", "status": "plan", "desc": "Open-table format · streaming-native", "milestone": "Design Q3-26" }
+      ]
+    },
+    {
+      "tower": "CARE",
+      "offerings": [
+        { "name": "AI Triage Bot", "status": "beta", "desc": "Auto-resolve tier-1 tickets · 38% deflection", "milestone": "GA Q2-26 · 6 customer trials" },
+        { "name": "Onshore Premium", "status": "live", "desc": "Regulated industry support · onshore SLAs", "milestone": "Launched Q4-25 · uptake +18%" },
+        { "name": "Predictive Outage", "status": "plan", "desc": "Anomaly detection → pre-emptive action", "milestone": "Build start Q3-26" }
+      ]
+    },
+    {
+      "tower": "I/O",
+      "offerings": [
+        { "name": "Edge-as-a-Service", "status": "beta", "desc": "Customer-managed edge POPs · 5G hand-off", "milestone": "GA Q2-26 · M5/8 done" },
+        { "name": "SASE Bundle", "status": "live", "desc": "SD-WAN + Zero-Trust + SWG bundled", "milestone": "Available now · 9 customers" },
+        { "name": "Quantum-Safe VPN", "status": "plan", "desc": "Post-quantum cryptography", "milestone": "Design Q3-26" }
+      ]
+    }
+  ],
+  "shareOfWallet": {
+    "shareByCustomer": [
+      { "customer": "DT Group", "spend": 914, "vois": 38, "compA": 24, "compB": 17, "other": 21 },
+      { "customer": "UKG", "spend": 642, "vois": 52, "compA": 18, "compB": 14, "other": 16 },
+      { "customer": "IDEA Group", "spend": 488, "vois": 21, "compA": 34, "compB": 25, "other": 20 },
+      { "customer": "Vfz Group", "spend": 412, "vois": 44, "compA": 22, "compB": 18, "other": 16 },
+      { "customer": "NL-Net", "spend": 286, "vois": 29, "compA": 28, "compB": 22, "other": 21 }
+    ],
+    "opportunities": [
+      { "customer": "IDEA", "service": "Analytics platform", "value": 48, "voisPercent": 21, "type": "UPSELL" },
+      { "customer": "NL-Net", "service": "Network refresh", "value": 34, "voisPercent": 29, "type": "UPSELL" },
+      { "customer": "DT Group", "service": "Edge expansion", "value": 28, "voisPercent": 38, "type": "DEFEND" },
+      { "customer": "UKG", "service": "CARE EU", "value": 22, "voisPercent": 52, "type": "DEFEND" },
+      { "customer": "Vfz", "service": "AI Co-Pilot", "value": 18, "voisPercent": 44, "type": "CROSS" }
+    ]
+  },
+  "customerPerformance": {
+    "selectedCustomer": "DT Group",
+    "nps": 48,
+    "npsDelta": 4,
+    "npsStatus": "Promoter",
+    "npsHistory": [40, 42, 38, 41, 43, 44, 45, 46, 45, 47, 44, 48],
+    "problems": [
+      { "name": "EU billing-batch latency", "rag": "P1", "desc": "Open 9 days · workaround in place · scoped fix Q2 · 2nd recurrence" },
+      { "name": "Service-now backlog > 7d", "rag": "P2", "desc": "142 tickets in backlog · Tier-3 capacity gap · staffing in flight" },
+      { "name": "Tier-3 onshore staffing", "rag": "Risk", "desc": "12 critical roles open · MMD engagement lead flagged 25-Feb" },
+      { "name": "Cloud region outage — DE-West", "rag": "P2", "desc": "8-Feb · 47 min impact · RCA shared · credit applied" }
+    ],
+    "synthesis": "DT Group remains a strong promoter (NPS +48, ▲ 4 vs prior month) with positive trajectory over 12 months. Service health is rated green overall and engagement-lead sentiment is positive. Pressure points to acknowledge in meeting: recurring EU billing-batch latency (open 9 days, 2nd recurrence) and a Tier-3 onshore staffing gap which is feeding the Service-Now backlog. Talking points: AI Triage Bot rollout (Q2-26 GA) directly addresses Tier-3 backlog; Sovereign Cloud EU offer aligns with their data-residency programme; €28M edge-expansion opportunity is ready to position."
+  },
+  "competitiveBrief": {
+    "meeting": "DT Group · 28 Mar",
+    "compA": {
+      "name": "Competitor A",
+      "trend": "down",
+      "signals": [
+        "Revenue −4.2% YoY · soft commercial print, margin pressure cited by CFO.",
+        "Lost deal at AT-mid: VOIS-style Hire-to-Serve win publicly reported.",
+        "Supply chain · 90-day shipment delay on edge hardware confirmed in earnings.",
+        "Strategy shift · de-emphasising mid-market — opportunity to pursue IDEA Group accounts."
+      ]
+    },
+    "compB": {
+      "name": "Competitor B",
+      "trend": "up",
+      "signals": [
+        "Revenue +9.1% YoY · cloud-services growth and AI services traction.",
+        "Major win · UK public sector framework (£180M / 5y) — credibility boost.",
+        "New offer · Industry-LLM bundle launched — direct overlap with our AI Co-Pilot Pack.",
+        "Hiring · 600+ AI roles posted — capacity-building signal."
+      ]
+    },
+    "customer": {
+      "name": "DT Group",
+      "trend": "flat",
+      "signals": [
+        "Steady results · revenue +1.1% · CapEx programme unchanged.",
+        "Strategy · public commitment to data-residency programme — Sovereign Cloud EU pitch.",
+        "Leadership · new CIO appointed Q1 · published comments on AI-Ops.",
+        "Procurement · multi-vendor framework refresh expected H2 — door for share-shift."
+      ]
+    }
+  },
+  "aiSummary": {
+    "title": "GTM Executive Summary",
+    "overall": "Commercial performance is strong on the front-end with material delivery exposure. Pipeline and win-rate are tracking ahead of plan, but recognised revenue is 6.2% behind sold projection — concentrated in three large deals — and the top-10 deal portfolio carries 3 Red / 4 Amber RAGs covering €497M.",
+    "takeaways": [
+      { "text": "Pipeline: €1,359M qualified · win conversion 62% (▲ 7pp)." },
+      { "text": "Bookings: 7 new logos / Gen-2 deals booked in Mar-26." },
+      { "text": "Customer health: NPS strong on top-10 customers; DT Group at +48 (▲ 4)." }
+    ],
+    "watchpoints": [
+      { "text": "Revenue recognition gap: −€124M (−6.2%) — Helios (−24%) and Orion (−38%) the largest variances." },
+      { "text": "Delivery RAG: 3 Red / 4 Amber in top 10 — €497M revenue under risk." },
+      { "text": "Share of Wallet: data still RED — IDEA at 21% is the clearest growth opportunity (€48M)." }
+    ],
+    "actions": [
+      { "text": "Convene Helios & Orion delivery reviews this week — bring forward SME risk inputs." },
+      { "text": "Position Sovereign Cloud EU + Edge expansion ahead of DT Group meeting (28 Mar)." },
+      { "text": "Confirm competitor list and refresh cadence for Share of Wallet view." }
+    ]
+  },
+  "annotations": {
+    "GTM.1": {
+      "title": "GTM.1 — Pipeline & Salesforce Feed",
+      "status": "GREEN · COVERED IN DEPTH",
+      "description": "Enriched Salesforce pipeline view on the GTM persona dashboard, with the cross-functional cuts most relevant to Chris (revenue recognition, delivery risk on major deals) surfaced alongside.",
+      "acceptanceCriteria": "Chris's persona view shows the pipeline plus the linked finance and delivery-risk signals on one screen, with a filter to top deals.",
+      "userStory": "As the GTM Director, I want an enriched Salesforce pipeline view on my persona dashboard with the most relevant cross-functional cuts (revenue recognition, delivery risk on major deals) surfaced alongside, so that I see commercial performance and the linked downstream risks on one screen.",
+      "dependencies": ["Salesforce API", "Finance Data Hub"],
+      "feedback": ["Surfaces pipeline and downstream metrics in one dashboard widget", "Enriched with VRF recruiting requests metrics"]
+    },
+    "GTM.1.1": {
+      "title": "GTM.1.1 — Revenue Recognition vs Targets",
+      "status": "AMBER · NEW STRUCTURED VIEW",
+      "description": "Closed-loop view linking sold deals to recognised revenue over the contract life, so the gap between deal projection and actual revenue is visible by deal and in aggregate.",
+      "acceptanceCriteria": "Each major sold deal shows projected vs actual revenue over time with variance flagged. Aggregate view rolls these up by tower and customer.",
+      "userStory": "As the GTM Director, I want a closed-loop view linking sold deals to recognised revenue over the contract life by deal and in aggregate, so that I can see and explain the gap between deal projection and actual revenue delivered.",
+      "dependencies": ["SAP Finance Hub", "Salesforce Contracts Module"],
+      "feedback": ["Variance displayed clearly for Top 5 deals", "Aggregate views roll up to Sarah's forecast inputs"]
+    },
+    "GTM.1.2": {
+      "title": "GTM.1.2 — ★ Delivery Risk per Major Deal",
+      "status": "RED · NEW DATA TO CAPTURE",
+      "description": "Top-10 major-deal delivery-risk view combining SME-led risk inputs (quarterly population) with weekly RAG comments from delivery leads during the contract period.",
+      "acceptanceCriteria": "User sees the top 10 deals (above the revenue threshold) with current RAG, missed milestones, current issues and the SME-identified risks for each, refreshed quarterly with SME inputs.",
+      "userStory": "As the GTM Director, I want a top-10 major-deal delivery-risk view combining quarterly SME-led risk inputs with weekly RAG comments from delivery leads, so that pre- and post-contract delivery risks on the biggest deals are visible alongside the commercial view.",
+      "dependencies": ["Workforce Management Portal", "SME Inputs Registry"],
+      "feedback": ["Integrates weekly status with quarterly review cycle data", "SME flags focus on engineering and capability roadblocks"]
+    },
+    "GTM.2": {
+      "title": "GTM.2 — Service Offering Roadmap",
+      "status": "AMBER · NOT PRESENT TODAY",
+      "description": "Visibility on new offerings and improvements to existing services across the service towers in the Hub.",
+      "acceptanceCriteria": "GTM user sees per-tower a list of new and evolving service offerings with milestone status, so they know what is coming and can position it with customers.",
+      "userStory": "As the GTM Director, I want per-tower visibility of new and evolving service offerings with milestone status sourced from Horizon 2, so that I know what is coming from each service tower and can position it confidently with customers.",
+      "dependencies": ["Horizon 2 Product Roadmap Database"],
+      "feedback": ["Service lines represented are BVOIS, D&IT, CARE, I/O", "Status fields map to Beta, Live, and Plan states"]
+    },
+    "GTM.3": {
+      "title": "GTM.3 — Share of Wallet / Market Opportunity",
+      "status": "RED · DATA TO BE SOURCED",
+      "description": "View of the share-of-wallet with external competitors to track new opportunities that will increase market share for VOIS.",
+      "acceptanceCriteria": "GTM user is able to compare the VOIS share of wallet against its competitors in the VOIS penetration dashboard.",
+      "userStory": "As the GTM Director, I want a view of VOIS share-of-wallet versus external competitors and an indication of new opportunities to grow market share, so that I can identify upsell opportunities and target growth more effectively.",
+      "dependencies": ["Paid Market Aggregators API", "Salesforce Account Plans"],
+      "feedback": ["Competitor list details are placeholder data to be verified", "Opportunity sizing connects to account manager pipelines"]
+    },
+    "GTM.4": {
+      "title": "GTM.4 — Customer Satisfaction & Delivery Risks",
+      "status": "AMBER · DATA MOSTLY EXISTS",
+      "description": "Consolidated customer-performance page combining NPS with the MMD problem jobs and service-impacting incidents into one customer-facing story, ready for use in customer meetings.",
+      "acceptanceCriteria": "User selects a customer and sees NPS trend, current open problem jobs, recent service-impacting incidents and the related narrative on one page.",
+      "userStory": "As the GTM Director, I want a consolidated customer-performance page combining NPS, MMD problem jobs and service-impacting incidents into one story, so that I can walk into customer-facing meetings with a complete picture of satisfaction and delivery health.",
+      "dependencies": ["Glint NPS Database", "Incident Management System (ServiceNow)"],
+      "feedback": ["DT Group is loaded as the default customer story", "AI summary integrates metrics from incidents and feedback cycles"]
+    },
+    "GTM.5": {
+      "title": "GTM.5 — Competitive Positioning",
+      "status": "AMBER · NEW AI-DRIVEN VIEW",
+      "description": "Aggregated competitor-positioning view drawn from public sources (company reports, market data, paid aggregators). AI-summary for sales teams ahead of major customer meetings (quarter up / down, supply chain, competitor deal-wins) to gain competitive advantage in deal negotiations.",
+      "acceptanceCriteria": "Before a major customer meeting, the sales lead can pull a one-page AI-generated competitor / customer brief from the Hub covering recent public data points.",
+      "userStory": "As the GTM Director, I want an aggregated competitor-positioning view drawn from public sources with AI-generated competitor / customer briefs ahead of major customer meetings, so that I can take a competitive advantage into deal negotiations.",
+      "dependencies": ["LLM Brief Generation Service", "Public Aggregators Feed"],
+      "feedback": ["1-pager download is supported as a mock action trigger", "Saves briefs on demand per selected meeting calendar"]
+    }
+  }
+}

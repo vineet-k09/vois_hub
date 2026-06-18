@@ -8,6 +8,9 @@ import {
 } from '@mui/material';
 import { X, ClipboardList, BarChart3, MessageSquare, ShieldCheck, History, User } from 'lucide-react';
 import dashboardData from '../data/dashboard_data.json';
+import financeData from '../data/finance_data.json';
+import gtmData from '../data/gtm_data.json';
+import hrData from '../data/hr_data.json';
 
 // Deterministic hash to map dashboard items to unique realistic contents
 const getHash = (str: string) => {
@@ -112,7 +115,12 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
 
   // Find requirement metadata
   const reqId = data.requirementId || data.requirement?.replace('REQ ', '') || '1';
-  const requirement = dashboardData.annotations[reqId as keyof typeof dashboardData.annotations];
+  const requirement = {
+    ...dashboardData.annotations,
+    ...(financeData.annotations || {}),
+    ...(gtmData.annotations || {}),
+    ...(hrData.annotations || {})
+  }[reqId as keyof typeof dashboardData.annotations] as any;
 
   // Generate dynamic executive insights based on selected item
   const getExecutiveInsight = (item: any) => {
@@ -239,7 +247,7 @@ ${requirement ? `Title: ${requirement.title}
 Story: ${requirement.userStory}
 Description: ${requirement.description}
 Decisions & Feedback:
-${requirement.feedback.map(f => `  * ${f}`).join('\n')}` : 'No workshop requirement mapped.'}
+${requirement.feedback.map((f: string) => `  * ${f}`).join('\n')}` : 'No workshop requirement mapped.'}
 ============================================================
 Generated via VOIS CEO Strategic Portal on ${new Date().toLocaleDateString()}
 `;
