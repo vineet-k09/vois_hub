@@ -8,6 +8,14 @@ interface KPIGridProps {
   showAnnotations: boolean;
 }
 
+const parseValue = (v: any) => {
+  if (!v || v === 'TBD') return null;
+  // Handle the special minus sign and commas
+  const clean = v.toString().replace(/,/g, '').replace('−', '-');
+  const numeric = parseFloat(clean.replace(/[^0-9.-]/g, ''));
+  return isNaN(numeric) ? null : numeric;
+};
+
 const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown, showAnnotations }) => {
   const req01 = dashboardData.sections.find(s => s.id === "REQ 01") as any;
   if (!req01) return null;
@@ -58,113 +66,156 @@ const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown, showAnnotations }) => {
             </h3>
             
             <div className="grid grid-cols-2 gap-2.5">
-              {cluster.kpis?.map((kpi: any) => {
-                const isRed = kpi.rag === 'red';
-                const isAmber = kpi.rag === 'amber';
-                const isTbd = kpi.rag === 'tbd';
-                const isUrgent = isRed || isAmber;
-                
-                // Define column span based on status and importance
-                const isDoubleSpan = 
-                  kpi.label.includes('EBITDA') || 
-                  kpi.label.includes('Cost Takeout') || 
-                  kpi.label.includes('Pipeline') || 
-                  kpi.label.includes('New Logos') || 
-                  kpi.label.includes('Talent') ||
-                  kpi.label.includes('KPI Met');
+              {cluster.kpis
+                ?.slice()
+                .sort((a: any, b: any) => {
+                  const ragOrder: Record<string, number> = { red: 0, amber: 1, green: 2, tbd: 3 };
+                  
+                  // Importance based on the labels previously used for double span
+                  const importantLabels = ['EBITDA', 'Cost Takeout', 'Pipeline', 'New Logos', 'Talent', 'KPI Met'];
+                  const isImportant = (kpi: any) => importantLabels.some(label => kpi.label.includes(label));
+                  
+                  // Primary sort: RAG
+                  const ragA = ragOrder[a.rag] ?? 99;
+                  const ragB = ragOrder[b.rag] ?? 99;
+                  if (ragA !== ragB) return ragA - ragB;
+                  
+                  // Secondary sort: Importance
+                  const impA = isImportant(a) ? 0 : 1;
+                  const impB = isImportant(b) ? 0 : 1;
+                  if (impA !== impB) return impA - impB;
+                  
+                  return 0;
+                })
+                .map((kpi: any) => {
+                  const isRed = kpi.rag === 'red';
+                  const isAmber = kpi.rag === 'amber';
+                  const isTbd = kpi.rag === 'tbd';
+                  const isUrgent = isRed || isAmber;
+                  
+                  // Importance flag for badges
+                  const importantLabels = ['EBITDA', 'Cost Takeout', 'Pipeline', 'New Logos', 'Talent', 'KPI Met'];
+                  const isImportant = importantLabels.some(label => kpi.label.includes(label));
 
-                const colSpanClass = isDoubleSpan ? 'col-span-2' : 'col-span-1';
+                  // Progress Calculation
+                  const valNum = parseValue(kpi.value);
+                  const targetNum = parseValue(kpi.target);
+                  let progress: number | null = null;
+                  
+                  if (valNum !== null && targetNum !== null && targetNum !== 0) {
+                    progress = (valNum / targetNum) * 100;
+                  } else if (valNum !== null && kpi.value.toString().includes('%') && !kpi.target) {
+                    progress = valNum;
+                  }
 
-                // Determine background and borders
-                let cardClass = '';
-                if (isRed) {
-                  cardClass = 'bg-red-50/30 border-red-200 hover:border-red-300 hover:bg-red-50/50 ring-1 ring-red-500/5';
-                } else if (isAmber) {
-                  cardClass = 'bg-amber-50/30 border-amber-200 hover:border-amber-300 hover:bg-amber-50/50 ring-1 ring-amber-500/5';
-                } else if (isTbd) {
-                  cardClass = 'bg-slate-50/50 border-slate-100 hover:bg-white hover:border-slate-200 text-slate-400';
-                } else {
-                  cardClass = 'bg-white border-slate-200/80 hover:border-slate-350 hover:shadow-xs';
-                }
+                  // Determine background and borders
+                  let cardClass = '';
+                  if (isRed) {
+                    cardClass = 'bg-red-50/30 border-red-200 hover:border-red-300 hover:bg-red-50/50 ring-1 ring-red-500/5';
+                  } else if (isAmber) {
+                    cardClass = 'bg-amber-50/30 border-amber-200 hover:border-amber-300 hover:bg-amber-50/50 ring-1 ring-amber-500/5';
+                  } else if (isTbd) {
+                    cardClass = 'bg-slate-50/50 border-slate-100 hover:bg-white hover:border-slate-200 text-slate-400';
+                  } else {
+                    cardClass = 'bg-white border-slate-200/80 hover:border-slate-350 hover:shadow-xs';
+                  }
 
-                // Value Text Color
-                const valColor = isRed ? 'text-red-700' : isAmber ? 'text-amber-800' : 'text-slate-900';
+                  // Value Text Color
+                  const valColor = isRed ? 'text-red-700' : isAmber ? 'text-amber-800' : 'text-slate-900';
 
-                // Trend text color
-                const trendClass = isRed ? 'text-red-600 font-bold' : isAmber ? 'text-amber-700 font-bold' : 'text-emerald-600 font-semibold';
+                  // Trend text color
+                  const trendClass = isRed ? 'text-red-600 font-bold' : isAmber ? 'text-amber-700 font-bold' : 'text-emerald-600 font-semibold';
+                  
+                  // Progress bar/text color
+                  const ragColorClass = isRed ? 'bg-red-500' : isAmber ? 'bg-amber-500' : 'bg-emerald-500';
+                  const ragTextClass = isRed ? 'text-red-600' : isAmber ? 'text-amber-600' : 'text-emerald-600';
 
-                return (
-									<div
-										key={kpi.label}
-										onClick={() => handleKPIClick(kpi, cluster.name)}
-										className={`group p-2.5 rounded-xl border flex flex-col justify-between transition-all duration-200 cursor-pointer ${colSpanClass} ${cardClass} ${
-											isDoubleSpan ? "h-22" : "h-17"
-										}`}>
-										{/* Top row */}
-										<div className="flex justify-between items-start gap-1">
-											<span className="text-[10px] font-bold text-slate-500 group-hover:text-slate-800 leading-tight truncate">
-												{kpi.label}
-											</span>
+                  return (
+                    <div
+                      key={kpi.label}
+                      onClick={() => handleKPIClick(kpi, cluster.name)}
+                      className={`group p-2.5 pb-3 rounded-xl border flex flex-col justify-between transition-all duration-200 cursor-pointer col-span-1 h-24 ${cardClass} relative overflow-hidden`}>
+                      {/* Top row */}
+                      <div className="flex justify-between items-start gap-1">
+                        <span className="text-[10px] font-bold text-slate-500 group-hover:text-slate-800 leading-tight">
+                          {kpi.label}
+                        </span>
 
-											{/* RAG Bullet/Icon */}
-											<span className="flex items-center shrink-0">
-												{isRed ? (
-													<span className="flex h-1.5 w-1.5 relative">
-														<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-														<span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
-													</span>
-												) : isAmber ? (
-													<span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-												) : isTbd ? (
-													<HelpCircle size={9} className="text-slate-400" />
-												) : (
-													<span className="w-1 h-1 rounded-full bg-emerald-500" />
-												)}
-											</span>
-										</div>
+                        {/* RAG Bullet/Icon */}
+                        <span className="flex items-center shrink-0">
+                          {isRed ? (
+                            <span className="flex h-1.5 w-1.5 relative">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
+                            </span>
+                          ) : isAmber ? (
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                          ) : isTbd ? (
+                            <HelpCircle size={9} className="text-slate-400" />
+                          ) : (
+                            <span className="w-1 h-1 rounded-full bg-emerald-500" />
+                          )}
+                        </span>
+                      </div>
 
-										{/* Middle: Main value + Action Required banner if watchpoint */}
-										<div className="flex items-baseline justify-between">
-											<div
-												// font-barlow
-												className={` 
-                        text-xl font-black tracking-tight leading-none ${valColor}`}>
-												{kpi.value}
-											</div>
+                      {/* Middle: Main value + Badge */}
+                      <div className="flex items-center justify-between">
+                        <div className={`text-xl font-black tracking-tight leading-none ${valColor}`}>
+                          {kpi.value}
+                        </div>
+                        
+                        {isUrgent && isImportant && (
+                          <span
+                            className={`text-[8px] font-bold px-1 py-0.5 rounded uppercase leading-none ${
+                              isRed
+                                ? "bg-red-100 text-red-700"
+                                : "bg-amber-100 text-amber-800"
+                            }`}>
+                            {isRed ? "Action" : "Review"}
+                          </span>
+                        )}
+                      </div>
 
-											{/* Display a micro-badge for red/amber indicating review needed */}
-											{isUrgent && isDoubleSpan && (
-												<span
-													className={`text-[8px] font-bold px-1 py-0.5 rounded uppercase leading-none ${
-														isRed
-															? "bg-red-100 text-red-700"
-															: "bg-amber-100 text-amber-800"
-													}`}>
-													{isRed ? "Action" : "Review"}
-												</span>
-											)}
-										</div>
+                      {/* Bottom Section: Progress + Meta info */}
+                      <div className="mt-auto">
+                        {/* Metadata Row: trend & target + percentage */}
+                        <div className="flex items-center justify-between border-t border-slate-100/50 pt-1.5 text-[9px] text-slate-400 leading-none">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">
+                              {kpi.target ? `T: ${kpi.target}` : kpi.month}
+                            </span>
+                            {progress !== null && (
+                              <span className={`font-black ${ragTextClass}`}>
+                                {Math.round(progress)}%
+                              </span>
+                            )}
+                          </div>
+                          {kpi.trend && (
+                            <span
+                              className={`flex items-center gap-0.5 leading-none ${trendClass}`}>
+                              {kpi.trend.includes("▲") ? (
+                                <TrendingUp size={8} />
+                              ) : kpi.trend.includes("▼") ? (
+                                <TrendingDown size={8} />
+                              ) : null}
+                              {kpi.trend}
+                            </span>
+                          )}
+                        </div>
+                      </div>
 
-										{/* Bottom row: trend & target */}
-										<div className="flex items-center justify-between border-t border-slate-100/50 pt-1 text-[9px] text-slate-400 leading-none">
-											<span className="font-medium truncate max-w-22.5">
-												{kpi.target ? `T: ${kpi.target}` : kpi.month}
-											</span>
-											{kpi.trend && (
-												<span
-													className={`flex items-center gap-0.5 leading-none ${trendClass}`}>
-													{kpi.trend.includes("▲") ? (
-														<TrendingUp size={8} />
-													) : kpi.trend.includes("▼") ? (
-														<TrendingDown size={8} />
-													) : null}
-													{kpi.trend}
-												</span>
-											)}
-										</div>
-									</div>
-								);
-              })}
+                      {/* Progress Bar at absolute bottom */}
+                      {progress !== null && (
+                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-slate-150/50">
+                          <div 
+                            className={`${ragColorClass} h-full transition-all duration-700`} 
+                            style={{ width: `${Math.min(Math.max(progress, 0), 100)}%` }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
             </div>
           </div>
         ))}

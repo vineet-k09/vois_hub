@@ -115,7 +115,7 @@ const App: React.FC = () => {
 
             <div className="flex gap-2">
               <button
-                onClick={() => handleActionClick("Generate Board PDF")}
+                onClick={() => window.print()}
                 className="flex items-center gap-1.5 bg-slate-900 text-white px-2.5 py-1 rounded-md text-[10px] font-bold hover:bg-slate-800 transition-colors shadow-xs cursor-pointer leading-none">
                 <FileText size={10} />
                 Generate Board PDF
@@ -129,18 +129,18 @@ const App: React.FC = () => {
             </div>
           </div>
 
-          {/* AI Bullet points Split - High Density */}
-          <div className="w-full lg:w-115 grid grid-cols-1 md:grid-cols-2 gap-3.5 bg-slate-50/70 p-3.5 rounded-xl border border-slate-100 shrink-0">
-            <div className="space-y-1.5">
-              <span className="text-[9px] font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1 leading-none">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />{" "}
+          {/* AI Bullet points Split - Improved Readability */}
+          <div className="w-full lg:w-140 grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-50/80 p-5 rounded-xl border border-slate-100 shrink-0">
+            <div className="space-y-3.5">
+              <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1.5 leading-none">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]" />{" "}
                 Key Takeaways
               </span>
-              <ul className="space-y-1 list-none pl-0">
+              <ul className="space-y-2.5 list-none pl-0">
                 {aiSummary.takeaways?.map((item: any, i: number) => (
                   <li
                     key={i}
-                    className="text-[10.5px] text-slate-600 leading-tight border-l border-emerald-300 pl-1.5">
+                    className="text-[11px] text-slate-600 leading-normal border-l-2 border-emerald-300/60 pl-2.5">
                     <b className="text-slate-800 font-bold">
                       {item.text.split(":")[0]}:
                     </b>
@@ -150,16 +150,16 @@ const App: React.FC = () => {
               </ul>
             </div>
 
-            <div className="space-y-1.5">
-              <span className="text-[9px] font-bold text-amber-700 uppercase tracking-wider flex items-center gap-1 leading-none">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />{" "}
+            <div className="space-y-3.5">
+              <span className="text-[10px] font-bold text-amber-700 uppercase tracking-wider flex items-center gap-1.5 leading-none">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.3)]" />{" "}
                 Watchpoints
               </span>
-              <ul className="space-y-1 list-none pl-0">
+              <ul className="space-y-2.5 list-none pl-0">
                 {aiSummary.watchpoints?.map((item: any, i: number) => (
                   <li
                     key={i}
-                    className="text-[10.5px] text-slate-605 leading-tight border-l border-amber-300 pl-1.5">
+                    className="text-[11px] text-slate-605 leading-normal border-l-2 border-amber-300/60 pl-2.5">
                     <b className="text-slate-805 font-bold">
                       {item.text.split(":")[0]}:
                     </b>
