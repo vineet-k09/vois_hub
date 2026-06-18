@@ -149,7 +149,7 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
 
                 {/* Milestones & Value */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-[11px] text-slate-700 font-semibold leading-none truncate">
+                  <p className="text-[11px] text-slate-700 font-semibold leading-none ">
                     {parsed.milestones}
                   </p>
                   <p className="text-[9px] text-emerald-650 font-bold mt-1 leading-none truncate">
