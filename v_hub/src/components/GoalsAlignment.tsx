@@ -24,7 +24,7 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown, showAnnota
   };
 
   return (
-    <section className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative overflow-hidden flex flex-col justify-between h-full">
+    <section id="section-goals" className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative overflow-hidden flex flex-col justify-between h-full">
       {/* Numbered pin for annotation */}
       <div className="req-pin" title="Requirement #7">
         7

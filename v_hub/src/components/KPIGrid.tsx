@@ -25,7 +25,7 @@ const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown, showAnnotations }) => {
   };
 
   return (
-    <section className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative overflow-hidden">
+    <section id="section-kpi" className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative overflow-hidden">
       {/* Numbered pin for annotation */}
       <div className="req-pin" title="Requirement #1">
         1

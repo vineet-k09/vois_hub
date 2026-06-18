@@ -24,7 +24,7 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown, showAnnotation
   };
 
   return (
-    <section className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative overflow-hidden flex flex-col justify-between">
+    <section id="section-customer" className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative overflow-hidden flex flex-col justify-between">
       {/* Numbered pin for annotation */}
       <div className="req-pin" title="Requirement #4">
         4

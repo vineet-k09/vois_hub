@@ -68,7 +68,7 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
   };
 
   return (
-    <section className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative 
+    <section id="section-transformation" className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative 
     overflow-hidden flex flex-col justify-between h-full">
       {/* Numbered pin for annotation */}
       <div className="req-pin" title="Requirement #6">
@@ -103,7 +103,6 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
           {req06.roadmap?.map((item: any) => {
             const parsed = getProgramDetails(item.name);
             const isGreen = item.rag === 'green';
-            const ragColor = isGreen ? 'bg-emerald-500' : 'bg-amber-500';
             const barColor = isGreen ? 'bg-emerald-500' : 'bg-amber-500';
 
             return (

@@ -85,7 +85,7 @@ const App: React.FC = () => {
       <KPIGrid onDrillDown={handleDrillDown} showAnnotations={showAnnotations} />
 
       {/* HIERARCHY LEVEL 2: EXECUTIVE SUMMARY */}
-      <section className="bg-white border border-slate-200/70 rounded-2xl p-4 shadow-sm relative overflow-hidden">
+      <section id="section-summary" className="bg-white border border-slate-200/70 rounded-2xl p-4 shadow-sm relative overflow-hidden">
         {/* Numbered pin for annotations */}
         <div className="req-pin" title="Requirement #2">
           2
@@ -193,7 +193,7 @@ const App: React.FC = () => {
         <div className="space-y-4 flex flex-col justify-between">
           {/* GMT Owner Grip (REQ 08 Exception details) */}
           {req05_08 && (
-            <section className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative overflow-hidden flex flex-col justify-between h-full">
+            <section id="section-gmt" className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative overflow-hidden flex flex-col justify-between h-full">
               {/* Numbered pin for annotation */}
               <div className="req-pin" title="Requirement #8">
                 8
@@ -403,6 +403,35 @@ const App: React.FC = () => {
                 onChange={(e) => {
                   const val = e.target.value;
                   setActivePillar(val);
+
+                  // Autoscroll logic for Single Page application
+                  const idMap: Record<string, string> = {
+                    'CEO SUMMARY': 'section-summary',
+                    'TOP-LINE GROWTH': 'section-kpi',
+                    'CUSTOMER': 'section-customer',
+                    'OPERATING': 'section-exceptions',
+                    'TRANSFORMATION': 'section-transformation',
+                    'FY27 GOALS': 'section-goals',
+                    'BE UNRIVALLED': 'section-gmt',
+                    'PARTNERSHIP SUCCESS': 'section-gmt'
+                  };
+
+                  const targetId = idMap[val];
+                  if (targetId) {
+                    const element = document.getElementById(targetId);
+                    if (element) {
+                      // Account for the sticky sub-header height
+                      const headerOffset = 85; 
+                      const elementPosition = element.getBoundingClientRect().top;
+                      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                      window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                      });
+                    }
+                  }
+
                   if (val !== "CEO SUMMARY") {
                     handleDrillDown({
                       type: "navigation",
