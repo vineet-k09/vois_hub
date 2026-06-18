@@ -20,6 +20,16 @@ const App: React.FC = () => {
   const [viewMode, setViewMode] = useState<'split' | 'deep-dive'>('split');
   const [isDesktop, setIsDesktop] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark' | 'ceo'>(() => {
+    return (localStorage.getItem('vois-theme') as any) || 'light';
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove('theme-light', 'theme-dark', 'theme-ceo');
+    root.classList.add(`theme-${theme}`);
+    localStorage.setItem('vois-theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -68,7 +78,7 @@ const App: React.FC = () => {
       const dataUrl = await toPng(element, { 
         quality: 1, 
         pixelRatio: 2, // High resolution
-        backgroundColor: '#f8fafc' // Matches body background
+        backgroundColor: window.getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#f8fafc' // Matches theme body background
       });
       
       const pdf = new jsPDF({
@@ -124,7 +134,7 @@ const App: React.FC = () => {
       <KPIGrid onDrillDown={handleDrillDown} showAnnotations={showAnnotations} />
 
       {/* HIERARCHY LEVEL 2: EXECUTIVE SUMMARY */}
-      <section id="section-summary" className="bg-white border border-slate-200/70 rounded-2xl p-4 shadow-sm relative overflow-hidden">
+      <section id="section-summary" className="bg-panel border border-panel-border rounded-2xl p-4 shadow-sm relative overflow-hidden">
         {/* Numbered pin for annotations */}
         <div className="req-pin" title="Requirement #2">
           2
@@ -134,20 +144,20 @@ const App: React.FC = () => {
           <div className="flex-1 flex flex-col justify-between space-y-2.5">
             <div>
               <div className="flex items-center gap-2">
-                <div className="bg-red-50 text-red-600 p-1 rounded-lg">
+                <div className="bg-panel-2 text-accent p-1 rounded-lg">
                   <Sparkles size={13} />
                 </div>
                 {showAnnotations && (
-                  <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded leading-none">
+                  <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded leading-none border border-panel-border">
                     REQ 02 · AI Executive Summary
                   </span>
                 )}
               </div>
-              <h2 className="text-sm  font-bold text-slate-800 uppercase tracking-wide mt-1.5 leading-none">
+              <h2 className="text-sm font-barlow font-bold text-ink uppercase tracking-wide mt-1.5 leading-none">
                 {aiSummary.title}
               </h2>
               <p
-                className="text-slate-600 text-xs leading-relaxed font-light italic mt-1"
+                className="text-ink-soft text-xs leading-relaxed font-light italic mt-1"
                 dangerouslySetInnerHTML={{ __html: `"${aiSummary.overall}"` }}
               />
             </div>
@@ -156,9 +166,9 @@ const App: React.FC = () => {
               <button
                 onClick={generatePDF}
                 disabled={isGenerating}
-                className={`flex items-center gap-1.5 bg-slate-900 text-white px-2.5 py-1 rounded-md text-[10px] font-bold hover:bg-slate-800 transition-colors shadow-xs cursor-pointer leading-none ${isGenerating ? 'opacity-75 cursor-not-allowed' : ''}`}>
+                className={`flex items-center gap-1.5 bg-ink text-panel px-2.5 py-1 rounded-md text-[10px] font-bold hover:opacity-90 transition-all shadow-xs cursor-pointer leading-none ${isGenerating ? 'opacity-75 cursor-not-allowed' : ''}`}>
                 {isGenerating ? (
-                  <svg className="animate-spin h-2.5 w-2.5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin h-2.5 w-2.5 text-panel" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
@@ -169,7 +179,7 @@ const App: React.FC = () => {
               </button>
               <button
                 onClick={() => handleActionClick("Email Monthly Pack")}
-                className="flex items-center gap-1.5 border border-slate-200 text-slate-605 px-2.5 py-1 rounded-md text-[10px] font-bold hover:bg-slate-50 transition-colors cursor-pointer leading-none">
+                className="flex items-center gap-1.5 border border-panel-border text-ink-soft px-2.5 py-1 rounded-md text-[10px] font-bold hover:bg-panel-2 transition-all cursor-pointer leading-none">
                 <Send size={10} />
                 Email Monthly Pack
               </button>
@@ -177,9 +187,9 @@ const App: React.FC = () => {
           </div>
 
           {/* AI Bullet points Split - Improved Readability */}
-          <div className="w-full lg:w-140 grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-50/80 p-5 rounded-xl border border-slate-100 shrink-0">
+          <div className="w-full lg:w-140 grid grid-cols-1 md:grid-cols-2 gap-8 bg-panel-2/80 p-5 rounded-xl border border-panel-border shrink-0">
             <div className="space-y-3.5">
-              <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1.5 leading-none">
+              <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider flex items-center gap-1.5 leading-none">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]" />{" "}
                 Key Takeaways
               </span>
@@ -187,8 +197,8 @@ const App: React.FC = () => {
                 {aiSummary.takeaways?.map((item: any, i: number) => (
                   <li
                     key={i}
-                    className="text-[11px] text-slate-600 leading-normal border-l-2 border-emerald-300/60 pl-2.5">
-                    <b className="text-slate-800 font-bold">
+                    className="text-[11px] text-ink-soft leading-normal border-l-2 border-emerald-500/40 pl-2.5">
+                    <b className="text-ink font-bold">
                       {item.text.split(":")[0]}:
                     </b>
                     {item.text.split(":").slice(1).join(":")}
@@ -198,7 +208,7 @@ const App: React.FC = () => {
             </div>
 
             <div className="space-y-3.5">
-              <span className="text-[10px] font-bold text-amber-700 uppercase tracking-wider flex items-center gap-1.5 leading-none">
+              <span className="text-[10px] font-bold text-amber-600 uppercase tracking-wider flex items-center gap-1.5 leading-none">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.3)]" />{" "}
                 Watchpoints
               </span>
@@ -206,8 +216,8 @@ const App: React.FC = () => {
                 {aiSummary.watchpoints?.map((item: any, i: number) => (
                   <li
                     key={i}
-                    className="text-[11px] text-slate-605 leading-normal border-l-2 border-amber-300/60 pl-2.5">
-                    <b className="text-slate-805 font-bold">
+                    className="text-[11px] text-ink-soft leading-normal border-l-2 border-amber-500/40 pl-2.5">
+                    <b className="text-ink font-bold">
                       {item.text.split(":")[0]}:
                     </b>
                     {item.text.split(":").slice(1).join(":")}
@@ -240,7 +250,7 @@ const App: React.FC = () => {
         <div className="space-y-4 flex flex-col justify-between">
           {/* GMT Owner Grip (REQ 08 Exception details) */}
           {req05_08 && (
-            <section id="section-gmt" className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative overflow-hidden flex flex-col justify-between h-full">
+            <section id="section-gmt" className="bg-panel border border-panel-border rounded-2xl p-4.5 shadow-sm relative overflow-hidden flex flex-col justify-between h-full">
               {/* Numbered pin for annotation */}
               <div className="req-pin" title="Requirement #8">
                 8
@@ -248,19 +258,19 @@ const App: React.FC = () => {
 
               <div>
                 {/* Header */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-slate-100 pb-2 mb-3 pl-1">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2 mb-3 pl-1">
                   <div>
                     <div className="flex items-center gap-2">
                       {showAnnotations && (
-                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded leading-none">
+                        <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded leading-none border border-panel-border">
                           REQ 08 · GMT Owner Grip
                         </span>
                       )}
                     </div>
-                    <h2 className="text-base font-bold text-slate-800 uppercase tracking-wide mt-0.5">
+                    <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
                       GMT Owner Grip
                     </h2>
-                    <p className="text-slate-450 text-[10px] italic font-light mt-0.5">
+                    <p className="text-ink-soft text-[10px] italic font-light mt-0.5">
                       GMT metrics review context
                     </p>
                   </div>
@@ -278,15 +288,15 @@ const App: React.FC = () => {
                     const ragColor = 
                       isGreen ? "bg-emerald-500" : 
                       isAmber ? "bg-amber-500" : 
-                      isRed ? "bg-red-500" : "bg-slate-350";
+                      isRed ? "bg-red-500" : "bg-muted-text";
 
                     return (
                       <div
                         key={item.name}
-                        className={`group flex justify-between items-center ${isUrgent ? 'p-2.5' : 'p-2'} rounded-lg border border-slate-150 transition-all cursor-pointer leading-none ${colSpanClass} ${
-                          isRed ? 'bg-red-50/20 hover:bg-red-50/40 border-red-200' : 
-                          isAmber ? 'bg-amber-50/20 hover:bg-amber-50/40 border-amber-250' : 
-                          'bg-slate-50/10 hover:bg-slate-50 border-slate-100'
+                        className={`group flex justify-between items-center ${isUrgent ? 'p-2.5' : 'p-2'} rounded-lg border transition-all cursor-pointer leading-none ${colSpanClass} ${
+                          isRed ? 'bg-red-500/10 hover:bg-red-500/20 border-red-500/30' : 
+                          isAmber ? 'bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/30' : 
+                          'bg-panel-2/20 hover:bg-panel-2 border-panel-border'
                         }`}
                         onClick={() =>
                           handleDrillDown({
@@ -296,7 +306,7 @@ const App: React.FC = () => {
                             requirementId: '8'
                           })
                         }>
-                        <span className={`${isUrgent ? 'text-xs' : 'text-[11px]'} font-semibold text-slate-755 flex items-center gap-1.5 min-w-0`}>
+                        <span className={`${isUrgent ? 'text-xs' : 'text-[11px]'} font-semibold text-ink flex items-center gap-1.5 min-w-0`}>
                           <span className="flex items-center shrink-0">
                             {isRed ? (
                               <span className="flex h-1.5 w-1.5 relative">
@@ -309,46 +319,46 @@ const App: React.FC = () => {
                           </span>
                           <span className="truncate">{item.name}</span>
                         </span>
-                        <span className="text-[8px] font-bold text-red-650 uppercase tracking-wider hover:underline shrink-0 pl-1.5">
+                        <span className="text-[8px] font-bold text-accent uppercase tracking-wider hover:underline shrink-0 pl-1.5">
                           Grip →
                         </span>
                       </div>
                     );
                   })}
                 </div>
-              </div>
-
-              {/* REQ 08 & 05 Annotation Cards */}
-              {showAnnotations && (req08Anno || req05Anno) && (
-                <div className="space-y-3 mt-3">
-                  {req08Anno && (
-                    <AnnotationCard
-                      id="8"
-                      title={req08Anno.title}
-                      status={req08Anno.status}
-                      feedback={req08Anno.feedback}
-                      description={req08Anno.description}
-                      dependencies={req08Anno.dependencies}
-                      acceptanceCriteria={req08Anno.acceptanceCriteria}
-                      userStory={req08Anno.userStory}
-                    />
-                  )}
-                  {/* DO NOT REMOVE THE BELOW */}
-                  {/* {req05Anno && (
-                    <AnnotationCard
-                      id="5"
-                      title={req05Anno.title}
-                      status={req05Anno.status}
-                      feedback={req05Anno.feedback}
-                      description={req05Anno.description}
-                      dependencies={req05Anno.dependencies}
-                      acceptanceCriteria={req05Anno.acceptanceCriteria}
-                      userStory={req05Anno.userStory}
-                    />
-                  )} */}
-                </div>
-              )}
+              </div>          
             </section>
+          )}
+
+          {/* REQ 08 & 05 Annotation Cards */}
+          {showAnnotations && (req08Anno || req05Anno) && (
+            <div className="space-y-3 mt-3">
+              {req08Anno && (
+                <AnnotationCard
+                  id="8"
+                  title={req08Anno.title}
+                  status={req08Anno.status}
+                  feedback={req08Anno.feedback}
+                  description={req08Anno.description}
+                  dependencies={req08Anno.dependencies}
+                  acceptanceCriteria={req08Anno.acceptanceCriteria}
+                  userStory={req08Anno.userStory}
+                />
+              )}
+              {/* DO NOT REMOVE THE BELOW */}
+              {/* {req05Anno && (
+                <AnnotationCard
+                  id="5"
+                  title={req05Anno.title}
+                  status={req05Anno.status}
+                  feedback={req05Anno.feedback}
+                  description={req05Anno.description}
+                  dependencies={req05Anno.dependencies}
+                  acceptanceCriteria={req05Anno.acceptanceCriteria}
+                  userStory={req05Anno.userStory}
+                />
+              )} */}
+            </div>
           )}
         </div>
       </div>
@@ -367,9 +377,9 @@ const App: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#f4f4f5] text-[#09090b] font-inter flex flex-col pb-6">
+    <div className="min-h-screen bg-bg-main text-ink font-inter flex flex-col pb-6">
       {/* =========== VODAFONE RED-TO-MAGENTA-TO-PURPLE PREMIUM GRADIENT BANNER =========== */}
-      <header className="bg-linear-to-r from-[#e60000] via-[#b5004d] to-[#6d1b7b] text-white shadow-sm shrink-0">
+      <header className="bg-header-gradient text-white shadow-sm shrink-0">
         <motion.div 
           layout="position"
           className="w-full mx-auto py-2.5 flex flex-col sm:flex-row justify-between items-center gap-3"
@@ -381,11 +391,11 @@ const App: React.FC = () => {
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
           <div className="flex items-center gap-3">
-            <div className="bg-white/15 border border-white/20 px-2.5 py-0.5  font-black text-xl tracking-widest rounded">
+            <div className="bg-white/15 border border-white/20 px-2.5 py-0.5 font-barlow font-black text-xl tracking-widest rounded">
               {branding.logo}
             </div>
             <div>
-              <h1 className=" text-lg font-bold tracking-wide leading-none">
+              <h1 className="font-barlow text-lg font-bold tracking-wide leading-none">
                 {branding.name}
               </h1>
               <p className="text-white/85 text-[9px] uppercase font-bold tracking-widest mt-0.5">
@@ -395,6 +405,39 @@ const App: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3 flex-wrap">
+            {/* Theme Toggle */}
+            <div className="flex items-center bg-white/10 border border-white/20 p-0.5 rounded-lg text-white">
+              <button
+                onClick={() => setTheme('light')}
+                className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase cursor-pointer leading-none transition-all ${
+                  theme === 'light' ? 'bg-white text-slate-800 shadow-sm' : 'hover:bg-white/5'
+                }`}
+                title="Light Theme"
+              >
+                Light
+              </button>
+              <button
+                onClick={() => setTheme('dark')}
+                className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase cursor-pointer leading-none transition-all ${
+                  theme === 'dark' ? 'bg-white text-slate-800 shadow-sm' : 'hover:bg-white/5'
+                }`}
+                title="Dark Theme"
+              >
+                Dark
+              </button>
+              <button
+                onClick={() => setTheme('ceo')}
+                className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase cursor-pointer leading-none transition-all ${
+                  theme === 'ceo' ? 'bg-white text-slate-800 shadow-sm' : 'hover:bg-white/5'
+                }`}
+                title="CEO Executive Theme"
+              >
+                CEO
+              </button>
+            </div>
+
+            <span className="text-white/20 hidden sm:inline">|</span>
+
             {/* Annotation Toggle */}
             <button
               onClick={() => setShowAnnotations(!showAnnotations)}
@@ -420,7 +463,7 @@ const App: React.FC = () => {
 
             {/* User Profile */}
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-full bg-white text-red-655 font-black text-[11px] flex items-center justify-center border border-white/20 shadow-xs">
+              <div className="w-7 h-7 rounded-full bg-white text-accent font-black text-[11px] flex items-center justify-center border border-white/20 shadow-xs">
                 {branding.user.initials}
               </div>
               <div className="text-left hidden md:block leading-none">
@@ -437,7 +480,7 @@ const App: React.FC = () => {
       </header>
 
       {/* =========== SUB-HEADER BAR: PILLARS & REVIEW VIEW DROP-DOWNS & VIEW MODES =========== */}
-      <section className="bg-white border-b border-slate-200 sticky top-0 z-20 shadow-xs shrink-0 py-1.5">
+      <section className="bg-panel border-b border-panel-border sticky top-0 z-20 shadow-xs shrink-0 py-1.5">
         <motion.div 
           layout="position"
           className="w-full mx-auto flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3"
@@ -454,7 +497,7 @@ const App: React.FC = () => {
             
             {/* Strategic Pillars Dropdown Select */}
             <div className="flex items-center gap-1.5">
-              <span className="text-[9px] font-bold text-slate-450 uppercase tracking-wider shrink-0 border-r border-slate-205 pr-2.5 leading-none">
+              <span className="text-[9px] font-bold text-ink-soft uppercase tracking-wider shrink-0 border-r border-panel-border pr-2.5 leading-none">
                 Pillar
               </span>
               <select
@@ -500,11 +543,11 @@ const App: React.FC = () => {
                     });
                   }
                 }}
-                className="bg-slate-50 border border-slate-200 text-slate-800 text-[11px] font-bold rounded-lg pl-2 pr-6 py-1.5 outline-none cursor-pointer hover:bg-slate-100 transition-colors leading-none"
-                style={{ appearance: 'none', backgroundImage: 'url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3E%3Cpath stroke=\'%2352525b\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3E%3C/svg%3E")', backgroundPosition: 'right 0.35rem center', backgroundSize: '1.25rem', backgroundRepeat: 'no-repeat' }}
+                className="bg-panel-2 border border-panel-border text-ink text-[11px] font-bold rounded-lg pl-2 pr-6 py-1.5 outline-none cursor-pointer hover:bg-panel transition-colors leading-none"
+                style={{ appearance: 'none', backgroundImage: 'url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3E%3Cpath stroke=\'%252352525b\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3E%3C/svg%3E")', backgroundPosition: 'right 0.35rem center', backgroundSize: '1.25rem', backgroundRepeat: 'no-repeat' }}
               >
                 {navigation.map((item: any) => (
-                  <option key={item.label} value={item.label}>
+                  <option key={item.label} value={item.label} className="bg-panel text-ink">
                     {getNavLabelPrefix(item.label)}{item.label}
                   </option>
                 ))}
@@ -513,7 +556,7 @@ const App: React.FC = () => {
 
             {/* Review Slices Dropdown Select */}
             <div className="flex items-center gap-1.5">
-              <span className="text-[9px] font-bold text-slate-455 uppercase tracking-wider shrink-0 border-r border-slate-205 pr-2.5 leading-none flex items-center gap-0.5">
+              <span className="text-[9px] font-bold text-ink-soft uppercase tracking-wider shrink-0 border-r border-panel-border pr-2.5 leading-none flex items-center gap-0.5">
                 <Layers size={10} /> View
               </span>
               <select
@@ -528,11 +571,11 @@ const App: React.FC = () => {
                     description: `Displaying dashboard slice tailored for the ${val} review.`,
                   });
                 }}
-                className="bg-slate-900 border border-slate-900 text-white text-[11px] font-bold rounded-lg pl-2 pr-6 py-1.5 outline-none cursor-pointer hover:bg-slate-800 transition-colors leading-none"
-                style={{ appearance: 'none', backgroundImage: 'url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3E%3Cpath stroke=\'%23a1a1aa\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3E%3C/svg%3E")', backgroundPosition: 'right 0.35rem center', backgroundSize: '1.25rem', backgroundRepeat: 'no-repeat' }}
+                className="bg-ink border border-ink text-panel text-[11px] font-bold rounded-lg pl-2 pr-6 py-1.5 outline-none cursor-pointer hover:opacity-90 transition-all leading-none"
+                style={{ appearance: 'none', backgroundImage: 'url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3E%3Cpath stroke=\'%2523a1a1aa\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3E%3C/svg%3E")', backgroundPosition: 'right 0.35rem center', backgroundSize: '1.25rem', backgroundRepeat: 'no-repeat' }}
               >
                 {req05_08?.stakeholderSlices?.map((slice: string) => (
-                  <option key={slice} value={slice}>
+                  <option key={slice} value={slice} className="bg-panel text-ink">
                     {slice}
                   </option>
                 ))}
@@ -542,12 +585,12 @@ const App: React.FC = () => {
 
           {/* Desktop Layout Mode Selectors */}
           <div className="flex items-center gap-1.5">
-            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider leading-none">Layout</span>
-            <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200">
+            <span className="text-[9px] font-bold text-ink-soft uppercase tracking-wider leading-none">Layout</span>
+            <div className="flex items-center bg-panel-2 p-0.5 rounded-lg border border-panel-border">
               <button
                 onClick={() => setViewMode('split')}
                 className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase transition-all cursor-pointer leading-none ${
-                  viewMode === 'split' ? 'bg-white text-slate-800 shadow-xs' : 'text-slate-500 hover:text-slate-800'
+                  viewMode === 'split' ? 'bg-panel text-ink shadow-xs border border-panel-border' : 'text-ink-soft hover:text-ink'
                 }`}
               >
                 Split View
@@ -555,7 +598,7 @@ const App: React.FC = () => {
               <button
                 onClick={() => setViewMode('deep-dive')}
                 className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase transition-all cursor-pointer leading-none ${
-                  viewMode === 'deep-dive' ? 'bg-white text-slate-800 shadow-xs' : 'text-slate-500 hover:text-slate-800'
+                  viewMode === 'deep-dive' ? 'bg-panel text-ink shadow-xs border border-panel-border' : 'text-ink-soft hover:text-ink'
                 }`}
               >
                 Deep Dive
@@ -588,7 +631,7 @@ const App: React.FC = () => {
             >
               <button 
                 onClick={() => setViewMode('split')}
-                className="mb-3 text-[10px] font-bold text-red-655 hover:underline flex items-center gap-1 cursor-pointer leading-none"
+                className="mb-3 text-[10px] font-bold text-accent hover:underline flex items-center gap-1 cursor-pointer leading-none"
               >
                 ← Return to Split View
               </button>

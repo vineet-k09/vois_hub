@@ -33,7 +33,7 @@
 	--font-barlow: "Barlow Condensed", sans-serif;
 }
 
-:root {
+:root, .theme-light {
 	--grad-1: #e60000;
 	--grad-2: #b30000;
 	--grad-3: #18181b;
@@ -55,6 +55,54 @@
 	--card-shadow:
 		0 1px 3px 0 rgba(0, 0, 0, 0.05),
 		0 1px 2px -1px rgba(0, 0, 0, 0.05);
+}
+
+.theme-dark {
+	--grad-1: #ff3333;
+	--grad-2: #cc0000;
+	--grad-3: #f4f4f5;
+	--grad-4: #fafafa;
+	--bg: #09090b;
+	--panel: #18181b;
+	--panel-2: #27272a;
+	--panel-border: #27272a;
+	--rail: #18181b;
+	--rail-text: #fafafa;
+	--ink: #fafafa;
+	--ink-soft: #a1a1aa;
+	--muted: #71717a;
+	--green: #22c55e;
+	--amber: #eab308;
+	--red: #ef4444;
+	--tbd: #52525b;
+	--accent: #ff3333;
+	--card-shadow:
+		0 4px 6px -1px rgba(0, 0, 0, 0.2),
+		0 2px 4px -2px rgba(0, 0, 0, 0.2);
+}
+
+.theme-ceo {
+	--grad-1: #f59e0b;
+	--grad-2: #d97706;
+	--grad-3: #f8fafc;
+	--grad-4: #ffffff;
+	--bg: #020617;
+	--panel: #0b1329;
+	--panel-2: #1e293b;
+	--panel-border: #1e293b;
+	--rail: #0b1329;
+	--rail-text: #f8fafc;
+	--ink: #f8fafc;
+	--ink-soft: #94a3b8;
+	--muted: #64748b;
+	--green: #10b981;
+	--amber: #f59e0b;
+	--red: #ef4444;
+	--tbd: #475569;
+	--accent: #f59e0b;
+	--card-shadow:
+		0 4px 20px -2px rgba(217, 119, 6, 0.05),
+		0 2px 8px -1px rgba(217, 119, 6, 0.05);
 }
 
 /* Tailwind-style Utility Mappings for your React Components */
@@ -93,11 +141,15 @@
 	font-family: "Barlow Condensed", sans-serif;
 }
 
+.bg-header-gradient {
+	background: linear-gradient(to right, #e60000, #b5004d, #6d1b7b);
+}
+
 html,
 body {
-	background: #f8fafc;
+	background: var(--bg);
 	font-family: "Inter", sans-serif;
-	color: #1e293b;
+	color: var(--ink);
 	margin: 0;
 	padding: 0;
 }
@@ -215,8 +267,8 @@ body {
 	font-size: 11px;
 
 	box-shadow:
-		0 2px 6px rgba(230, 0, 0, 0.4),
-		0 0 0 2px #fff;
+		0 2px 6px rgba(0, 0, 0, 0.3),
+		0 0 0 2px var(--panel);
 	cursor: help;
 }
 body.anno-on .req-pin {
@@ -233,6 +285,6 @@ body.anno-on .anno-card {
 
 /* Highlight section borders when annotations are on */
 body.anno-on section {
-	outline: 1px dashed rgba(230, 0, 0, 0.3);
+	outline: 1px dashed var(--accent);
 	outline-offset: 4px;
 }

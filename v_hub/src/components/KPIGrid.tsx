@@ -33,27 +33,27 @@ const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown, showAnnotations }) => {
   };
 
   return (
-    <section id="section-kpi" className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative overflow-hidden">
+    <section id="section-kpi" className="bg-panel border border-panel-border rounded-2xl p-4.5 shadow-sm relative overflow-hidden">
       {/* Numbered pin for annotation */}
       <div className="req-pin" title="Requirement #1">
         1
       </div>
       
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-slate-100 pb-2 mb-3.5 pl-1">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2 mb-3.5 pl-1">
         <div>
           <div className="flex items-center gap-2">
             {showAnnotations && (
-              <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
+              <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
                 REQ 01 · top-line performance
               </span>
             )}
-            {/* <span className="w-1.5 h-1.5 rounded-full bg-red-650" /> */}
+            {/* <span className="w-1.5 h-1.5 rounded-full bg-red-655" /> */}
           </div>
-          <h2 className="text-base  font-bold text-slate-800 uppercase tracking-wide mt-0.5">
+          <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
             {req01.title.split('—')[0]}
           </h2>
-          <p className="text-slate-400 text-[10px] italic font-light mt-0.5">{req01.note}</p>
+          <p className="text-ink-soft text-[10px] italic font-light mt-0.5">{req01.note}</p>
         </div>
       </div>
 
@@ -61,11 +61,11 @@ const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown, showAnnotations }) => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 pl-1">
         {req01.clusters?.map((cluster: any) => (
           <div key={cluster.name} className="space-y-3">
-            <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-150 pb-1.5">
+            <h3 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest border-b border-panel-border pb-1.5">
               {cluster.name}
             </h3>
             
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-2.5">
               {cluster.kpis
                 ?.slice()
                 .sort((a: any, b: any) => {
@@ -111,108 +111,104 @@ const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown, showAnnotations }) => {
                   // Determine background and borders
                   let cardClass = '';
                   if (isRed) {
-                    cardClass = 'bg-red-50/30 border-red-200 hover:border-red-300 hover:bg-red-50/50 ring-1 ring-red-500/5';
+                    cardClass = 'bg-rag-red/10 border-rag-red/20 hover:border-rag-red/30 hover:bg-rag-red/15 text-ink ring-1 ring-rag-red/5';
                   } else if (isAmber) {
-                    cardClass = 'bg-amber-50/30 border-amber-200 hover:border-amber-300 hover:bg-amber-50/50 ring-1 ring-amber-500/5';
+                    cardClass = 'bg-rag-amber/10 border-rag-amber/20 hover:border-rag-amber/30 hover:bg-rag-amber/15 text-ink ring-1 ring-rag-amber/5';
                   } else if (isTbd) {
-                    cardClass = 'bg-slate-50/50 border-slate-100 hover:bg-white hover:border-slate-200 text-slate-400';
+                    cardClass = 'bg-panel-2 border-panel-border hover:bg-panel hover:border-panel-border text-muted-text';
                   } else {
-                    cardClass = 'bg-white border-slate-200/80 hover:border-slate-350 hover:shadow-xs';
+                    cardClass = 'bg-panel border-panel-border hover:border-accent/40 hover:shadow-xs text-ink';
                   }
 
                   // Value Text Color
-                  const valColor = isRed ? 'text-red-700' : isAmber ? 'text-amber-800' : 'text-slate-900';
+                  const valColor = isRed ? 'text-rag-red' : isAmber ? 'text-rag-amber' : 'text-ink';
 
                   // Trend text color
-                  const trendClass = isRed ? 'text-red-600 font-bold' : isAmber ? 'text-amber-700 font-bold' : 'text-emerald-600 font-semibold';
+                  const trendClass = isRed ? 'text-rag-red font-bold' : isAmber ? 'text-rag-amber font-bold' : 'text-rag-green font-semibold';
                   
                   // Progress bar/text color
-                  const ragColorClass = isRed ? 'bg-red-500' : isAmber ? 'bg-amber-500' : 'bg-emerald-500';
-                  const ragTextClass = isRed ? 'text-red-600' : isAmber ? 'text-amber-600' : 'text-emerald-600';
+                  const ragColorClass = isRed ? 'bg-rag-red' : isAmber ? 'bg-rag-amber' : 'bg-rag-green';
+                  const ragTextClass = isRed ? 'text-rag-red' : isAmber ? 'text-rag-amber' : 'text-rag-green';
 
                   return (
                     <div
                       key={kpi.label}
                       onClick={() => handleKPIClick(kpi, cluster.name)}
-                      className={`group p-2.5 pb-3 rounded-xl border flex flex-col justify-between transition-all duration-200 cursor-pointer col-span-1 h-24 ${cardClass} relative overflow-hidden`}>
-                      {/* Top row */}
+                      className={`group p-3 rounded-xl border flex flex-col justify-between transition-all duration-200 cursor-pointer col-span-1 h-[108px] ${cardClass} relative overflow-hidden`}>
+                      {/* Top row: Label & RAG Status Indicator */}
                       <div className="flex justify-between items-start gap-1">
-                        <span className="text-[10px] font-bold text-slate-500 group-hover:text-slate-800 leading-tight">
+                        <span className="text-[10px] font-bold text-ink-soft group-hover:text-ink leading-tight uppercase tracking-wider">
                           {kpi.label}
                         </span>
 
                         {/* RAG Bullet/Icon */}
-                        <span className="flex items-center shrink-0">
+                        <span className="flex items-center shrink-0 mt-0.5">
                           {isRed ? (
                             <span className="flex h-1.5 w-1.5 relative">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rag-red opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-rag-red"></span>
                             </span>
                           ) : isAmber ? (
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-rag-amber" />
                           ) : isTbd ? (
-                            <HelpCircle size={9} className="text-slate-400" />
+                            <HelpCircle size={9} className="text-muted-text" />
                           ) : (
-                            <span className="w-1 h-1 rounded-full bg-emerald-500" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-rag-green" />
                           )}
                         </span>
                       </div>
 
-                      {/* Middle: Main value + Badge */}
-                      <div className="flex items-center justify-between">
-                        <div className={`text-xl font-black tracking-tight leading-none ${valColor}`}>
-                          {kpi.value}
+                      {/* Middle: Main value, Trend indicator, and Badge */}
+                      <div className="flex items-baseline justify-between gap-1.5 flex-wrap">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className={`text-xl font-black tracking-tight leading-none ${valColor}`}>
+                            {kpi.value}
+                          </span>
+                          {kpi.trend && (
+                            <span className={`flex items-center gap-0.5 text-[9px] leading-none shrink-0 ${trendClass}`}>
+                              {kpi.trend.includes("▲") ? (
+                                <TrendingUp size={9} />
+                              ) : kpi.trend.includes("▼") ? (
+                                <TrendingDown size={9} />
+                              ) : null}
+                              {kpi.trend}
+                            </span>
+                          )}
                         </div>
                         
                         {isUrgent && isImportant && (
                           <span
-                            className={`text-[8px] font-bold px-1 py-0.5 rounded uppercase leading-none ${
+                            className={`text-[8px] font-bold px-1.5 py-0.5 rounded border uppercase leading-none shrink-0 ${
                               isRed
-                                ? "bg-red-100 text-red-700"
-                                : "bg-amber-100 text-amber-800"
+                                ? "bg-red-500/20 text-red-500 border-red-500/30"
+                                : "bg-amber-500/20 text-amber-500 border-amber-500/30"
                             }`}>
                             {isRed ? "Action" : "Review"}
                           </span>
                         )}
                       </div>
 
-                      {/* Bottom Section: Progress + Meta info */}
-                      <div className="mt-auto">
-                        {/* Metadata Row: trend & target + percentage */}
-                        <div className="flex items-center justify-between border-t border-slate-100/50 pt-1.5 text-[9px] text-slate-400 leading-none">
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium">
-                              {kpi.target ? `T: ${kpi.target}` : kpi.month}
-                            </span>
-                            {progress !== null && (
-                              <span className={`font-black ${ragTextClass}`}>
-                                {Math.round(progress)}%
-                              </span>
-                            )}
+                      {/* Bottom Section: Unified Divider and Progress/Metadata */}
+                      <div className="border-t border-panel-border/60 pt-2 flex flex-col justify-end h-7">
+                        {progress !== null ? (
+                          <div className="space-y-1.5">
+                            <div className="flex justify-between items-center text-[9px] text-ink-soft leading-none">
+                              <span>{kpi.target ? `Target: ${kpi.target}` : kpi.month || ''}</span>
+                              <span className={`font-black ${ragTextClass}`}>{Math.round(progress)}%</span>
+                            </div>
+                            <div className="h-1 bg-panel-2 rounded-full overflow-hidden">
+                              <div 
+                                className={`${ragColorClass} h-full transition-all duration-700`} 
+                                style={{ width: `${Math.min(Math.max(progress, 0), 100)}%` }}
+                              />
+                            </div>
                           </div>
-                          {kpi.trend && (
-                            <span
-                              className={`flex items-center gap-0.5 leading-none ${trendClass}`}>
-                              {kpi.trend.includes("▲") ? (
-                                <TrendingUp size={8} />
-                              ) : kpi.trend.includes("▼") ? (
-                                <TrendingDown size={8} />
-                              ) : null}
-                              {kpi.trend}
-                            </span>
-                          )}
-                        </div>
+                        ) : (
+                          <div className="flex justify-between items-center text-[9px] text-ink-soft leading-none">
+                            <span>{kpi.target ? `Target: ${kpi.target}` : kpi.month || ''}</span>
+                          </div>
+                        )}
                       </div>
-
-                      {/* Progress Bar at absolute bottom */}
-                      {progress !== null && (
-                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-slate-150/50">
-                          <div 
-                            className={`${ragColorClass} h-full transition-all duration-700`} 
-                            style={{ width: `${Math.min(Math.max(progress, 0), 100)}%` }}
-                          />
-                        </div>
-                      )}
                     </div>
                   );
                 })}

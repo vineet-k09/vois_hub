@@ -68,7 +68,7 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
   };
 
   return (
-    <section id="section-transformation" className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative 
+    <section id="section-transformation" className="bg-panel border border-panel-border rounded-2xl p-4.5 shadow-sm relative 
     overflow-hidden flex flex-col justify-between h-full">
       {/* Numbered pin for annotation */}
       <div className="req-pin" title="Requirement #6">
@@ -77,23 +77,23 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
 
       <div>
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-2.5 mb-3.5 pl-1">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
             <div className="flex items-center gap-2">
               {showAnnotations && (
-                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded">
+                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
                   REQ 06 · transformation
                 </span>
               )}
-              {/* <span className="w-1.5 h-1.5 rounded-full bg-red-600" /> */}
+              {/* <span className="w-1.5 h-1.5 rounded-full bg-red-656" /> */}
             </div>
-            <h2 className="text-base  font-bold text-slate-800 uppercase tracking-wide mt-0.5">
+            <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               {req06.title.split('—')[0]}
             </h2>
-            <p className="text-slate-400 text-[10px] italic font-light mt-0.5">{req06.note}</p>
+            <p className="text-ink-soft text-[10px] italic font-light mt-0.5">{req06.note}</p>
           </div>
           
-          <span className="text-[9px] font-black text-red-650 bg-red-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-red-100 leading-none">
+          <span className="text-[9px] font-black text-accent bg-accent/10 px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-accent/20 leading-none">
             HORIZON 2 FEED
           </span>
         </div>
@@ -116,11 +116,11 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
             // Theme styling consistent with KPIGrid.tsx
             let cardStyleClass = '';
             if (isRed) {
-              cardStyleClass = 'bg-red-50/30 border-red-200 hover:bg-red-50/50 ring-1 ring-red-500/5';
+              cardStyleClass = 'bg-rag-red/10 border-rag-red/20 hover:bg-rag-red/15 text-ink ring-1 ring-rag-red/5';
             } else if (isAmber) {
-              cardStyleClass = 'bg-amber-50/30 border-amber-200 hover:bg-amber-50/50 ring-1 ring-amber-500/5';
+              cardStyleClass = 'bg-rag-amber/10 border-rag-amber/20 hover:bg-rag-amber/15 text-ink ring-1 ring-rag-amber/5';
             } else {
-              cardStyleClass = 'bg-slate-50/20 border-slate-150 hover:bg-slate-50 hover:border-slate-200';
+              cardStyleClass = 'bg-panel-2/30 border-panel-border hover:bg-panel-2 hover:border-accent/40 text-ink';
             }
 
             return (
@@ -137,7 +137,7 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
                       <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
                     </span>
                   )}
-                  <h4 className={`${nameFontClass} font-bold text-slate-900 group-hover:text-red-655 transition-colors truncate`}>
+                  <h4 className={`${nameFontClass} font-bold text-ink group-hover:text-accent transition-colors truncate`}>
                     {item.name}
                   </h4>
                 </div>
@@ -146,13 +146,13 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
                 <div className="lg:col-start-2 lg:row-start-1 lg:row-span-2 flex flex-col gap-2 w-full min-w-0">
                   {/* Row 1: Milestones & Progress */}
                   <div className="flex justify-between items-center gap-3 text-xs leading-none">
-                    <span className="font-semibold text-slate-700 truncate">{parsed.milestones}</span>
+                    <span className="font-semibold text-ink truncate">{parsed.milestones}</span>
                     <div className="flex items-center gap-2 shrink-0">
-                      <span className="text-[10px] font-bold text-slate-400">Progress</span>
-                      <span className="font-bold text-slate-750 text-[11px]">{item.progress}%</span>
-                      <div className="w-12 h-1 bg-slate-100 rounded-full overflow-hidden">
+                      <span className="text-[10px] font-bold text-ink-soft">Progress</span>
+                      <span className="font-bold text-ink text-[11px]">{item.progress}%</span>
+                      <div className="w-12 h-1 bg-panel rounded-full overflow-hidden">
                         <div 
-                          className={`h-full rounded-full ${barColor}`} 
+                           className={`h-full rounded-full ${barColor}`} 
                           style={{ width: `${item.progress}%` }}
                         />
                       </div>
@@ -162,15 +162,15 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
                   {/* Row 2: Value, Risk, and Alignment */}
                   <div className="flex justify-between items-center gap-3 leading-none">
                     <div className="flex items-center gap-2 min-w-0">
-                      <span className="text-[10px] text-emerald-650 font-bold shrink-0">{parsed.value}</span>
-                      <span className="text-[8.5px] text-slate-400 truncate hidden sm:inline">• {parsed.alignment}</span>
+                      <span className="text-[10px] text-rag-green font-bold shrink-0">{parsed.value}</span>
+                      <span className="text-[8.5px] text-ink-soft truncate hidden sm:inline">• {parsed.alignment}</span>
                     </div>
                     <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded border shrink-0 ${
                       isGreen
-                        ? 'bg-emerald-50 text-emerald-700 border-emerald-150'
+                        ? 'bg-emerald-500/20 text-emerald-500 border-emerald-500/30'
                         : isAmber
-                          ? 'bg-amber-50 text-amber-700 border-amber-150'
-                          : 'bg-red-50 text-red-700 border-red-150'
+                          ? 'bg-amber-500/20 text-amber-500 border-amber-500/30'
+                          : 'bg-red-500/20 text-red-500 border-red-500/30'
                     }`}>
                       {parsed.risk}
                     </span>
@@ -179,8 +179,8 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
 
                 {/* 3. Owner */}
                 <div className="lg:col-start-1 lg:row-start-2 min-w-0 mt-0.5 lg:mt-0">
-                  <p className={`${ownerFontClass} text-slate-500 font-medium tracking-wide leading-none`}>
-                    Owner: <span className="font-semibold text-slate-700">{parsed.owner}</span>
+                  <p className={`${ownerFontClass} text-ink-soft font-medium tracking-wide leading-none`}>
+                    Owner: <span className="font-semibold text-ink">{parsed.owner}</span>
                   </p>
                 </div>
               </div>

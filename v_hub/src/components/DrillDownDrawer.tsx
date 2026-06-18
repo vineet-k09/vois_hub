@@ -160,28 +160,28 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
   };
 
   const content = (
-    <div className={`flex flex-col bg-white ${
+    <div className={`flex flex-col bg-panel text-ink ${
       inline 
-        ? 'border border-slate-200 rounded-2xl shadow-xs overflow-hidden h-157.5 w-full' 
+        ? 'border border-panel-border rounded-2xl shadow-xs overflow-hidden h-157.5 w-full' 
         : 'h-full'
     }`}>
       {/* Header */}
-      <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-white sticky top-0 z-10 shrink-0">
+      <div className="p-4 border-b border-panel-border flex items-center justify-between bg-panel sticky top-0 z-10 shrink-0">
         <div className="space-y-0.5">
           <div className="flex items-center gap-2">
-            <span className="text-[9px] font-black text-red-650 uppercase tracking-widest bg-red-50 px-2 py-0.5 rounded border border-red-100/50 leading-none">
+            <span className="text-[9px] font-black text-accent uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border leading-none">
               Detail View
             </span>
             <span className={`w-2 h-2 rounded-full ${
-              data.rag === 'green' ? 'bg-emerald-500' : data.rag === 'amber' ? 'bg-amber-500' : data.rag === 'red' ? 'bg-red-500' : 'bg-slate-400'
+              data.rag === 'green' ? 'bg-emerald-500' : data.rag === 'amber' ? 'bg-amber-500' : data.rag === 'red' ? 'bg-red-500' : 'bg-muted-text'
             }`} />
           </div>
-          <h2 className="text-base  font-bold text-slate-905 uppercase tracking-wide leading-tight">
+          <h2 className="text-base font-bold text-ink uppercase tracking-wide leading-tight">
             {data.label || data.name}
           </h2>
         </div>
         {!inline && (
-          <IconButton onClick={onClose} className="hover:bg-slate-50 shrink-0 text-slate-405 hover:text-slate-800 p-1">
+          <IconButton onClick={onClose} className="hover:bg-panel-2 shrink-0 text-ink-soft hover:text-ink p-1">
             <X size={16} />
           </IconButton>
         )}
@@ -189,7 +189,7 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
 
       {/* Tabs and TabPanels in scroll container */}
       <div className="flex-1 overflow-y-auto px-5 py-2 min-h-0">
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'var(--panel-border)' }}>
           <Tabs 
             value={tab} 
             onChange={(_, v) => setTab(v)}
@@ -202,16 +202,16 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px',
                 minWidth: 70,
-                color: '#71717a',
+                color: 'var(--muted)',
                 minHeight: 32,
                 py: 0.5,
                 px: 1.5
               },
               '& .Mui-selected': {
-                color: '#e60000 !important'
+                color: 'var(--accent) !important'
               },
               '& .MuiTabs-indicator': {
-                backgroundColor: '#e60000',
+                backgroundColor: 'var(--accent)',
                 height: 2
               }
             }}
@@ -226,32 +226,31 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
         <TabPanel value={tab} index={0}>
           <div className="space-y-4">
             
-            {/* Context Summary Card */}
-            <div className="bg-slate-50 border border-slate-200/60 rounded-xl p-3.5 shadow-xs">
+                       <div className="bg-panel-2 border border-panel-border rounded-xl p-3.5 shadow-xs">
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-7 h-7 rounded bg-red-50 flex items-center justify-center text-red-650">
+                <div className="w-7 h-7 rounded bg-panel flex items-center justify-center text-accent border border-panel-border">
                   <MessageSquare size={13} />
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-bold text-slate-900 uppercase tracking-wider leading-none">Executive Performance Note</h4>
-                  <p className="text-[8px] text-slate-400 font-medium italic mt-0.5 leading-none">CEO dashboard synthesis • Mar-26 close</p>
+                  <h4 className="text-[10px] font-bold text-ink uppercase tracking-wider leading-none">Executive Performance Note</h4>
+                  <p className="text-[8px] text-ink-soft font-medium italic mt-0.5 leading-none">CEO dashboard synthesis • Mar-26 close</p>
                 </div>
               </div>
               
-              <p className="text-[11px] text-slate-700 leading-relaxed font-light mb-3">
+              <p className="text-[11px] text-ink-soft leading-relaxed font-light mb-3">
                 {insight.summary}
               </p>
 
               {/* Next Steps */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2.5 border-t border-slate-200">
-                <div className="bg-white p-2 rounded border border-slate-150">
-                  <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest block mb-0.5 leading-none">Strategic Action Required</span>
-                  <p className="text-[10px] font-semibold text-slate-800 leading-snug">{insight.nextStep}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2.5 border-t border-panel-border">
+                <div className="bg-panel p-2 rounded border border-panel-border">
+                  <span className="text-[8px] font-bold text-ink-soft uppercase tracking-widest block mb-0.5 leading-none">Strategic Action Required</span>
+                  <p className="text-[10px] font-semibold text-ink leading-snug">{insight.nextStep}</p>
                 </div>
-                <div className="bg-white p-2 rounded border border-slate-150">
-                  <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest block mb-0.5 leading-none">Action Owner</span>
-                  <p className="text-[10px] font-semibold text-slate-850 leading-snug flex items-center gap-1">
-                    <User size={9} className="text-red-500 shrink-0" />
+                <div className="bg-panel p-2 rounded border border-panel-border">
+                  <span className="text-[8px] font-bold text-ink-soft uppercase tracking-widest block mb-0.5 leading-none">Action Owner</span>
+                  <p className="text-[10px] font-semibold text-ink leading-snug flex items-center gap-1">
+                    <User size={9} className="text-accent shrink-0" />
                     {insight.owner}
                   </p>
                 </div>
@@ -260,7 +259,7 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
 
             {/* Metric Breakdown */}
             <div className="space-y-2">
-              <h5 className="text-[9px] font-bold text-slate-400 uppercase tracking-widest pl-1 border-l-2 border-red-600 leading-none">
+              <h5 className="text-[9px] font-bold text-ink-soft uppercase tracking-widest pl-1 border-l-2 border-accent leading-none">
                 Detailed Metric Breakdown
               </h5>
               <div className="grid grid-cols-1 gap-1.5">
@@ -269,16 +268,16 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
                   const isGreen = stat.status.toLowerCase().includes('green') || stat.status.toLowerCase().includes('favor') || stat.status.toLowerCase().includes('achieve');
                   const isWatch = stat.status.toLowerCase().includes('watch') || stat.status.toLowerCase().includes('amber') || stat.status.toLowerCase().includes('flight');
                   
-                  let chipColor = "bg-slate-50 text-slate-605 border-slate-200";
-                  if (isCrit) chipColor = "bg-red-50 text-red-700 border-red-150";
-                  else if (isWatch) chipColor = "bg-amber-50 text-amber-800 border-amber-150";
-                  else if (isGreen) chipColor = "bg-emerald-50 text-emerald-700 border-emerald-150";
+                  let chipColor = "bg-panel-2 text-ink-soft border-panel-border";
+                  if (isCrit) chipColor = "bg-red-500/10 text-rose-500 border-red-500/20";
+                  else if (isWatch) chipColor = "bg-amber-500/10 text-amber-500 border-amber-500/20";
+                  else if (isGreen) chipColor = "bg-emerald-500/10 text-emerald-500 border-emerald-500/20";
 
                   return (
-                    <div key={i} className="flex items-center justify-between p-2 rounded-lg border border-slate-100 hover:bg-slate-50/50 transition-colors leading-none">
-                      <span className="text-[11px] font-medium text-slate-600">{stat.label}</span>
+                    <div key={i} className="flex items-center justify-between p-2 rounded-lg border border-panel-border hover:bg-panel-2/50 transition-colors leading-none">
+                      <span className="text-[11px] font-medium text-ink-soft">{stat.label}</span>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm text-slate-905">{stat.val}</span>
+                        <span className="text-sm text-ink">{stat.val}</span>
                         <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded-full border leading-none shrink-0 ${chipColor}`}>
                           {stat.status}
                         </span>
@@ -296,16 +295,16 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
           <div className="space-y-4">
             {requirement ? (
               <>
-                <div className="flex items-center justify-between bg-slate-900 text-white p-3 rounded-lg shadow-sm">
+                <div className="flex items-center justify-between bg-ink text-panel p-3 rounded-lg shadow-sm">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-7 h-7 rounded bg-red-655 flex items-center justify-center text-white font-bold text-xs">
+                    <div className="w-7 h-7 rounded bg-accent flex items-center justify-center text-panel font-bold text-xs">
                       {reqId}
                     </div>
                     <div>
                       <h4 className="text-[11px] font-bold uppercase tracking-wider leading-none">
                         {requirement.title.split('—').slice(1).join('—') || requirement.title}
                       </h4>
-                      <p className="text-[8px] text-slate-400 font-semibold tracking-widest uppercase mt-0.5 leading-none">REQ {reqId}</p>
+                      <p className="text-[8px] text-panel-2 font-semibold tracking-widest uppercase mt-0.5 leading-none">REQ {reqId}</p>
                     </div>
                   </div>
                   <span className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wide leading-none ${
@@ -317,23 +316,23 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
 
                 <div className="space-y-3 pt-0.5">
                   <div className="space-y-1">
-                    <h6 className="text-[8px] font-bold text-red-600 uppercase tracking-widest leading-none">Description</h6>
-                    <p className="text-[11px] text-slate-700 leading-normal font-light">{requirement.description}</p>
+                    <h6 className="text-[8px] font-bold text-accent uppercase tracking-widest leading-none">Description</h6>
+                    <p className="text-[11px] text-ink-soft leading-normal font-light">{requirement.description}</p>
                   </div>
 
                   <div className="space-y-1">
-                    <h6 className="text-[8px] font-bold text-slate-400 uppercase tracking-widest leading-none">CEO Strategic Story</h6>
-                    <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-150 border-l-2 border-red-500 italic">
-                      <p className="text-[11px] text-slate-800 leading-normal font-light">"{requirement.userStory}"</p>
+                    <h6 className="text-[8px] font-bold text-ink-soft uppercase tracking-widest leading-none">CEO Strategic Story</h6>
+                    <div className="bg-panel-2 p-2.5 rounded-lg border border-panel-border border-l-2 border-accent italic">
+                      <p className="text-[11px] text-ink leading-normal font-light">"{requirement.userStory}"</p>
                     </div>
                   </div>
 
                   <div className="space-y-1">
-                    <h6 className="text-[8px] font-bold text-slate-400 uppercase tracking-widest leading-none">Alignment Feedback & Decisions</h6>
+                    <h6 className="text-[8px] font-bold text-ink-soft uppercase tracking-widest leading-none">Alignment Feedback & Decisions</h6>
                     <ul className="space-y-1.5 pl-0 list-none">
                       {requirement.feedback.map((f: string, i: number) => (
-                        <li key={i} className="flex gap-1.5 text-[11px] text-slate-600 leading-normal items-start">
-                          <span className="text-red-550 font-bold shrink-0">•</span>
+                        <li key={i} className="flex gap-1.5 text-[11px] text-ink-soft leading-normal items-start">
+                          <span className="text-accent font-bold shrink-0">•</span>
                           <span>{f}</span>
                         </li>
                       ))}
@@ -343,7 +342,7 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
                   <div className="pt-1 flex justify-center">
                     <button 
                       onClick={() => alert(`Strategic validation triggered for Requirement #${reqId}`)}
-                      className="flex items-center gap-1 text-[9px] font-bold text-white bg-red-600 px-4 py-1.5 rounded-full shadow hover:bg-red-700 transition-all hover:scale-102 cursor-pointer uppercase tracking-wider leading-none">
+                      className="flex items-center gap-1 text-[9px] font-bold text-panel bg-accent px-4 py-1.5 rounded-full shadow hover:opacity-90 transition-all hover:scale-102 cursor-pointer uppercase tracking-wider leading-none">
                       <ShieldCheck size={11} />
                       Validate AC Status
                     </button>
@@ -351,7 +350,7 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
                 </div>
               </>
             ) : (
-              <div className="text-center py-8 text-slate-400 text-[11px]">
+              <div className="text-center py-8 text-muted-text text-[11px]">
                 No workshop requirement mapped to this item.
               </div>
             )}
@@ -361,12 +360,12 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
         {/* TAB 3: HISTORICAL AUDIT */}
         <TabPanel value={tab} index={2}>
           <div className="flex flex-col items-center justify-center py-12 text-center space-y-2 opacity-50">
-            <History size={36} className="text-slate-400" />
+            <History size={36} className="text-muted-text" />
             <div>
-              <p className="font-bold text-[11px] uppercase tracking-widest text-slate-700">Historical View</p>
-              <p className="text-[10px] text-slate-400 mt-1">Connecting to VOIS data warehouse for past 12 months...</p>
+              <p className="font-bold text-[11px] uppercase tracking-widest text-ink">Historical View</p>
+              <p className="text-[10px] text-muted-text mt-1">Connecting to VOIS data warehouse for past 12 months...</p>
             </div>
-            <span className="inline-block text-[8px] bg-slate-100 text-slate-600 border border-slate-200 px-2 py-0.5 rounded mt-2 uppercase tracking-wider font-semibold">
+            <span className="inline-block text-[8px] bg-panel-2 text-ink-soft border border-panel-border px-2 py-0.5 rounded mt-2 uppercase tracking-wider font-semibold">
               ERP Interface Refresher
             </span>
           </div>
@@ -374,15 +373,15 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
       </div>
 
       {/* Footer Actions */}
-      <div className="p-3 border-t border-slate-200 bg-slate-50/70 flex gap-2 shrink-0">
+      <div className="p-3 border-t border-panel-border bg-panel-2/70 flex gap-2 shrink-0">
         <button 
           onClick={() => handleActionClick(`Download Deep-Dive: ${data.label || data.name}`)}
-          className="flex-1 bg-slate-900 text-white py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider hover:bg-slate-800 transition-colors shadow-sm cursor-pointer text-center leading-none">
+          className="flex-1 bg-ink text-panel py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider hover:opacity-90 transition-all shadow-sm cursor-pointer text-center leading-none">
           Download Briefing
         </button>
         <button 
           onClick={() => handleActionClick(`Share with GMT: ${data.label || data.name}`)}
-          className="flex-1 border border-slate-250 bg-white text-slate-700 py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider hover:bg-slate-50 transition-colors cursor-pointer text-center leading-none">
+          className="flex-1 border border-panel-border bg-panel text-ink py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider hover:bg-panel-2 transition-all cursor-pointer text-center leading-none">
           Share with GMT
         </button>
       </div>
@@ -400,7 +399,7 @@ const DrillDownDrawer: React.FC<DrillDownDrawerProps> = ({
       onClose={onClose}
       slotProps={{
         paper: {
-          sx: { width: { xs: '100%', sm: 460, lg: 520 }, bgcolor: '#ffffff' }
+          sx: { width: { xs: '100%', sm: 460, lg: 520 }, bgcolor: 'var(--panel)' }
         }
       }}
     >
