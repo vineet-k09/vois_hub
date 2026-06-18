@@ -9,6 +9,8 @@ import DrillDownDrawer from './components/DrillDownDrawer';
 import AnnotationCard from './components/AnnotationCard';
 import dashboardData from './data/dashboard_data.json';
 import { Sparkles, FileText, Send, Layers } from 'lucide-react';
+import { toPng } from 'html-to-image';
+import { jsPDF } from 'jspdf';
 
 const App: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -58,6 +60,42 @@ const App: React.FC = () => {
       name: actionName,
       description: `Triggered dashboard action: ${actionName}. Running with CEO credentials.`
     });
+  };
+
+  const generatePDF = async () => {
+    const element = document.body;
+    try {
+      // Capture the element as a PNG data URL
+      const dataUrl = await toPng(element, { 
+        quality: 1, 
+        pixelRatio: 2, // High resolution
+        backgroundColor: '#f8fafc' // Matches body background
+      });
+      
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'px',
+        format: 'a4'
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      // Calculate image dimensions to fit the page
+      const imgProps = pdf.getImageProperties(dataUrl);
+      const ratio = Math.min(pdfWidth / imgProps.width, pdfHeight / imgProps.height);
+      const imgWidth = imgProps.width * ratio;
+      const imgHeight = imgProps.height * ratio;
+      
+      // Center the image
+      const x = (pdfWidth - imgWidth) / 2;
+      const y = (pdfHeight - imgHeight) / 2;
+
+      pdf.addImage(dataUrl, 'PNG', x, y, imgWidth, imgHeight);
+      pdf.save(`VOIS_Hub_Executive_Summary_${branding.period.replace(/ /g, '_')}.pdf`);
+    } catch (error) {
+      console.error('Failed to generate PDF:', error);
+    }
   };
 
   // Status mapping for pillars select indicators
@@ -115,7 +153,7 @@ const App: React.FC = () => {
 
             <div className="flex gap-2">
               <button
-                onClick={() => window.print()}
+                onClick={generatePDF}
                 className="flex items-center gap-1.5 bg-slate-900 text-white px-2.5 py-1 rounded-md text-[10px] font-bold hover:bg-slate-800 transition-colors shadow-xs cursor-pointer leading-none">
                 <FileText size={10} />
                 Generate Board PDF
