@@ -102,39 +102,63 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
         <div className="grid grid-cols-1 gap-2.5 pl-1">
           {req06.roadmap?.map((item: any) => {
             const parsed = getProgramDetails(item.name);
+            const isRed = item.rag === 'red';
+            const isAmber = item.rag === 'amber';
             const isGreen = item.rag === 'green';
-            const barColor = isGreen ? 'bg-emerald-500' : 'bg-amber-500';
+
+            const barColor = isGreen ? 'bg-emerald-500' : isAmber ? 'bg-amber-500' : 'bg-rose-500';
+
+            // Importance scaling based on RAG - showing prominence via footprint
+            const containerSizeClass = isRed ? 'py-4.5 px-4 shadow-xs' : isAmber ? 'py-3.5 px-3.5' : 'py-2.5 px-3';
+            const nameFontClass = isRed ? 'text-sm' : 'text-xs';
+            const ownerFontClass = isRed ? 'text-[11px]' : 'text-[10px]';
+
+            // Theme styling consistent with KPIGrid.tsx
+            let cardStyleClass = '';
+            if (isRed) {
+              cardStyleClass = 'bg-red-50/30 border-red-200 hover:bg-red-50/50 ring-1 ring-red-500/5';
+            } else if (isAmber) {
+              cardStyleClass = 'bg-amber-50/30 border-amber-200 hover:bg-amber-50/50 ring-1 ring-amber-500/5';
+            } else {
+              cardStyleClass = 'bg-slate-50/20 border-slate-150 hover:bg-slate-50 hover:border-slate-200';
+            }
 
             return (
               <div 
                 key={item.name} 
-                className="group p-3 rounded-xl border border-slate-150 bg-slate-50/20 hover:bg-slate-50 hover:border-slate-200 transition-all cursor-pointer flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3"
+                className={`group rounded-xl border transition-all cursor-pointer flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3 ${cardStyleClass} ${containerSizeClass}`}
                 onClick={() => handleItemClick(item)}
               >
                 {/* Initiative Name & Owner */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <h4 className="text-xs font-bold text-slate-900 group-hover:text-red-650 transition-colors text-ellipsis">
+                    {isRed && (
+                      <span className="flex h-1.5 w-1.5 relative shrink-0">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
+                      </span>
+                    )}
+                    <h4 className={`${nameFontClass} font-bold text-slate-900 group-hover:text-red-650 transition-colors `}>
                       {item.name}
                     </h4>
                   </div>
-                  <p className="text-[10px] text-slate-405 font-bold tracking-wider uppercase mt-0.5 leading-none text-ellipsis">
+                  <p className={`${ownerFontClass} text-slate-405 font-bold tracking-wider mt-1.5 leading-none `}>
                     Owner: {parsed.owner}
                   </p>
                 </div>
 
                 {/* Milestones & Value */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-[11px] text-slate-700 font-semibold leading-none whitespace-nowrap overflow-hidden text-ellipsis">
+                  <p className="text-[11px] text-slate-700 font-semibold leading-none truncate">
                     {parsed.milestones}
                   </p>
-                  <p className="text-[9px] text-emerald-650 font-bold mt-1 leading-none whitespace-nowrap overflow-hidden text-ellipsis">
+                  <p className="text-[9px] text-emerald-650 font-bold mt-1 leading-none truncate">
                     {parsed.value}
                   </p>
                 </div>
 
                 {/* Progress Bar & Percentage */}
-                <div className="flex-none w-28">
+                <div className="flex-none w-24 md:w-28 min-w-0">
                   <div className="flex justify-between items-baseline text-[9px] text-slate-400 mb-0.5 leading-none">
                     <span>Progress</span>
                     <span className="font-bold text-slate-750">{item.progress}%</span>
@@ -148,11 +172,13 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
                 </div>
 
                 {/* Risks / Status & Alignment */}
-                <div className="flex-none w-40 text-left md:text-right flex flex-row md:flex-col justify-between md:justify-center items-center md::items-end gap-1 leading-none">
+                <div className="flex-none w-32 md:w-40 min-w-0 text-left md:text-right flex flex-row md:flex-col justify-between md:justify-center items-center md:items-end gap-1 leading-none">
                   <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded border ${
-                    isGreen 
-                      ? 'bg-emerald-50 text-emerald-700 border-emerald-150' 
-                      : 'bg-amber-50 text-amber-700 border-amber-150'
+                    isGreen
+                      ? 'bg-emerald-50 text-emerald-700 border-emerald-150'
+                      : isAmber
+                        ? 'bg-amber-50 text-amber-700 border-amber-150'
+                        : 'bg-red-50 text-red-700 border-red-150'
                   } whitespace-nowrap overflow-hidden text-ellipsis`}>
                     {parsed.risk}
                   </span>

@@ -226,6 +226,9 @@ const App: React.FC = () => {
                     const isRed = item.rag === 'red';
                     const isAmber = item.rag === 'amber';
                     const isGreen = item.rag === 'green';
+                    const isUrgent = isRed || isAmber;
+                    
+                    const colSpanClass = isUrgent ? 'md:col-span-2' : 'md:col-span-1';
                     const ragColor = 
                       isGreen ? "bg-emerald-500" : 
                       isAmber ? "bg-amber-500" : 
@@ -234,7 +237,7 @@ const App: React.FC = () => {
                     return (
                       <div
                         key={item.name}
-                        className={`group flex justify-between items-center p-2 rounded-lg border border-slate-150 transition-all cursor-pointer leading-none ${
+                        className={`group flex justify-between items-center ${isUrgent ? 'p-2.5' : 'p-2'} rounded-lg border border-slate-150 transition-all cursor-pointer leading-none ${colSpanClass} ${
                           isRed ? 'bg-red-50/20 hover:bg-red-50/40 border-red-200' : 
                           isAmber ? 'bg-amber-50/20 hover:bg-amber-50/40 border-amber-250' : 
                           'bg-slate-50/10 hover:bg-slate-50 border-slate-100'
@@ -247,8 +250,17 @@ const App: React.FC = () => {
                             requirementId: '8'
                           })
                         }>
-                        <span className="text-[11px] font-semibold text-slate-755 flex items-center gap-1.5 min-w-0">
-                          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${ragColor}`} />
+                        <span className={`${isUrgent ? 'text-xs' : 'text-[11px]'} font-semibold text-slate-755 flex items-center gap-1.5 min-w-0`}>
+                          <span className="flex items-center shrink-0">
+                            {isRed ? (
+                              <span className="flex h-1.5 w-1.5 relative">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-600"></span>
+                              </span>
+                            ) : (
+                              <span className={`w-1.5 h-1.5 rounded-full ${ragColor}`} />
+                            )}
+                          </span>
                           <span className="truncate">{item.name}</span>
                         </span>
                         <span className="text-[8px] font-bold text-red-650 uppercase tracking-wider hover:underline shrink-0 pl-1.5">
@@ -275,7 +287,8 @@ const App: React.FC = () => {
                       userStory={req08Anno.userStory}
                     />
                   )}
-                  {req05Anno && (
+                  {/* DO NOT REMOVE THE BELOW */}
+                  {/* {req05Anno && (
                     <AnnotationCard
                       id="5"
                       title={req05Anno.title}
@@ -286,7 +299,7 @@ const App: React.FC = () => {
                       acceptanceCriteria={req05Anno.acceptanceCriteria}
                       userStory={req05Anno.userStory}
                     />
-                  )}
+                  )} */}
                 </div>
               )}
             </section>
@@ -341,7 +354,7 @@ const App: React.FC = () => {
               onClick={() => setShowAnnotations(!showAnnotations)}
               className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold border transition-all cursor-pointer ${
                 showAnnotations
-                  ? "bg-white text-red-655 border-white shadow-sm font-bold"
+                  ? "bg-white text-red-600 border-white shadow-sm font-bold"
                   : "bg-white/10 border-white/20 hover:bg-white/20 text-white"
               }`}>
               <span
