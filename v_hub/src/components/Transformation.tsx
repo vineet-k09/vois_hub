@@ -68,7 +68,8 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
   };
 
   return (
-    <section className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative overflow-hidden flex flex-col justify-between h-full">
+    <section className="bg-white border border-slate-200/70 rounded-2xl p-4.5 shadow-sm relative 
+    overflow-hidden flex flex-col justify-between h-full">
       {/* Numbered pin for annotation */}
       <div className="req-pin" title="Requirement #6">
         6
@@ -114,28 +115,27 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
                 {/* Initiative Name & Owner */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <h4 className="text-xs font-bold text-slate-900 truncate group-hover:text-red-650 transition-colors">
+                    <h4 className="text-xs font-bold text-slate-900 group-hover:text-red-650 transition-colors text-ellipsis">
                       {item.name}
                     </h4>
-                    <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${ragColor}`} />
                   </div>
-                  <p className="text-[9px] text-slate-405 font-bold tracking-wider uppercase mt-0.5 leading-none">
+                  <p className="text-[10px] text-slate-405 font-bold tracking-wider uppercase mt-0.5 leading-none text-ellipsis">
                     Owner: {parsed.owner}
                   </p>
                 </div>
 
                 {/* Milestones & Value */}
-                <div className="w-40 shrink-0">
-                  <p className="text-[11px] text-slate-700 font-semibold leading-none">
+                <div className="flex-1 min-w-0">
+                  <p className="text-[11px] text-slate-700 font-semibold leading-none whitespace-nowrap overflow-hidden text-ellipsis">
                     {parsed.milestones}
                   </p>
-                  <p className="text-[9px] text-emerald-650 font-bold mt-1 leading-none">
+                  <p className="text-[9px] text-emerald-650 font-bold mt-1 leading-none whitespace-nowrap overflow-hidden text-ellipsis">
                     {parsed.value}
                   </p>
                 </div>
 
                 {/* Progress Bar & Percentage */}
-                <div className="w-28 shrink-0">
+                <div className="flex-none w-28">
                   <div className="flex justify-between items-baseline text-[9px] text-slate-400 mb-0.5 leading-none">
                     <span>Progress</span>
                     <span className="font-bold text-slate-750">{item.progress}%</span>
@@ -149,12 +149,12 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
                 </div>
 
                 {/* Risks / Status & Alignment */}
-                <div className="w-40 shrink-0 text-left md:text-right flex flex-row md:flex-col justify-between md:justify-center items-center md:items-end gap-1 leading-none">
+                <div className="flex-none w-40 text-left md:text-right flex flex-row md:flex-col justify-between md:justify-center items-center md::items-end gap-1 leading-none">
                   <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded border ${
                     isGreen 
                       ? 'bg-emerald-50 text-emerald-700 border-emerald-150' 
                       : 'bg-amber-50 text-amber-700 border-amber-150'
-                  }`}>
+                  } whitespace-nowrap overflow-hidden text-ellipsis`}>
                     {parsed.risk}
                   </span>
                   <p className="text-[8px] text-slate-400 mt-1 truncate max-w-full">
