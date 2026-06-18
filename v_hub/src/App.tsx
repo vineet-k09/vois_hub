@@ -9,6 +9,8 @@ import DrillDownDrawer from './components/DrillDownDrawer';
 import AnnotationCard from './components/AnnotationCard';
 import dashboardData from './data/dashboard_data.json';
 import { Sparkles, FileText, Send, Layers } from 'lucide-react';
+import { toPng } from 'html-to-image';
+import { jsPDF } from 'jspdf';
 
 const App: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -18,6 +20,7 @@ const App: React.FC = () => {
   const [activePillar, setActivePillar] = useState('CEO SUMMARY');
   const [viewMode, setViewMode] = useState<'dashboard' | 'split' | 'deep-dive'>('dashboard');
   const [isDesktop, setIsDesktop] = useState(true);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -58,6 +61,46 @@ const App: React.FC = () => {
       name: actionName,
       description: `Triggered dashboard action: ${actionName}. Running with CEO credentials.`
     });
+  };
+
+  const generatePDF = async () => {
+    if (isGenerating) return;
+    setIsGenerating(true);
+    const element = document.body;
+    try {
+      // Capture the element as a PNG data URL
+      const dataUrl = await toPng(element, { 
+        quality: 1, 
+        pixelRatio: 2, // High resolution
+        backgroundColor: '#f8fafc' // Matches body background
+      });
+      
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'px',
+        format: 'a4'
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      // Calculate image dimensions to fit the page
+      const imgProps = pdf.getImageProperties(dataUrl);
+      const ratio = Math.min(pdfWidth / imgProps.width, pdfHeight / imgProps.height);
+      const imgWidth = imgProps.width * ratio;
+      const imgHeight = imgProps.height * ratio;
+      
+      // Center the image
+      const x = (pdfWidth - imgWidth) / 2;
+      const y = (pdfHeight - imgHeight) / 2;
+
+      pdf.addImage(dataUrl, 'PNG', x, y, imgWidth, imgHeight);
+      pdf.save(`VOIS_Hub_Executive_Summary_${branding.period.replace(/ /g, '_')}.pdf`);
+    } catch (error) {
+      console.error('Failed to generate PDF:', error);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   // Status mapping for pillars select indicators
@@ -115,10 +158,18 @@ const App: React.FC = () => {
 
             <div className="flex gap-2">
               <button
-                onClick={() => handleActionClick("Generate Board PDF")}
-                className="flex items-center gap-1.5 bg-slate-900 text-white px-2.5 py-1 rounded-md text-[10px] font-bold hover:bg-slate-800 transition-colors shadow-xs cursor-pointer leading-none">
-                <FileText size={10} />
-                Generate Board PDF
+                onClick={generatePDF}
+                disabled={isGenerating}
+                className={`flex items-center gap-1.5 bg-slate-900 text-white px-2.5 py-1 rounded-md text-[10px] font-bold hover:bg-slate-800 transition-colors shadow-xs cursor-pointer leading-none ${isGenerating ? 'opacity-75 cursor-not-allowed' : ''}`}>
+                {isGenerating ? (
+                  <svg className="animate-spin h-2.5 w-2.5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                ) : (
+                  <FileText size={10} />
+                )}
+                {isGenerating ? 'Generating...' : 'Generate Board PDF'}
               </button>
               <button
                 onClick={() => handleActionClick("Email Monthly Pack")}
@@ -129,18 +180,18 @@ const App: React.FC = () => {
             </div>
           </div>
 
-          {/* AI Bullet points Split - High Density */}
-          <div className="w-full lg:w-115 grid grid-cols-1 md:grid-cols-2 gap-3.5 bg-slate-50/70 p-3.5 rounded-xl border border-slate-100 shrink-0">
-            <div className="space-y-1.5">
-              <span className="text-[9px] font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1 leading-none">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />{" "}
+          {/* AI Bullet points Split - Improved Readability */}
+          <div className="w-full lg:w-140 grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-50/80 p-5 rounded-xl border border-slate-100 shrink-0">
+            <div className="space-y-3.5">
+              <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1.5 leading-none">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]" />{" "}
                 Key Takeaways
               </span>
-              <ul className="space-y-1 list-none pl-0">
+              <ul className="space-y-2.5 list-none pl-0">
                 {aiSummary.takeaways?.map((item: any, i: number) => (
                   <li
                     key={i}
-                    className="text-[10.5px] text-slate-600 leading-tight border-l border-emerald-300 pl-1.5">
+                    className="text-[11px] text-slate-600 leading-normal border-l-2 border-emerald-300/60 pl-2.5">
                     <b className="text-slate-800 font-bold">
                       {item.text.split(":")[0]}:
                     </b>
@@ -150,16 +201,16 @@ const App: React.FC = () => {
               </ul>
             </div>
 
-            <div className="space-y-1.5">
-              <span className="text-[9px] font-bold text-amber-700 uppercase tracking-wider flex items-center gap-1 leading-none">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />{" "}
+            <div className="space-y-3.5">
+              <span className="text-[10px] font-bold text-amber-700 uppercase tracking-wider flex items-center gap-1.5 leading-none">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.3)]" />{" "}
                 Watchpoints
               </span>
-              <ul className="space-y-1 list-none pl-0">
+              <ul className="space-y-2.5 list-none pl-0">
                 {aiSummary.watchpoints?.map((item: any, i: number) => (
                   <li
                     key={i}
-                    className="text-[10.5px] text-slate-605 leading-tight border-l border-amber-300 pl-1.5">
+                    className="text-[11px] text-slate-605 leading-normal border-l-2 border-amber-300/60 pl-2.5">
                     <b className="text-slate-805 font-bold">
                       {item.text.split(":")[0]}:
                     </b>
