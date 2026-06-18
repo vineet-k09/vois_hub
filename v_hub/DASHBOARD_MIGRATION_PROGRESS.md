@@ -15,6 +15,7 @@ This document tracks the tasks completed, architectural decisions, component reu
 - [x] **HR Director Dashboard**: Added Sima's People Correlation Lens with promotions glide paths, Glint Spirit Beat driver matrices, and headcount actuals overlays.
 - [x] **Detail View & Drill-down Drawer Integration**: Unified the persistent context panel (`DrillDownDrawer.tsx`) to resolve and display metrics, action items, next steps, history, and AC validation cards for all four dashboards.
 - [x] **Global Theme Toggle**: Globalized base styles and layout structures to support Light, Dark, and CEO Executive themes on all pages.
+- [x] **Cross-Tower Benchmarking Suite (`CompareTowers.tsx`)**: Created a standalone benchmarking view to compare the KPIs, monthly performance trends, and multi-dimensional profiles of any two towers (e.g. Finance vs GTM or HR vs Overall Group) side-by-side.
 - [x] **Production Compilation & Build Validation**: Verified that all components compile cleanly and package successfully under production configuration rules (`noUnusedLocals`, `noUnusedParameters`).
 
 ---

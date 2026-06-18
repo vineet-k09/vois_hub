@@ -16,8 +16,9 @@ import { LandingPage } from './components/LandingPage';
 import { FinanceDashboard } from './components/FinanceDashboard';
 import { GTMDashboard } from './components/GTMDashboard';
 import { HRDashboard } from './components/HRDashboard';
+import { CompareTowers } from './components/CompareTowers';
 
-import { Sparkles, FileText, Send, Layers, Home } from 'lucide-react';
+import { Sparkles, FileText, Send, Layers, Home, GitCompare } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { jsPDF } from 'jspdf';
 import Tooltip from './components/Tooltip';
@@ -42,7 +43,7 @@ const getGmtGripTooltip = (name: string) => {
 };
 
 const App: React.FC = () => {
-  const [activeView, setActiveView] = useState<'landing' | 'ceo' | 'finance' | 'gtm' | 'hr'>('landing');
+  const [activeView, setActiveView] = useState<'landing' | 'ceo' | 'finance' | 'gtm' | 'hr' | 'compare'>('landing');
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [showAnnotations, setShowAnnotations] = useState(false);
   const [activeStakeholder, setActiveStakeholder] = useState('★ Board Members');
@@ -489,6 +490,8 @@ const App: React.FC = () => {
         return <GTMDashboard onDrillDown={handleDrillDown} showAnnotations={showAnnotations} />;
       case 'hr':
         return <HRDashboard onDrillDown={handleDrillDown} showAnnotations={showAnnotations} />;
+      case 'compare':
+        return <CompareTowers onDrillDown={handleDrillDown} showAnnotations={showAnnotations} />;
       default:
         return null;
     }
@@ -500,6 +503,7 @@ const App: React.FC = () => {
       case 'finance': return 'FINANCE PORTFOLIO PORTAL';
       case 'gtm': return 'GTM COMMERCIAL PORTAL';
       case 'hr': return 'HR STRATEGIC PORTAL';
+      case 'compare': return 'CROSS-TOWER BENCHMARKING SUITE';
       default: return 'UNIFIED EXECUTIVE SUITE';
     }
   };
@@ -587,6 +591,23 @@ const App: React.FC = () => {
 
             <span className="text-white/20 hidden sm:inline">|</span>
 
+            {/* Compare Towers Button */}
+            <button
+              onClick={() => {
+                setActiveView('compare');
+                setSelectedItem(null);
+              }}
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold border transition-all cursor-pointer ${
+                activeView === 'compare'
+                  ? "bg-white text-rose-600 border-white shadow-sm font-bold"
+                  : "bg-white/10 border-white/20 hover:bg-white/20 text-white"
+              }`}>
+              <GitCompare size={12} className={activeView === 'compare' ? "text-rose-600" : "text-white"} />
+              Compare Towers
+            </button>
+
+            <span className="text-white/20 hidden sm:inline">|</span>
+
             {/* Time Stamp */}
             <div className="text-[11px] text-white/80 font-medium bg-black/10 px-2.5 py-1 rounded border border-white/5 leading-none">
               {brandingPeriod}
@@ -613,7 +634,7 @@ const App: React.FC = () => {
       </header>
 
       {/* =========== SUB-HEADER BAR: PILLARS & REVIEW VIEW DROP-DOWNS & VIEW MODES =========== */}
-      {activeView !== 'landing' && (
+      {activeView !== 'landing' && activeView !== 'compare' && (
         <section className="bg-panel border-b border-panel-border sticky top-0 z-20 shadow-xs shrink-0 py-1.5">
           <motion.div 
             layout="position"
