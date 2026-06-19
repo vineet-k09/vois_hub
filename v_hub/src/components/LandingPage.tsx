@@ -105,7 +105,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSelectView, onSelect
       {/* STRATEGIC USER STORIES BUTTON LIST */}
       <div className="w-full space-y-2 max-w-5xl">
         <span className="text-[9px] font-black text-accent uppercase tracking-widest block pl-1">
-          🔥 Executive Insights & User Story Shortcuts (Click to Navigate)
+          Executive Insights & User Story Shortcuts (Click to Navigate)
         </span>
         <div className="grid grid-cols-1 md:grid-cols-5 gap-2.5">
           {userStories.map((story, sIdx) => (
