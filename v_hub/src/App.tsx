@@ -44,6 +44,7 @@ const getGmtGripTooltip = (name: string) => {
 
 const App: React.FC = () => {
   const [activeView, setActiveView] = useState<'landing' | 'ceo' | 'finance' | 'gtm' | 'hr' | 'compare'>('landing');
+  const [highlightCardId, setHighlightCardId] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [showAnnotations, setShowAnnotations] = useState(false);
   const [activeStakeholder, setActiveStakeholder] = useState('★ Board Members');
@@ -70,6 +71,27 @@ const App: React.FC = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    if (highlightCardId) {
+      const timer = setTimeout(() => {
+        const element = document.getElementById(highlightCardId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          element.classList.add('glow-highlight');
+          
+          const removeTimer = setTimeout(() => {
+            element.classList.remove('glow-highlight');
+            setHighlightCardId(null);
+          }, 1800);
+          return () => clearTimeout(removeTimer);
+        } else {
+          setHighlightCardId(null);
+        }
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [highlightCardId, activeView]);
 
   const activeData = (() => {
     switch (activeView) {
@@ -816,23 +838,43 @@ const App: React.FC = () => {
               transition={{ duration: 0.2 }}
               className="w-full font-inter"
             >
-              <LandingPage onSelectView={(view) => {
-                setActiveView(view);
-                switch (view) {
-                  case 'ceo':
-                    setActivePillar('CEO SUMMARY');
-                    break;
-                  case 'finance':
-                    setActivePillar('FINANCE SUMMARY');
-                    break;
-                  case 'gtm':
-                    setActivePillar('GTM SUMMARY');
-                    break;
-                  case 'hr':
-                    setActivePillar('HR SUMMARY');
-                    break;
-                }
-              }} />
+              <LandingPage 
+                onSelectView={(view) => {
+                  setActiveView(view);
+                  switch (view) {
+                    case 'ceo':
+                      setActivePillar('CEO SUMMARY');
+                      break;
+                    case 'finance':
+                      setActivePillar('FINANCE SUMMARY');
+                      break;
+                    case 'gtm':
+                      setActivePillar('GTM SUMMARY');
+                      break;
+                    case 'hr':
+                      setActivePillar('HR SUMMARY');
+                      break;
+                  }
+                }} 
+                onSelectStory={(view, cardId) => {
+                  setActiveView(view);
+                  setHighlightCardId(cardId);
+                  switch (view) {
+                    case 'ceo':
+                      setActivePillar('CEO SUMMARY');
+                      break;
+                    case 'finance':
+                      setActivePillar('FINANCE SUMMARY');
+                      break;
+                    case 'gtm':
+                      setActivePillar('GTM SUMMARY');
+                      break;
+                    case 'hr':
+                      setActivePillar('HR SUMMARY');
+                      break;
+                  }
+                }}
+              />
             </motion.div>
           ) : viewMode === 'deep-dive' ? (
             <motion.div

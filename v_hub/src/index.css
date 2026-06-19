@@ -288,3 +288,23 @@ body.anno-on section {
 	outline: 1px dashed var(--accent);
 	outline-offset: 4px;
 }
+
+/* =========== GLOW HIGHLIGHT ANIMATION FOR NAVIGATION STORY STORIES =========== */
+@keyframes glow-pulse {
+	0%, 100% {
+		box-shadow: 0 0 0 0 rgba(230, 0, 0, 0);
+		border-color: var(--panel-border);
+	}
+	50% {
+		box-shadow: 0 0 20px 4px var(--accent);
+		border-color: var(--accent);
+		transform: translateY(-2px) scale(1.005);
+	}
+}
+.glow-highlight {
+	animation: glow-pulse 1.5s ease-in-out 1;
+	z-index: 40;
+	position: relative;
+	transition: all 0.2s ease-in-out;
+}
+
