@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Sparkles, 
   User, 
@@ -10,9 +10,7 @@ import {
   Cpu, 
   Layers, 
   Globe, 
-  Info, 
   Users,
-  LayoutGrid,
   Heart,
   Briefcase,
   Zap,
@@ -20,7 +18,6 @@ import {
 } from 'lucide-react';
 import { 
   ComposedChart, 
-  Bar, 
   Line, 
   Area, 
   XAxis, 
@@ -35,11 +32,10 @@ import {
   Radar, 
   Legend 
 } from 'recharts';
-import AnnotationCard from './AnnotationCard';
 
 interface CompareTowersProps {
   onDrillDown: (data: any) => void;
-  showAnnotations: boolean;
+  compareMode?: 'towers' | 'markets';
 }
 
 const towerData: Record<string, {
@@ -270,6 +266,214 @@ const towerData: Record<string, {
   }
 };
 
+const marketData: Record<string, typeof towerData[string]> = {
+  Overall: {
+    name: "Overall VOIS Group",
+    role: "Consolidated Global Operations",
+    leader: "Gary (Group CEO)",
+    meta: {
+      headcount: "24,850 FTE",
+      locations: "Global Network (Tier-1, 2 & 3 Hubs)",
+      revenueShare: "100% Consolidated"
+    },
+    kpis: [
+      { key: "revenue", label: "Billable Revenue", val: "€2,858M", status: "green", desc: "Consolidated group revenue target met (+1.53% YoY)" },
+      { key: "cost", label: "Cost Efficiency", val: "€141.62M takeout", status: "amber", desc: "Ahead of schedule vs €102M target, though offset by operational overheads" },
+      { key: "ebitda", label: "EBITDA", val: "−€36.33M", status: "red", desc: "Under pressure due to regional utility and space expenses" },
+      { key: "delivery", label: "Delivery KPI (SLA)", val: "99.4%", status: "green", desc: "Group SLA adherence rate above 99% threshold" },
+      { key: "spirit", label: "Spirit Beat Score", val: "85", status: "green", desc: "Robust employee satisfaction, outperforming industry standard" },
+      { key: "talent", label: "Talent KPI", val: "78%", status: "amber", desc: "Critical roles coverage under target of 85%" },
+      { key: "automation", label: "Automation Index", val: "72%", status: "green", desc: "FTE displacement via RPA and AI ops platforms" },
+      { key: "transformation", label: "Transformation Value", val: "€38.0M", status: "green", desc: "Aggregated financial value realized from H2 programs" }
+    ],
+    radarStats: [
+      { subject: 'EBITDA Margin', A: 80, fullMark: 100 },
+      { subject: 'Cost Efficiency', A: 85, fullMark: 100 },
+      { subject: 'Delivery Quality', A: 90, fullMark: 100 },
+      { subject: 'Talent Stability', A: 78, fullMark: 100 },
+      { subject: 'Automation Rate', A: 72, fullMark: 100 }
+    ],
+    monthlyPerformance: [
+      { month: 'Oct-25', value: 82 },
+      { month: 'Nov-25', value: 83 },
+      { month: 'Dec-25', value: 81 },
+      { month: 'Jan-26', value: 84 },
+      { month: 'Feb-26', value: 85 },
+      { month: 'Mar-26', value: 85 }
+    ],
+    strategicBrief: "VOIS Group continues to demonstrate overall resilience. Digital expansion targets are meeting objectives, but regional differences present EBITDA challenges.",
+    actionItems: [
+      "Approve Group-level resource allocations for FY27 Planning",
+      "Reconcile regional pipeline tagging exceptions",
+      "Deploy custom AI copilot platform to mitigate local talent gaps"
+    ]
+  },
+  India: {
+    name: "VOIS India",
+    role: "Primary Offshore Service Center",
+    leader: "Sumit (India Director)",
+    meta: {
+      headcount: "11,450 FTE",
+      locations: "Pune, Ahmedabad, Bangalore",
+      revenueShare: "45.0% Billing"
+    },
+    kpis: [
+      { key: "revenue", label: "Billable Revenue", val: "€1,286M", status: "green", desc: "Massive scale delivery meeting onshore service requests (+3% YoY)" },
+      { key: "cost", label: "Cost Efficiency", val: "€65.40M takeout", status: "green", desc: "Exceeded cost-saving goals through facility utilization" },
+      { key: "ebitda", label: "EBITDA", val: "−€12.30M", status: "amber", desc: "Under pressure due to salary inflation in high-end tech roles" },
+      { key: "delivery", label: "Delivery KPI (SLA)", val: "99.2%", status: "green", desc: "High service quality across all sub-towers" },
+      { key: "spirit", label: "Spirit Beat Score", val: "84", status: "green", desc: "Strong engagement scores from recent employee surveys" },
+      { key: "talent", label: "Talent KPI", val: "78%", status: "amber", desc: "Attrition in high-demand cloud and AI roles remains key check item" },
+      { key: "automation", label: "Automation Index", val: "76%", status: "green", desc: "Highly automated test and DevOps scripts running across all systems" },
+      { key: "transformation", label: "Transformation Value", val: "€18.5M", status: "green", desc: "Significant value delivered via central automation hub" }
+    ],
+    radarStats: [
+      { subject: 'EBITDA Margin', A: 75, fullMark: 100 },
+      { subject: 'Cost Efficiency', A: 88, fullMark: 100 },
+      { subject: 'Delivery Quality', A: 92, fullMark: 100 },
+      { subject: 'Talent Stability', A: 78, fullMark: 100 },
+      { subject: 'Automation Rate', A: 76, fullMark: 100 }
+    ],
+    monthlyPerformance: [
+      { month: 'Oct-25', value: 81 },
+      { month: 'Nov-25', value: 82 },
+      { month: 'Dec-25', value: 80 },
+      { month: 'Jan-26', value: 83 },
+      { month: 'Feb-26', value: 84 },
+      { month: 'Mar-26', value: 84 }
+    ],
+    strategicBrief: "India continues to be the main engine of delivery. Strategic focus is on improving retention and managing wage inflation in Pune and Bangalore centers.",
+    actionItems: [
+      "Implement retention incentives for senior tech leads",
+      "Expand AI training programs to offset hiring costs",
+      "Standardize cloud delivery pipelines to raise throughput"
+    ]
+  },
+  Egypt: {
+    name: "VOIS Egypt",
+    role: "MENA & Southern European Service Center",
+    leader: "Yasmine (Egypt Director)",
+    meta: {
+      headcount: "6,200 FTE",
+      locations: "Cairo",
+      revenueShare: "25.0% Billing"
+    },
+    kpis: [
+      { key: "revenue", label: "Billable Revenue", val: "€714M", status: "green", desc: "Stable revenue delivery supported by European language support demands" },
+      { key: "cost", label: "Cost Efficiency", val: "€35.20M takeout", status: "green", desc: "Operational optimization targets fully met" },
+      { key: "ebitda", label: "EBITDA", val: "−€8.10M", status: "amber", desc: "Margin impact from FX fluctuations and infrastructure investments" },
+      { key: "delivery", label: "Delivery KPI (SLA)", val: "99.0%", status: "green", desc: "SLA commitments met with positive customer feedback" },
+      { key: "spirit", label: "Spirit Beat Score", val: "82", status: "green", desc: "Solid employee engagement score, especially in customer support" },
+      { key: "talent", label: "Talent KPI", val: "75%", status: "amber", desc: "Language specialist roles experiencing high demand and attrition" },
+      { key: "automation", label: "Automation Index", val: "68%", status: "amber", desc: "Automation of customer ticketing workflows under development" },
+      { key: "transformation", label: "Transformation Value", val: "€9.2M", status: "green", desc: "Substantial savings from automated CRM ticket routing" }
+    ],
+    radarStats: [
+      { subject: 'EBITDA Margin', A: 78, fullMark: 100 },
+      { subject: 'Cost Efficiency', A: 85, fullMark: 100 },
+      { subject: 'Delivery Quality', A: 90, fullMark: 100 },
+      { subject: 'Talent Stability', A: 75, fullMark: 100 },
+      { subject: 'Automation Rate', A: 68, fullMark: 100 }
+    ],
+    monthlyPerformance: [
+      { month: 'Oct-25', value: 79 },
+      { month: 'Nov-25', value: 80 },
+      { month: 'Dec-25', value: 78 },
+      { month: 'Jan-26', value: 81 },
+      { month: 'Feb-26', value: 82 },
+      { month: 'Mar-26', value: 82 }
+    ],
+    strategicBrief: "Egypt is a key bilingual delivery hub. Efforts are focused on accelerating language-based AI tools to increase agent productivity.",
+    actionItems: [
+      "Deploy multilingual AI ticket categorizers in Cairo center",
+      "Strengthen language-based customer CARE training modules",
+      "Optimize shift rosters to align with peak European service hours"
+    ]
+  },
+  Hungary: {
+    name: "VOIS Hungary",
+    role: "Central & Northern European Hub",
+    leader: "Balázs (Hungary Director)",
+    meta: {
+      headcount: "3,850 FTE",
+      locations: "Budapest",
+      revenueShare: "18.0% Billing"
+    },
+    kpis: [
+      { key: "revenue", label: "Billable Revenue", val: "€515M", status: "green", desc: "High-value specialist business support billings met (+1% YoY)" },
+      { key: "cost", label: "Cost Efficiency", val: "€24.80M takeout", status: "amber", desc: "Under target by €1.5M due to utility and workspace expenses" },
+      { key: "ebitda", label: "EBITDA", val: "−€9.80M", status: "red", desc: "EBITDA impacted by higher operating and energy costs in Budapest center" },
+      { key: "delivery", label: "Delivery KPI (SLA)", val: "99.6%", status: "green", desc: "Excellent quality and accuracy in complex finance and legal workflows" },
+      { key: "spirit", label: "Spirit Beat Score", val: "86", status: "green", desc: "Top-tier engagement index; positive workspace culture rating" },
+      { key: "talent", label: "Talent KPI", val: "83%", status: "green", desc: "Stable talent pool with low attrition in core business lines" },
+      { key: "automation", label: "Automation Index", val: "72%", status: "green", desc: "Strong adoption of accounting automation tools" },
+      { key: "transformation", label: "Transformation Value", val: "€6.1M", status: "green", desc: "Value realized via procurement validation automation" }
+    ],
+    radarStats: [
+      { subject: 'EBITDA Margin', A: 70, fullMark: 100 },
+      { subject: 'Cost Efficiency', A: 80, fullMark: 100 },
+      { subject: 'Delivery Quality', A: 96, fullMark: 100 },
+      { subject: 'Talent Stability', A: 83, fullMark: 100 },
+      { subject: 'Automation Rate', A: 72, fullMark: 100 }
+    ],
+    monthlyPerformance: [
+      { month: 'Oct-25', value: 84 },
+      { month: 'Nov-25', value: 85 },
+      { month: 'Dec-25', value: 83 },
+      { month: 'Jan-26', value: 85 },
+      { month: 'Feb-26', value: 86 },
+      { month: 'Mar-26', value: 86 }
+    ],
+    strategicBrief: "Hungary is our center of excellence for high-value services. Priority is addressing utility overheads and expanding automation capabilities.",
+    actionItems: [
+      "Implement office consolidation measures to optimize rent and utility costs",
+      "Provide advanced data-analytics workshops for local delivery teams",
+      "Deploy RPA pipelines for vendor invoice processing"
+    ]
+  },
+  Romania: {
+    name: "VOIS Romania",
+    role: "Eastern European Operations & Tech Hub",
+    leader: "Andrei (Romania Director)",
+    meta: {
+      headcount: "3,350 FTE",
+      locations: "Bucharest",
+      revenueShare: "12.0% Billing"
+    },
+    kpis: [
+      { key: "revenue", label: "Billable Revenue", val: "€343M", status: "green", desc: "Tech and network operation service billings matching targets" },
+      { key: "cost", label: "Cost Efficiency", val: "€16.20M takeout", status: "green", desc: "Ahead of cost-takeout schedule through regional cloud consolidation" },
+      { key: "ebitda", label: "EBITDA", val: "−€6.10M", status: "amber", desc: "Minor pressure from local tech salary competition" },
+      { key: "delivery", label: "Delivery KPI (SLA)", val: "99.5%", status: "green", desc: "Strong network and cyber-security SLA adherence" },
+      { key: "spirit", label: "Spirit Beat Score", val: "88", status: "green", desc: "Outstanding workplace morale and positive feedback ratings" },
+      { key: "talent", label: "Talent KPI", val: "81%", status: "green", desc: "Highly skilled tech workforce with stable retention indices" },
+      { key: "automation", label: "Automation Index", val: "70%", status: "green", desc: "Automated alert resolution for network ops centers active" },
+      { key: "transformation", label: "Transformation Value", val: "€4.2M", status: "green", desc: "Savings driven by network monitoring scripts" }
+    ],
+    radarStats: [
+      { subject: 'EBITDA Margin', A: 82, fullMark: 100 },
+      { subject: 'Cost Efficiency', A: 85, fullMark: 100 },
+      { subject: 'Delivery Quality', A: 95, fullMark: 100 },
+      { subject: 'Talent Stability', A: 81, fullMark: 100 },
+      { subject: 'Automation Rate', A: 70, fullMark: 100 }
+    ],
+    monthlyPerformance: [
+      { month: 'Oct-25', value: 85 },
+      { month: 'Nov-25', value: 86 },
+      { month: 'Dec-25', value: 85 },
+      { month: 'Jan-26', value: 87 },
+      { month: 'Feb-26', value: 88 },
+      { month: 'Mar-26', value: 88 }
+    ],
+    strategicBrief: "Romania hub provides critical technology and network operations. Key focus is to scale cyber security services and transition legacy operations.",
+    actionItems: [
+      "Scale regional cyber-security incident monitoring teams",
+      "Upgrade infrastructure for cloud-based automation tools",
+      "Coordinate with Hungary center for shared administrative workflows"
+    ]
+  }
+};
+
 const getKPIIcon = (key: string) => {
   switch (key) {
     case 'revenue': return <DollarSign size={13} className="text-emerald-500" />;
@@ -291,12 +495,32 @@ const parseNumericValue = (val: string): number => {
   return isNaN(num) ? 0 : num;
 };
 
-const getDynamicNarrative = (towerA: string, towerB: string) => {
-  if (towerA === towerB) {
-    return `You have selected the same tower for both targets. Use the dropdown menus above to select two different towers (e.g., TVOIS and CARE) to trigger a detailed comparative gap analysis, operational synergy opportunities, and strategic alignment recommendations.`;
+const getDynamicNarrative = (keyA: string, keyB: string, isMarkets: boolean) => {
+  if (keyA === keyB) {
+    return `You have selected the same target for both fields. Use the dropdown menus above to select two different options to trigger a detailed comparative gap analysis, operational synergy opportunities, and strategic alignment recommendations.`;
   }
 
-  const combo = [towerA, towerB].sort().join('-');
+  if (isMarkets) {
+    const combo = [keyA, keyB].sort().join('-');
+    switch (combo) {
+      case 'Egypt-India':
+        return `Synergy Analysis: VOIS India (Primary Offshore, 11.4K FTE) delivers €1,286M revenue with a 76% Automation Index, but faces EBITDA strain (-€12.3M) due to tech wage inflation. VOIS Egypt (Cairo Hub, 6.2K FTE) reports €714M revenue with 68% automation. Shared RPA pipelines from India can be deployed in Cairo's support desk to raise processing throughput by 12%, while Egypt's European language professionals can help staff India's global client services, creating a cross-center talent and digital corridor.`;
+      case 'Hungary-India':
+        return `Synergy Analysis: VOIS Hungary (Budapest Hub, 3.8K FTE) maintains outstanding delivery SLA (99.6%) and low attrition (83% talent stability), but faces utility overhead pressures (-€9.8M). VOIS India (45% billing share) can absorb Tier-2 transactional tasks from Budapest, lowering space expenses by €1.5M. Meanwhile, Hungary's finance center of excellence can help optimize and standardise India's complex billing and reconciliation operations.`;
+      case 'India-Romania':
+        return `Synergy Analysis: VOIS India (Offshore Delivery Engine) has high automation (76%), while VOIS Romania (Bucharest Tech Hub, 3.3K FTE) has outstanding employee Spirit (88) and deep cloud security operations. Integrating Romania's automated network monitoring scripts into India's central ops will secure offshore pipelines. In return, India's automation factory can support Bucharest in speeding up regional service deliveries.`;
+      case 'Egypt-Hungary':
+        return `Synergy Analysis: VOIS Egypt (Cairo language support) and VOIS Hungary (Budapest complex back-office operations) have complementary delivery strengths. Creating a unified European language support routing portal between Cairo and Budapest will optimize regional resources, aiming to reduce language agent hiring times by 25% and consolidate overlapping software licenses.`;
+      case 'Egypt-Romania':
+        return `Synergy Analysis: VOIS Egypt and VOIS Romania both serve Southern and Eastern European clients. Establishing a joint Mediterranean security monitoring and support channel between Cairo and Bucharest will provide continuous 24/7 service coverage, reducing external contractor costs by €1.2M.`;
+      case 'Hungary-Romania':
+        return `Synergy Analysis: VOIS Hungary and VOIS Romania are close European centers. Aligning Hungary's high-precision finance workflows with Romania's cloud network monitoring tools creates a premium tech-finance center. Romanian automation scripts can automate Budapest's administrative tasks, raising efficiency by 15%.`;
+      default:
+        return `Synergy Analysis: Comparing VOIS ${keyA} against VOIS ${keyB} highlights opportunities for best-practice sharing. Standardizing CRM workflows and establishing regional centers of excellence will accelerate the group-wide alignment towards the consolidated FY27 goals.`;
+    }
+  }
+
+  const combo = [keyA, keyB].sort().join('-');
   
   switch (combo) {
     case 'CARE-TVOIS':
@@ -312,47 +536,34 @@ const getDynamicNarrative = (towerA: string, towerB: string) => {
     case 'BVOIS-CFST':
       return `Synergy Analysis: BVOIS (Commercial & Supply Chain) and CFST (Finance & HR) both operate heavily in contracting and vendor interaction. Creating a unified onboarding hub merging BVOIS commercial validations with CFST compliance audits will streamline third-party developer onboarding. This joint initiative targets a reduction in vendor onboarding cycle-times by 30%, adding to cost efficiencies in both towers.`;
     default:
-      return `Synergy Analysis: Comparing ${towerA} against ${towerB} reveals key opportunities for cross-tower collaboration. ${towerData[towerA]?.name || towerA} shows key strengths in its operations while ${towerData[towerB]?.name || towerB} leads in several digital vectors. Standardizing workflow APIs and establishing a shared operational center-of-excellence will accelerate the group-wide alignment towards the consolidated FY27 goals.`;
+      return `Synergy Analysis: Comparing ${keyA} against ${keyB} reveals key opportunities for cross-tower collaboration. ${towerData[keyA]?.name || keyA} shows key strengths in its operations while ${towerData[keyB]?.name || keyB} leads in several digital vectors. Standardizing workflow APIs and establishing a shared operational center-of-excellence will accelerate the group-wide alignment towards the consolidated FY27 goals.`;
   }
 };
 
-const compareAnnotation = {
-  title: "REQ 09 — Cross-Tower Benchmarking Suite",
-  status: "COMPLETE",
-  description: "Dynamic comparative interface allowing side-by-side benchmarking of key service towers (CFST, CARE, TVOIS, BVOIS) against consolidated group baselines.",
-  acceptanceCriteria: [
-    "CEO/leaders can compare any two service towers side-by-side.",
-    "Key metrics (revenue, cost, ebitda, delivery, spirit, talent) are clearly presented with visual deviations.",
-    "Composed trends and radar mapping reflect performance variances.",
-    "Detailed matrix table displays all towers simultaneously for comprehensive auditing."
-  ],
-  userStory: "As an executive, I want to compare performance vectors, operational alignment, and synergy opportunities across different service towers side-by-side, so that I can drive corporate collaboration and resource optimization.",
-  dependencies: [
-    "Service tower database sync",
-    "Agreed central adjustments definitions for EBITDA reconciliation"
-  ],
-  feedback: [
-    "Replaced old GTM/Finance/HR view comparisons with the requested CFST, CARE, TVOIS, and BVOIS service towers.",
-    "Verified Overall totals map precisely to the CEO Summary dashboard data points."
-  ]
-};
+export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, compareMode = 'towers' }) => {
+  const isMarkets = compareMode === 'markets';
+  const activeData = isMarkets ? marketData : towerData;
 
-export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showAnnotations }) => {
   const [towerA, setTowerA] = useState<string>('Overall');
-  const [towerB, setTowerB] = useState<string>('TVOIS');
+  const [towerB, setTowerB] = useState<string>(isMarkets ? 'India' : 'TVOIS');
 
-  const dataA = towerData[towerA] || towerData.Overall;
-  const dataB = towerData[towerB] || towerData.TVOIS;
+  useEffect(() => {
+    setTowerA('Overall');
+    setTowerB(isMarkets ? 'India' : 'TVOIS');
+  }, [compareMode, isMarkets]);
+
+  const dataA = activeData[towerA] || activeData.Overall;
+  const dataB = activeData[towerB] || activeData[isMarkets ? 'India' : 'TVOIS'];
 
   // Format Radar Data
   const formatRadarData = () => {
     return dataA.radarStats.map((stat, i) => {
       const bStat = dataB.radarStats[i] || { A: 0 };
-      const oStat = towerData.Overall.radarStats[i] || { A: 0 };
+      const oStat = activeData.Overall.radarStats[i] || { A: 0 };
       return {
         subject: stat.subject,
-        'Selected Tower A': stat.A,
-        'Selected Tower B': bStat.A,
+        'Selected Target A': stat.A,
+        'Selected Target B': bStat.A,
         'Group Baseline': oStat.A,
         fullMark: 100,
       };
@@ -363,11 +574,11 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
   const formatChartData = () => {
     return dataA.monthlyPerformance.map((item, i) => {
       const bItem = dataB.monthlyPerformance[i] || { value: 0 };
-      const oItem = towerData.Overall.monthlyPerformance[i] || { value: 0 };
+      const oItem = activeData.Overall.monthlyPerformance[i] || { value: 0 };
       return {
         month: item.month,
-        'Selected Tower A': item.value,
-        'Selected Tower B': bItem.value,
+        'Selected Target A': item.value,
+        'Selected Target B': bItem.value,
         'Group Baseline': oItem.value,
       };
     });
@@ -376,14 +587,14 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
   const radarData = formatRadarData();
   const chartData = formatChartData();
 
-  const handleKPIClick = (towerName: string, kpi: any) => {
+  const handleKPIClick = (targetName: string, kpi: any) => {
     onDrillDown({
       type: 'kpi',
-      label: `${towerName}: ${kpi.label}`,
+      label: `${targetName}: ${kpi.label}`,
       requirementId: 'COMP',
-      summary: `${kpi.label} for ${towerName} is currently valued at ${kpi.val}. Description: ${kpi.desc}. RAG status is ${kpi.status.toUpperCase()}.`,
-      nextStep: `Coordinate cross-functional benchmarking review between selected towers`,
-      owner: `${towerData[towerA]?.leader || 'Tower Leader'}`,
+      summary: `${kpi.label} for ${targetName} is currently valued at ${kpi.val}. Description: ${kpi.desc}. RAG status is ${kpi.status.toUpperCase()}.`,
+      nextStep: `Coordinate cross-functional benchmarking review between selected targets`,
+      owner: `${activeData[towerA]?.leader || 'Leader'}`,
       metrics: [
         { label: "Metric Value", val: kpi.val, status: kpi.status.toUpperCase() },
         { label: "Description context", val: kpi.desc, status: 'Active' },
@@ -394,20 +605,6 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
 
   return (
     <div className="space-y-4">
-      {/* REQUIREMENT ANNOTATIONS */}
-      {showAnnotations && (
-        <AnnotationCard
-          id="9"
-          title={compareAnnotation.title}
-          status={compareAnnotation.status}
-          description={compareAnnotation.description}
-          acceptanceCriteria={compareAnnotation.acceptanceCriteria}
-          userStory={compareAnnotation.userStory}
-          dependencies={compareAnnotation.dependencies}
-          feedback={compareAnnotation.feedback}
-        />
-      )}
-
       {/* HEADER SECTION */}
       <section className="bg-panel border border-panel-border rounded-2xl p-4.5 shadow-sm relative overflow-hidden">
         <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3">
@@ -416,55 +613,82 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
               <Sparkles size={10} className="animate-pulse" /> Alignment Analytics
             </div>
             <h2 className="text-lg font-barlow font-bold text-ink uppercase tracking-wide">
-              VOIS Tower Comparison Suite
+              {isMarkets ? 'VOIS Market Comparison Suite' : 'VOIS Tower Comparison Suite'}
             </h2>
             <p className="text-ink-soft text-xs font-light leading-relaxed">
-              Compare strategic profiles, operational KPIs, performance vectors and monthly growth metrics of different towers side-by-side.
+              {isMarkets 
+                ? 'Compare strategic profiles, operational KPIs, performance vectors and monthly growth metrics of different regional markets side-by-side.'
+                : 'Compare strategic profiles, operational KPIs, performance vectors and monthly growth metrics of different service towers side-by-side.'
+              }
             </p>
           </div>
 
           {/* SELECTORS ROW */}
           <div className="flex flex-wrap items-center gap-3 bg-panel-2/60 p-2.5 rounded-xl border border-panel-border self-start md:self-auto">
             <div className="flex items-center gap-1.5">
-              <span className="text-[9px] font-bold text-ink-soft uppercase tracking-wider leading-none">Tower A</span>
+              <span className="text-[9px] font-bold text-ink-soft uppercase tracking-wider leading-none">Target A</span>
               <select
                 value={towerA}
                 onChange={(e) => setTowerA(e.target.value)}
                 className="bg-panel border border-panel-border text-ink text-[11px] font-bold rounded-lg pl-2 pr-6 py-1 outline-none cursor-pointer hover:bg-panel-2 transition-colors leading-none"
                 style={{ appearance: 'none', backgroundImage: 'url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3E%3Cpath stroke=\'%252352525b\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3E%3C/svg%3E")', backgroundPosition: 'right 0.35rem center', backgroundSize: '1.25rem', backgroundRepeat: 'no-repeat' }}
               >
-                <option value="Overall">Overall Group</option>
-                <option value="CFST">CFST (Corporate)</option>
-                <option value="CARE">CARE (Customer Care)</option>
-                <option value="TVOIS">TVOIS (Technology)</option>
-                <option value="BVOIS">BVOIS (Business)</option>
+                {isMarkets ? (
+                  <>
+                    <option value="Overall">Overall Group</option>
+                    <option value="India">VOIS India</option>
+                    <option value="Egypt">VOIS Egypt</option>
+                    <option value="Hungary">VOIS Hungary</option>
+                    <option value="Romania">VOIS Romania</option>
+                  </>
+                ) : (
+                  <>
+                    <option value="Overall">Overall Group</option>
+                    <option value="CFST">CFST (Corporate)</option>
+                    <option value="CARE">CARE (Customer Care)</option>
+                    <option value="TVOIS">TVOIS (Technology)</option>
+                    <option value="BVOIS">BVOIS (Business)</option>
+                  </>
+                )}
               </select>
             </div>
 
             <div className="text-accent font-bold text-xs select-none">VS</div>
 
             <div className="flex items-center gap-1.5">
-              <span className="text-[9px] font-bold text-ink-soft uppercase tracking-wider leading-none">Tower B</span>
+              <span className="text-[9px] font-bold text-ink-soft uppercase tracking-wider leading-none">Target B</span>
               <select
                 value={towerB}
                 onChange={(e) => setTowerB(e.target.value)}
                 className="bg-panel border border-panel-border text-ink text-[11px] font-bold rounded-lg pl-2 pr-6 py-1 outline-none cursor-pointer hover:bg-panel-2 transition-colors leading-none"
                 style={{ appearance: 'none', backgroundImage: 'url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3E%3Cpath stroke=\'%252352525b\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3E%3C/svg%3E")', backgroundPosition: 'right 0.35rem center', backgroundSize: '1.25rem', backgroundRepeat: 'no-repeat' }}
               >
-                <option value="Overall">Overall Group</option>
-                <option value="CFST">CFST (Corporate)</option>
-                <option value="CARE">CARE (Customer Care)</option>
-                <option value="TVOIS">TVOIS (Technology)</option>
-                <option value="BVOIS">BVOIS (Business)</option>
+                {isMarkets ? (
+                  <>
+                    <option value="Overall">Overall Group</option>
+                    <option value="India">VOIS India</option>
+                    <option value="Egypt">VOIS Egypt</option>
+                    <option value="Hungary">VOIS Hungary</option>
+                    <option value="Romania">VOIS Romania</option>
+                  </>
+                ) : (
+                  <>
+                    <option value="Overall">Overall Group</option>
+                    <option value="CFST">CFST (Corporate)</option>
+                    <option value="CARE">CARE (Customer Care)</option>
+                    <option value="TVOIS">TVOIS (Technology)</option>
+                    <option value="BVOIS">BVOIS (Business)</option>
+                  </>
+                )}
               </select>
             </div>
           </div>
         </div>
 
-        {/* Tower Info Badges */}
+        {/* Info Badges */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 pt-3.5 border-t border-panel-border/40">
           <div className="space-y-1 pl-1">
-            <div className="text-[9px] font-bold text-ink-soft uppercase tracking-wider">Tower A Profile</div>
+            <div className="text-[9px] font-bold text-ink-soft uppercase tracking-wider">Target A Profile</div>
             <div className="flex flex-wrap gap-1.5">
               <span className="px-2 py-0.5 rounded text-[10px] bg-panel-2 border border-panel-border font-medium text-ink flex items-center gap-1.5">
                 <Users size={10} className="text-accent" /> {dataA.meta.headcount}
@@ -478,7 +702,7 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
             </div>
           </div>
           <div className="space-y-1 pl-1">
-            <div className="text-[9px] font-bold text-ink-soft uppercase tracking-wider">Tower B Profile</div>
+            <div className="text-[9px] font-bold text-ink-soft uppercase tracking-wider">Target B Profile</div>
             <div className="flex flex-wrap gap-1.5">
               <span className="px-2 py-0.5 rounded text-[10px] bg-panel-2 border border-panel-border font-medium text-ink flex items-center gap-1.5">
                 <Users size={10} className="text-accent" /> {dataB.meta.headcount}
@@ -496,7 +720,7 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
 
       {/* METRIC GRIDS: SIDE-BY-SIDE */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* TOWER A CARD COLUMN */}
+        {/* TARGET A CARD COLUMN */}
         <div className="bg-panel border border-panel-border rounded-2xl p-4 shadow-sm space-y-3">
           <div className="flex justify-between items-center border-b border-panel-border pb-2">
             <div>
@@ -505,7 +729,7 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
               <p className="text-[10px] text-ink-soft leading-none mt-0.5 italic">{dataA.role}</p>
             </div>
             <div className="text-right leading-none">
-              <span className="text-[8px] font-bold text-ink-soft uppercase block tracking-wider">Owner</span>
+              <span className="text-[8px] font-bold text-ink-soft uppercase block tracking-wider">Leader</span>
               <span className="text-[11px] font-bold text-ink flex items-center gap-1 mt-1 justify-end">
                 <User size={10} className="text-accent" /> {dataA.leader.split(' & ')[0].split(' ')[0]}
               </span>
@@ -519,24 +743,20 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
                 onClick={() => handleKPIClick(dataA.name, kpi)}
                 className="flex justify-between items-center p-2.5 rounded-xl border border-panel-border bg-panel-2/20 hover:bg-panel-2/40 cursor-pointer transition-colors leading-none"
               >
-                <div className="min-w-0 pr-2 flex items-start gap-2">
-                  <div className="mt-0.5 shrink-0">{getKPIIcon(kpi.key)}</div>
-                  <div>
-                    <span className="text-[10px] text-ink-soft font-semibold block truncate uppercase leading-tight">{kpi.label}</span>
-                    <span className="text-[9px] text-ink-soft font-light block mt-0.5 leading-snug">{kpi.desc}</span>
-                  </div>
+                <div className="flex items-center gap-2">
+                  {getKPIIcon(kpi.key)}
+                  <span className="text-[10px] text-ink font-semibold uppercase">{kpi.label}</span>
                 </div>
-                <span className={`text-xs font-black tracking-tight shrink-0 pl-1.5 ${
-                  kpi.status === 'red' ? 'text-rag-red' : kpi.status === 'amber' ? 'text-rag-amber' : 'text-rag-green'
-                }`}>
-                  {kpi.val}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-barlow font-black tracking-tight text-ink">{kpi.val}</span>
+                  <span className={`w-1.5 h-1.5 rounded-full ${kpi.status === 'red' ? 'bg-red-500' : kpi.status === 'amber' ? 'bg-amber-500' : 'bg-emerald-500'}`} />
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* TOWER B CARD COLUMN */}
+        {/* TARGET B CARD COLUMN */}
         <div className="bg-panel border border-panel-border rounded-2xl p-4 shadow-sm space-y-3">
           <div className="flex justify-between items-center border-b border-panel-border pb-2">
             <div>
@@ -545,7 +765,7 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
               <p className="text-[10px] text-ink-soft leading-none mt-0.5 italic">{dataB.role}</p>
             </div>
             <div className="text-right leading-none">
-              <span className="text-[8px] font-bold text-ink-soft uppercase block tracking-wider">Owner</span>
+              <span className="text-[8px] font-bold text-ink-soft uppercase block tracking-wider">Leader</span>
               <span className="text-[11px] font-bold text-ink flex items-center gap-1 mt-1 justify-end">
                 <User size={10} className="text-accent" /> {dataB.leader.split(' & ')[0].split(' ')[0]}
               </span>
@@ -559,148 +779,58 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
                 onClick={() => handleKPIClick(dataB.name, kpi)}
                 className="flex justify-between items-center p-2.5 rounded-xl border border-panel-border bg-panel-2/20 hover:bg-panel-2/40 cursor-pointer transition-colors leading-none"
               >
-                <div className="min-w-0 pr-2 flex items-start gap-2">
-                  <div className="mt-0.5 shrink-0">{getKPIIcon(kpi.key)}</div>
-                  <div>
-                    <span className="text-[10px] text-ink-soft font-semibold block truncate uppercase leading-tight">{kpi.label}</span>
-                    <span className="text-[9px] text-ink-soft font-light block mt-0.5 leading-snug">{kpi.desc}</span>
-                  </div>
+                <div className="flex items-center gap-2">
+                  {getKPIIcon(kpi.key)}
+                  <span className="text-[10px] text-ink font-semibold uppercase">{kpi.label}</span>
                 </div>
-                <span className={`text-xs font-black tracking-tight shrink-0 pl-1.5 ${
-                  kpi.status === 'red' ? 'text-rag-red' : kpi.status === 'amber' ? 'text-rag-amber' : 'text-rag-green'
-                }`}>
-                  {kpi.val}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-barlow font-black tracking-tight text-ink">{kpi.val}</span>
+                  <span className={`w-1.5 h-1.5 rounded-full ${kpi.status === 'red' ? 'bg-red-500' : kpi.status === 'amber' ? 'bg-amber-500' : 'bg-emerald-500'}`} />
+                </div>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* HEAD-TO-HEAD DEVIATION VISUALIZER */}
-      <section className="bg-panel border border-panel-border rounded-2xl p-4.5 shadow-sm">
-        <div className="flex items-center gap-2 mb-3">
-          <LayoutGrid size={14} className="text-accent" />
-          <h4 className="text-[11px] font-bold text-ink uppercase tracking-widest leading-none">
-            Head-to-Head Metric Deviation & Leadership
-          </h4>
-        </div>
-        <p className="text-[10px] text-ink-soft mb-4 leading-normal">
-          Visualizes the relative proportion of each key KPI between the selected towers. Golden trophies (🏆) highlight the leading tower.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-          {dataA.kpis.map((kpi, idx) => {
-            const bKpi = dataB.kpis[idx];
-            const valA = parseNumericValue(kpi.val);
-            const valB = parseNumericValue(bKpi.val);
-            
-            let pctA = 50;
-            let pctB = 50;
-            const isEbitda = kpi.key === 'ebitda';
-            
-            if (isEbitda) {
-              const minVal = -50;
-              const maxVal = 180;
-              const normA = ((valA - minVal) / (maxVal - minVal)) * 100;
-              const normB = ((valB - minVal) / (maxVal - minVal)) * 100;
-              const sumNorm = normA + normB;
-              pctA = sumNorm > 0 ? (normA / sumNorm) * 100 : 50;
-              pctB = 100 - pctA;
-            } else {
-              const absA = Math.abs(valA);
-              const absB = Math.abs(valB);
-              const sum = absA + absB;
-              pctA = sum > 0 ? (absA / sum) * 100 : 50;
-              pctB = 100 - pctA;
-            }
-
-            const isALeader = valA > valB;
-            const isBLeader = valB > valA;
-
-            return (
-              <div key={idx} className="space-y-1.5">
-                <div className="flex justify-between items-center text-[10px]">
-                  <span className={`font-bold uppercase tracking-tight flex items-center gap-1 ${isALeader ? 'text-accent font-black' : 'text-ink-soft'}`}>
-                    {isALeader && <span className="text-[8px]">🏆</span>} {kpi.val}
-                  </span>
-                  <span className="font-semibold text-ink-soft uppercase text-[9px] tracking-wider">{kpi.label}</span>
-                  <span className={`font-bold uppercase tracking-tight flex items-center gap-1 ${isBLeader ? 'text-accent font-black' : 'text-ink-soft'}`}>
-                    {bKpi.val} {isBLeader && <span className="text-[8px]">🏆</span>}
-                  </span>
-                </div>
-                
-                <div className="h-2 w-full bg-panel-2 rounded-full overflow-hidden flex border border-panel-border">
-                  <div 
-                    style={{ width: `${pctA}%` }} 
-                    className={`h-full transition-all duration-500 ease-out ${
-                      isALeader ? 'bg-gradient-to-r from-accent to-accent/80' : 'bg-ink-soft/40'
-                    }`}
-                  />
-                  <div className="w-[1px] h-full bg-panel shrink-0" />
-                  <div 
-                    style={{ width: `${pctB}%` }} 
-                    className={`h-full transition-all duration-500 ease-out ${
-                      isBLeader ? 'bg-gradient-to-l from-accent to-accent/80' : 'bg-ink-soft/40'
-                    }`}
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <div className="mt-4 p-3 rounded-xl bg-panel-2/50 border border-panel-border flex items-start gap-2">
-          <Info size={12} className="text-accent shrink-0 mt-0.5" />
-          <span className="text-[9px] text-ink-soft leading-normal font-light">
-            <strong>EBITDA Reconciliation Note:</strong> The consolidated group EBITDA of -€36.33M includes central charges, adjustments and global transition costs that are not allocated directly to the individual service towers' operational results.
-          </span>
-        </div>
-      </section>
-
-      {/* CHARTS GRAPHICS: RADAR & COMPOSED CHART */}
+      {/* CHARTS CONTAINER (RADAR & MONTHLY TRENDS) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* RADAR PROFILE MAPPING */}
-        <section className="bg-panel border border-panel-border rounded-2xl p-4.5 shadow-sm">
-          <h4 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest pl-1 border-l-2 border-accent mb-4 leading-none">
-            Strategic Dimension Mapping — Radar Profile Comparison
+        {/* RADAR CHART PROFILE MATCHING */}
+        <section className="bg-panel border border-panel-border rounded-2xl p-4 shadow-sm">
+          <h4 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest mb-3 pl-1 leading-none">
+            Strategic Vectors Comparison
           </h4>
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <RadarChart cx="50%" cy="50%" outerRadius="75%" data={radarData}>
+              <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
                 <PolarGrid stroke="var(--panel-border)" />
                 <PolarAngleAxis dataKey="subject" stroke="var(--ink-soft)" fontSize={9} />
-                <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="var(--panel-border)" fontSize={8} />
-                <Radar name={`Tower A (${dataA.name})`} dataKey="Selected Tower A" stroke="var(--accent)" fill="var(--accent)" fillOpacity={0.25} />
-                <Radar name={`Tower B (${dataB.name})`} dataKey="Selected Tower B" stroke="var(--ink-soft)" fill="var(--ink-soft)" fillOpacity={0.2} />
-                <Radar name="Group Baseline" dataKey="Group Baseline" stroke="var(--muted-text)" fill="var(--muted-text)" fillOpacity={0.08} strokeDasharray="3 3" />
-                <Legend verticalAlign="bottom" height={36} wrapperStyle={{ fontSize: 9, color: 'var(--ink)' }} />
+                <PolarRadiusAxis angle={30} domain={[0, 100]} fontSize={8} stroke="var(--panel-border)" />
+                <Radar name={dataA.name} dataKey="Selected Target A" stroke="#e60000" fill="#e60000" fillOpacity={0.15} />
+                <Radar name={dataB.name} dataKey="Selected Target B" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.15} />
+                <Radar name="Group Average" dataKey="Group Baseline" stroke="var(--ink-soft)" fill="var(--ink-soft)" fillOpacity={0.05} />
+                <Legend wrapperStyle={{ fontSize: 9, paddingTop: 10 }} />
               </RadarChart>
             </ResponsiveContainer>
           </div>
         </section>
 
-        {/* MONTHLY COMPOSED PERFORMANCE */}
-        <section className="bg-panel border border-panel-border rounded-2xl p-4.5 shadow-sm">
-          <h4 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest pl-1 border-l-2 border-accent mb-4 leading-none">
-            Monthly Performance Run-Rate Trends — 6 Month Review
+        {/* MONTHLY PERFORMANCE DRIFT */}
+        <section className="bg-panel border border-panel-border rounded-2xl p-4 shadow-sm">
+          <h4 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest mb-3 pl-1 leading-none">
+            Monthly Performance Trend — Dynamic Indexes
           </h4>
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="2 3" stroke="var(--panel-border)" />
+              <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--panel-border)" />
                 <XAxis dataKey="month" stroke="var(--ink-soft)" fontSize={9} />
-                <YAxis domain={[40, 100]} stroke="var(--ink-soft)" fontSize={9} />
-                <RechartsTooltip contentStyle={{ backgroundColor: 'var(--panel)', borderColor: 'var(--panel-border)', color: 'var(--ink)', fontSize: 9 }} />
-                
-                {/* Area chart representing Group Baseline */}
-                <Area type="monotone" name="Group Baseline" dataKey="Group Baseline" fill="var(--panel-border)" stroke="var(--muted-text)" fillOpacity={0.2} strokeDasharray="4 4" />
-                
-                {/* Bar chart representing Tower A */}
-                <Bar name={`Tower A (${dataA.name})`} dataKey="Selected Tower A" fill="var(--accent)" radius={[4, 4, 0, 0]} maxBarSize={32} />
-                
-                {/* Line chart representing Tower B */}
-                <Line type="monotone" name={`Tower B (${dataB.name})`} dataKey="Selected Tower B" stroke="var(--ink)" strokeWidth={2.5} dot={{ r: 3 }} activeDot={{ r: 5 }} />
-                
-                <Legend verticalAlign="bottom" height={36} wrapperStyle={{ fontSize: 9 }} />
+                <YAxis stroke="var(--ink-soft)" fontSize={9} domain={[50, 100]} />
+                <RechartsTooltip contentStyle={{ backgroundColor: 'var(--panel)', borderColor: 'var(--panel-border)', color: 'var(--ink)' }} />
+                <Area type="monotone" name="Group Baseline" dataKey="Group Baseline" fill="var(--panel-2)" stroke="var(--panel-border)" fillOpacity={0.4} />
+                <Line type="monotone" name={dataA.name} dataKey="Selected Target A" stroke="#e60000" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" name={dataB.name} dataKey="Selected Target B" stroke="#f59e0b" strokeWidth={2} dot={{ r: 3 }} />
+                <Legend wrapperStyle={{ fontSize: 9, paddingTop: 10 }} />
               </ComposedChart>
             </ResponsiveContainer>
           </div>
@@ -713,15 +843,15 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
           <div className="flex items-center gap-2">
             <BarChart3 size={14} className="text-accent" />
             <h4 className="text-[11px] font-bold text-ink uppercase tracking-widest leading-none">
-              Consolidated Service Tower Comparison Matrix
+              {isMarkets ? 'Consolidated Market Comparison Matrix' : 'Consolidated Service Tower Comparison Matrix'}
             </h4>
           </div>
           <span className="text-[8px] bg-accent/10 border border-accent/20 text-accent font-bold uppercase px-2 py-0.5 rounded tracking-wider">
-            All Towers side-by-side
+            {isMarkets ? 'All Markets side-by-side' : 'All Towers side-by-side'}
           </span>
         </div>
         <p className="text-[10px] text-ink-soft mb-4 leading-normal">
-          Compare all five dimensions simultaneously. The star icon (⭐) highlights the top-performing operational tower in each row.
+          Compare all five dimensions simultaneously. The star icon (⭐) highlights the top-performing regional center or tower in each row.
         </p>
         
         <div className="overflow-x-auto">
@@ -730,40 +860,40 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
               <tr className="border-b border-panel-border bg-panel-2/45">
                 <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider min-w-[130px]">Key KPI Metric</th>
                 <th className="p-2.5 font-bold text-ink uppercase tracking-wider text-center bg-accent/5">Overall Group</th>
-                <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-center">CFST (Corp)</th>
-                <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-center">CARE (Cust)</th>
-                <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-center">TVOIS (Tech)</th>
-                <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-center">BVOIS (Bus)</th>
+                {isMarkets ? (
+                  <>
+                    <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-center">VOIS India</th>
+                    <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-center">VOIS Egypt</th>
+                    <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-center">VOIS Hungary</th>
+                    <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-center">VOIS Romania</th>
+                  </>
+                ) : (
+                  <>
+                    <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-center">CFST (Corp)</th>
+                    <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-center">CARE (Cust)</th>
+                    <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-center">TVOIS (Tech)</th>
+                    <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-center">BVOIS (Bus)</th>
+                  </>
+                )}
               </tr>
             </thead>
             <tbody className="divide-y divide-panel-border/50">
-              {towerData.Overall.kpis.map((kpi, idx) => {
+              {activeData.Overall.kpis.map((kpi, idx) => {
                 const valOverall = kpi.val;
-                const valCFST = towerData.CFST.kpis[idx].val;
-                const valCARE = towerData.CARE.kpis[idx].val;
-                const valTVOIS = towerData.TVOIS.kpis[idx].val;
-                const valBVOIS = towerData.BVOIS.kpis[idx].val;
-                
                 const statusOverall = kpi.status;
-                const statusCFST = towerData.CFST.kpis[idx].status;
-                const statusCARE = towerData.CARE.kpis[idx].status;
-                const statusTVOIS = towerData.TVOIS.kpis[idx].status;
-                const statusBVOIS = towerData.BVOIS.kpis[idx].status;
-                
-                const numCFST = parseNumericValue(valCFST);
-                const numCARE = parseNumericValue(valCARE);
-                const numTVOIS = parseNumericValue(valTVOIS);
-                const numBVOIS = parseNumericValue(valBVOIS);
-                
-                const ops = [
-                  { key: 'CFST', val: numCFST, text: valCFST },
-                  { key: 'CARE', val: numCARE, text: valCARE },
-                  { key: 'TVOIS', val: numTVOIS, text: valTVOIS },
-                  { key: 'BVOIS', val: numBVOIS, text: valBVOIS }
-                ];
-                
-                const sortedOps = [...ops].sort((a, b) => b.val - a.val);
-                const leaderKey = sortedOps[0].key;
+
+                // Dynamically fetch values based on comparison mode
+                const keys = isMarkets ? ['India', 'Egypt', 'Hungary', 'Romania'] : ['CFST', 'CARE', 'TVOIS', 'BVOIS'];
+                const values = keys.map(k => ({
+                  key: k,
+                  val: activeData[k].kpis[idx].val,
+                  status: activeData[k].kpis[idx].status,
+                  num: parseNumericValue(activeData[k].kpis[idx].val),
+                  name: activeData[k].name
+                }));
+
+                const sortedValues = [...values].sort((a, b) => b.num - a.num);
+                const leaderKey = sortedValues[0].key;
 
                 const getCellClass = (status: string) => {
                   if (status === 'red') return 'text-rag-red font-semibold';
@@ -780,26 +910,13 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
                     <td className={`p-2.5 text-center bg-accent/5 border-x border-panel-border/20 ${getCellClass(statusOverall)}`}>
                       {valOverall}
                     </td>
-                    <td className={`p-2.5 text-center ${getCellClass(statusCFST)} ${leaderKey === 'CFST' ? 'bg-panel-2/60' : ''}`}>
-                      <div className="flex items-center justify-center gap-1">
-                        {valCFST} {leaderKey === 'CFST' && <span className="text-[8px]">⭐</span>}
-                      </div>
-                    </td>
-                    <td className={`p-2.5 text-center ${getCellClass(statusCARE)} ${leaderKey === 'CARE' ? 'bg-panel-2/60' : ''}`}>
-                      <div className="flex items-center justify-center gap-1">
-                        {valCARE} {leaderKey === 'CARE' && <span className="text-[8px]">⭐</span>}
-                      </div>
-                    </td>
-                    <td className={`p-2.5 text-center ${getCellClass(statusTVOIS)} ${leaderKey === 'TVOIS' ? 'bg-panel-2/60' : ''}`}>
-                      <div className="flex items-center justify-center gap-1">
-                        {valTVOIS} {leaderKey === 'TVOIS' && <span className="text-[8px]">⭐</span>}
-                      </div>
-                    </td>
-                    <td className={`p-2.5 text-center ${getCellClass(statusBVOIS)} ${leaderKey === 'BVOIS' ? 'bg-panel-2/60' : ''}`}>
-                      <div className="flex items-center justify-center gap-1">
-                        {valBVOIS} {leaderKey === 'BVOIS' && <span className="text-[8px]">⭐</span>}
-                      </div>
-                    </td>
+                    {values.map(item => (
+                      <td key={item.key} className={`p-2.5 text-center ${getCellClass(item.status)} ${leaderKey === item.key ? 'bg-panel-2/60' : ''}`}>
+                        <div className="flex items-center justify-center gap-1">
+                          {item.val} {leaderKey === item.key && <span className="text-[8px]">⭐</span>}
+                        </div>
+                      </td>
+                    ))}
                   </tr>
                 );
               })}
@@ -812,11 +929,11 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
       <section className="bg-panel border border-panel-border rounded-2xl p-4.5 shadow-sm space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="space-y-2.5">
-            <span className="text-[9px] font-bold text-ink-soft uppercase tracking-widest block leading-none pl-1 border-l-2 border-accent">Tower A Alignment Context</span>
+            <span className="text-[9px] font-bold text-ink-soft uppercase tracking-widest block leading-none pl-1 border-l-2 border-accent">Target A Alignment Context</span>
             <div className="bg-panel-2/40 p-3 rounded-xl border border-panel-border space-y-1.5 h-[calc(100%-1.25rem)] flex flex-col justify-between">
               <p className="text-xs text-ink-soft leading-normal font-light italic">"{dataA.strategicBrief}"</p>
               <div className="space-y-1.5 pt-2 border-t border-panel-border/50">
-                <span className="text-[8px] font-bold text-ink-soft uppercase tracking-widest block leading-none">Tower A Governance Initiatives</span>
+                <span className="text-[8px] font-bold text-ink-soft uppercase tracking-widest block leading-none">Target A Governance Initiatives</span>
                 <ul className="list-none pl-0 space-y-1">
                   {dataA.actionItems.map((item, i) => (
                     <li key={i} className="text-[10px] text-ink flex gap-1.5 items-start">
@@ -830,11 +947,11 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
           </div>
 
           <div className="space-y-2.5">
-            <span className="text-[9px] font-bold text-ink-soft uppercase tracking-widest block leading-none pl-1 border-l-2 border-accent">Tower B Alignment Context</span>
+            <span className="text-[9px] font-bold text-ink-soft uppercase tracking-widest block leading-none pl-1 border-l-2 border-accent">Target B Alignment Context</span>
             <div className="bg-panel-2/40 p-3 rounded-xl border border-panel-border space-y-1.5 h-[calc(100%-1.25rem)] flex flex-col justify-between">
               <p className="text-xs text-ink-soft leading-normal font-light italic">"{dataB.strategicBrief}"</p>
               <div className="space-y-1.5 pt-2 border-t border-panel-border/50">
-                <span className="text-[8px] font-bold text-ink-soft uppercase tracking-widest block leading-none">Tower B Governance Initiatives</span>
+                <span className="text-[8px] font-bold text-ink-soft uppercase tracking-widest block leading-none">Target B Governance Initiatives</span>
                 <ul className="list-none pl-0 space-y-1">
                   {dataB.actionItems.map((item, i) => (
                     <li key={i} className="text-[10px] text-ink flex gap-1.5 items-start">
@@ -853,7 +970,7 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({ onDrillDown, showA
           <span className="text-[9px] font-bold text-ink-soft uppercase tracking-widest block leading-none pl-1 border-l-2 border-accent">Operational Synergy Opportunities</span>
           <div className="bg-accent/5 p-3 rounded-xl border border-accent/20">
             <p className="text-xs text-ink leading-relaxed font-light">
-              {getDynamicNarrative(towerA, towerB)}
+              {getDynamicNarrative(towerA, towerB, isMarkets)}
             </p>
           </div>
         </div>

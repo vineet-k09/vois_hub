@@ -52,36 +52,13 @@
 	--red: #dc2626;
 	--tbd: #71717a;
 	--accent: #e60000;
+	--header-grad: linear-gradient(135deg, #e60000 0%, #b5004d 50%, #6d1b7b 100%);
 	--card-shadow:
 		0 1px 3px 0 rgba(0, 0, 0, 0.05),
 		0 1px 2px -1px rgba(0, 0, 0, 0.05);
 }
 
 .theme-dark {
-	--grad-1: #ff3333;
-	--grad-2: #cc0000;
-	--grad-3: #f4f4f5;
-	--grad-4: #fafafa;
-	--bg: #09090b;
-	--panel: #18181b;
-	--panel-2: #27272a;
-	--panel-border: #27272a;
-	--rail: #18181b;
-	--rail-text: #fafafa;
-	--ink: #fafafa;
-	--ink-soft: #a1a1aa;
-	--muted: #71717a;
-	--green: #22c55e;
-	--amber: #eab308;
-	--red: #ef4444;
-	--tbd: #52525b;
-	--accent: #ff3333;
-	--card-shadow:
-		0 4px 6px -1px rgba(0, 0, 0, 0.2),
-		0 2px 4px -2px rgba(0, 0, 0, 0.2);
-}
-
-.theme-ceo {
 	--grad-1: #f59e0b;
 	--grad-2: #d97706;
 	--grad-3: #f8fafc;
@@ -100,9 +77,35 @@
 	--red: #ef4444;
 	--tbd: #475569;
 	--accent: #f59e0b;
+	--header-grad: linear-gradient(135deg, #0b1329 0%, #1e293b 100%);
 	--card-shadow:
 		0 4px 20px -2px rgba(217, 119, 6, 0.05),
 		0 2px 8px -1px rgba(217, 119, 6, 0.05);
+}
+
+.theme-vois {
+	--grad-1: #e60000;
+	--grad-2: #4a154b;
+	--grad-3: #ffffff;
+	--grad-4: #f4f4f5;
+	--bg: #0b060c;
+	--panel: #140d16;
+	--panel-2: #1e1421;
+	--panel-border: #2a1c2f;
+	--rail: #140d16;
+	--rail-text: #ffffff;
+	--ink: #fcfcfc;
+	--ink-soft: #bca8be;
+	--muted: #7d6b80;
+	--green: #10b981;
+	--amber: #f59e0b;
+	--red: #e60000;
+	--tbd: #4a5568;
+	--accent: #e60000;
+	--header-grad: linear-gradient(135deg, #e60000 0%, #a20042 55%, #4a154b 100%);
+	--card-shadow:
+		0 4px 20px -2px rgba(230, 0, 0, 0.12),
+		0 2px 8px -1px rgba(74, 21, 75, 0.08);
 }
 
 /* Tailwind-style Utility Mappings for your React Components */
@@ -142,7 +145,7 @@
 }
 
 .bg-header-gradient {
-	background: linear-gradient(to right, #e60000, #b5004d, #6d1b7b);
+	background: var(--header-grad, linear-gradient(to right, #e60000, #b5004d, #6d1b7b));
 }
 
 html,
@@ -248,45 +251,23 @@ body {
 
 /* Numbered pin on each section */
 .req-pin {
-	position: absolute;
-	top: -8px;
-	left: -8px;
-	z-index: 20;
-
-	width: 24px;
-	height: 24px;
-	border-radius: 50%;
-	background: var(--accent);
-	color: #fff;
-	display: none;
-	align-items: center;
-	justify-content: center;
-
-	font-family: "Inter", sans-serif;
-	font-weight: 800;
-	font-size: 11px;
-
-	box-shadow:
-		0 2px 6px rgba(0, 0, 0, 0.3),
-		0 0 0 2px var(--panel);
-	cursor: help;
+	display: none !important;
 }
 body.anno-on .req-pin {
-	display: flex;
+	display: none !important;
 }
 
 /* Annotation cards visibility */
 .anno-card {
-	display: none;
+	display: none !important;
 }
 body.anno-on .anno-card {
-	display: block;
+	display: none !important;
 }
 
 /* Highlight section borders when annotations are on */
 body.anno-on section {
-	outline: 1px dashed var(--accent);
-	outline-offset: 4px;
+	outline: none !important;
 }
 
 /* =========== GLOW HIGHLIGHT ANIMATION FOR NAVIGATION STORY STORIES =========== */

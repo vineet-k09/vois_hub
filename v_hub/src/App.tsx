@@ -43,22 +43,32 @@ const getGmtGripTooltip = (name: string) => {
 };
 
 const App: React.FC = () => {
-  const [activeView, setActiveView] = useState<'landing' | 'ceo' | 'finance' | 'gtm' | 'hr' | 'compare'>('landing');
+  const [activeView, setActiveView] = useState<'landing' | 'ceo' | 'finance' | 'gtm' | 'hr' | 'compare' | 'focused-search'>('landing');
   const [highlightCardId, setHighlightCardId] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<any>(null);
-  const [showAnnotations, setShowAnnotations] = useState(false);
+  const showAnnotations = false;
   const [activeStakeholder, setActiveStakeholder] = useState('★ Board Members');
   const [activePillar, setActivePillar] = useState('CEO SUMMARY');
   const [viewMode, setViewMode] = useState<'split' | 'deep-dive'>('split');
   const [isDesktop, setIsDesktop] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark' | 'ceo'>(() => {
-    return (localStorage.getItem('vois-theme') as any) || 'light';
+  const [compareMode, setCompareMode] = useState<'towers' | 'markets'>('towers');
+  const [focusedVisual, setFocusedVisual] = useState<{
+    query: string;
+    visualId: string;
+    dashboard: 'ceo' | 'finance' | 'gtm' | 'hr';
+    cardId: string;
+  } | null>(null);
+
+  const [theme, setTheme] = useState<'light' | 'dark' | 'vois'>(() => {
+    const saved = localStorage.getItem('vois-theme');
+    if (saved === 'ceo') return 'dark';
+    return (saved as any) || 'light';
   });
 
   useEffect(() => {
     const root = document.documentElement;
-    root.classList.remove('theme-light', 'theme-dark', 'theme-ceo');
+    root.classList.remove('theme-light', 'theme-dark', 'theme-ceo', 'theme-vois');
     root.classList.add(`theme-${theme}`);
     localStorage.setItem('vois-theme', theme);
   }, [theme]);
@@ -502,6 +512,19 @@ const App: React.FC = () => {
     </>
   );
 
+  const renderFocusedVisualContent = (visualId: string) => {
+    switch (visualId) {
+      case 'transformation':
+        return <Transformation onDrillDown={handleDrillDown} showAnnotations={false} />;
+      case 'finance-risk':
+        return <FinanceDashboard onDrillDown={handleDrillDown} showAnnotations={false} focusedSection="finance-risk" />;
+      case 'hr-spirit':
+        return <HRDashboard onDrillDown={handleDrillDown} showAnnotations={false} focusedSection="hr-spirit" />;
+      default:
+        return null;
+    }
+  };
+
   const renderActiveDashboard = () => {
     switch (activeView) {
       case 'ceo':
@@ -513,7 +536,7 @@ const App: React.FC = () => {
       case 'hr':
         return <HRDashboard onDrillDown={handleDrillDown} showAnnotations={showAnnotations} />;
       case 'compare':
-        return <CompareTowers onDrillDown={handleDrillDown} showAnnotations={showAnnotations} />;
+        return <CompareTowers onDrillDown={handleDrillDown} compareMode={compareMode} />;
       default:
         return null;
     }
@@ -585,38 +608,28 @@ const App: React.FC = () => {
                 Dark
               </button>
               <button
-                onClick={() => setTheme('ceo')}
+                onClick={() => setTheme('vois')}
                 className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase cursor-pointer leading-none transition-all ${
-                  theme === 'ceo' ? 'bg-white text-slate-800 shadow-sm' : 'hover:bg-white/5'
+                  theme === 'vois' ? 'bg-white text-slate-800 shadow-sm' : 'hover:bg-white/5'
                 }`}
-                title="CEO Executive Theme"
+                title="Vois Theme (Vodafone Red)"
               >
-                CEO
+                Vois
               </button>
             </div>
 
             <span className="text-white/20 hidden sm:inline">|</span>
 
-            {/* Annotation Toggle */}
-            <button
-              onClick={() => setShowAnnotations(!showAnnotations)}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold border transition-all cursor-pointer ${
-                showAnnotations
-                  ? "bg-white text-red-600 border-white shadow-sm font-bold"
-                  : "bg-white/10 border-white/20 hover:bg-white/20 text-white"
-              }`}>
-              <span
-                className={`w-1.5 h-1.5 rounded-full ${showAnnotations ? "bg-green-500 animate-pulse" : "bg-white/45"}`}
-              />
-              Requirements Mode
-            </button>
-
-            <span className="text-white/20 hidden sm:inline">|</span>
-
-            {/* Compare Towers Button */}
+            {/* Compare Towers / Compare Markets Button */}
             <button
               onClick={() => {
-                setActiveView('compare');
+                if (activeView === 'compare') {
+                  setCompareMode(compareMode === 'towers' ? 'markets' : 'towers');
+                } else {
+                  const nextMode = (activeView === 'finance' || activeView === 'gtm' || activeView === 'hr') ? 'markets' : 'towers';
+                  setCompareMode(nextMode);
+                  setActiveView('compare');
+                }
                 setSelectedItem(null);
               }}
               className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold border transition-all cursor-pointer ${
@@ -625,7 +638,12 @@ const App: React.FC = () => {
                   : "bg-white/10 border-white/20 hover:bg-white/20 text-white"
               }`}>
               <GitCompare size={12} className={activeView === 'compare' ? "text-rose-600" : "text-white"} />
-              Compare Towers
+              {(activeView === 'finance' || activeView === 'gtm' || activeView === 'hr') 
+                ? 'Compare Markets' 
+                : activeView === 'compare' 
+                  ? compareMode === 'markets' ? 'Compare Markets' : 'Compare Towers'
+                  : 'Compare Towers'
+              }
             </button>
 
             <span className="text-white/20 hidden sm:inline">|</span>
@@ -829,7 +847,73 @@ const App: React.FC = () => {
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
         <AnimatePresence mode="wait">
-          {activeView === 'landing' ? (
+          {activeView === 'focused-search' && focusedVisual ? (
+            <motion.div
+              key="focused-search-view"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.2 }}
+              className="w-full max-w-4xl mx-auto space-y-6 px-4 py-6"
+            >
+              {/* Focused Header */}
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-panel border border-panel-border p-4 rounded-2xl shadow-sm">
+                <div className="space-y-1">
+                  <div className="inline-flex items-center gap-1 bg-accent/15 border border-accent/20 px-2 py-0.5 rounded text-[9px] font-black uppercase text-accent tracking-widest leading-none">
+                    <Sparkles size={10} /> AI Search Focus View
+                  </div>
+                  <h2 className="text-sm font-bold text-ink uppercase tracking-wide">
+                    Query: "{focusedVisual.query}"
+                  </h2>
+                  <p className="text-[10px] text-ink-soft">
+                    Viewing visual from {focusedVisual.dashboard.toUpperCase()} Dashboard
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    onClick={() => {
+                      setActiveView('landing');
+                      setFocusedVisual(null);
+                    }}
+                    className="flex items-center gap-1.5 bg-panel-2 border border-panel-border text-ink hover:bg-panel transition-all px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer"
+                  >
+                    ← Back to Search
+                  </button>
+                  <button
+                    onClick={() => {
+                      const db = focusedVisual.dashboard;
+                      const card = focusedVisual.cardId;
+                      setActiveView(db);
+                      setFocusedVisual(null);
+                      setHighlightCardId(card);
+                      switch (db) {
+                        case 'ceo':
+                          setActivePillar('CEO SUMMARY');
+                          break;
+                        case 'finance':
+                          setActivePillar('FINANCE SUMMARY');
+                          break;
+                        case 'gtm':
+                          setActivePillar('GTM SUMMARY');
+                          break;
+                        case 'hr':
+                          setActivePillar('HR SUMMARY');
+                          break;
+                      }
+                    }}
+                    className="flex items-center gap-1.5 bg-accent text-white hover:opacity-90 transition-all px-3.5 py-1.5 rounded-xl text-xs font-bold cursor-pointer"
+                  >
+                    Deep Dive into Dashboard →
+                  </button>
+                </div>
+              </div>
+
+              {/* Focused Visual Container */}
+              <div className="bg-panel border border-panel-border rounded-2xl p-6 shadow-md relative overflow-hidden">
+                {renderFocusedVisualContent(focusedVisual.visualId)}
+              </div>
+            </motion.div>
+          ) : activeView === 'landing' ? (
             <motion.div
               key="landing-view"
               initial={{ opacity: 0, y: 12 }}
@@ -873,6 +957,10 @@ const App: React.FC = () => {
                       setActivePillar('HR SUMMARY');
                       break;
                   }
+                }}
+                onSelectSearchOption={(query, visualId, dashboard, cardId) => {
+                  setFocusedVisual({ query, visualId, dashboard, cardId });
+                  setActiveView('focused-search');
                 }}
               />
             </motion.div>

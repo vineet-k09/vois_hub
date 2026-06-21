@@ -7,9 +7,10 @@ import AnnotationCard from './AnnotationCard';
 interface FinanceDashboardProps {
   onDrillDown: (data: any) => void;
   showAnnotations: boolean;
+  focusedSection?: string;
 }
 
-export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown, showAnnotations }) => {
+export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown, showAnnotations, focusedSection }) => {
   const { kpis, riskHeatmap, revenueAtRisk, costAtRisk, pqSummary, annotations } = financeData;
 
   const COLORS = ['#e60000', '#b8000a', '#5a0006', '#8c7878', '#cba8a8'];
@@ -108,6 +109,155 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
     value: m.value,
     pct: m.pct
   }));
+
+  if (focusedSection === 'finance-risk') {
+    return (
+      <section id="finance-risk" className="bg-panel border border-panel-border rounded-2xl p-4.5 shadow-sm relative overflow-hidden">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
+          <div>
+            <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
+              Cross-Functional Risk View — OpsAnalytics · CapEx · Revenue
+            </h2>
+            <p className="text-ink-soft text-[10px] italic font-light mt-0.5">Non-finance signals affecting Sarah's forecasts · heatmap / RAG</p>
+          </div>
+        </div>
+
+        <div className="space-y-4 pl-1">
+          {/* Heatmap Table */}
+          <div className="border border-panel-border rounded-xl overflow-hidden bg-panel-2/30">
+            <div className="bg-panel-2 border-b border-panel-border p-3 flex justify-between items-center">
+              <span className="text-xs font-bold text-ink uppercase tracking-wider">Risk Heatmap — Signals by Portfolio</span>
+              <span className="text-[9px] font-bold text-panel bg-ink px-2 py-0.5 uppercase tracking-widest">CROSS-FUNCTIONAL</span>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-[11px] border-collapse min-w-[500px]">
+                <thead>
+                  <tr className="bg-panel-2 border-b border-panel-border">
+                    <th className="p-3 font-bold text-ink-soft uppercase tracking-wider text-[9px] w-1/4">Portfolio</th>
+                    <th className="p-3 font-bold text-ink-soft uppercase tracking-wider text-[9px] text-center w-1/5">HR / Headcount</th>
+                    <th className="p-3 font-bold text-ink-soft uppercase tracking-wider text-[9px] text-center w-1/5">Pipeline Demand</th>
+                    <th className="p-3 font-bold text-ink-soft uppercase tracking-wider text-[9px] text-center w-1/5">Operational Forecast</th>
+                    <th className="p-3 font-bold text-ink-soft uppercase tracking-wider text-[9px] text-center w-1/5">Contract Lifecycle</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {riskHeatmap.map((row) => (
+                    <tr key={row.portfolio} className="border-b border-panel-border/50 hover:bg-panel-2/20">
+                      <td className="p-3 border-r border-panel-border/30">
+                        <span className="font-bold text-ink block">{row.portfolio}</span>
+                        <span className="text-[10px] text-ink-soft italic font-light">{row.subtitle}</span>
+                      </td>
+                      {['hr', 'pipeline', 'operations', 'contract'].map((key) => {
+                        const cell = (row as any)[key];
+                        const cellRag = cell.rag;
+                        const cellBg = cellRag === 'green' ? 'bg-emerald-500/10 text-emerald-500' : cellRag === 'amber' ? 'bg-amber-500/10 text-amber-500' : cellRag === 'red' ? 'bg-rose-500/10 text-rose-500' : 'bg-panel-2 text-ink-soft';
+                        return (
+                          <td 
+                            key={key} 
+                            onClick={() => handleHeatmapCellClick(row, key, cell.val, cell.desc, cell.rag)}
+                            className={`p-3 text-center border-r border-panel-border/30 cursor-pointer ${cellBg} transition-all`}
+                          >
+                            <span className="font-bold uppercase tracking-wider text-[10px] block">{cell.val}</span>
+                            <span className="text-[9px] block mt-0.5 font-medium leading-tight">{cell.desc}</span>
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* Revenue at Risk table */}
+            <div className="border border-panel-border rounded-xl overflow-hidden bg-panel-2/30 flex flex-col justify-between">
+              <div>
+                <div className="bg-panel-2 border-b border-panel-border p-3 flex justify-between items-center">
+                  <span className="text-xs font-bold text-ink uppercase tracking-wider">Revenue at Risk — Lifecycles &lt; 6 Months</span>
+                  <span className="text-[9px] font-bold text-panel bg-ink px-2 py-0.5 uppercase tracking-widest">NEW LENS</span>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-[11px] border-collapse min-w-[350px]">
+                    <thead>
+                      <tr className="bg-panel-2 border-b border-panel-border">
+                        <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-[9px]">Contract</th>
+                        <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-[9px]">Customer</th>
+                        <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-[9px] text-right">Value</th>
+                        <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-[9px] text-center">Days</th>
+                        <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-[9px] text-center">Risk</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {revenueAtRisk.map((c) => (
+                        <tr 
+                          key={c.deal} 
+                          onClick={() => handleContractClick(c)}
+                          className="border-b border-panel-border/50 hover:bg-panel-2/20 cursor-pointer"
+                        >
+                          <td className="p-2.5 font-semibold text-ink">{c.deal}</td>
+                          <td className="p-2.5 text-ink-soft">{c.customer}</td>
+                          <td className="p-2.5 text-right font-bold text-ink">€{c.value}M</td>
+                          <td className="p-2.5 text-center font-bold text-ink">{c.expiryDays}</td>
+                          <td className="p-2.5 text-center">
+                            <span className={`px-2 py-0.5 rounded text-[8px] font-bold uppercase ${c.risk === 'High' ? 'bg-red-500/20 text-rose-500 border border-red-500/30' : 'bg-amber-500/20 text-amber-500 border border-amber-500/30'}`}>
+                              {c.risk}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* Cost at Risk - Burn vs Completion charts */}
+            <div className="border border-panel-border rounded-xl p-3.5 bg-panel-2/30 flex flex-col justify-between">
+              <div>
+                <h4 className="text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center justify-between">
+                  <span>Cost at Risk — Burn vs Project Completion %</span>
+                  <span className="text-[8px] font-bold bg-ink text-panel px-2 py-0.5 tracking-wider uppercase">PROJECT LIFECYCLE</span>
+                </h4>
+                
+                <div className="h-44 w-full mt-2">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={formattedBurnData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="2 3" stroke="var(--panel-border)" />
+                      <XAxis dataKey="name" stroke="var(--ink-soft)" fontSize={9} tickLine={false} />
+                      <YAxis stroke="var(--ink-soft)" fontSize={9} unit="%" />
+                      <RechartsTooltip contentStyle={{ backgroundColor: 'var(--panel)', borderColor: 'var(--panel-border)', color: 'var(--ink)' }} />
+                      <Bar dataKey="Burn %" fill="#e60000" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="Completion %" fill="#16a34a" radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              <div className="space-y-2 mt-3">
+                {costAtRisk.map((p) => (
+                  <div 
+                    key={p.project} 
+                    onClick={() => handleCostClick(p)}
+                    className="flex justify-between items-center text-[10.5px] p-2 bg-panel rounded-lg border border-panel-border/70 hover:bg-panel-2 cursor-pointer transition-colors"
+                  >
+                    <span className="font-semibold text-ink">{p.project}</span>
+                    <div className="flex items-center gap-3">
+                      <span className="text-ink-soft">Burn {p.burn}% vs Comp {p.completion}%</span>
+                      <span className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase ${p.rag === 'green' ? 'bg-emerald-500/15 text-emerald-500' : p.rag === 'amber' ? 'bg-amber-500/15 text-amber-500' : 'bg-red-500/15 text-rose-500'}`}>
+                        {p.rag === 'green' ? 'On Plan' : p.rag === 'amber' ? 'Overspent' : 'Critical'}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <div className="space-y-4">

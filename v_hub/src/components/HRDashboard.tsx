@@ -7,9 +7,10 @@ import AnnotationCard from './AnnotationCard';
 interface HRDashboardProps {
   onDrillDown: (data: any) => void;
   showAnnotations: boolean;
+  focusedSection?: string;
 }
 
-export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnotations }) => {
+export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnotations, focusedSection }) => {
   const { kpis, crossFunctionalHR, promotionsGlidePath, headcountEfficiency, talentDemand, spiritBeat, ldEffectiveness, annotations } = hrData;
 
   const handleKPIClick = (kpi: any) => {
@@ -127,6 +128,88 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
   const formattedGlideData = promotionsGlidePath.monthlyData;
   const formattedHCData = headcountEfficiency.monthlyData;
   const spiritBeatHistory = spiritBeat.history;
+
+  if (focusedSection === 'hr-spirit') {
+    return (
+      <section id="hr-spirit" className="bg-panel border border-panel-border rounded-2xl p-4.5 shadow-sm relative overflow-hidden">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
+          <div>
+            <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
+              Spirit Beat 'Why' Analysis — Likely Drivers
+            </h2>
+            <p className="text-ink-soft text-[10px] italic font-light mt-0.5">One-off historical correlation tracked as ongoing framework</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pl-1">
+          {/* Spirit Beat Area Chart */}
+          <div className="border border-panel-border rounded-xl p-3.5 bg-panel-2/30 flex flex-col justify-between">
+            <div>
+              <h5 className="text-[9.5px] font-bold text-ink-soft uppercase tracking-widest mb-3 leading-none pl-1 border-l-2 border-accent">
+                Historical Trend (Correlation Check)
+              </h5>
+              
+              <div className="h-44 w-full mt-2 text-ink">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={spiritBeatHistory} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="2 3" stroke="var(--panel-border)" />
+                    <XAxis dataKey="month" stroke="var(--ink-soft)" fontSize={9} />
+                    <YAxis stroke="var(--ink-soft)" fontSize={9} domain={[60, 90]} />
+                    <RechartsTooltip contentStyle={{ backgroundColor: 'var(--panel)', borderColor: 'var(--panel-border)', color: 'var(--ink)' }} />
+                    <defs>
+                      <linearGradient id="spiritGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#e60000" stopOpacity={0.2} />
+                        <stop offset="95%" stopColor="#e60000" stopOpacity={0.0} />
+                      </linearGradient>
+                    </defs>
+                    <Area type="monotone" dataKey="score" stroke="#e60000" fillOpacity={1} fill="url(#spiritGrad)" strokeWidth={2} />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            
+            <div className="pt-3 border-t border-panel-border/50 flex justify-between items-center text-[10.5px] text-ink-soft mt-3">
+              <span>Correlation Strength: <strong>Highly Significant (p &lt; 0.01)</strong></span>
+              <span className="font-bold text-ink">N=24,850 FTE</span>
+            </div>
+          </div>
+
+          {/* Drivers List */}
+          <div className="border border-panel-border rounded-xl p-3.5 bg-panel-2/30 flex flex-col justify-between">
+            <div>
+              <h5 className="text-[9.5px] font-bold text-ink-soft uppercase tracking-widest mb-3 leading-none pl-1 border-l-2 border-accent">
+                Identified Key Drivers &amp; Engagement Impact
+              </h5>
+
+              <div className="space-y-2">
+                {spiritBeat.drivers.map((drv) => {
+                  const levelClass = drv.level === 'high' ? 'bg-red-500/10 text-rose-500 border border-red-500/20 font-bold' : drv.level === 'med' ? 'bg-amber-500/10 text-amber-500 border border-amber-500/20 font-bold' : 'bg-slate-500/10 text-slate-500';
+                  return (
+                    <div 
+                      key={drv.name} 
+                      onClick={() => handleDriverClick(drv)}
+                      className="p-2.5 bg-panel border border-panel-border/70 hover:bg-panel-2 rounded-xl cursor-pointer transition-colors flex justify-between items-center leading-none"
+                    >
+                      <div className="space-y-1">
+                        <span className="text-[10px] text-ink font-semibold uppercase">{drv.name}</span>
+                        <span className="text-[9px] text-ink-soft font-light block leading-tight">{drv.desc}</span>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="text-[9px] text-ink-soft">r = {drv.correlation > 0 ? '+' : ''}{drv.correlation}</span>
+                        <span className={`px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wide ${levelClass}`}>
+                          {drv.level}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <div className="space-y-4">
