@@ -73,3 +73,35 @@ export default defineConfig([
   },
 ])
 ```
+
+## 🚀 Resolving SPA 404 on Refresh (Production & Local Preview)
+
+This application utilizes React Router with client-side history URLs (e.g. `/finance`, `/gtm`). When refreshing the page or accessing a route directly, the host server must fall back to `/index.html`.
+
+We have already configured this automatically for common providers:
+- **Netlify / Cloudflare Pages**: Handled via [public/_redirects](file:///mnt/bridge/dev/internships/vois_hub/v_hub/public/_redirects).
+- **Vercel**: Handled via [vercel.json](file:///mnt/bridge/dev/internships/vois_hub/v_hub/vercel.json).
+
+### Running Locally (Production Build)
+
+If you build the project and serve it locally, make sure to use a server that supports Single Page Application (SPA) redirect rules:
+
+1. **Vite Preview** (Recommended):
+   ```bash
+   npm run preview
+   ```
+   Vite's preview server will automatically handle SPA routing fallbacks.
+
+2. **Serve** (Static server):
+   Install `serve` globally and run it with the `-s` (single page app fallback) flag:
+   ```bash
+   npm install -g serve
+   serve -s dist
+   ```
+
+3. **HTTP Server**:
+   Run with the `--spa` flag:
+   ```bash
+   npx http-server dist --spa
+   ```
+

@@ -241,7 +241,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
                   <span className={`w-1.5 h-1.5 rounded-full ${isGreen ? 'bg-emerald-500' : isAmber ? 'bg-amber-500' : 'bg-red-500'}`} />
                 </div>
                 <div className="my-2">
-                  <span className={`text-2xl font-barlow font-black tracking-tight ${ragColor}`}>{kpi.value}</span>
+                  <span className={`text-2xl  font-black tracking-tight ${ragColor}`}>{kpi.value}</span>
                 </div>
                 <div className="flex justify-between items-center w-full text-[9px] text-ink-soft">
                   <span>Target: {kpi.target}</span>
@@ -307,15 +307,15 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
                           <span className="text-[10px] text-ink-soft italic font-light">~ {tower.headcount} headcount</span>
                         </td>
                         <td className="p-3 text-center border-r border-panel-border/30">
-                          <span className={`text-base font-barlow font-black block ${ldrColor}`}>{tower.ldAdoption}%</span>
+                          <span className={`text-base  font-black block ${ldrColor}`}>{tower.ldAdoption}%</span>
                           <span className="text-[9px] text-ink-soft font-semibold">{tower.ldDelta}</span>
                         </td>
                         <td className="p-3 text-center border-r border-panel-border/30">
-                          <span className={`text-base font-barlow font-black block ${sprColor}`}>{tower.spiritBeat}</span>
+                          <span className={`text-base  font-black block ${sprColor}`}>{tower.spiritBeat}</span>
                           <span className="text-[9px] text-ink-soft font-semibold">{tower.spiritDetail}</span>
                         </td>
                         <td className="p-3 text-center">
-                          <span className={`text-base font-barlow font-black block ${npsColor}`}>+{tower.nps}</span>
+                          <span className={`text-base  font-black block ${npsColor}`}>+{tower.nps}</span>
                           <span className="text-[9px] text-ink-soft font-semibold">{tower.businessPerf}</span>
                         </td>
                       </tr>
@@ -400,7 +400,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
                       className={`p-3 rounded-xl border ${cellBg} transition-all cursor-pointer flex flex-col justify-between`}
                     >
                       <span className="text-[10px] font-bold text-ink uppercase tracking-wider">{hot.name}</span>
-                      <span className="text-xl font-barlow font-black block my-1">{hot.value}</span>
+                      <span className="text-xl  font-black block my-1">{hot.value}</span>
                       <span className="text-[9px] text-ink-soft leading-normal font-light">{hot.desc}</span>
                     </div>
                   );
@@ -479,7 +479,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
                       <span className="text-[10px] text-ink-soft font-light mt-0.5">{init.desc}</span>
                     </div>
                     <div className="text-right shrink-0">
-                      <span className="text-sm font-barlow font-black text-rose-500 block">{init.impact}</span>
+                      <span className="text-sm  font-black text-rose-500 block">{init.impact}</span>
                       <span className="text-[8px] bg-ink text-panel uppercase tracking-wider px-1.5 py-0.2 rounded mt-0.5 font-bold inline-block">{init.timing}</span>
                     </div>
                   </div>
@@ -541,7 +541,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
                   className={`p-3 rounded-xl border ${borderClass} transition-all cursor-pointer flex flex-col justify-between`}
                 >
                   <span className="text-[9px] font-bold text-ink-soft uppercase tracking-wider block leading-none">{stage.stage}</span>
-                  <span className={`text-2xl font-barlow font-black block mt-2 mb-1 ${nameColor}`}>{stage.value}</span>
+                  <span className={`text-2xl  font-black block mt-2 mb-1 ${nameColor}`}>{stage.value}</span>
                   <span className="text-[8.5px] text-ink-soft font-medium leading-tight block mb-2">{stage.desc}</span>
                   <span className="text-[7.5px] bg-panel-2 text-ink-soft px-1.5 py-0.2 rounded border border-panel-border inline-block self-start font-semibold uppercase">{stage.source}</span>
                 </div>
@@ -618,7 +618,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
                     >
                       <div className="flex justify-between items-center text-[10.5px]">
                         <span className="font-bold text-ink">{drv.name}</span>
-                        <span className={`font-barlow font-black text-sm ${corrColor}`}>r = {drv.correlation > 0 ? '+' : ''}{drv.correlation}</span>
+                        <span className={` font-black text-sm ${corrColor}`}>r = {drv.correlation > 0 ? '+' : ''}{drv.correlation}</span>
                       </div>
                       <div className="flex justify-between items-start gap-3">
                         <p className="text-[9.5px] text-ink-soft font-light leading-normal">{drv.desc}</p>
@@ -671,7 +671,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
                     <span>{tile.label}</span>
                     <span className={`w-1.5 h-1.5 rounded-full ${isGreen ? 'bg-emerald-500' : isAmber ? 'bg-amber-500' : 'bg-muted-text'}`} />
                   </div>
-                  <span className="text-2xl font-barlow font-black text-ink my-1.5">{tile.value}</span>
+                  <span className="text-2xl  font-black text-ink my-1.5">{tile.value}</span>
                   <p className="text-[10px] text-ink-soft leading-normal font-light">{tile.desc}</p>
                 </div>
               );
@@ -708,7 +708,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
                           className="border-b border-panel-border/50 hover:bg-panel-2/20 cursor-pointer"
                         >
                           <td className="p-2.5 font-semibold text-ink">{corr.kpi}</td>
-                          <td className="p-2.5 text-center font-barlow font-black text-base">{corr.r}</td>
+                          <td className="p-2.5 text-center  font-black text-base">{corr.r}</td>
                           <td className="p-2.5 text-center">
                             <span className={`px-1.5 py-0.2 rounded text-[8px] font-bold leading-none ${cellBg}`}>
                               {corr.delta}

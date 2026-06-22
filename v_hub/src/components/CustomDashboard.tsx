@@ -136,7 +136,7 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = ({
               </div>
             ) : (
               <div className="flex items-center gap-2 max-w-full">
-                <h1 className="text-xl md:text-2xl font-barlow font-bold text-ink uppercase tracking-wide truncate">
+                <h1 className="text-xl md:text-2xl  font-bold text-ink uppercase tracking-wide truncate">
                   {customDashboardName}
                 </h1>
                 <button

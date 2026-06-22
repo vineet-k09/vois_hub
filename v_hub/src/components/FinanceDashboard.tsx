@@ -289,7 +289,7 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
                   <span className={`w-1.5 h-1.5 rounded-full ${isGreen ? 'bg-emerald-500' : isAmber ? 'bg-amber-500' : 'bg-red-500'}`} />
                 </div>
                 <div className="my-2">
-                  <span className={`text-2xl font-barlow font-black tracking-tight ${ragColor}`}>{kpi.value}</span>
+                  <span className={`text-2xl  font-black tracking-tight ${ragColor}`}>{kpi.value}</span>
                 </div>
                 <div className="flex justify-between items-center w-full text-[9px] text-ink-soft">
                   <span>Target: {kpi.target}</span>
@@ -488,7 +488,7 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
               {pqSummary.kpis.map((k, idx) => (
                 <div key={idx} className="flex justify-between items-center text-[11px] py-1 border-b border-panel-border/30 last:border-none">
                   <span className="text-ink-soft font-medium">{k.label}</span>
-                  <span className={`font-barlow font-bold text-sm ${k.rag === 'green' ? 'text-emerald-500' : 'text-ink'}`}>{k.value}</span>
+                  <span className={` font-bold text-sm ${k.rag === 'green' ? 'text-emerald-500' : 'text-ink'}`}>{k.value}</span>
                 </div>
               ))}
             </div>

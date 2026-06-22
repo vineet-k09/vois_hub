@@ -18,6 +18,7 @@ import { GTMDashboard } from './components/GTMDashboard';
 import { HRDashboard } from './components/HRDashboard';
 import { CompareTowers } from './components/CompareTowers';
 import { CustomDashboard } from './components/CustomDashboard';
+import { NotFound } from './components/NotFound';
 
 import { Sparkles, FileText, Send, Layers, Home, GitCompare } from 'lucide-react';
 import { toPng } from 'html-to-image';
@@ -47,8 +48,9 @@ const App: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const getActiveViewFromPath = (pathname: string): 'landing' | 'ceo' | 'finance' | 'gtm' | 'hr' | 'compare' | 'focused-search' | 'custom' => {
-    const path = pathname.replace(/^\//, '');
+  const getActiveViewFromPath = (pathname: string): 'landing' | 'ceo' | 'finance' | 'gtm' | 'hr' | 'compare' | 'focused-search' | 'custom' | '404' => {
+    const path = pathname.replace(/^\//, '').replace(/\/$/, '');
+    if (path === '') return 'landing';
     if (path === 'ceo') return 'ceo';
     if (path === 'finance') return 'finance';
     if (path === 'gtm') return 'gtm';
@@ -56,12 +58,12 @@ const App: React.FC = () => {
     if (path === 'compare') return 'compare';
     if (path === 'focused-search') return 'focused-search';
     if (path === 'custom') return 'custom';
-    return 'landing';
+    return '404';
   };
 
   const activeView = getActiveViewFromPath(location.pathname);
 
-  const setActiveView = (view: 'landing' | 'ceo' | 'finance' | 'gtm' | 'hr' | 'compare' | 'focused-search' | 'custom') => {
+  const setActiveView = (view: 'landing' | 'ceo' | 'finance' | 'gtm' | 'hr' | 'compare' | 'focused-search' | 'custom' | '404') => {
     if (view === 'landing') {
       navigate('/');
     } else {
@@ -346,7 +348,7 @@ const App: React.FC = () => {
                   </span>
                 )}
               </div>
-              <h2 className="text-sm font-barlow font-bold text-ink uppercase tracking-wide mt-1.5 leading-none">
+              <h2 className="text-sm  font-bold text-ink uppercase tracking-wide mt-1.5 leading-none">
                 {aiSummary.title}
               </h2>
               <p
@@ -618,12 +620,12 @@ const App: React.FC = () => {
             onClick={() => { setActiveView('landing'); setSelectedItem(null); }}
             title="Return to Dashboard Landing Page"
           >
-            <div className="bg-white/15 border border-white/20 px-2.5 py-0.5 font-barlow font-black text-xl tracking-widest rounded flex items-center gap-1.5 hover:bg-white/25 transition-all">
+            <div className="bg-white/15 border border-white/20 px-2.5 py-0.5  font-black text-xl tracking-widest rounded flex items-center gap-1.5 hover:bg-white/25 transition-all">
               {activeView !== 'landing' && <Home size={14} className="mb-0.5" />}
               {brandingLogo}
             </div>
             <div>
-              <h1 className="font-barlow text-lg font-bold tracking-wide leading-none">
+              <h1 className=" text-lg font-bold tracking-wide leading-none">
                 {brandingName}
               </h1>
               <p className="text-white/85 text-[9px] uppercase font-bold tracking-widest mt-0.5">
@@ -737,7 +739,7 @@ const App: React.FC = () => {
       </header>
 
       {/* =========== SUB-HEADER BAR: PILLARS & REVIEW VIEW DROP-DOWNS & VIEW MODES =========== */}
-      {activeView !== 'landing' && activeView !== 'compare' && (
+      {activeView !== 'landing' && activeView !== 'compare' && activeView !== '404' && activeView !== 'custom' && activeView !== 'focused-search' && (
         <section className="bg-panel border-b border-panel-border sticky top-0 z-20 shadow-xs shrink-0 py-1.5">
           <motion.div 
             layout="position"
@@ -910,7 +912,27 @@ const App: React.FC = () => {
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
         <AnimatePresence mode="wait">
-          {activeView === 'focused-search' && focusedVisual ? (
+          {activeView === '404' ? (
+            <motion.div
+              key="404-view"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.2 }}
+              className="w-full"
+            >
+              <NotFound
+                onBackToHome={() => {
+                  setActiveView('landing');
+                  setSelectedItem(null);
+                }}
+                onNavigateToView={(view) => {
+                  setActiveView(view);
+                  setSelectedItem(null);
+                }}
+              />
+            </motion.div>
+          ) : activeView === 'focused-search' && focusedVisual ? (
             <motion.div
               key="focused-search-view"
               initial={{ opacity: 0, y: 12 }}

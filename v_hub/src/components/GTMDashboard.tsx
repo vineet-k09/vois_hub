@@ -186,7 +186,7 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
                   <span className={`w-1.5 h-1.5 rounded-full ${isGreen ? 'bg-emerald-500' : isAmber ? 'bg-amber-500' : 'bg-red-500'}`} />
                 </div>
                 <div className="my-2">
-                  <span className={`text-2xl font-barlow font-black tracking-tight ${ragColor}`}>{kpi.value}</span>
+                  <span className={`text-2xl  font-black tracking-tight ${ragColor}`}>{kpi.value}</span>
                 </div>
                 <div className="flex justify-between items-center w-full text-[9px] text-ink-soft">
                   <span>Target: {kpi.target}</span>
@@ -229,7 +229,7 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
                   className={`bg-panel-2/50 border-l-4 ${borderColors[i % borderColors.length]} p-3 rounded-r-xl border border-y border-r border-panel-border hover:bg-panel-2 transition-all cursor-pointer flex flex-col justify-between`}
                 >
                   <span className="text-[9.5px] font-bold text-ink-soft uppercase tracking-wider">{stage.stage}</span>
-                  <span className="text-xl font-barlow font-black text-ink mt-1.5">€{stage.value}M</span>
+                  <span className="text-xl  font-black text-ink mt-1.5">€{stage.value}M</span>
                   <div className="flex justify-between items-center text-[9px] text-ink-soft mt-1">
                     <span>{stage.opps} opps</span>
                     <span className={stage.trend.includes('▲') ? 'text-emerald-500' : 'text-rose-500'}>{stage.trend}</span>
@@ -246,7 +246,7 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
                 <span>Linked Finance Signal</span>
                 <span className="bg-amber-500/10 text-amber-500 text-[8px] font-black uppercase px-1.5 py-0.5 rounded leading-none border border-amber-500/20">Rec. Revenue</span>
               </h5>
-              <p className="text-[14px] font-barlow font-black text-amber-500">{pipelineFunnel.links.revenueRecognition.split('|')[0]}</p>
+              <p className="text-[14px]  font-black text-amber-500">{pipelineFunnel.links.revenueRecognition.split('|')[0]}</p>
               <p className="text-[10px] text-ink-soft mt-1 leading-normal">{pipelineFunnel.links.revenueRecognition.split('|')[1]}</p>
             </div>
             <div className="bg-panel-2/40 border border-panel-border rounded-xl p-3.5">
@@ -254,7 +254,7 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
                 <span>Linked Delivery Risk</span>
                 <span className="bg-rose-500/10 text-rose-500 text-[8px] font-black uppercase px-1.5 py-0.5 rounded leading-none border border-rose-500/20">Top-10 Deals</span>
               </h5>
-              <p className="text-[14px] font-barlow font-black text-rose-500">{pipelineFunnel.links.deliveryRisk.split('|')[0]}</p>
+              <p className="text-[14px]  font-black text-rose-500">{pipelineFunnel.links.deliveryRisk.split('|')[0]}</p>
               <p className="text-[10px] text-ink-soft mt-1 leading-normal">{pipelineFunnel.links.deliveryRisk.split('|')[1]}</p>
             </div>
             <div className="bg-panel-2/40 border border-panel-border rounded-xl p-3.5">
@@ -262,7 +262,7 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
                 <span>Linked HR Signal</span>
                 <span className="bg-ink text-panel text-[8px] font-black uppercase px-1.5 py-0.5 rounded leading-none">Hiring Demand</span>
               </h5>
-              <p className="text-[14px] font-barlow font-black text-ink">{pipelineFunnel.links.hrSignal.split('|')[0]}</p>
+              <p className="text-[14px]  font-black text-ink">{pipelineFunnel.links.hrSignal.split('|')[0]}</p>
               <p className="text-[10px] text-ink-soft mt-1 leading-normal">{pipelineFunnel.links.hrSignal.split('|')[1]}</p>
             </div>
           </div>
@@ -344,8 +344,8 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
                         className={`border-b border-panel-border/50 hover:bg-panel-2/20 cursor-pointer ${deal.deal.includes('Aggregate') ? 'bg-panel-2 font-bold' : ''}`}
                       >
                         <td className="p-2.5 text-ink">{deal.deal}</td>
-                        <td className="p-2.5 text-right font-barlow font-bold text-ink">€{deal.sold}M</td>
-                        <td className="p-2.5 text-right font-barlow font-bold text-ink">€{deal.recognised}M</td>
+                        <td className="p-2.5 text-right  font-bold text-ink">€{deal.sold}M</td>
+                        <td className="p-2.5 text-right  font-bold text-ink">€{deal.recognised}M</td>
                         <td className="p-2.5 text-center">
                           <span className={`px-2 py-0.5 rounded text-[8px] font-bold leading-none ${deal.variance < 0 ? 'bg-red-500/10 text-rose-500' : 'bg-emerald-500/10 text-emerald-500'}`}>
                             {deal.variance}%
@@ -415,13 +415,13 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
                         onClick={() => handleDeliveryRiskClick(deal)}
                         className="border-b border-panel-border/50 hover:bg-panel-2/20 cursor-pointer"
                       >
-                        <td className="p-2.5 font-barlow font-black text-center text-ink text-base">{deal.rank}</td>
+                        <td className="p-2.5  font-black text-center text-ink text-base">{deal.rank}</td>
                         <td className="p-2.5">
                           <span className="font-bold text-ink block">{deal.deal}</span>
                           <span className="text-[10px] text-ink-soft italic font-light">{deal.meta}</span>
                         </td>
                         <td className="p-2.5 text-ink">{deal.customer}</td>
-                        <td className="p-2.5 text-right font-barlow font-bold text-ink">{deal.value}</td>
+                        <td className="p-2.5 text-right  font-bold text-ink">{deal.value}</td>
                         <td className="p-2.5 text-center">
                           <span className={`px-2 py-0.5 rounded text-[8px] font-black uppercase ${cellBg}`}>
                             {deal.rag}
@@ -580,8 +580,8 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
                         <td className="p-2.5 font-semibold text-ink">
                           {opp.customer} <span className="text-ink-soft font-normal text-[10px]">· {opp.service}</span>
                         </td>
-                        <td className="p-2.5 text-right font-barlow font-bold text-ink">€{opp.value}M</td>
-                        <td className="p-2.5 text-right font-barlow font-bold text-ink-soft">{opp.voisPercent}%</td>
+                        <td className="p-2.5 text-right  font-bold text-ink">€{opp.value}M</td>
+                        <td className="p-2.5 text-right  font-bold text-ink-soft">{opp.voisPercent}%</td>
                         <td className="p-2.5 text-center">
                           <span className={`px-2 py-0.5 rounded text-[8px] font-black tracking-wide leading-none ${opp.type === 'UPSELL' ? 'bg-emerald-500/10 text-emerald-500' : opp.type === 'CROSS' ? 'bg-indigo-500/10 text-indigo-500' : 'bg-amber-500/10 text-amber-500'}`}>
                             {opp.type}
@@ -759,7 +759,7 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
               <div>
                 <h6 className="text-[11px] font-bold text-ink uppercase tracking-wider mb-2.5 flex justify-between items-center border-b border-panel-border pb-1.5 leading-none">
                   <span>{competitiveBrief.compA.name}</span>
-                  <span className="text-rose-500 font-barlow font-black text-xs uppercase tracking-widest">Down Trend ▼</span>
+                  <span className="text-rose-500  font-black text-xs uppercase tracking-widest">Down Trend ▼</span>
                 </h6>
                 <div className="space-y-2">
                   {competitiveBrief.compA.signals.map((sig, idx) => (
@@ -776,7 +776,7 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
               <div>
                 <h6 className="text-[11px] font-bold text-ink uppercase tracking-wider mb-2.5 flex justify-between items-center border-b border-panel-border pb-1.5 leading-none">
                   <span>{competitiveBrief.compB.name}</span>
-                  <span className="text-emerald-500 font-barlow font-black text-xs uppercase tracking-widest">Up Trend ▲</span>
+                  <span className="text-emerald-500  font-black text-xs uppercase tracking-widest">Up Trend ▲</span>
                 </h6>
                 <div className="space-y-2">
                   {competitiveBrief.compB.signals.map((sig, idx) => (
@@ -793,7 +793,7 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
               <div>
                 <h6 className="text-[11px] font-bold text-ink uppercase tracking-wider mb-2.5 flex justify-between items-center border-b border-panel-border pb-1.5 leading-none">
                   <span>{competitiveBrief.customer.name} Context</span>
-                  <span className="text-slate-500 font-barlow font-black text-xs uppercase tracking-widest">Steady —</span>
+                  <span className="text-slate-500  font-black text-xs uppercase tracking-widest">Steady —</span>
                 </h6>
                 <div className="space-y-2">
                   {competitiveBrief.customer.signals.map((sig, idx) => (

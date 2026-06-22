@@ -47,7 +47,7 @@ export const FocusedVisualWrapper: React.FC<FocusedVisualWrapperProps> = ({ visu
                   <Sparkles size={13} />
                 </div>
               </div>
-              <h2 className="text-sm font-barlow font-bold text-ink uppercase tracking-wide mt-1.5 leading-none">
+              <h2 className="text-sm  font-bold text-ink uppercase tracking-wide mt-1.5 leading-none">
                 {aiSummary.title}
               </h2>
               <p

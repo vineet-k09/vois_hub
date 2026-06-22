@@ -188,7 +188,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/25 text-[9px] font-black uppercase text-accent tracking-widest leading-none">
             <Sparkles size={10} className="animate-pulse" /> Unified Executive Suite
           </div>
-          <h1 className="text-2xl md:text-3xl font-barlow font-bold text-ink uppercase tracking-wide leading-tight">
+          <h1 className="text-2xl md:text-3xl  font-bold text-ink uppercase tracking-wide leading-tight">
             VOIS HUB PORTAL
           </h1>
           <p className="text-xs text-ink-soft font-light leading-relaxed">
