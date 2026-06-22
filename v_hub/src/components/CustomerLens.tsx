@@ -1,7 +1,6 @@
 import React from 'react';
 import dashboardData from '../data/dashboard_data.json';
 import { ExternalLink } from 'lucide-react';
-import AnnotationCard from './AnnotationCard';
 import Tooltip from './Tooltip';
 
 interface CustomerLensProps {
@@ -200,16 +199,7 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown, showAnnotation
 
       {/* REQ 04 Annotation Card */}
       {req04Anno && (
-        <AnnotationCard
-          id="4"
-          title={req04Anno.title}
-          status={req04Anno.status}
-          feedback={req04Anno.feedback}
-          description={req04Anno.description}
-          dependencies={req04Anno.dependencies}
-          acceptanceCriteria={req04Anno.acceptanceCriteria}
-          userStory={req04Anno.userStory}
-        />
+        null
       )}
     </section>
   );

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import KPIGrid from './components/KPIGrid';
 import Exceptions from './components/Exceptions';
@@ -6,7 +7,6 @@ import CustomerLens from './components/CustomerLens';
 import Transformation from './components/Transformation';
 import GoalsAlignment from './components/GoalsAlignment';
 import DrillDownDrawer from './components/DrillDownDrawer';
-import AnnotationCard from './components/AnnotationCard';
 import dashboardData from './data/dashboard_data.json';
 import financeData from './data/finance_data.json';
 import gtmData from './data/gtm_data.json';
@@ -17,6 +17,7 @@ import { FinanceDashboard } from './components/FinanceDashboard';
 import { GTMDashboard } from './components/GTMDashboard';
 import { HRDashboard } from './components/HRDashboard';
 import { CompareTowers } from './components/CompareTowers';
+import { CustomDashboard } from './components/CustomDashboard';
 
 import { Sparkles, FileText, Send, Layers, Home, GitCompare } from 'lucide-react';
 import { toPng } from 'html-to-image';
@@ -43,7 +44,42 @@ const getGmtGripTooltip = (name: string) => {
 };
 
 const App: React.FC = () => {
-  const [activeView, setActiveView] = useState<'landing' | 'ceo' | 'finance' | 'gtm' | 'hr' | 'compare' | 'focused-search'>('landing');
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const getActiveViewFromPath = (pathname: string): 'landing' | 'ceo' | 'finance' | 'gtm' | 'hr' | 'compare' | 'focused-search' | 'custom' => {
+    const path = pathname.replace(/^\//, '');
+    if (path === 'ceo') return 'ceo';
+    if (path === 'finance') return 'finance';
+    if (path === 'gtm') return 'gtm';
+    if (path === 'hr') return 'hr';
+    if (path === 'compare') return 'compare';
+    if (path === 'focused-search') return 'focused-search';
+    if (path === 'custom') return 'custom';
+    return 'landing';
+  };
+
+  const activeView = getActiveViewFromPath(location.pathname);
+
+  const setActiveView = (view: 'landing' | 'ceo' | 'finance' | 'gtm' | 'hr' | 'compare' | 'focused-search' | 'custom') => {
+    if (view === 'landing') {
+      navigate('/');
+    } else {
+      navigate(`/${view}`);
+    }
+  };
+
+  const [customDashboardName, setCustomDashboardName] = useState<string>(() => {
+    return localStorage.getItem('vois-custom-dashboard-name') || 'My Custom Dashboard';
+  });
+  const [customVisualIds, setCustomVisualIds] = useState<string[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem('vois-custom-visual-ids') || '[]');
+    } catch {
+      return [];
+    }
+  });
+
   const [highlightCardId, setHighlightCardId] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const showAnnotations = false;
@@ -102,6 +138,32 @@ const App: React.FC = () => {
       return () => clearTimeout(timer);
     }
   }, [highlightCardId, activeView]);
+
+  useEffect(() => {
+    switch (activeView) {
+      case 'ceo':
+        setActivePillar('CEO SUMMARY');
+        break;
+      case 'finance':
+        setActivePillar('FINANCE SUMMARY');
+        break;
+      case 'gtm':
+        setActivePillar('GTM SUMMARY');
+        break;
+      case 'hr':
+        setActivePillar('HR SUMMARY');
+        break;
+      default:
+        setActivePillar('');
+        break;
+    }
+  }, [activeView]);
+
+  useEffect(() => {
+    if (activeView === 'focused-search' && !focusedVisual) {
+      navigate('/');
+    }
+  }, [activeView, focusedVisual, navigate]);
 
   const activeData = (() => {
     switch (activeView) {
@@ -365,16 +427,7 @@ const App: React.FC = () => {
 
         {/* REQ 02 Annotation Card */}
         {showAnnotations && req02Anno && (
-          <AnnotationCard
-            id="2"
-            title={req02Anno.title}
-            status={req02Anno.status}
-            feedback={req02Anno.feedback}
-            description={req02Anno.description}
-            dependencies={req02Anno.dependencies}
-            acceptanceCriteria={req02Anno.acceptanceCriteria}
-            userStory={req02Anno.userStory}
-          />
+          null
         )}
       </section>
 
@@ -470,29 +523,11 @@ const App: React.FC = () => {
           {showAnnotations && (req08Anno || req05Anno) && (
             <div className="space-y-3 mt-3">
               {req08Anno && (
-                <AnnotationCard
-                  id="8"
-                  title={req08Anno.title}
-                  status={req08Anno.status}
-                  feedback={req08Anno.feedback}
-                  description={req08Anno.description}
-                  dependencies={req08Anno.dependencies}
-                  acceptanceCriteria={req08Anno.acceptanceCriteria}
-                  userStory={req08Anno.userStory}
-                />
+                null
               )}
               {/* DO NOT REMOVE THE BELOW */}
               {/* {req05Anno && (
-                <AnnotationCard
-                  id="5"
-                  title={req05Anno.title}
-                  status={req05Anno.status}
-                  feedback={req05Anno.feedback}
-                  description={req05Anno.description}
-                  dependencies={req05Anno.dependencies}
-                  acceptanceCriteria={req05Anno.acceptanceCriteria}
-                  userStory={req05Anno.userStory}
-                />
+                null
               )} */}
             </div>
           )}
@@ -537,6 +572,16 @@ const App: React.FC = () => {
         return <HRDashboard onDrillDown={handleDrillDown} showAnnotations={showAnnotations} />;
       case 'compare':
         return <CompareTowers onDrillDown={handleDrillDown} compareMode={compareMode} />;
+      case 'custom':
+        return (
+          <CustomDashboard
+            onDrillDown={handleDrillDown}
+            customVisualIds={customVisualIds}
+            setCustomVisualIds={setCustomVisualIds}
+            customDashboardName={customDashboardName}
+            setCustomDashboardName={setCustomDashboardName}
+          />
+        );
       default:
         return null;
     }
@@ -549,6 +594,7 @@ const App: React.FC = () => {
       case 'gtm': return 'GTM COMMERCIAL PORTAL';
       case 'hr': return 'HR STRATEGIC PORTAL';
       case 'compare': return 'CROSS-TOWER BENCHMARKING SUITE';
+      case 'custom': return 'BESPOKE EXECUTIVE SUITE';
       default: return 'UNIFIED EXECUTIVE SUITE';
     }
   };
@@ -644,6 +690,23 @@ const App: React.FC = () => {
                   ? compareMode === 'markets' ? 'Compare Markets' : 'Compare Towers'
                   : 'Compare Towers'
               }
+            </button>
+
+            <span className="text-white/20 hidden sm:inline">|</span>
+
+            {/* Custom Dashboard Button */}
+            <button
+              onClick={() => {
+                setActiveView('custom');
+                setSelectedItem(null);
+              }}
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold border transition-all cursor-pointer ${
+                activeView === 'custom'
+                  ? "bg-white text-rose-600 border-white shadow-sm font-bold"
+                  : "bg-white/10 border-white/20 hover:bg-white/20 text-white"
+              }`}>
+              <Layers size={12} className={activeView === 'custom' ? "text-rose-600" : "text-white"} />
+              {customDashboardName}
             </button>
 
             <span className="text-white/20 hidden sm:inline">|</span>
@@ -873,7 +936,6 @@ const App: React.FC = () => {
                   <button
                     onClick={() => {
                       setActiveView('landing');
-                      setFocusedVisual(null);
                     }}
                     className="flex items-center gap-1.5 bg-panel-2 border border-panel-border text-ink hover:bg-panel transition-all px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer"
                   >
@@ -884,7 +946,6 @@ const App: React.FC = () => {
                       const db = focusedVisual.dashboard;
                       const card = focusedVisual.cardId;
                       setActiveView(db);
-                      setFocusedVisual(null);
                       setHighlightCardId(card);
                       switch (db) {
                         case 'ceo':
@@ -938,6 +999,9 @@ const App: React.FC = () => {
                     case 'hr':
                       setActivePillar('HR SUMMARY');
                       break;
+                    case 'custom':
+                      // No active pillar for custom dashboard
+                      break;
                   }
                 }} 
                 onSelectStory={(view, cardId) => {
@@ -962,6 +1026,8 @@ const App: React.FC = () => {
                   setFocusedVisual({ query, visualId, dashboard, cardId });
                   setActiveView('focused-search');
                 }}
+                customVisualIds={customVisualIds}
+                customDashboardName={customDashboardName}
               />
             </motion.div>
           ) : viewMode === 'deep-dive' ? (

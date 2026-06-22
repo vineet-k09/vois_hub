@@ -289,3 +289,33 @@ body.anno-on section {
 	transition: all 0.2s ease-in-out;
 }
 
+/* Focused Section Wrapper for Custom Dashboard view isolation */
+.focused-section-wrapper[data-focus] section {
+	display: none !important;
+}
+.focused-section-wrapper[data-focus="finance-kpis"] section#finance-kpis,
+.focused-section-wrapper[data-focus="finance-risk"] section#finance-risk,
+.focused-section-wrapper[data-focus="finance-pq"] section#finance-pq,
+.focused-section-wrapper[data-focus="finance-gov"] section#finance-gov,
+.focused-section-wrapper[data-focus="gtm-kpis"] section#gtm-kpis,
+.focused-section-wrapper[data-focus="gtm-pipeline"] section#gtm-pipeline,
+.focused-section-wrapper[data-focus="gtm-revrec"] section#gtm-revrec,
+.focused-section-wrapper[data-focus="gtm-delivery"] section#gtm-delivery,
+.focused-section-wrapper[data-focus="gtm-offerings"] section#gtm-offerings,
+.focused-section-wrapper[data-focus="gtm-wallet"] section#gtm-wallet,
+.focused-section-wrapper[data-focus="gtm-customers"] section#gtm-customers,
+.focused-section-wrapper[data-focus="gtm-competitive"] section#gtm-competitive,
+.focused-section-wrapper[data-focus="hr-kpis"] section#hr-kpis,
+.focused-section-wrapper[data-focus="hr-cross"] section#hr-cross,
+.focused-section-wrapper[data-focus="hr-promotions"] section#hr-promotions,
+.focused-section-wrapper[data-focus="hr-headcount"] section#hr-headcount,
+.focused-section-wrapper[data-focus="hr-demand"] section#hr-demand,
+.focused-section-wrapper[data-focus="hr-spirit"] section#hr-spirit,
+.focused-section-wrapper[data-focus="hr-ld"] section#hr-ld {
+	display: block !important;
+	border: none !important;
+	padding: 0 !important;
+	box-shadow: none !important;
+	background: transparent !important;
+}
+

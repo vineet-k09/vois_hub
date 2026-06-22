@@ -1,7 +1,6 @@
 import React from 'react';
 import dashboardData from '../data/dashboard_data.json';
 import { ExternalLink } from 'lucide-react';
-import AnnotationCard from './AnnotationCard';
 import Tooltip from './Tooltip';
 
 interface GoalsAlignmentProps {
@@ -91,16 +90,7 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown, showAnnota
 
       {/* REQ 07 Annotation Card */}
       {req07Anno && (
-        <AnnotationCard
-          id="7"
-          title={req07Anno.title}
-          status={req07Anno.status}
-          feedback={req07Anno.feedback}
-          description={req07Anno.description}
-          dependencies={req07Anno.dependencies}
-          acceptanceCriteria={req07Anno.acceptanceCriteria}
-          userStory={req07Anno.userStory}
-        />
+        null
       )}
     </section>
   );

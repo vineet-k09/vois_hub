@@ -2,7 +2,6 @@ import React from 'react';
 import { ExternalLink, Ban } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import financeData from '../data/finance_data.json';
-import AnnotationCard from './AnnotationCard';
 
 interface FinanceDashboardProps {
   onDrillDown: (data: any) => void;
@@ -456,16 +455,7 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
         </div>
 
         {showAnnotations && annotations["10"] && (
-          <AnnotationCard
-            id="10"
-            title={annotations["10"].title}
-            status={annotations["10"].status}
-            description={annotations["10"].description}
-            acceptanceCriteria={annotations["10"].acceptanceCriteria}
-            userStory={annotations["10"].userStory}
-            dependencies={annotations["10"].dependencies}
-            feedback={annotations["10"].feedback}
-          />
+          null
         )}
       </section>
 
@@ -572,16 +562,7 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
         </div>
 
         {showAnnotations && annotations["11"] && (
-          <AnnotationCard
-            id="11"
-            title={annotations["11"].title}
-            status={annotations["11"].status}
-            description={annotations["11"].description}
-            acceptanceCriteria={annotations["11"].acceptanceCriteria}
-            userStory={annotations["11"].userStory}
-            dependencies={annotations["11"].dependencies}
-            feedback={annotations["11"].feedback}
-          />
+          null
         )}
       </section>
 
@@ -620,16 +601,7 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
         </div>
 
         {showAnnotations && annotations["9"] && (
-          <AnnotationCard
-            id="9"
-            title={annotations["9"].title}
-            status={annotations["9"].status}
-            description={annotations["9"].description}
-            acceptanceCriteria={annotations["9"].acceptanceCriteria}
-            userStory={annotations["9"].userStory}
-            dependencies={annotations["9"].dependencies}
-            feedback={annotations["9"].feedback}
-          />
+          null
         )}
       </section>
     </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import dashboardData from '../data/dashboard_data.json';
-import AnnotationCard from './AnnotationCard';
 import Tooltip from './Tooltip';
 
 interface ExceptionsProps {
@@ -127,16 +126,7 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown, showAnnotations })
 
       {/* REQ 03 Annotation Card */}
       {req03Anno && (
-        <AnnotationCard
-          id="3"
-          title={req03Anno.title}
-          status={req03Anno.status}
-          feedback={req03Anno.feedback}
-          description={req03Anno.description}
-          dependencies={req03Anno.dependencies}
-          acceptanceCriteria={req03Anno.acceptanceCriteria}
-          userStory={req03Anno.userStory}
-        />
+        null
       )}
     </section>
   );

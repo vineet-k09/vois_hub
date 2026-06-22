@@ -181,7 +181,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
             animate="animate"
             exit="exit"
             transition={{ duration: 0.12, ease: 'easeOut' }}
-            className="relative bg-panel border border-panel-border/80 text-ink rounded-lg shadow-[var(--card-shadow)] text-[11px] px-3 py-2 font-medium max-w-[250px] leading-relaxed backdrop-blur-xs flex flex-col gap-1 border-t-2 border-t-accent"
+            className="relative bg-panel border border-panel-border/80 text-ink rounded-lg shadow-(--card-shadow) text-[11px] px-3 py-2 font-medium max-w-62.5 leading-relaxed backdrop-blur-xs flex flex-col gap-1 border-t-2 border-t-accent"
           >
             {/* Visual Arrow Caret */}
             <div className={`absolute w-1.5 h-1.5 bg-panel border-panel-border/80 ${getArrowClass()}`} />

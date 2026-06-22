@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Sparkles, Download } from 'lucide-react';
 import { ComposedChart, BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
 import gtmData from '../data/gtm_data.json';
-import AnnotationCard from './AnnotationCard';
 
 interface GTMDashboardProps {
   onDrillDown: (data: any) => void;
@@ -113,24 +112,24 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
 
   const handleDownloadBriefing = () => {
     const brief = competitiveBrief;
-    const textContent = `============================================================
-VOIS GTM COMPETITIVE BRIEFING: DT Group
-============================================================
-Meeting: ${brief.meeting}
-Generated: Mar-26 | Refreshed on demand
-------------------------------------------------------------
-COMPETITOR A STATUS (Down Trend):
-${brief.compA.signals.map(s => `- ${s}`).join('\n')}
+      const textContent = `============================================================
+      VOIS GTM COMPETITIVE BRIEFING: DT Group
+      ============================================================
+      Meeting: ${brief.meeting}
+      Generated: Mar-26 | Refreshed on demand
+      ------------------------------------------------------------
+      COMPETITOR A STATUS (Down Trend):
+      ${brief.compA.signals.map(s => `- ${s}`).join('\n')}
 
-COMPETITOR B STATUS (Up Trend):
-${brief.compB.signals.map(s => `- ${s}`).join('\n')}
+      COMPETITOR B STATUS (Up Trend):
+      ${brief.compB.signals.map(s => `- ${s}`).join('\n')}
 
-CUSTOMER STATUS (Flat Trend):
-${brief.customer.signals.map(s => `- ${s}`).join('\n')}
-------------------------------------------------------------
-Generated via VOIS GTM Persona View on ${new Date().toLocaleDateString()}
-============================================================
-`;
+      CUSTOMER STATUS (Flat Trend):
+      ${brief.customer.signals.map(s => `- ${s}`).join('\n')}
+      ------------------------------------------------------------
+      Generated via VOIS GTM Persona View on ${new Date().toLocaleDateString()}
+      ============================================================
+    `;
     const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -270,16 +269,7 @@ Generated via VOIS GTM Persona View on ${new Date().toLocaleDateString()}
         </div>
 
         {showAnnotations && annotations["GTM.1"] && (
-          <AnnotationCard
-            id="GTM.1"
-            title={annotations["GTM.1"].title}
-            status={annotations["GTM.1"].status}
-            description={annotations["GTM.1"].description}
-            acceptanceCriteria={annotations["GTM.1"].acceptanceCriteria}
-            userStory={annotations["GTM.1"].userStory}
-            dependencies={annotations["GTM.1"].dependencies}
-            feedback={annotations["GTM.1"].feedback}
-          />
+          null
         )}
       </section>
 
@@ -371,16 +361,7 @@ Generated via VOIS GTM Persona View on ${new Date().toLocaleDateString()}
         </div>
 
         {showAnnotations && annotations["GTM.1.1"] && (
-          <AnnotationCard
-            id="GTM.1.1"
-            title={annotations["GTM.1.1"].title}
-            status={annotations["GTM.1.1"].status}
-            description={annotations["GTM.1.1"].description}
-            acceptanceCriteria={annotations["GTM.1.1"].acceptanceCriteria}
-            userStory={annotations["GTM.1.1"].userStory}
-            dependencies={annotations["GTM.1.1"].dependencies}
-            feedback={annotations["GTM.1.1"].feedback}
-          />
+          null
         )}
       </section>
 
@@ -466,16 +447,7 @@ Generated via VOIS GTM Persona View on ${new Date().toLocaleDateString()}
         </div>
 
         {showAnnotations && annotations["GTM.1.2"] && (
-          <AnnotationCard
-            id="GTM.1.2"
-            title={annotations["GTM.1.2"].title}
-            status={annotations["GTM.1.2"].status}
-            description={annotations["GTM.1.2"].description}
-            acceptanceCriteria={annotations["GTM.1.2"].acceptanceCriteria}
-            userStory={annotations["GTM.1.2"].userStory}
-            dependencies={annotations["GTM.1.2"].dependencies}
-            feedback={annotations["GTM.1.2"].feedback}
-          />
+          null
         )}
       </section>
 
@@ -527,16 +499,7 @@ Generated via VOIS GTM Persona View on ${new Date().toLocaleDateString()}
         </div>
 
         {showAnnotations && annotations["GTM.2"] && (
-          <AnnotationCard
-            id="GTM.2"
-            title={annotations["GTM.2"].title}
-            status={annotations["GTM.2"].status}
-            description={annotations["GTM.2"].description}
-            acceptanceCriteria={annotations["GTM.2"].acceptanceCriteria}
-            userStory={annotations["GTM.2"].userStory}
-            dependencies={annotations["GTM.2"].dependencies}
-            feedback={annotations["GTM.2"].feedback}
-          />
+          null
         )}
       </section>
 
@@ -637,16 +600,7 @@ Generated via VOIS GTM Persona View on ${new Date().toLocaleDateString()}
         </div>
 
         {showAnnotations && annotations["GTM.3"] && (
-          <AnnotationCard
-            id="GTM.3"
-            title={annotations["GTM.3"].title}
-            status={annotations["GTM.3"].status}
-            description={annotations["GTM.3"].description}
-            acceptanceCriteria={annotations["GTM.3"].acceptanceCriteria}
-            userStory={annotations["GTM.3"].userStory}
-            dependencies={annotations["GTM.3"].dependencies}
-            feedback={annotations["GTM.3"].feedback}
-          />
+          null
         )}
       </section>
 
@@ -756,16 +710,7 @@ Generated via VOIS GTM Persona View on ${new Date().toLocaleDateString()}
         </div>
 
         {showAnnotations && annotations["GTM.4"] && (
-          <AnnotationCard
-            id="GTM.4"
-            title={annotations["GTM.4"].title}
-            status={annotations["GTM.4"].status}
-            description={annotations["GTM.4"].description}
-            acceptanceCriteria={annotations["GTM.4"].acceptanceCriteria}
-            userStory={annotations["GTM.4"].userStory}
-            dependencies={annotations["GTM.4"].dependencies}
-            feedback={annotations["GTM.4"].feedback}
-          />
+          null
         )}
       </section>
 
@@ -863,16 +808,7 @@ Generated via VOIS GTM Persona View on ${new Date().toLocaleDateString()}
         </div>
 
         {showAnnotations && annotations["GTM.5"] && (
-          <AnnotationCard
-            id="GTM.5"
-            title={annotations["GTM.5"].title}
-            status={annotations["GTM.5"].status}
-            description={annotations["GTM.5"].description}
-            acceptanceCriteria={annotations["GTM.5"].acceptanceCriteria}
-            userStory={annotations["GTM.5"].userStory}
-            dependencies={annotations["GTM.5"].dependencies}
-            feedback={annotations["GTM.5"].feedback}
-          />
+          null
         )}
       </section>
     </div>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { TrendingUp, TrendingDown, HelpCircle } from 'lucide-react';
 import dashboardData from '../data/dashboard_data.json';
-import AnnotationCard from './AnnotationCard';
 import Tooltip from './Tooltip';
 
 interface KPIGridProps {
@@ -252,16 +251,7 @@ const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown, showAnnotations }) => {
 
       {/* REQ 01 Annotation Card */}
       {req01Anno && (
-        <AnnotationCard
-          id="1"
-          title={req01Anno.title}
-          status={req01Anno.status}
-          feedback={req01Anno.feedback}
-          description={req01Anno.description}
-          dependencies={req01Anno.dependencies}
-          acceptanceCriteria={req01Anno.acceptanceCriteria}
-          userStory={req01Anno.userStory}
-        />
+        null
       )}
     </section>
   );

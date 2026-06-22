@@ -2,7 +2,6 @@ import React from 'react';
 import { Sparkles, ExternalLink } from 'lucide-react';
 import { Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
 import hrData from '../data/hr_data.json';
-import AnnotationCard from './AnnotationCard';
 
 interface HRDashboardProps {
   onDrillDown: (data: any) => void;
@@ -341,16 +340,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
         </div>
 
         {showAnnotations && annotations["HR.1"] && (
-          <AnnotationCard
-            id="HR.1"
-            title={annotations["HR.1"].title}
-            status={annotations["HR.1"].status}
-            description={annotations["HR.1"].description}
-            acceptanceCriteria={annotations["HR.1"].acceptanceCriteria}
-            userStory={annotations["HR.1"].userStory}
-            dependencies={annotations["HR.1"].dependencies}
-            feedback={annotations["HR.1"].feedback}
-          />
+          null
         )}
       </section>
 
@@ -421,16 +411,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
         </div>
 
         {showAnnotations && annotations["TLNT"] && (
-          <AnnotationCard
-            id="TLNT"
-            title={annotations["TLNT"].title}
-            status={annotations["TLNT"].status}
-            description={annotations["TLNT"].description}
-            acceptanceCriteria={annotations["TLNT"].acceptanceCriteria}
-            userStory={annotations["TLNT"].userStory}
-            dependencies={annotations["TLNT"].dependencies}
-            feedback={annotations["TLNT"].feedback}
-          />
+          null
         )}
       </section>
 
@@ -509,16 +490,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
         </div>
 
         {showAnnotations && annotations["HR.1.1"] && (
-          <AnnotationCard
-            id="HR.1.1"
-            title={annotations["HR.1.1"].title}
-            status={annotations["HR.1.1"].status}
-            description={annotations["HR.1.1"].description}
-            acceptanceCriteria={annotations["HR.1.1"].acceptanceCriteria}
-            userStory={annotations["HR.1.1"].userStory}
-            dependencies={annotations["HR.1.1"].dependencies}
-            feedback={annotations["HR.1.1"].feedback}
-          />
+          null
         )}
       </section>
 
@@ -579,16 +551,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
         </div>
 
         {showAnnotations && annotations["HR.1.2"] && (
-          <AnnotationCard
-            id="HR.1.2"
-            title={annotations["HR.1.2"].title}
-            status={annotations["HR.1.2"].status}
-            description={annotations["HR.1.2"].description}
-            acceptanceCriteria={annotations["HR.1.2"].acceptanceCriteria}
-            userStory={annotations["HR.1.2"].userStory}
-            dependencies={annotations["HR.1.2"].dependencies}
-            feedback={annotations["HR.1.2"].feedback}
-          />
+          null
         )}
       </section>
 
@@ -672,16 +635,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
         </div>
 
         {showAnnotations && annotations["HR.1.3"] && (
-          <AnnotationCard
-            id="HR.1.3"
-            title={annotations["HR.1.3"].title}
-            status={annotations["HR.1.3"].status}
-            description={annotations["HR.1.3"].description}
-            acceptanceCriteria={annotations["HR.1.3"].acceptanceCriteria}
-            userStory={annotations["HR.1.3"].userStory}
-            dependencies={annotations["HR.1.3"].dependencies}
-            feedback={annotations["HR.1.3"].feedback}
-          />
+          null
         )}
       </section>
 
@@ -772,16 +726,7 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
         </div>
 
         {showAnnotations && annotations["HR.1.4"] && (
-          <AnnotationCard
-            id="HR.1.4"
-            title={annotations["HR.1.4"].title}
-            status={annotations["HR.1.4"].status}
-            description={annotations["HR.1.4"].description}
-            acceptanceCriteria={annotations["HR.1.4"].acceptanceCriteria}
-            userStory={annotations["HR.1.4"].userStory}
-            dependencies={annotations["HR.1.4"].dependencies}
-            feedback={annotations["HR.1.4"].feedback}
-          />
+          null
         )}
       </section>
     </div>

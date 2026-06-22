@@ -1,6 +1,5 @@
 import React from 'react';
 import dashboardData from '../data/dashboard_data.json';
-import AnnotationCard from './AnnotationCard';
 import Tooltip from './Tooltip';
 
 interface TransformationProps {
@@ -197,16 +196,7 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
 
       {/* REQ 06 Annotation Card */}
       {req06Anno && (
-        <AnnotationCard
-          id="6"
-          title={req06Anno.title}
-          status={req06Anno.status}
-          feedback={req06Anno.feedback}
-          description={req06Anno.description}
-          dependencies={req06Anno.dependencies}
-          acceptanceCriteria={req06Anno.acceptanceCriteria}
-          userStory={req06Anno.userStory}
-        />
+        null
       )}
     </section>
   );

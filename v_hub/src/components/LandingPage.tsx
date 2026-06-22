@@ -1,14 +1,22 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Crown, DollarSign, TrendingUp, Users, ArrowRight, Sparkles, ChevronRight, Search } from 'lucide-react';
+import { Crown, DollarSign, TrendingUp, Users, ArrowRight, Sparkles, ChevronRight, Search, Layers } from 'lucide-react';
 
 interface LandingPageProps {
-  onSelectView: (view: 'ceo' | 'finance' | 'gtm' | 'hr') => void;
+  onSelectView: (view: 'ceo' | 'finance' | 'gtm' | 'hr' | 'custom') => void;
   onSelectStory: (view: 'ceo' | 'finance' | 'gtm' | 'hr' | 'compare', cardId: string) => void;
   onSelectSearchOption: (query: string, visualId: string, dashboard: 'ceo' | 'finance' | 'gtm' | 'hr', cardId: string) => void;
+  customVisualIds?: string[];
+  customDashboardName?: string;
 }
 
-export const LandingPage: React.FC<LandingPageProps> = ({ onSelectView, onSelectStory, onSelectSearchOption }) => {
+export const LandingPage: React.FC<LandingPageProps> = ({ 
+  onSelectView, 
+  onSelectStory, 
+  onSelectSearchOption,
+  customVisualIds = [],
+  customDashboardName = 'Custom Dashboard'
+}) => {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [showSearchResults, setShowSearchResults] = React.useState(false);
 
@@ -62,6 +70,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onSelectView, onSelect
       ]
     }
   ];
+
+  if (customVisualIds.length > 0) {
+    dashboards.push({
+      id: 'custom' as any,
+      title: customDashboardName,
+      subtitle: 'Bespoke Executive View',
+      description: `Consolidated workspace containing ${customVisualIds.length} visual${customVisualIds.length === 1 ? '' : 's'} curated across CEO, Finance, GTM, and HR dashboard suites.`,
+      icon: <Layers className="w-5 h-5" />,
+      kpiPreview: [
+        { label: 'Visuals', val: `${customVisualIds.length}`, status: 'green' },
+        { label: 'Type', val: 'Bespoke', status: 'green' },
+        { label: 'Scope', val: 'Unified', status: 'green' }
+      ]
+    });
+  }
 
   const userStories = [
     {
