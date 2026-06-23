@@ -1,222 +1,446 @@
 {
-  "theme": {
-    "colors": {
-      "grad1": "#e60000",
-      "grad2": "#c40089",
-      "grad3": "#6a1b7a",
-      "grad4": "#1a0a2a",
-      "bg": "#f4eef5",
-      "panel": "#f0e1ee",
-      "panel2": "#e9d2e7",
-      "panelBorder": "#caa3c7",
-      "rail": "#3a1635",
-      "railText": "#f0e1ee",
-      "ink": "#2a1228",
-      "inkSoft": "#6b4f68",
-      "muted": "#9a82a0",
-      "green": "#0a8a3a",
-      "amber": "#e08a00",
-      "red": "#cc1f1f",
-      "tbd": "#7a6b7a",
-      "accent": "#a4007a"
-    }
-  },
-  "branding": {
-    "logo": "VOIS",
-    "name": "Hub",
-    "period": "FY27 · Mar-26 close",
-    "user": {
-      "initials": "GW",
-      "name": "Gary",
-      "role": "CEO"
-    }
-  },
-  "navigation": [
-    { "label": "CEO SUMMARY", "active": true },
-    { "label": "TOP-LINE GROWTH", "active": false },
-    { "label": "CUSTOMER", "active": false },
-    { "label": "OPERATING", "active": false },
-    { "label": "BE UNRIVALLED", "active": false },
-    { "label": "PARTNERSHIP SUCCESS", "active": false },
-    { "label": "TRANSFORMATION", "active": false },
-    { "label": "FY27 GOALS", "active": false },
-    { "label": "HELP", "active": false }
-  ],
-  "hero": {
-    "title": "CEO Summary",
-    "accent": "Summary",
-    "description": "Your strategic, exception-based lens across VOIS — integrating Top-line growth, Customer performance, Cost & OFCF, People & talent, Transformation and FY27 goal alignment into a single board-ready view. AI-generated commentary distils each pillar into one executive narrative for Connect, Board and 1:1 conversations."
-  },
-  "filters": {
-    "options": ["Pillar", "Market", "Service Tower", "GMT Owner", "Period"],
-    "legend": [
-      { "label": "On Track", "color": "green" },
-      { "label": "At Risk", "color": "amber" },
-      { "label": "Off Track", "color": "red" },
-      { "label": "TBD", "color": "tbd" }
-    ]
-  },
-  "sections": [
-    {
-      "id": "REQ 01",
-      "requirementId": 1,
-      "title": "Top-Line Performance — FY27 Critical KPIs",
-      "railLabel": "FY27 KPIs",
-      "note": "Persona-aligned landing · refreshed against FY27 goals · RAG vs target",
-      "clusters": [
-        {
-          "name": "Financial Performance",
-          "kpis": [
-            { "label": "Revenue €M", "value": "2,858", "target": "2,815", "trend": "▲ 1.53%", "rag": "green", "month": "Mar-26" },
-            { "label": "OFCF €M", "value": "617.24", "target": "Achieved RF: 1074.4%", "trend": "", "rag": "green", "month": "Mar-26" },
-            { "label": "Cost Takeout €M", "value": "141.62", "target": "102", "trend": "▲ 38.84%", "rag": "amber", "month": "Mar-26" },
-            { "label": "EBITDA €M", "value": "−36.33", "target": "0", "trend": "▼ −100%", "rag": "red", "month": "Mar-26" }
-          ]
-        },
-        {
-          "name": "Top-Line Growth",
-          "kpis": [
-            { "label": "Pipeline (Qual.) €M", "value": "1,359", "target": "1,500", "trend": "Vol: 14", "rag": "amber", "month": "Mar-26" },
-            { "label": "New Logos / Gen-2 Deals", "value": "7", "target": "Value: €82M", "trend": "▲ 2 vs PM", "rag": "amber", "month": "Mar-26" },
-            { "label": "Win Conversion %", "value": "62%", "target": "55%", "trend": "▲ 7pp", "rag": "green", "month": "Mar-26" },
-            { "label": "Share of Wallet", "value": "TBD", "target": "Annual refresh — Q1", "trend": "", "rag": "tbd", "month": "Mar-26" }
-          ]
-        },
-        {
-          "name": "People & Customer",
-          "kpis": [
-            { "label": "NPS", "value": "89", "target": "Passives", "trend": "", "rag": "green", "month": "Mar-26" },
-            { "label": "Spirit Beat", "value": "85", "target": "80", "trend": "Max: 100", "rag": "green", "month": "Mar-26" },
-            { "label": "Talent — Critical Roles", "value": "78%", "target": "85%", "trend": "HR refresh in-flight", "rag": "amber", "month": "Mar-26" },
-            { "label": "KPI Met %", "value": "90%+", "target": "7 of 8 met FY27 target", "trend": "", "rag": "green", "month": "Mar-26" }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "REQ 03",
-      "requirementId": 3,
-      "title": "Top-Line Growth — Signal over Noise",
-      "railLabel": "Exceptions",
-      "note": "Top deals · new logos · exception flags · drill to pipeline detail",
-      "exceptionGroups": [
-        {
-          "title": "Top 10 Deals — Biggest Wins / At Risk",
-          "items": [
-            { "name": "Project Helios — DT Group", "meta": "Renewal", "value": "€186M", "rag": "green" },
-            { "name": "Project Atlas — IDEA", "meta": "Gen-2", "value": "€94M", "rag": "green" },
-            { "name": "Programme Iris — UKG", "meta": "Slip Q2→Q3", "value": "€61M", "rag": "amber" },
-            { "name": "Vantage Cloud — DE-Local", "meta": "New badge", "value": "€48M", "rag": "green" },
-            { "name": "Project Orion — Vfz", "meta": "Margin pressure", "value": "€42M", "rag": "red" }
-          ]
-        },
-        {
-          "title": "Biggest Problems — Watchpoints",
-          "items": [
-            { "name": "Margin overshoot — Operations Tower", "meta": "Cost +38.8%", "value": "−€36M", "rag": "red" },
-            { "name": "Win→Loss lifecycle not closed", "meta": "SF tagging gap", "value": "Open", "rag": "amber" },
-            { "name": "Gen-2 categorisation incomplete", "meta": "Commercial owner", "value": "Action", "rag": "amber" },
-            { "name": "Pipeline stalled > 90 days", "meta": "6 opps", "value": "€118M", "rag": "amber" },
-            { "name": "Customer churn — Mid-tier", "meta": "2 accounts", "value": "−€19M", "rag": "red" }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "REQ 04",
-      "requirementId": 4,
-      "title": "Customer Lens — Ready for CEO Connect",
-      "railLabel": "Customer",
-      "note": "Internal performance · MMD problem-jobs · external spend / share-of-wallet",
-      "customerDetail": {
-        "name": "Vfz Group",
-        "lead": "K. Patel",
-        "lastRefresh": "Mar-26",
-        "internalPerformance": [
-          { "label": "NPS (rolling)", "value": "+42", "rag": "green" },
-          { "label": "Service Health", "value": "Green", "rag": "green" },
-          { "label": "Incidents (P1/P2)", "value": "3", "rag": "amber" },
-          { "label": "Change Success", "value": "97.2%", "rag": "green" },
-          { "label": "Contract Margin", "value": "8.4%", "rag": "amber" }
-        ],
-        "mmdNarrative": {
-          "problemJobs": ["latency on EU-billing batch", "service-now backlog on tickets > 7d", "onshore staffing gap in Tier-3"],
-          "leadNarrative": "Customer ready to expand on cloud platform — looking for a roadmap from VOIS on AI ops by Q3. Two execs flagged sponsorship of upcoming summit."
-        },
-        "externalSpend": [
-          { "label": "Total external spend", "value": "€914M" },
-          { "label": "VOIS share", "value": "38%", "rag": "green" },
-          { "label": "3rd-party share", "value": "41%" },
-          { "label": "Onshore spend", "value": "21%" },
-          { "label": "Refresh cadence", "value": "Annual", "rag": "amber" }
-        ]
-      }
-    },
-    {
-      "id": "REQ 06",
-      "requirementId": 6,
-      "title": "Transformation Tracking — Horizon 2 Feed",
-      "railLabel": "Transformation",
-      "note": "VOE · CSM · service-data · milestones & value realisation",
-      "roadmap": [
-        { "name": "VOE Platform", "progress": 72, "meta": "M4/6 done · Value to date: €18M · Owner: Operations", "rag": "green" },
-        { "name": "CSM Re-platform", "progress": 48, "meta": "M3/7 done · Slipped 4w · Value: €6M", "rag": "amber" },
-        { "name": "Service-Data Lakehouse", "progress": 61, "meta": "M5/8 done · On track · Value: €11M", "rag": "green" },
-        { "name": "AI Ops & Co-pilots", "progress": 34, "meta": "M2/6 done · Awaiting funding gate · Value: €3M", "rag": "amber" }
-      ]
-    },
-    {
-      "id": "REQ 05 · 08",
-      "requirementIds": [5, 8],
-      "title": "Stakeholder Slices & GMT Grip",
-      "railLabel": "Stakeholders",
-      "note": "Filter persona view per audience · drill into GMT-owned detail",
-      "gmtGrip": [
-        { "name": "Cost overshoot — Operations (COO)", "rag": "amber" },
-        { "name": "EBITDA pressure — Finance (CFO)", "rag": "red" },
-        { "name": "Talent — Critical role gap (CHRO)", "rag": "amber" },
-        { "name": "Gen-2 categorisation — Commercial (CCO)", "rag": "amber" },
-        { "name": "NPS & service health — Customer (CCSO)", "rag": "green" },
-        { "name": "CSM re-platform slippage — Transformation", "rag": "amber" }
-      ]
-    },
-    {
-      "id": "REQ 07",
-      "requirementId": 7,
-      "title": "FY27 Goals Alignment — Evidence Map",
-      "railLabel": "FY27 Goals",
-      "note": "Each annual goal · direct pointer to supporting Hub data data",
-      "goals": [
-        { "id": "01", "text": "Grow Revenue to €2.85B with disciplined margin", "context": "Financial Performance", "status": "On Track", "rag": "green" },
-        { "id": "02", "text": "Deliver €100M cost takeout (FY27)", "context": "Cost Takeout KPI", "status": "Watch", "rag": "amber" },
-        { "id": "03", "text": "Land 10+ new logos / Gen-2 customers", "context": "Pipeline / Gen-2 KPI", "status": "Watch", "rag": "amber" },
-        { "id": "04", "text": "Achieve NPS 50+ on top 10 customers", "context": "Customer Lens", "status": "On Track", "rag": "green" },
-        { "id": "05", "text": "Spirit Beat ≥ 80 sustained", "context": "People & Customer", "status": "On Track", "rag": "green" },
-        { "id": "06", "text": "85% Critical-role coverage", "context": "Talent KPI (HR refresh)", "status": "Watch", "rag": "amber" },
-        { "id": "07", "text": "Deliver Horizon-2 transformation milestones on plan", "context": "Transformation", "status": "Watch", "rag": "amber" },
-        { "id": "08", "text": "Restore EBITDA to plan within FY27", "context": "Financial Performance", "status": "Off Track", "rag": "red" }
-      ]
-    }
-  ],
-  "aiSummary": {
-    "title": "Executive Summary",
-    "badge": "AI · LLM",
-    "requirement": "REQ 02",
-    "overall": "Overall VOIS performance is resilient with two clear pressure points. Revenue and OFCF are ahead of FY27 plan, customer sentiment is strong, and people engagement remains healthy. Cost takeout is overshooting and EBITDA is materially below plan, both driven by Operations.",
-    "takeaways": [
-      { "text": "Top-line: Revenue €2,858M (+1.53% vs target); 7 new badges / Gen-2 deals booked in Mar-26.", "rag": "green" },
-      { "text": "Customer & People: NPS 89 (Passives), Spirit Beat 85 — strongest indicators of engagement health.", "rag": "green" },
-      { "text": "Transformation: 3 of 4 Horizon-2 programmes green; CSM re-platform slipped 4 weeks.", "rag": "green" }
-    ],
-    "watchpoints": [
-      { "text": "EBITDA: −€36.33M vs €0 target — driven by cost overshoot of 38.8%.", "rag": "amber" },
-      { "text": "Gen-2 lifecycle: Salesforce categorisation incomplete; reconciliation with Finance \"second-gen deals\" in flight.", "rag": "red" },
-      { "text": "Talent: Critical-role coverage at 78% (target 85%) — HR refresh of FY27 KPI in progress.", "rag": "amber" }
-    ],
-    "actions": [
-      "Review cost overshoot with COO in next 1:1 — drill set to Operations tower.",
-      "Confirm Gen-2 tagging owner with CCO; align Commercial & Finance definitions.",
-      "Approve refreshed Talent KPI set with CHRO before Board pack lock."
-    ]
-  }
+	"theme": {
+		"colors": {
+			"grad1": "#e60000",
+			"grad2": "#c40089",
+			"grad3": "#6a1b7a",
+			"grad4": "#1a0a2a",
+			"bg": "#f4eef5",
+			"panel": "#f0e1ee",
+			"panel2": "#e9d2e7",
+			"panelBorder": "#caa3c7",
+			"rail": "#3a1635",
+			"railText": "#f0e1ee",
+			"ink": "#2a1228",
+			"inkSoft": "#6b4f68",
+			"muted": "#9a82a0",
+			"green": "#0a8a3a",
+			"amber": "#e08a00",
+			"red": "#cc1f1f",
+			"tbd": "#7a6b7a",
+			"accent": "#a4007a"
+		}
+	},
+	"branding": {
+		"logo": "VOIS",
+		"name": "Hub",
+		"period": "FY27 · Mar-26 close",
+		"user": {
+			"initials": "GW",
+			"name": "Gary",
+			"role": "CEO"
+		}
+	},
+	"navigation": [
+		{ "label": "CEO SUMMARY", "active": true },
+		{ "label": "TOP-LINE GROWTH", "active": false },
+		{ "label": "CUSTOMER", "active": false },
+		{ "label": "OPERATING", "active": false },
+		{ "label": "BE UNRIVALLED", "active": false },
+		{ "label": "PARTNERSHIP SUCCESS", "active": false },
+		{ "label": "TRANSFORMATION", "active": false },
+		{ "label": "FY27 GOALS", "active": false },
+		{ "label": "HELP", "active": false }
+	],
+	"hero": {
+		"title": "CEO Summary",
+		"accent": "Summary",
+		"description": "Your strategic, exception-based lens across VOIS — integrating Top-line growth, Customer performance, Cost & OFCF, People & talent, Transformation and FY27 goal alignment into a single board-ready view. AI-generated commentary distils each pillar into one executive narrative for Connect, Board and 1:1 conversations."
+	},
+	"filters": {
+		"options": ["Pillar", "Market", "Service Tower", "GMT Owner", "Period"],
+		"legend": [
+			{ "label": "On Track", "color": "green" },
+			{ "label": "At Risk", "color": "amber" },
+			{ "label": "Off Track", "color": "red" },
+			{ "label": "TBD", "color": "tbd" }
+		]
+	},
+	"sections": [
+		{
+			"id": "REQ 01",
+			"requirementId": 1,
+			"title": "Top-Line Performance — FY27 Critical KPIs",
+			"railLabel": "FY27 KPIs",
+			"note": "Persona-aligned landing · refreshed against FY27 goals · RAG vs target",
+			"clusters": [
+				{
+					"name": "Financial Performance",
+					"kpis": [
+						{
+							"label": "Revenue €M",
+							"value": "2,858",
+							"target": "2,815",
+							"trend": "▲ 1.53%",
+							"rag": "green",
+							"month": "Mar-26"
+						},
+						{
+							"label": "OFCF €M",
+							"value": "617.24",
+							"target": "Achieved RF: 1074.4%",
+							"trend": "",
+							"rag": "green",
+							"month": "Mar-26"
+						},
+						{
+							"label": "Cost Takeout €M",
+							"value": "141.62",
+							"target": "102",
+							"trend": "▲ 38.84%",
+							"rag": "amber",
+							"month": "Mar-26"
+						},
+						{
+							"label": "EBITDA €M",
+							"value": "−36.33",
+							"target": "0",
+							"trend": "▼ −100%",
+							"rag": "red",
+							"month": "Mar-26"
+						}
+					]
+				},
+				{
+					"name": "Top-Line Growth",
+					"kpis": [
+						{
+							"label": "Pipeline (Qual.) €M",
+							"value": "1,359",
+							"target": "1,500",
+							"trend": "Vol: 14",
+							"rag": "amber",
+							"month": "Mar-26"
+						},
+						{
+							"label": "New Logos / Gen-2 Deals",
+							"value": "7",
+							"target": "Value: €82M",
+							"trend": "▲ 2 vs PM",
+							"rag": "amber",
+							"month": "Mar-26"
+						},
+						{
+							"label": "Win Conversion %",
+							"value": "62%",
+							"target": "55%",
+							"trend": "▲ 7pp",
+							"rag": "green",
+							"month": "Mar-26"
+						},
+						{
+							"label": "Share of Wallet",
+							"value": "TBD",
+							"target": "Annual refresh — Q1",
+							"trend": "",
+							"rag": "tbd",
+							"month": "Mar-26"
+						}
+					]
+				},
+				{
+					"name": "People & Customer",
+					"kpis": [
+						{
+							"label": "NPS",
+							"value": "89",
+							"target": "Passives",
+							"trend": "",
+							"rag": "green",
+							"month": "Mar-26"
+						},
+						{
+							"label": "Spirit Beat",
+							"value": "85",
+							"target": "80",
+							"trend": "Max: 100",
+							"rag": "green",
+							"month": "Mar-26"
+						},
+						{
+							"label": "Talent — Critical Roles",
+							"value": "78%",
+							"target": "85%",
+							"trend": "HR refresh in-flight",
+							"rag": "amber",
+							"month": "Mar-26"
+						},
+						{
+							"label": "KPI Met %",
+							"value": "90%+",
+							"target": "7 of 8 met FY27 target",
+							"trend": "",
+							"rag": "green",
+							"month": "Mar-26"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "REQ 03",
+			"requirementId": 3,
+			"title": "Top-Line Growth — Signal over Noise",
+			"railLabel": "Exceptions",
+			"note": "Top deals · new logos · exception flags · drill to pipeline detail",
+			"exceptionGroups": [
+				{
+					"title": "Top 10 Deals — Biggest Wins / At Risk",
+					"items": [
+						{
+							"name": "Project Helios — DT Group",
+							"meta": "Renewal",
+							"value": "€186M",
+							"rag": "green"
+						},
+						{
+							"name": "Project Atlas — IDEA",
+							"meta": "Gen-2",
+							"value": "€94M",
+							"rag": "green"
+						},
+						{
+							"name": "Programme Iris — UKG",
+							"meta": "Slip Q2→Q3",
+							"value": "€61M",
+							"rag": "amber"
+						},
+						{
+							"name": "Vantage Cloud — DE-Local",
+							"meta": "New badge",
+							"value": "€48M",
+							"rag": "green"
+						},
+						{
+							"name": "Project Orion — Vfz",
+							"meta": "Margin pressure",
+							"value": "€42M",
+							"rag": "red"
+						}
+					]
+				},
+				{
+					"title": "Biggest Problems — Watchpoints",
+					"items": [
+						{
+							"name": "Margin overshoot — Operations Tower",
+							"meta": "Cost +38.8%",
+							"value": "−€36M",
+							"rag": "red"
+						},
+						{
+							"name": "Win→Loss lifecycle not closed",
+							"meta": "SF tagging gap",
+							"value": "Open",
+							"rag": "amber"
+						},
+						{
+							"name": "Gen-2 categorisation incomplete",
+							"meta": "Commercial owner",
+							"value": "Action",
+							"rag": "amber"
+						},
+						{
+							"name": "Pipeline stalled > 90 days",
+							"meta": "6 opps",
+							"value": "€118M",
+							"rag": "amber"
+						},
+						{
+							"name": "Customer churn — Mid-tier",
+							"meta": "2 accounts",
+							"value": "−€19M",
+							"rag": "red"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "REQ 04",
+			"requirementId": 4,
+			"title": "Customer Lens — Ready for CEO Connect",
+			"railLabel": "Customer",
+			"note": "Internal performance · MMD problem-jobs · external spend / share-of-wallet",
+			"customerDetail": {
+				"name": "Vfz Group",
+				"lead": "K. Patel",
+				"lastRefresh": "Mar-26",
+				"internalPerformance": [
+					{ "label": "NPS (rolling)", "value": "+42", "rag": "green" },
+					{ "label": "Service Health", "value": "Green", "rag": "green" },
+					{ "label": "Incidents (P1/P2)", "value": "3", "rag": "amber" },
+					{ "label": "Change Success", "value": "97.2%", "rag": "green" },
+					{ "label": "Contract Margin", "value": "8.4%", "rag": "amber" }
+				],
+				"mmdNarrative": {
+					"problemJobs": [
+						"latency on EU-billing batch",
+						"service-now backlog on tickets > 7d",
+						"onshore staffing gap in Tier-3"
+					],
+					"leadNarrative": "Customer ready to expand on cloud platform — looking for a roadmap from VOIS on AI ops by Q3. Two execs flagged sponsorship of upcoming summit."
+				},
+				"externalSpend": [
+					{ "label": "Total external spend", "value": "€914M" },
+					{ "label": "VOIS share", "value": "38%", "rag": "green" },
+					{ "label": "3rd-party share", "value": "41%" },
+					{ "label": "Onshore spend", "value": "21%" },
+					{ "label": "Refresh cadence", "value": "Annual", "rag": "amber" }
+				]
+			}
+		},
+		{
+			"id": "REQ 06",
+			"requirementId": 6,
+			"title": "Transformation Tracking — Horizon 2 Feed",
+			"railLabel": "Transformation",
+			"note": "VOE · CSM · service-data · milestones & value realisation",
+			"roadmap": [
+				{
+					"name": "VOE Platform",
+					"progress": 72,
+					"meta": "M4/6 done · Value to date: €18M · Owner: Operations",
+					"rag": "green"
+				},
+				{
+					"name": "CSM Re-platform",
+					"progress": 48,
+					"meta": "M3/7 done · Slipped 4w · Value: €6M",
+					"rag": "amber"
+				},
+				{
+					"name": "Service-Data Lakehouse",
+					"progress": 61,
+					"meta": "M5/8 done · On track · Value: €11M",
+					"rag": "green"
+				},
+				{
+					"name": "AI Ops & Co-pilots",
+					"progress": 34,
+					"meta": "M2/6 done · Awaiting funding gate · Value: €3M",
+					"rag": "amber"
+				}
+			]
+		},
+		{
+			"id": "REQ 05 · 08",
+			"requirementIds": [5, 8],
+			"title": "Stakeholder Slices & GMT Grip",
+			"railLabel": "Stakeholders",
+			"note": "Filter persona view per audience · drill into GMT-owned detail",
+			"gmtGrip": [
+				{ "name": "Cost overshoot — Operations (COO)", "rag": "amber" },
+				{ "name": "EBITDA pressure — Finance (CFO)", "rag": "red" },
+				{ "name": "Talent — Critical role gap (CHRO)", "rag": "amber" },
+				{ "name": "Gen-2 categorisation — Commercial (CCO)", "rag": "amber" },
+				{ "name": "NPS & service health — Customer (CCSO)", "rag": "green" },
+				{ "name": "CSM re-platform slippage — Transformation", "rag": "amber" }
+			]
+		},
+		{
+			"id": "REQ 07",
+			"requirementId": 7,
+			"title": "FY27 Goals Alignment — Evidence Map",
+			"railLabel": "FY27 Goals",
+			"note": "Each annual goal · direct pointer to supporting Hub data data",
+			"goals": [
+				{
+					"id": "01",
+					"text": "Grow Revenue to €2.85B with disciplined margin",
+					"context": "Financial Performance",
+					"status": "On Track",
+					"rag": "green"
+				},
+				{
+					"id": "02",
+					"text": "Deliver €100M cost takeout (FY27)",
+					"context": "Cost Takeout KPI",
+					"status": "Watch",
+					"rag": "amber"
+				},
+				{
+					"id": "03",
+					"text": "Land 10+ new logos / Gen-2 customers",
+					"context": "Pipeline / Gen-2 KPI",
+					"status": "Watch",
+					"rag": "amber"
+				},
+				{
+					"id": "04",
+					"text": "Achieve NPS 50+ on top 10 customers",
+					"context": "Customer Lens",
+					"status": "On Track",
+					"rag": "green"
+				},
+				{
+					"id": "05",
+					"text": "Spirit Beat ≥ 80 sustained",
+					"context": "People & Customer",
+					"status": "On Track",
+					"rag": "green"
+				},
+				{
+					"id": "06",
+					"text": "85% Critical-role coverage",
+					"context": "Talent KPI (HR refresh)",
+					"status": "Watch",
+					"rag": "amber"
+				},
+				{
+					"id": "07",
+					"text": "Deliver Horizon-2 transformation milestones on plan",
+					"context": "Transformation",
+					"status": "Watch",
+					"rag": "amber"
+				},
+				{
+					"id": "08",
+					"text": "Restore EBITDA to plan within FY27",
+					"context": "Financial Performance",
+					"status": "Off Track",
+					"rag": "red"
+				}
+			]
+		}
+	],
+	"aiSummary": {
+		"title": "Executive Summary",
+		"badge": "AI · LLM",
+		"requirement": "REQ 02",
+		"overall": "Overall VOIS performance is resilient with two clear pressure points. Revenue and OFCF are ahead of FY27 plan, customer sentiment is strong, and people engagement remains healthy. Cost takeout is overshooting and EBITDA is materially below plan, both driven by Operations.",
+		"takeaways": [
+			{
+				"text": "Top-line: Revenue €2,858M (+1.53% vs target); 7 new badges / Gen-2 deals booked in Mar-26.",
+				"rag": "green"
+			},
+			{
+				"text": "Customer & People: NPS 89 (Passives), Spirit Beat 85 — strongest indicators of engagement health.",
+				"rag": "green"
+			},
+			{
+				"text": "Transformation: 3 of 4 Horizon-2 programmes green; CSM re-platform slipped 4 weeks.",
+				"rag": "green"
+			}
+		],
+		"watchpoints": [
+			{
+				"text": "EBITDA: −€36.33M vs €0 target — driven by cost overshoot of 38.8%.",
+				"rag": "amber"
+			},
+			{
+				"text": "Gen-2 lifecycle: Salesforce categorisation incomplete; reconciliation with Finance \"second-gen deals\" in flight.",
+				"rag": "red"
+			},
+			{
+				"text": "Talent: Critical-role coverage at 78% (target 85%) — HR refresh of FY27 KPI in progress.",
+				"rag": "amber"
+			}
+		],
+		"actions": [
+			"Review cost overshoot with COO in next 1:1 — drill set to Operations tower.",
+			"Confirm Gen-2 tagging owner with CCO; align Commercial & Finance definitions.",
+			"Approve refreshed Talent KPI set with CHRO before Board pack lock."
+		]
+	}
 }

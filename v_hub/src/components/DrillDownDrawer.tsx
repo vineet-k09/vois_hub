@@ -2,7 +2,6 @@ import React from "react";
 import { Drawer, IconButton, Box } from "@mui/material";
 import { X, MessageSquare, User } from "lucide-react";
 
-
 // Deterministic hash to map dashboard items to unique realistic contents
 const getHash = (str: string) => {
 	let hash = 0;

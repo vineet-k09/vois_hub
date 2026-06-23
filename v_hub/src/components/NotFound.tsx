@@ -51,7 +51,7 @@ export const NotFound: React.FC<NotFoundProps> = ({ onBackToHome, onNavigateToVi
         className="relative mb-6"
       >
         <div className="absolute inset-0 bg-header-gradient opacity-20 blur-3xl rounded-full w-64 h-64 mx-auto -z-10 animate-pulse" />
-        <h1 className="text-8xl md:text-9xl font-extrabold font-barlow tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-rose-500 to-purple-600 select-none">
+        <h1 className="text-8xl md:text-9xl font-extrabold font-barlow tracking-wider text-transparent bg-clip-text bg-linear-to-r from-red-600 via-rose-500 to-purple-600 select-none">
           404
         </h1>
         <div className="flex items-center justify-center gap-2 mt-2 text-ink-soft font-semibold tracking-wide uppercase text-xs md:text-sm">

@@ -1,149 +1,408 @@
 {
-  "branding": {
-    "user": {
-      "initials": "SM",
-      "name": "Sima",
-      "role": "HR Director"
-    },
-    "period": "FY27 · Mar-26 close"
-  },
-  "hero": {
-    "title": "HR Director Summary",
-    "accent": "Summary",
-    "description": "Your people-and-business correlation lens on VOIS — moving HR reporting from flat data side-by-side to 'why' and 'so what'. Track top-talent glide path, headcount with efficiency-initiative overlay, end-to-end contract → VRF → hire, Spirit Beat drivers, and L&D effectiveness against business outcomes — all narrated by AI commentary across service towers and markets."
-  },
-  "kpis": [
-    { "label": "Top-Talent Promotions", "value": "24.6%", "target": "T: 25%", "trend": "Glide path on plan", "rag": "green", "month": "Mar-26" },
-    { "label": "Spirit Beat", "value": "85", "target": "T: 80", "trend": "▲ 3 vs prior cycle", "rag": "green", "month": "Mar-26" },
-    { "label": "L&D Adoption (AI plan)", "value": "80%", "target": "T: 85%", "trend": "Copilot active 64%", "rag": "amber", "month": "Mar-26" },
-    { "label": "Attrition (rolling 12m)", "value": "11.4%", "target": "T: 10%", "trend": "▲ 0.6pp vs PM", "rag": "amber", "month": "Mar-26" }
-  ],
-  "crossFunctionalHR": {
-    "towers": [
-      { "tower": "BVOIS", "headcount": 1840, "ldAdoption": 88, "ldDelta": "+4pp vs avg", "spiritBeat": 87, "spiritDetail": "Promoters 62%", "nps": 48, "businessPerf": "Service health green", "ragLd": "green", "ragSpirit": "green", "ragNps": "green" },
-      { "tower": "CARE", "headcount": 2310, "ldAdoption": 61, "ldDelta": "−19pp vs avg", "spiritBeat": 71, "spiritDetail": "Detractors 24%", "nps": 28, "businessPerf": "Tier-3 backlog", "ragLd": "red", "ragSpirit": "red", "ragNps": "amber" },
-      { "tower": "D&IT", "headcount": 980, "ldAdoption": 92, "ldDelta": "Copilot 78%", "spiritBeat": 89, "spiritDetail": "Promoters 68%", "nps": 55, "businessPerf": "AI cases up 34%", "ragLd": "green", "ragSpirit": "green", "ragNps": "green" },
-      { "tower": "I/O", "headcount": 1520, "ldAdoption": 74, "ldDelta": "In-flight refresh", "spiritBeat": 79, "spiritDetail": "Passives 41%", "nps": 41, "businessPerf": "SLA 99.4%", "ragLd": "amber", "ragSpirit": "amber", "ragNps": "green" },
-      { "tower": "CFST", "headcount": 1150, "ldAdoption": 85, "ldDelta": "+1pp vs avg", "spiritBeat": 84, "spiritDetail": "Promoters 58%", "nps": 33, "businessPerf": "Delivery slip Q2", "ragLd": "green", "ragSpirit": "green", "ragNps": "amber" }
-    ],
-    "narrative": "CARE shows the clearest cause-and-effect pattern this month: L&D adoption at 61% (−19pp vs avg) coincides with a Spirit Beat of 71 (24% detractors) and a softer NPS of +28 with persistent Tier-3 backlog. By contrast, D&IT combines 92% L&D adoption, Spirit 89 and Copilot 78% with a 34% rise in AI-productivity outcome. Attrition is up in I/O — investigate against in-flight refresh and Passive concentration (41%)."
-  },
-  "promotionsGlidePath": {
-    "topTalentPool": 1284,
-    "targetAnnual": 25,
-    "currentYtd": 24.6,
-    "targetYtd": 24.4,
-    "monthlyData": [
-      { "month": "Apr", "actual": 2.1, "target": 2.08 },
-      { "month": "May", "actual": 4.3, "target": 4.17 },
-      { "month": "Jun", "actual": 6.5, "target": 6.25 },
-      { "month": "Jul", "actual": 8.7, "target": 8.33 },
-      { "month": "Aug", "actual": 10.9, "target": 10.42 },
-      { "month": "Sep", "actual": 13.0, "target": 12.50 },
-      { "month": "Oct", "actual": 15.2, "target": 14.58 },
-      { "month": "Nov", "actual": 17.3, "target": 16.67 },
-      { "month": "Dec", "actual": 19.5, "target": 18.75 },
-      { "month": "Jan", "actual": 21.4, "target": 20.83 },
-      { "month": "Feb", "actual": 23.0, "target": 22.92 },
-      { "month": "Mar", "actual": 24.6, "target": 25.0 }
-    ],
-    "hotspots": [
-      { "name": "CARE · DE", "status": "RED", "value": "18.2%", "desc": "−6.4pp vs target · intervention required", "rag": "red" },
-      { "name": "I/O · UK", "status": "AMBER", "value": "22.1%", "desc": "−2.5pp vs target · monitor", "rag": "amber" },
-      { "name": "D&IT · Global", "status": "GREEN", "value": "28.4%", "desc": "+3.8pp vs target · over-deliver", "rag": "green" },
-      { "name": "BVOIS · IT", "status": "GREEN", "value": "26.0%", "desc": "+1.4pp vs target · on plan", "rag": "green" }
-    ]
-  },
-  "headcountEfficiency": {
-    "monthlyData": [
-      { "month": "Apr-25", "actual": 7700, "forecast": null },
-      { "month": "May-25", "actual": 7680, "forecast": null },
-      { "month": "Jun-25", "actual": 7620, "forecast": null },
-      { "month": "Jul-25", "actual": 7640, "forecast": null },
-      { "month": "Aug-25", "actual": 7590, "forecast": null },
-      { "month": "Sep-25", "actual": 7450, "forecast": null },
-      { "month": "Oct-25", "actual": 7420, "forecast": null },
-      { "month": "Nov-25", "actual": 7380, "forecast": null },
-      { "month": "Dec-25", "actual": 7360, "forecast": null },
-      { "month": "Jan-26", "actual": 7340, "forecast": null },
-      { "month": "Feb-26", "actual": 7310, "forecast": null },
-      { "month": "Mar-26", "actual": 7310, "forecast": 7310 },
-      { "month": "Apr-26", "actual": null, "forecast": 7250 },
-      { "month": "May-26", "actual": null, "forecast": 7180 },
-      { "month": "Jun-26", "actual": null, "forecast": 6970 },
-      { "month": "Jul-26", "actual": null, "forecast": 6920 },
-      { "month": "Aug-26", "actual": null, "forecast": 6860 },
-      { "month": "Sep-26", "actual": null, "forecast": 6765 }
-    ],
-    "initiatives": [
-      { "name": "Vendor consolidation", "impact": "-140 FTE", "timing": "Sep-25", "desc": "Profit lever · Q2-25 · Owner: COO · Realised Sep-25" },
-      { "name": "Platform AI rollout", "impact": "-210 FTE", "timing": "Jun-26", "desc": "Profit lever · H1-26 · Owner: CTO · Forecast Jun-26" },
-      { "name": "Tier-3 automation", "impact": "-95 FTE", "timing": "Sep-26", "desc": "Profit lever · H2-26 · Owner: Service · Forecast Sep-26" }
-    ]
-  },
-  "talentDemand": {
-    "dealName": "Project Atlas — IDEA Group",
-    "dealMeta": "Gen-2 deal · signed Feb-26 · €94M · requires 1,000 hires in 3 months",
-    "funnel": [
-      { "stage": "Contract Demand", "value": 1000, "desc": "Hires required by Jun-26", "source": "SF DEAL", "highlight": true },
-      { "stage": "Positions Created", "value": 948, "desc": "95% · 52 still being scoped", "source": "WFM", "highlight": false },
-      { "stage": "Open VRFs", "value": 612, "desc": "82% approved · 18% pending", "source": "WFM", "highlight": false },
-      { "stage": "SF — Interviewing", "value": 438, "desc": "Active candidates in pipeline", "source": "SuccessFactors", "highlight": false },
-      { "stage": "Offers Out", "value": 214, "desc": "Acceptance rate 76%", "source": "SuccessFactors", "highlight": false },
-      { "stage": "Hires Made", "value": 163, "desc": "16% of target · on glide-path", "source": "SuccessFactors", "highlight": true }
-    ]
-  },
-  "spiritBeat": {
-    "currentScore": 85,
-    "delta": 3,
-    "history": [
-      { "cycle": "H1-24", "score": 73 },
-      { "cycle": "H2-24", "score": 75 },
-      { "cycle": "H1-25", "score": 77 },
-      { "cycle": "H2-25", "score": 79 },
-      { "cycle": "H1-26", "score": 82 },
-      { "cycle": "Mar-26", "score": 85 }
-    ],
-    "drivers": [
-      { "name": "Work-Life Balance", "correlation": 0.78, "level": "high", "desc": "Strongest positive driver this cycle · flexible-working policy rollout cited 64% of comments." },
-      { "name": "Health Benefits", "correlation": 0.71, "level": "high", "desc": "Positive · Q3-25 benefits refresh tracks with movement in CARE & I/O." },
-      { "name": "Career Growth Opps.", "correlation": 0.54, "level": "med", "desc": "Medium · L&D adoption a partial proxy · gap in CARE." },
-      { "name": "Compensation", "correlation": -0.18, "level": "low", "desc": "Weak / flat · not a driver of current movement at population level." }
-    ]
-  },
-  "ldEffectiveness": {
-    "tiles": [
-      { "label": "AI Learning-Plan Adoption", "value": "80%", "desc": "▲ 12pp vs prior 6m · Copilot active 64%", "rag": "amber" },
-      { "label": "Training Completion (avg)", "value": "92%", "desc": "Stable · top tower D&IT at 98%", "rag": "green" },
-      { "label": "Time-to-Productivity", "value": "28 days", "desc": "▼ 4 days vs baseline · with Copilot", "rag": "green" },
-      { "label": "L&D Investment", "value": "€18.4M", "desc": "Plan €19.2M · 96% on plan", "rag": "neutral" }
-    ],
-    "correlations": [
-      { "kpi": "AI case volume (Copilot-driven)", "r": "+0.82", "strength": "strong", "delta": "+34%", "trend": "up", "window": "6m rolling" },
-      { "kpi": "Time-to-resolution (CARE)", "r": "-0.71", "strength": "strong", "delta": "-22%", "trend": "up", "window": "6m rolling" },
-      { "kpi": "Delivery throughput (CFST)", "r": "+0.54", "strength": "med", "delta": "+9%", "trend": "up", "window": "6m rolling" },
-      { "kpi": "NPS (rolling top-10 customers)", "r": "+0.48", "strength": "med", "delta": "+6 pts", "trend": "up", "window": "6m rolling" },
-      { "kpi": "Attrition (top-talent pool)", "r": "-0.21", "strength": "weak", "delta": "+0.6pp", "trend": "down", "window": "12m rolling" },
-      { "kpi": "Spirit Beat (cross-tower avg)", "r": "+0.46", "strength": "med", "delta": "+3 pts", "trend": "up", "window": "2 cycles" }
-    ]
-  },
-  "aiSummary": {
-    "title": "HR Executive Summary",
-    "overall": "Overall people health is resilient with two clear focus areas. Top-talent glide path tracks on plan, Spirit Beat continues to rise, and L&D investment is producing measurable productivity correlation in D&IT. The pressure points are concentrated in CARE and around contract-driven hiring on Project Atlas.",
-    "takeaways": [
-      { "text": "Promotions: 24.6% YTD vs 25% annual glide path — on plan." },
-      { "text": "Spirit Beat 85 (▲ 3) — work-life balance the strongest correlated driver." },
-      { "text": "L&D ↔ Productivity: +0.82 correlation with AI case volume; time-to-productivity down 4 days." }
-    ],
-    "watchpoints": [
-      { "text": "CARE · DE hotspot: promotion 18.2% (−6.4pp), L&D 61%, Spirit 71 — intervention required." },
-      { "text": "Project Atlas hiring: 163 of 1,000 hires made (16%) — on glide path but bottlenecks in VRF approval queue." },
-      { "text": "I/O attrition ▲ during platform refresh; cross-check with Passive concentration." }
-    ],
-    "actions": [
-      { "text": "Tower-level intervention plan for CARE · DE with COO and L&D lead." },
-      { "text": "Unblock VRF approval queue for Project Atlas — target +50 offers / week." },
-      { "text": "Run targeted Glint pulse on I/O ahead of next cycle." }
-    ]
-  }
+	"branding": {
+		"user": {
+			"initials": "SM",
+			"name": "Sima",
+			"role": "HR Director"
+		},
+		"period": "FY27 · Mar-26 close"
+	},
+	"hero": {
+		"title": "HR Director Summary",
+		"accent": "Summary",
+		"description": "Your people-and-business correlation lens on VOIS — moving HR reporting from flat data side-by-side to 'why' and 'so what'. Track top-talent glide path, headcount with efficiency-initiative overlay, end-to-end contract → VRF → hire, Spirit Beat drivers, and L&D effectiveness against business outcomes — all narrated by AI commentary across service towers and markets."
+	},
+	"kpis": [
+		{
+			"label": "Top-Talent Promotions",
+			"value": "24.6%",
+			"target": "T: 25%",
+			"trend": "Glide path on plan",
+			"rag": "green",
+			"month": "Mar-26"
+		},
+		{
+			"label": "Spirit Beat",
+			"value": "85",
+			"target": "T: 80",
+			"trend": "▲ 3 vs prior cycle",
+			"rag": "green",
+			"month": "Mar-26"
+		},
+		{
+			"label": "L&D Adoption (AI plan)",
+			"value": "80%",
+			"target": "T: 85%",
+			"trend": "Copilot active 64%",
+			"rag": "amber",
+			"month": "Mar-26"
+		},
+		{
+			"label": "Attrition (rolling 12m)",
+			"value": "11.4%",
+			"target": "T: 10%",
+			"trend": "▲ 0.6pp vs PM",
+			"rag": "amber",
+			"month": "Mar-26"
+		}
+	],
+	"crossFunctionalHR": {
+		"towers": [
+			{
+				"tower": "BVOIS",
+				"headcount": 1840,
+				"ldAdoption": 88,
+				"ldDelta": "+4pp vs avg",
+				"spiritBeat": 87,
+				"spiritDetail": "Promoters 62%",
+				"nps": 48,
+				"businessPerf": "Service health green",
+				"ragLd": "green",
+				"ragSpirit": "green",
+				"ragNps": "green"
+			},
+			{
+				"tower": "CARE",
+				"headcount": 2310,
+				"ldAdoption": 61,
+				"ldDelta": "−19pp vs avg",
+				"spiritBeat": 71,
+				"spiritDetail": "Detractors 24%",
+				"nps": 28,
+				"businessPerf": "Tier-3 backlog",
+				"ragLd": "red",
+				"ragSpirit": "red",
+				"ragNps": "amber"
+			},
+			{
+				"tower": "D&IT",
+				"headcount": 980,
+				"ldAdoption": 92,
+				"ldDelta": "Copilot 78%",
+				"spiritBeat": 89,
+				"spiritDetail": "Promoters 68%",
+				"nps": 55,
+				"businessPerf": "AI cases up 34%",
+				"ragLd": "green",
+				"ragSpirit": "green",
+				"ragNps": "green"
+			},
+			{
+				"tower": "I/O",
+				"headcount": 1520,
+				"ldAdoption": 74,
+				"ldDelta": "In-flight refresh",
+				"spiritBeat": 79,
+				"spiritDetail": "Passives 41%",
+				"nps": 41,
+				"businessPerf": "SLA 99.4%",
+				"ragLd": "amber",
+				"ragSpirit": "amber",
+				"ragNps": "green"
+			},
+			{
+				"tower": "CFST",
+				"headcount": 1150,
+				"ldAdoption": 85,
+				"ldDelta": "+1pp vs avg",
+				"spiritBeat": 84,
+				"spiritDetail": "Promoters 58%",
+				"nps": 33,
+				"businessPerf": "Delivery slip Q2",
+				"ragLd": "green",
+				"ragSpirit": "green",
+				"ragNps": "amber"
+			}
+		],
+		"narrative": "CARE shows the clearest cause-and-effect pattern this month: L&D adoption at 61% (−19pp vs avg) coincides with a Spirit Beat of 71 (24% detractors) and a softer NPS of +28 with persistent Tier-3 backlog. By contrast, D&IT combines 92% L&D adoption, Spirit 89 and Copilot 78% with a 34% rise in AI-productivity outcome. Attrition is up in I/O — investigate against in-flight refresh and Passive concentration (41%)."
+	},
+	"promotionsGlidePath": {
+		"topTalentPool": 1284,
+		"targetAnnual": 25,
+		"currentYtd": 24.6,
+		"targetYtd": 24.4,
+		"monthlyData": [
+			{ "month": "Apr", "actual": 2.1, "target": 2.08 },
+			{ "month": "May", "actual": 4.3, "target": 4.17 },
+			{ "month": "Jun", "actual": 6.5, "target": 6.25 },
+			{ "month": "Jul", "actual": 8.7, "target": 8.33 },
+			{ "month": "Aug", "actual": 10.9, "target": 10.42 },
+			{ "month": "Sep", "actual": 13.0, "target": 12.5 },
+			{ "month": "Oct", "actual": 15.2, "target": 14.58 },
+			{ "month": "Nov", "actual": 17.3, "target": 16.67 },
+			{ "month": "Dec", "actual": 19.5, "target": 18.75 },
+			{ "month": "Jan", "actual": 21.4, "target": 20.83 },
+			{ "month": "Feb", "actual": 23.0, "target": 22.92 },
+			{ "month": "Mar", "actual": 24.6, "target": 25.0 }
+		],
+		"hotspots": [
+			{
+				"name": "CARE · DE",
+				"status": "RED",
+				"value": "18.2%",
+				"desc": "−6.4pp vs target · intervention required",
+				"rag": "red"
+			},
+			{
+				"name": "I/O · UK",
+				"status": "AMBER",
+				"value": "22.1%",
+				"desc": "−2.5pp vs target · monitor",
+				"rag": "amber"
+			},
+			{
+				"name": "D&IT · Global",
+				"status": "GREEN",
+				"value": "28.4%",
+				"desc": "+3.8pp vs target · over-deliver",
+				"rag": "green"
+			},
+			{
+				"name": "BVOIS · IT",
+				"status": "GREEN",
+				"value": "26.0%",
+				"desc": "+1.4pp vs target · on plan",
+				"rag": "green"
+			}
+		]
+	},
+	"headcountEfficiency": {
+		"monthlyData": [
+			{ "month": "Apr-25", "actual": 7700, "forecast": null },
+			{ "month": "May-25", "actual": 7680, "forecast": null },
+			{ "month": "Jun-25", "actual": 7620, "forecast": null },
+			{ "month": "Jul-25", "actual": 7640, "forecast": null },
+			{ "month": "Aug-25", "actual": 7590, "forecast": null },
+			{ "month": "Sep-25", "actual": 7450, "forecast": null },
+			{ "month": "Oct-25", "actual": 7420, "forecast": null },
+			{ "month": "Nov-25", "actual": 7380, "forecast": null },
+			{ "month": "Dec-25", "actual": 7360, "forecast": null },
+			{ "month": "Jan-26", "actual": 7340, "forecast": null },
+			{ "month": "Feb-26", "actual": 7310, "forecast": null },
+			{ "month": "Mar-26", "actual": 7310, "forecast": 7310 },
+			{ "month": "Apr-26", "actual": null, "forecast": 7250 },
+			{ "month": "May-26", "actual": null, "forecast": 7180 },
+			{ "month": "Jun-26", "actual": null, "forecast": 6970 },
+			{ "month": "Jul-26", "actual": null, "forecast": 6920 },
+			{ "month": "Aug-26", "actual": null, "forecast": 6860 },
+			{ "month": "Sep-26", "actual": null, "forecast": 6765 }
+		],
+		"initiatives": [
+			{
+				"name": "Vendor consolidation",
+				"impact": "-140 FTE",
+				"timing": "Sep-25",
+				"desc": "Profit lever · Q2-25 · Owner: COO · Realised Sep-25"
+			},
+			{
+				"name": "Platform AI rollout",
+				"impact": "-210 FTE",
+				"timing": "Jun-26",
+				"desc": "Profit lever · H1-26 · Owner: CTO · Forecast Jun-26"
+			},
+			{
+				"name": "Tier-3 automation",
+				"impact": "-95 FTE",
+				"timing": "Sep-26",
+				"desc": "Profit lever · H2-26 · Owner: Service · Forecast Sep-26"
+			}
+		]
+	},
+	"talentDemand": {
+		"dealName": "Project Atlas — IDEA Group",
+		"dealMeta": "Gen-2 deal · signed Feb-26 · €94M · requires 1,000 hires in 3 months",
+		"funnel": [
+			{
+				"stage": "Contract Demand",
+				"value": 1000,
+				"desc": "Hires required by Jun-26",
+				"source": "SF DEAL",
+				"highlight": true
+			},
+			{
+				"stage": "Positions Created",
+				"value": 948,
+				"desc": "95% · 52 still being scoped",
+				"source": "WFM",
+				"highlight": false
+			},
+			{
+				"stage": "Open VRFs",
+				"value": 612,
+				"desc": "82% approved · 18% pending",
+				"source": "WFM",
+				"highlight": false
+			},
+			{
+				"stage": "SF — Interviewing",
+				"value": 438,
+				"desc": "Active candidates in pipeline",
+				"source": "SuccessFactors",
+				"highlight": false
+			},
+			{
+				"stage": "Offers Out",
+				"value": 214,
+				"desc": "Acceptance rate 76%",
+				"source": "SuccessFactors",
+				"highlight": false
+			},
+			{
+				"stage": "Hires Made",
+				"value": 163,
+				"desc": "16% of target · on glide-path",
+				"source": "SuccessFactors",
+				"highlight": true
+			}
+		]
+	},
+	"spiritBeat": {
+		"currentScore": 85,
+		"delta": 3,
+		"history": [
+			{ "cycle": "H1-24", "score": 73 },
+			{ "cycle": "H2-24", "score": 75 },
+			{ "cycle": "H1-25", "score": 77 },
+			{ "cycle": "H2-25", "score": 79 },
+			{ "cycle": "H1-26", "score": 82 },
+			{ "cycle": "Mar-26", "score": 85 }
+		],
+		"drivers": [
+			{
+				"name": "Work-Life Balance",
+				"correlation": 0.78,
+				"level": "high",
+				"desc": "Strongest positive driver this cycle · flexible-working policy rollout cited 64% of comments."
+			},
+			{
+				"name": "Health Benefits",
+				"correlation": 0.71,
+				"level": "high",
+				"desc": "Positive · Q3-25 benefits refresh tracks with movement in CARE & I/O."
+			},
+			{
+				"name": "Career Growth Opps.",
+				"correlation": 0.54,
+				"level": "med",
+				"desc": "Medium · L&D adoption a partial proxy · gap in CARE."
+			},
+			{
+				"name": "Compensation",
+				"correlation": -0.18,
+				"level": "low",
+				"desc": "Weak / flat · not a driver of current movement at population level."
+			}
+		]
+	},
+	"ldEffectiveness": {
+		"tiles": [
+			{
+				"label": "AI Learning-Plan Adoption",
+				"value": "80%",
+				"desc": "▲ 12pp vs prior 6m · Copilot active 64%",
+				"rag": "amber"
+			},
+			{
+				"label": "Training Completion (avg)",
+				"value": "92%",
+				"desc": "Stable · top tower D&IT at 98%",
+				"rag": "green"
+			},
+			{
+				"label": "Time-to-Productivity",
+				"value": "28 days",
+				"desc": "▼ 4 days vs baseline · with Copilot",
+				"rag": "green"
+			},
+			{
+				"label": "L&D Investment",
+				"value": "€18.4M",
+				"desc": "Plan €19.2M · 96% on plan",
+				"rag": "neutral"
+			}
+		],
+		"correlations": [
+			{
+				"kpi": "AI case volume (Copilot-driven)",
+				"r": "+0.82",
+				"strength": "strong",
+				"delta": "+34%",
+				"trend": "up",
+				"window": "6m rolling"
+			},
+			{
+				"kpi": "Time-to-resolution (CARE)",
+				"r": "-0.71",
+				"strength": "strong",
+				"delta": "-22%",
+				"trend": "up",
+				"window": "6m rolling"
+			},
+			{
+				"kpi": "Delivery throughput (CFST)",
+				"r": "+0.54",
+				"strength": "med",
+				"delta": "+9%",
+				"trend": "up",
+				"window": "6m rolling"
+			},
+			{
+				"kpi": "NPS (rolling top-10 customers)",
+				"r": "+0.48",
+				"strength": "med",
+				"delta": "+6 pts",
+				"trend": "up",
+				"window": "6m rolling"
+			},
+			{
+				"kpi": "Attrition (top-talent pool)",
+				"r": "-0.21",
+				"strength": "weak",
+				"delta": "+0.6pp",
+				"trend": "down",
+				"window": "12m rolling"
+			},
+			{
+				"kpi": "Spirit Beat (cross-tower avg)",
+				"r": "+0.46",
+				"strength": "med",
+				"delta": "+3 pts",
+				"trend": "up",
+				"window": "2 cycles"
+			}
+		]
+	},
+	"aiSummary": {
+		"title": "HR Executive Summary",
+		"overall": "Overall people health is resilient with two clear focus areas. Top-talent glide path tracks on plan, Spirit Beat continues to rise, and L&D investment is producing measurable productivity correlation in D&IT. The pressure points are concentrated in CARE and around contract-driven hiring on Project Atlas.",
+		"takeaways": [
+			{ "text": "Promotions: 24.6% YTD vs 25% annual glide path — on plan." },
+			{
+				"text": "Spirit Beat 85 (▲ 3) — work-life balance the strongest correlated driver."
+			},
+			{
+				"text": "L&D ↔ Productivity: +0.82 correlation with AI case volume; time-to-productivity down 4 days."
+			}
+		],
+		"watchpoints": [
+			{
+				"text": "CARE · DE hotspot: promotion 18.2% (−6.4pp), L&D 61%, Spirit 71 — intervention required."
+			},
+			{
+				"text": "Project Atlas hiring: 163 of 1,000 hires made (16%) — on glide path but bottlenecks in VRF approval queue."
+			},
+			{
+				"text": "I/O attrition ▲ during platform refresh; cross-check with Passive concentration."
+			}
+		],
+		"actions": [
+			{
+				"text": "Tower-level intervention plan for CARE · DE with COO and L&D lead."
+			},
+			{
+				"text": "Unblock VRF approval queue for Project Atlas — target +50 offers / week."
+			},
+			{ "text": "Run targeted Glint pulse on I/O ahead of next cycle." }
+		]
+	}
 }

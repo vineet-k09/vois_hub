@@ -657,7 +657,7 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown }) => {
 
         <div className="space-y-4 pl-1">
           {/* Brief header banner */}
-          <div className="bg-gradient-to-r from-slate-900 to-indigo-950 p-4 rounded-xl text-panel flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="bg-linear-to-r from-slate-900 to-indigo-950 p-4 rounded-xl text-panel flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <h4 className="text-sm font-bold tracking-wide uppercase">
                 Competitor Brief: Chris · Meeting DT Group
