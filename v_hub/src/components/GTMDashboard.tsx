@@ -305,10 +305,9 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown }) => {
             <div>
               <div className="bg-panel-2 border-b border-panel-border p-3 flex justify-between items-center">
                 <span className="text-xs font-bold text-ink uppercase tracking-wider">Variance by Major Deal</span>
-                <span className="text-[9px] font-bold text-panel bg-ink px-2 py-0.5 uppercase tracking-widest">FINANCE + SF</span>
               </div>
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-[11px] border-collapse min-w-[300px]">
+                <table className="w-full text-left text-[11px] border-collapse min-w-75">
                   <thead>
                     <tr className="bg-panel-2 border-b border-panel-border">
                       <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-[9.5px]">Deal</th>
@@ -348,7 +347,7 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown }) => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
-              ★ Top-10 Major-Deal Delivery Risk
+              Top-10 Major-Deal Delivery Risk
             </h2>
             <p className="text-ink-soft text-[10px] italic font-light mt-0.5">SME quarterly inputs + weekly RAG from delivery leads</p>
           </div>
@@ -358,11 +357,10 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown }) => {
           <div className="border border-panel-border rounded-xl overflow-hidden bg-panel-2/30">
             <div className="bg-panel-2 border-b border-panel-border p-3 flex justify-between items-center">
               <span className="text-xs font-bold text-ink uppercase tracking-wider">Top 10 Deals · Above Revenue Threshold</span>
-              <span className="text-[9px] font-bold text-panel bg-ink px-2 py-0.5 uppercase tracking-widest">SME-LED + DELIVERY RAG</span>
             </div>
             
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-[11px] border-collapse min-w-[650px]">
+              <table className="w-full text-left text-[11px] border-collapse min-w-162.5">
                 <thead>
                   <tr className="bg-panel-2 border-b border-panel-border">
                     <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-[9px] text-center">#</th>
@@ -506,10 +504,9 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown }) => {
             <div>
               <div className="bg-panel-2 border-b border-panel-border p-3 flex justify-between items-center">
                 <span className="text-xs font-bold text-ink uppercase tracking-wider">Upsell Opportunities to Grow Share</span>
-                <span className="text-[9px] font-bold text-panel bg-ink px-2 py-0.5 uppercase tracking-widest">GROWTH METRIC</span>
               </div>
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-[11px] border-collapse min-w-[300px]">
+                <table className="w-full text-left text-[11px] border-collapse min-w-75">
                   <thead>
                     <tr className="bg-panel-2 border-b border-panel-border">
                       <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-[9.5px]">Account · Service</th>
@@ -575,7 +572,6 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown }) => {
                 <option value="UKG">UKG</option>
               </select>
             </div>
-            <span className="text-[9.5px] font-bold text-panel bg-ink px-2 py-0.5 uppercase tracking-widest">MEETING-READY</span>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">

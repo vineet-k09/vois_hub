@@ -125,11 +125,10 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
           <div className="border border-panel-border rounded-xl overflow-hidden bg-panel-2/30">
             <div className="bg-panel-2 border-b border-panel-border p-3 flex justify-between items-center">
               <span className="text-xs font-bold text-ink uppercase tracking-wider">Risk Heatmap — Signals by Portfolio</span>
-              <span className="text-[9px] font-bold text-panel bg-ink px-2 py-0.5 uppercase tracking-widest">CROSS-FUNCTIONAL</span>
             </div>
             
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-[11px] border-collapse min-w-[500px]">
+              <table className="w-full text-left text-[11px] border-collapse min-w-125">
                 <thead>
                   <tr className="bg-panel-2 border-b border-panel-border">
                     <th className="p-3 font-bold text-ink-soft uppercase tracking-wider text-[9px] w-1/4">Portfolio</th>
@@ -174,10 +173,9 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
               <div>
                 <div className="bg-panel-2 border-b border-panel-border p-3 flex justify-between items-center">
                   <span className="text-xs font-bold text-ink uppercase tracking-wider">Revenue at Risk — Lifecycles &lt; 6 Months</span>
-                  <span className="text-[9px] font-bold text-panel bg-ink px-2 py-0.5 uppercase tracking-widest">NEW LENS</span>
                 </div>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-[11px] border-collapse min-w-[350px]">
+                  <table className="w-full text-left text-[11px] border-collapse min-w-87.5">
                     <thead>
                       <tr className="bg-panel-2 border-b border-panel-border">
                         <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-[9px]">Contract</th>
@@ -216,7 +214,6 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
               <div>
                 <h4 className="text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center justify-between">
                   <span>Cost at Risk — Burn vs Project Completion %</span>
-                  <span className="text-[8px] font-bold bg-ink text-panel px-2 py-0.5 tracking-wider uppercase">PROJECT LIFECYCLE</span>
                 </h4>
                 
                 <div className="h-44 w-full mt-2">
@@ -317,11 +314,10 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
           <div className="border border-panel-border rounded-xl overflow-hidden bg-panel-2/30">
             <div className="bg-panel-2 border-b border-panel-border p-3 flex justify-between items-center">
               <span className="text-xs font-bold text-ink uppercase tracking-wider">Risk Heatmap — Signals by Portfolio</span>
-              <span className="text-[9px] font-bold text-panel bg-ink px-2 py-0.5 uppercase tracking-widest">CROSS-FUNCTIONAL</span>
             </div>
             
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-[11px] border-collapse min-w-[500px]">
+              <table className="w-full text-left text-[11px] border-collapse min-w-125">
                 <thead>
                   <tr className="bg-panel-2 border-b border-panel-border">
                     <th className="p-3 font-bold text-ink-soft uppercase tracking-wider text-[9px] w-1/4">Portfolio</th>
@@ -366,7 +362,6 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
               <div>
                 <div className="bg-panel-2 border-b border-panel-border p-3 flex justify-between items-center">
                   <span className="text-xs font-bold text-ink uppercase tracking-wider">Revenue at Risk — Lifecycles &lt; 6 Months</span>
-                  <span className="text-[9px] font-bold text-panel bg-ink px-2 py-0.5 uppercase tracking-widest">NEW LENS</span>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-[11px] border-collapse min-w-[350px]">
@@ -408,7 +403,6 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
               <div>
                 <h4 className="text-xs font-bold text-ink uppercase tracking-wider mb-2 flex items-center justify-between">
                   <span>Cost at Risk — Burn vs Project Completion %</span>
-                  <span className="text-[8px] font-bold bg-ink text-panel px-2 py-0.5 tracking-wider uppercase">PROJECT LIFECYCLE</span>
                 </h4>
                 
                 <div className="h-44 w-full mt-2">

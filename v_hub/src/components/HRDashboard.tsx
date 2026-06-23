@@ -269,11 +269,10 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, focusedSe
           <div className="border border-panel-border rounded-xl overflow-hidden bg-panel-2/30">
             <div className="bg-panel-2 border-b border-panel-border p-3 flex justify-between items-center">
               <span className="text-xs font-bold text-ink uppercase tracking-wider">HR signals across service towers</span>
-              <span className="text-[9px] font-bold text-panel bg-ink px-2 py-0.5 uppercase tracking-widest">DRILL FOR DETAIL</span>
             </div>
             
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-[11px] border-collapse min-w-[500px]">
+              <table className="w-full text-left text-[11px] border-collapse min-w-125">
                 <thead>
                   <tr className="bg-panel-2 border-b border-panel-border">
                     <th className="p-3 font-bold text-ink-soft uppercase tracking-wider text-[9.5px]">Service Tower</th>
@@ -482,7 +481,6 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, focusedSe
         <div className="space-y-4 pl-1">
           <div className="bg-panel-2/60 p-3 rounded-xl border border-panel-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
-              <span className="bg-ink text-panel text-[8px] font-black uppercase px-2 py-0.5 rounded leading-none">DEAL LINK</span>
               <h4 className="text-xs font-bold text-ink tracking-wide mt-1 uppercase">
                 {talentDemand.dealName}
               </h4>
@@ -560,7 +558,6 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, focusedSe
             <div>
               <h5 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest border-b border-panel-border pb-1.5 mb-2.5 flex justify-between items-center">
                 <span>Likely Drivers Correlation Framework</span>
-                <span className="bg-ink text-panel text-[8px] font-bold px-1.5 py-0.2 rounded">r significance</span>
               </h5>
               <div className="space-y-2">
                 {spiritBeat.drivers.map((drv) => {
@@ -627,10 +624,9 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, focusedSe
             <div>
               <div className="bg-panel-2 border-b border-panel-border p-3 flex justify-between items-center">
                 <span className="text-xs font-bold text-ink uppercase tracking-wider">Correlation Strength — Training ↔ KPIs</span>
-                <span className="text-[9px] font-bold text-panel bg-ink px-2 py-0.5 uppercase tracking-widest">PEARSON r</span>
               </div>
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-[11px] border-collapse min-w-[300px]">
+                <table className="w-full text-left text-[11px] border-collapse min-w-75">
                   <thead>
                     <tr className="bg-panel-2 border-b border-panel-border">
                       <th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider text-[9px]">Downstream Business KPI</th>

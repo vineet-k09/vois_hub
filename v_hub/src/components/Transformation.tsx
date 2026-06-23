@@ -81,10 +81,6 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown }) => {
             </h2>
             <p className="text-ink-soft text-[10px] italic font-light mt-0.5">{req06.note}</p>
           </div>
-          
-          <span className="text-[9px] font-black text-accent bg-accent/10 px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-accent/20 leading-none">
-            HORIZON 2 FEED
-          </span>
         </div>
 
         {/* Roadmap Items list with high density */}

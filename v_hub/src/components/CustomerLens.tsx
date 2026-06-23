@@ -22,28 +22,15 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown }) => {
 
   return (
     <section id="section-customer" className="bg-panel border border-panel-border rounded-2xl p-4.5 shadow-sm relative overflow-hidden flex flex-col justify-between">
-      {/* Numbered pin for annotation */}
-      <div className="req-pin" title="Requirement #4">
-        4
-      </div>
 
       <div>
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
+        <div className="flex flex-col justify-between items-start border-b border-panel-border pb-2.5 mb-3.5 pl-1">
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               {req04.title.split('—')[0]}
             </h2>
             <p className="text-ink-soft text-[10px] italic font-light mt-0.5">{req04.note}</p>
           </div>
-          
-          <Tooltip content="Open Vfz Group Customer 360 workspace for granular billing, SLAs, and roadmap details" position="left">
-            <button 
-              onClick={handleCustomerClick}
-              className="flex items-center gap-1 text-[11px] font-bold text-accent hover:underline cursor-pointer"
-            >
-              Customer 360 <ExternalLink size={10} />
-            </button>
-          </Tooltip>
         </div>
 
         {/* Selected Customer profile */}

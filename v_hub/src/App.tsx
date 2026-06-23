@@ -27,6 +27,7 @@ import {
 	Layers,
 	Home,
 	GitCompare,
+	User,
 } from "lucide-react";
 import { toPng } from "html-to-image";
 import { jsPDF } from "jspdf";
@@ -235,7 +236,6 @@ const App: React.FC = () => {
 		activeData.branding?.period ||
 		dashboardData.branding.period ||
 		"FY27 · Mar-26 close";
-	const brandingUser = activeData.branding?.user || dashboardData.branding.user;
 
 	const getNavigationForView = (view: string) => {
 		switch (view) {
@@ -823,15 +823,9 @@ const App: React.FC = () => {
 						<span className="text-white/20 hidden sm:inline">|</span>
 
 						{/* User Profile */}
-						<div className="flex items-center gap-2">
-							<div className="w-7 h-7 rounded-full bg-white text-accent font-black text-[11px] flex items-center justify-center border border-white/20 shadow-xs">
-								{brandingUser.initials}
-							</div>
-							<div className="text-left hidden md:block leading-none">
-								<p className="text-[11px] font-bold">{brandingUser.name}</p>
-								<p className="text-[8px] text-white/85 uppercase font-semibold tracking-wider mt-0.5">
-									{brandingUser.role}
-								</p>
+						<div className="flex items-center gap-2" title="User Profile">
+							<div className="w-7 h-7 rounded-full bg-white text-accent flex items-center justify-center border border-white/20 shadow-xs">
+								<User size={13} />
 							</div>
 						</div>
 					</div>
