@@ -6,18 +6,9 @@ interface CustomerLensProps {
 	onDrillDown: (data: any) => void;
 }
 
-const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown }) => {
+const CustomerLens: React.FC<CustomerLensProps> = () => {
 	const req04 = dashboardData.sections.find((s) => s.id === "REQ 04") as any;
 	if (!req04) return null;
-
-	const handleCustomerClick = () => {
-		onDrillDown({
-			...req04.customerDetail,
-			type: "customer",
-			label: `Customer Lens: ${req04.customerDetail.name}`,
-			requirementId: "4",
-		});
-	};
 
 	return (
 		<section
