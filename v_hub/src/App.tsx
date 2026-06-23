@@ -130,6 +130,7 @@ const App: React.FC = () => {
 	const [activePillar, setActivePillar] = useState("CEO SUMMARY");
 	const [viewMode, setViewMode] = useState<"split" | "deep-dive">("split");
 	const [isDesktop, setIsDesktop] = useState(true);
+	const [isExportingPdf, setIsExportingPdf] = useState(false);
 	const [isGenerating, setIsGenerating] = useState(false);
 	const [compareMode, setCompareMode] = useState<"towers" | "markets">(
 		"towers",
@@ -310,6 +311,11 @@ const App: React.FC = () => {
 	const generatePDF = async () => {
 		if (isGenerating) return;
 		setIsGenerating(true);
+		setIsExportingPdf(true);
+
+		// Allow React state update to propagate and DOM to layout/re-render without the right panel
+		await new Promise((resolve) => setTimeout(resolve, 300));
+
 		const element = document.body;
 		try {
 			// Capture the element as a PNG data URL
@@ -352,6 +358,7 @@ const App: React.FC = () => {
 		} catch (error) {
 			console.error("Failed to generate PDF:", error);
 		} finally {
+			setIsExportingPdf(false);
 			setIsGenerating(false);
 		}
 	};
@@ -1183,7 +1190,7 @@ const App: React.FC = () => {
 
 							{/* Right Column: Persistent Context Panel (Slides in/out layout transitions) */}
 							<AnimatePresence>
-								{viewMode === "split" && (
+								{viewMode === "split" && !isExportingPdf && (
 									<motion.div
 										key="split-panel"
 										initial={{ opacity: 0, x: 30, width: 0 }}
