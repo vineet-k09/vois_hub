@@ -441,10 +441,10 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = ({
 									db === "ceo"
 										? "CEO Exception Suite"
 										: db === "finance"
-											? "Sarah's Finance Suite"
+											? "Finance Suite"
 											: db === "gtm"
-												? "Chris's GTM Suite"
-												: "Sima's HR Suite";
+												? "GTM Suite"
+												: "HR Suite";
 								const items = AVAILABLE_VISUALS.filter(
 									(v) => v.dashboard === db,
 								);
