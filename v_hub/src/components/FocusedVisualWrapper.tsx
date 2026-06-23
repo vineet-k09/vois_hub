@@ -19,19 +19,19 @@ interface FocusedVisualWrapperProps {
 export const FocusedVisualWrapper: React.FC<FocusedVisualWrapperProps> = ({ visualId, onDrillDown }) => {
   // CEO special sections
   if (visualId === 'ceo-kpis') {
-    return <KPIGrid onDrillDown={onDrillDown} showAnnotations={false} />;
+    return <KPIGrid onDrillDown={onDrillDown}  />;
   }
   if (visualId === 'ceo-transformation') {
-    return <Transformation onDrillDown={onDrillDown} showAnnotations={false} />;
+    return <Transformation onDrillDown={onDrillDown}  />;
   }
   if (visualId === 'ceo-goals') {
-    return <GoalsAlignment onDrillDown={onDrillDown} showAnnotations={false} />;
+    return <GoalsAlignment onDrillDown={onDrillDown}  />;
   }
   if (visualId === 'ceo-exceptions') {
-    return <Exceptions onDrillDown={onDrillDown} showAnnotations={false} />;
+    return <Exceptions onDrillDown={onDrillDown}  />;
   }
   if (visualId === 'ceo-customer') {
-    return <CustomerLens onDrillDown={onDrillDown} showAnnotations={false} />;
+    return <CustomerLens onDrillDown={onDrillDown}  />;
   }
 
   // CEO Summary Visual
@@ -200,13 +200,13 @@ export const FocusedVisualWrapper: React.FC<FocusedVisualWrapperProps> = ({ visu
   return (
     <div className="focused-section-wrapper" data-focus={visualId}>
       {dashboard === 'finance' && (
-        <FinanceDashboard onDrillDown={onDrillDown} showAnnotations={false} />
+        <FinanceDashboard onDrillDown={onDrillDown}  />
       )}
       {dashboard === 'gtm' && (
-        <GTMDashboard onDrillDown={onDrillDown} showAnnotations={false} />
+        <GTMDashboard onDrillDown={onDrillDown}  />
       )}
       {dashboard === 'hr' && (
-        <HRDashboard onDrillDown={onDrillDown} showAnnotations={false} />
+        <HRDashboard onDrillDown={onDrillDown} />
       )}
     </div>
   );

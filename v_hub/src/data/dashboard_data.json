@@ -171,9 +171,6 @@
       "title": "Stakeholder Slices & GMT Grip",
       "railLabel": "Stakeholders",
       "note": "Filter persona view per audience · drill into GMT-owned detail",
-      "stakeholderSlices": [
-        "★ Board Members", "Key Customers", "Suppliers", "1:1 — A. Khan (COO)", "1:1 — M. Lee (CFO)", "1:1 — R. Wood (CCO)", "Quarterly Key Performance Levers"
-      ],
       "gmtGrip": [
         { "name": "Cost overshoot — Operations (COO)", "rag": "amber" },
         { "name": "EBITDA pressure — Finance (CFO)", "rag": "red" },
@@ -221,79 +218,5 @@
       "Confirm Gen-2 tagging owner with CCO; align Commercial & Finance definitions.",
       "Approve refreshed Talent KPI set with CHRO before Board pack lock."
     ]
-  },
-  "annotations": {
-    "1": {
-      "title": "REQ 01 — Top-Line Performance",
-      "status": "GREEN",
-      "feedback": ["Page already exists on the VOIS 360 scorecard.", "Ed confirmed team is working with business owners to refresh KPIs against FY27 goals.", "Action: Align on exact KPIs to show for the CEO persona view."],
-      "description": "Persona-aligned CEO landing page showing the agreed 5–10 critical KPIs refreshed to FY27 goals.",
-      "dependencies": ["Business owner sign-off on the FY27 KPI set.", "Finance and HR teams to complete the annual KPI refresh."],
-      "acceptanceCriteria": "CEO opens the Hub and sees one page with the 5–10 agreed KPIs against FY27 targets, with RAG status visible.",
-      "userStory": "As the CEO, I want a single persona-aligned landing page showing the 5–10 agreed critical KPIs against FY27 targets with RAG status, so that I can assess top-line organisational health at a glance."
-    },
-    "2": {
-      "title": "REQ 02 — Board-Ready Narrative",
-      "status": "AMBER",
-      "feedback": ["No clear, concise narrative tied to strategy in one view today.", "AI-generated commentary per pillar merged into a single executive summary.", "Narrative work is best matured at the end once data sources are stable."],
-      "description": "AI-generated commentary per strategic pillar merged via LLM into one executive summary for the whole VOIS Hub.",
-      "dependencies": ["Internal AI / LLM teams (commentary models in progress).", "Access-control model for distribution.", "Data sources mature enough across all pillars."],
-      "acceptanceCriteria": ["Each pillar page shows dynamic LLM-generated commentary.", "A single board-paper-style executive summary can be generated on demand.", "Commentary updates when underlying data changes."],
-      "userStory": "As the CEO, I want AI-generated commentary per strategic pillar merged into one executive summary distributable as a monthly PDF/email, so that I have a clear, board-ready narrative tied to strategy."
-    },
-    "3": {
-      "title": "REQ 03 — ★ Topline Growth & New Badges",
-      "status": "AMBER",
-      "feedback": ["New logos / new badges NOT currently captured — not standardised in Salesforce.", "Finance tracks this as 'Gen 2 deals'.", "End-to-end pipeline lifecycle not well closed today.", "Exception-based / minimalist reporting (top deals, big problems)."],
-      "description": "Exception-focused CEO view of top-line growth that surfaces the biggest wins and biggest problems.",
-      "dependencies": ["Salesforce categorisation of new logos / Gen 2 deals.", "Alignment between Finance 'second-gen deals' and Commercial pipeline tagging.", "Closure of the pipeline → win → loss lifecycle data."],
-      "acceptanceCriteria": ["CEO view shows new-logo / Gen 2 deal count and value separately.", "Clicking through opens the detailed pipeline dashboard.", "Exception flags identify pipeline movements."],
-      "userStory": "As the CEO, I want an exception-focused view surfacing top deals, new logos / Gen 2 deals and the biggest pipeline problems, so that I can track commercialisation progress."
-    },
-    "4": {
-      "title": "REQ 04 — Customer Performance",
-      "status": "AMBER",
-      "feedback": ["Data is mostly there but narrative is missing.", "MMD (customer engagement) work is starting to add user-led inputs.", "Gaps: external customer spend trends; share-of-wallet report is annual and limited."],
-      "description": "Consolidated customer-lens view combining internal performance data with user-led inputs and external spend / share-of-wallet view.",
-      "dependencies": ["MMD dataset and engagement-lead input process.", "Share-of-wallet refresh cadence.", "Validation with GMT members."],
-      "acceptanceCriteria": "For a selected customer, the page shows internal performance, engagement narrative from SMEs, and available external spend context on one screen.",
-      "userStory": "As the CEO, I want a consolidated customer-lens view combining internal performance data, engagement-lead narrative and external spend / share-of-wallet context."
-    },
-    "5": {
-      "title": "REQ 05 — Stakeholder Engagement Data",
-      "status": "EXTENSION SCOPE",
-      "feedback": ["Different slices of the same underlying data.", "Quarterly Key Performance Levers update process can be reused.", "Park as extension scope for after the persona views are in place."],
-      "description": "Filtered slices of the persona dashboards for board members, key customers, suppliers and direct-report 1:1s.",
-      "dependencies": ["Persona dashboards (items 1–9) need to be in place first."],
-      "acceptanceCriteria": "Once persona views exist, a user can apply a filter or export and receive a slice fit for that audience.",
-      "userStory": "As the CEO, I want filtered slices of the persona dashboards tailored for board members, key customers, suppliers and direct-report 1:1s."
-    },
-    "6": {
-      "title": "REQ 06 — Transformation Tracking",
-      "status": "AMBER",
-      "feedback": ["No dedicated transformation page on the Hub today.", "Leverage Horizon 2 reporting covering VOE, CSM, service-data transformations.", "Ed agreed: 'something is better than nothing'."],
-      "description": "A dedicated transformation view on the Hub fed from Horizon 2 reporting.",
-      "dependencies": ["Existing transformation dashboards to be integrated into the VOIS Hub.", "Horizon 2 programme governance and data feed."],
-      "acceptanceCriteria": "CEO can see a list of in-flight transformation initiatives with RAG status, milestone progress and value delivered.",
-      "userStory": "As the CEO, I want a dedicated transformation page fed from Horizon 2 reporting showing in-flight initiatives, so that I can track speed and quality."
-    },
-    "7": {
-      "title": "REQ 07 — FY27 Goals Alignment",
-      "status": "AMBER",
-      "feedback": ["Offline cross-check already done — majority of goal data points are captured.", "Dedicated view listing annual goals with direct pointers could be built simply."],
-      "description": "An explicit FY27 goals page that lists annual organisational goals with direct pointers to supporting data points.",
-      "dependencies": ["Offline cross-check already done.", "Confirmation of any goals not yet covered."],
-      "acceptanceCriteria": ["FY27 goals page lists every annual goal.", "Each goal has a direct pointer to the supporting Hub data point."],
-      "userStory": "As the CEO, I want an explicit FY27 goals page listing every annual organisational goal with direct pointers to the supporting data points."
-    },
-    "8": {
-      "title": "REQ 08 — Confidence in GMT Grip",
-      "status": "DRILL-THROUGH",
-      "feedback": ["Broader theme of drill-through from a CEO view into deeper data.", "Dashboard becomes the drill-through Gary uses when an exception flag fires.", "Existing dashboards retain value as the depth layer."],
-      "description": "Drill-through from the CEO exception view into the underlying detailed dashboards.",
-      "dependencies": ["Persona-driven CEO dashboard must sit above the existing detailed views.", "Access permissions for cross-GMT-member data."],
-      "acceptanceCriteria": "From any RAG flag or KPI on the CEO view, Gary can click through to the underlying detailed page owned by the relevant GMT member.",
-      "userStory": "As the CEO, I want to click through from any RAG flag or KPI on my persona view into the underlying detailed dashboard, so that I can verify grip on detail."
-    }
   }
 }

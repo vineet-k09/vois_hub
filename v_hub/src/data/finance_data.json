@@ -89,34 +89,5 @@
       { "text": "Convene CapEx review on Platform refresh — value vs completion." },
       { "text": "Align OpsAnalytics critical-role plan with CHRO." }
     ]
-  },
-  "annotations": {
-    "9": {
-      "title": "REQ 09 — ★ Basic Reporting Reliability",
-      "status": "PARKED · OUT OF SCOPE",
-      "description": "Not tracked as a Hub requirement. Data reliability of monthly / quarterly / annual reporting cycles is treated as a data-governance and business-process workstream under the broader Ether programme.",
-      "acceptanceCriteria": "Out of scope for this requirements gathering — Hub should still surface the canonical view (or the multiple views with explanation) once governance fixes are made upstream.",
-      "userStory": "As the Finance Director, I want upstream data-governance and mastership issues (HR ↔ Finance reconciliation, headcount) resolved under the Ether programme, so that when the Hub surfaces a canonical view of monthly / quarterly / annual figures I can trust its reliability.",
-      "dependencies": ["Ether Programme", "Data Governance Tower"],
-      "feedback": ["Surfacing canonical view once data pipeline issues resolved", "Headcount mastership data fixes handed over to Ether team"]
-    },
-    "10": {
-      "title": "REQ 10 — Cross-Functional Financial View",
-      "status": "PARTIALLY COVERED — GAP TO BUILD",
-      "description": "A Finance Director risk view: cross-functional data points from across the org that affect her OpsAnalytics, CapEx and revenue forecasts, highlighting contracts in the last 6 months without renewal and project burn vs completion.",
-      "acceptanceCriteria": "Sarah opens one page that highlights risk status for individual portfolios: OpsAnalytics, CapEx and Revenue Forecasts.",
-      "userStory": "As the Finance Director, I want a single cross-functional risk view exposing the non-finance signals (HR, pipeline, operations, contract lifecycle) that affect my OpsAnalytics, CapEx and Revenue forecasts.",
-      "dependencies": ["Salesforce API", "Milestone Tracking System"],
-      "feedback": ["Kali recalled this terminology is not consistently used today", "Cost-at-Risk compares burn percentages vs actual physical completion %"]
-    },
-    "11": {
-      "title": "REQ 11 — P×Q / Billing Integration",
-      "status": "PARTIALLY COVERED",
-      "description": "High-level PQ revenue summary on the Hub (already present under Partnership Success) with an integration to the existing PQ marketplace dashboard for L1 / L2 / L3 service-type detail.",
-      "acceptanceCriteria": "PQ KPIs visible on the Hub Partnership Success page; one click takes the user to the detailed PQ dashboard with context preserved.",
-      "userStory": "As the Finance Director, I want a high-level P×Q revenue summary visible on the Hub's Partnership Success page with a one-click drill-through to the existing PQ marketplace dashboard.",
-      "dependencies": ["PQ Marketplace Dashboard", "OAuth/SAML SSO Integration"],
-      "feedback": ["Marketplace team owns L2/L3 invoices detail", "Context preservation ensures filters carry over on click-through"]
-    }
   }
 }

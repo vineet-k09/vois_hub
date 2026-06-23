@@ -51,6 +51,7 @@ interface CustomDashboardProps {
   setCustomVisualIds: React.Dispatch<React.SetStateAction<string[]>>;
   customDashboardName: string;
   setCustomDashboardName: (name: string) => void;
+  onDeleteDashboard?: () => void;
 }
 
 export const CustomDashboard: React.FC<CustomDashboardProps> = ({
@@ -59,6 +60,7 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = ({
   setCustomVisualIds,
   customDashboardName,
   setCustomDashboardName,
+  onDeleteDashboard,
 }) => {
   const [showManager, setShowManager] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
@@ -165,6 +167,20 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = ({
           >
             <Plus size={14} /> Add/Remove Visuals
           </button>
+          
+          {customVisualIds.length > 0 && (
+            <button
+              onClick={() => {
+                if (confirm('Are you sure you want to delete this custom dashboard? This will remove all selected visuals and reset the dashboard name.')) {
+                  onDeleteDashboard?.();
+                }
+              }}
+              className="flex items-center gap-1.5 border border-rose-500/30 text-rose-500 hover:bg-rose-500/10 hover:border-rose-500/20 transition-all px-4 py-2 rounded-xl text-xs font-bold cursor-pointer"
+              title="Delete Custom Dashboard"
+            >
+              <Trash2 size={14} /> Delete Dashboard
+            </button>
+          )}
         </div>
       </div>
 

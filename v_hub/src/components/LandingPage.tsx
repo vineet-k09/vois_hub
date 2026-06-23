@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Crown, DollarSign, TrendingUp, Users, ArrowRight, Sparkles, ChevronRight, Search, Layers } from 'lucide-react';
+import { Crown, DollarSign, TrendingUp, Users, ArrowRight, Sparkles, ChevronRight, Search, Layers, Trash2 } from 'lucide-react';
 
 interface LandingPageProps {
   onSelectView: (view: 'ceo' | 'finance' | 'gtm' | 'hr' | 'custom') => void;
@@ -8,6 +8,7 @@ interface LandingPageProps {
   onSelectSearchOption: (query: string, visualId: string, dashboard: 'ceo' | 'finance' | 'gtm' | 'hr', cardId: string) => void;
   customVisualIds?: string[];
   customDashboardName?: string;
+  onDeleteCustomDashboard?: () => void;
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({ 
@@ -15,67 +16,72 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onSelectStory, 
   onSelectSearchOption,
   customVisualIds = [],
-  customDashboardName = 'Custom Dashboard'
+  customDashboardName = 'Custom Dashboard',
+  onDeleteCustomDashboard
 }) => {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [showSearchResults, setShowSearchResults] = React.useState(false);
 
   const dashboards = [
-    {
-      id: 'ceo' as const,
-      title: 'CEO Strategic Dashboard',
-      subtitle: 'Gary\'s Exception View',
-      description: 'Strategic, high-level exception lens across VOIS pillars. Integrates growth, customer performance, cost, and talent.',
-      icon: <Crown className="w-5 h-5" />,
-      kpiPreview: [
-        { label: 'EBITDA', val: '-€36.33M', status: 'red' },
-        { label: 'Cost Takeout', val: '€141.6M', status: 'amber' },
-        { label: 'Spirit Beat', val: '85', status: 'green' }
-      ]
-    },
-    {
-      id: 'finance' as const,
-      title: 'Finance Dashboard',
-      subtitle: 'Sarah\'s Forecast Lens',
-      description: 'Cross-functional risk signals (HR, pipeline, contract lifecycle) that move OpsAnalytics, CapEx, and Revenue forecasts.',
-      icon: <DollarSign className="w-5 h-5" />,
-      kpiPreview: [
-        { label: 'Revenue at Risk', val: '€186.4M', status: 'red' },
-        { label: 'CapEx Burn vs Plan', val: '134%/81%', status: 'red' },
-        { label: 'P×Q Revenue', val: '1074%', status: 'green' }
-      ]
-    },
-    {
-      id: 'gtm' as const,
-      title: 'GTM Dashboard',
-      subtitle: 'Chris\'s Commercial Lens',
-      description: 'Pipeline funnel tracking, recognized revenue vs targets, top-10 delivery risks, and share of wallet vs competitors.',
-      icon: <TrendingUp className="w-5 h-5" />,
-      kpiPreview: [
-        { label: 'Qual. Pipeline', val: '€1,359M', status: 'green' },
-        { label: 'Win Conv.', val: '62%', status: 'green' },
-        { label: 'Delivery Risk', val: '3R / 4A', status: 'red' }
-      ]
-    },
-    {
-      id: 'hr' as const,
-      title: 'HR Dashboard',
-      subtitle: 'Sima\'s People Correlation',
-      description: 'Spirit Beat drivers, top-talent promotion glide path, attrition hotspots, and L&D effectiveness mapped to outcomes.',
-      icon: <Users className="w-5 h-5" />,
-      kpiPreview: [
-        { label: 'Promotions', val: '24.6%', status: 'green' },
-        { label: 'Spirit Beat', val: '85', status: 'green' },
-        { label: 'L&D Adoption', val: '80%', status: 'amber' }
-      ]
-    }
-  ];
+		{
+			id: "ceo" as const,
+			title: "Strategic View",
+			// subtitle: 'Gary\'s Exception View',
+			description:
+				"Strategic, high-level exception lens across VOIS pillars. Integrates growth, customer performance, cost, and talent.",
+			icon: <Crown className="w-5 h-5" />,
+			kpiPreview: [
+				{ label: "EBITDA", val: "-€36.33M", status: "red" },
+				{ label: "Cost Takeout", val: "€141.6M", status: "amber" },
+				{ label: "Spirit Beat", val: "85", status: "green" },
+			],
+		},
+		{
+			id: "finance" as const,
+			title: "Finance View",
+			// subtitle: 'Sarah\'s Forecast Lens',
+			description:
+				"Cross-functional risk signals (HR, pipeline, contract lifecycle) that move OpsAnalytics, CapEx, and Revenue forecasts.",
+			icon: <DollarSign className="w-5 h-5" />,
+			kpiPreview: [
+				{ label: "Revenue at Risk", val: "€186.4M", status: "red" },
+				{ label: "CapEx Burn vs Plan", val: "134%/81%", status: "red" },
+				{ label: "P×Q Revenue", val: "1074%", status: "green" },
+			],
+		},
+		{
+			id: "gtm" as const,
+			title: "Commercial View",
+			// subtitle: "Chris's Commercial Lens",
+			description:
+				"Pipeline funnel tracking, recognized revenue vs targets, top-10 delivery risks, and share of wallet vs competitors.",
+			icon: <TrendingUp className="w-5 h-5" />,
+			kpiPreview: [
+				{ label: "Qual. Pipeline", val: "€1,359M", status: "green" },
+				{ label: "Win Conv.", val: "62%", status: "green" },
+				{ label: "Delivery Risk", val: "3R / 4A", status: "red" },
+			],
+		},
+		{
+			id: "hr" as const,
+			title: "People Correlation View",
+			// subtitle: "Sima's People Correlation",
+			description:
+				"Spirit Beat drivers, top-talent promotion glide path, attrition hotspots, and L&D effectiveness mapped to outcomes.",
+			icon: <Users className="w-5 h-5" />,
+			kpiPreview: [
+				{ label: "Promotions", val: "24.6%", status: "green" },
+				{ label: "Spirit Beat", val: "85", status: "green" },
+				{ label: "L&D Adoption", val: "80%", status: "amber" },
+			],
+		},
+	];
 
   if (customVisualIds.length > 0) {
     dashboards.push({
       id: 'custom' as any,
       title: customDashboardName,
-      subtitle: 'Bespoke Executive View',
+      // subtitle: 'Bespoke Executive View',
       description: `Consolidated workspace containing ${customVisualIds.length} visual${customVisualIds.length === 1 ? '' : 's'} curated across CEO, Finance, GTM, and HR dashboard suites.`,
       icon: <Layers className="w-5 h-5" />,
       kpiPreview: [
@@ -301,8 +307,24 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   <div className="p-2 bg-panel-2 rounded-lg border border-panel-border text-accent group-hover:bg-accent group-hover:text-panel transition-all">
                     {dash.icon}
                   </div>
-                  <div className="flex items-center gap-0.5 text-[9px] font-black text-accent uppercase tracking-wider group-hover:translate-x-0.5 transition-transform">
-                    Enter <ArrowRight size={9} />
+                  <div className="flex items-center gap-2">
+                    {(dash.id as string) === 'custom' && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (confirm('Are you sure you want to delete your custom dashboard? This will remove all selected visuals.')) {
+                            onDeleteCustomDashboard?.();
+                          }
+                        }}
+                        className="p-1.5 rounded-lg border border-panel-border bg-panel-2 text-rose-500 hover:bg-rose-500/10 hover:border-rose-500/20 transition-all cursor-pointer shadow-2xs relative z-20"
+                        title="Delete Custom Dashboard"
+                      >
+                        <Trash2 size={12} />
+                      </button>
+                    )}
+                    <div className="flex items-center gap-0.5 text-[9px] font-black text-accent uppercase tracking-wider group-hover:translate-x-0.5 transition-transform">
+                      Enter <ArrowRight size={9} />
+                    </div>
                   </div>
                 </div>
 
@@ -310,9 +332,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   <h3 className="text-sm font-bold text-ink uppercase tracking-wide leading-tight">
                     {dash.title}
                   </h3>
-                  <p className="text-[9px] font-bold text-ink-soft uppercase tracking-widest leading-none">
+                  {/* <p className="text-[9px] font-bold text-ink-soft uppercase tracking-widest leading-none">
                     {dash.subtitle}
-                  </p>
+                  </p> */}
                 </div>
 
                 <p className="text-[11px] text-ink-soft font-light leading-relaxed">

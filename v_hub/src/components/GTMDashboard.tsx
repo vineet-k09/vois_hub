@@ -5,11 +5,10 @@ import gtmData from '../data/gtm_data.json';
 
 interface GTMDashboardProps {
   onDrillDown: (data: any) => void;
-  showAnnotations: boolean;
 }
 
-export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnnotations }) => {
-  const { kpis, pipelineFunnel, revenueRecognition, deliveryRisk, serviceOfferings, shareOfWallet, customerPerformance, competitiveBrief, annotations } = gtmData;
+export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown }) => {
+  const { kpis, pipelineFunnel, revenueRecognition, deliveryRisk, serviceOfferings, shareOfWallet, customerPerformance, competitiveBrief } = gtmData;
   const [selectedCustomer, setSelectedCustomer] = useState('DT Group');
 
   const handleKPIClick = (kpi: any) => {
@@ -203,13 +202,6 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
         <div className="req-pin" title="Requirement GTM.1">GTM.1</div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ GTM.1 · pipeline
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               Enriched Salesforce Pipeline View
             </h2>
@@ -267,10 +259,6 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
             </div>
           </div>
         </div>
-
-        {showAnnotations && annotations["GTM.1"] && (
-          null
-        )}
       </section>
 
       {/* GTM.1.1 - REVENUE RECOGNITION VS TARGETS */}
@@ -278,13 +266,6 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
         <div className="req-pin" title="Requirement GTM.1.1">GTM.1.1</div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ GTM.1.1 · revenue recognition
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               Revenue Recognition vs Targets — Closed-Loop
             </h2>
@@ -359,10 +340,6 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
             </div>
           </div>
         </div>
-
-        {showAnnotations && annotations["GTM.1.1"] && (
-          null
-        )}
       </section>
 
       {/* GTM.1.2 - TOP-10 DELIVERY RISK */}
@@ -370,13 +347,6 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
         <div className="req-pin" title="Requirement GTM.1.2">GTM.1.2</div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ GTM.1.2 · delivery risk
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               ★ Top-10 Major-Deal Delivery Risk
             </h2>
@@ -445,10 +415,6 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
             </div>
           </div>
         </div>
-
-        {showAnnotations && annotations["GTM.1.2"] && (
-          null
-        )}
       </section>
 
       {/* GTM.2 - SERVICE OFFERINGS ROADMAP */}
@@ -456,13 +422,6 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
         <div className="req-pin" title="Requirement GTM.2">GTM.2</div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ GTM.2 · service offerings
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               Service Offering Roadmap — Per Tower
             </h2>
@@ -497,10 +456,6 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
             </div>
           ))}
         </div>
-
-        {showAnnotations && annotations["GTM.2"] && (
-          null
-        )}
       </section>
 
       {/* GTM.3 - SHARE OF WALLET */}
@@ -508,13 +463,6 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
         <div className="req-pin" title="Requirement GTM.3">GTM.3</div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ GTM.3 · share of wallet
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               Share of Wallet / Market Opportunity
             </h2>
@@ -598,10 +546,6 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
             </div>
           </div>
         </div>
-
-        {showAnnotations && annotations["GTM.3"] && (
-          null
-        )}
       </section>
 
       {/* GTM.4 - CUSTOMER PERFORMANCE */}
@@ -609,13 +553,6 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
         <div className="req-pin" title="Requirement GTM.4">GTM.4</div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ GTM.4 · customer story
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               Customer Satisfaction &amp; Delivery Risks — One Story
             </h2>
@@ -708,10 +645,6 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
             </div>
           </div>
         </div>
-
-        {showAnnotations && annotations["GTM.4"] && (
-          null
-        )}
       </section>
 
       {/* GTM.5 - COMPETITIVE POSITIONING */}
@@ -719,13 +652,6 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
         <div className="req-pin" title="Requirement GTM.5">GTM.5</div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ GTM.5 · competitive positioning
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               Competitive Positioning — AI Brief
             </h2>
@@ -806,10 +732,6 @@ export const GTMDashboard: React.FC<GTMDashboardProps> = ({ onDrillDown, showAnn
             </div>
           </div>
         </div>
-
-        {showAnnotations && annotations["GTM.5"] && (
-          null
-        )}
       </section>
     </div>
   );

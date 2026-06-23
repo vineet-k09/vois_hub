@@ -5,14 +5,11 @@ import Tooltip from './Tooltip';
 
 interface GoalsAlignmentProps {
   onDrillDown: (data: any) => void;
-  showAnnotations: boolean;
 }
 
-const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown, showAnnotations }) => {
+const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown}) => {
   const req07 = dashboardData.sections.find(s => s.id === "REQ 07") as any;
   if (!req07) return null;
-
-  const req07Anno = (dashboardData.annotations as any)["7"];
 
   const handleGoalClick = (goal: any) => {
     onDrillDown({
@@ -34,13 +31,6 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown, showAnnota
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ 07 · GOALS EVIDENCE MAP
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               {req07.title.split('—')[0]}
             </h2>
@@ -88,10 +78,6 @@ const GoalsAlignment: React.FC<GoalsAlignmentProps> = ({ onDrillDown, showAnnota
         </div>
       </div>
 
-      {/* REQ 07 Annotation Card */}
-      {req07Anno && (
-        null
-      )}
     </section>
   );
 };

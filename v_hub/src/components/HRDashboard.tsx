@@ -5,12 +5,11 @@ import hrData from '../data/hr_data.json';
 
 interface HRDashboardProps {
   onDrillDown: (data: any) => void;
-  showAnnotations: boolean;
   focusedSection?: string;
 }
 
-export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnotations, focusedSection }) => {
-  const { kpis, crossFunctionalHR, promotionsGlidePath, headcountEfficiency, talentDemand, spiritBeat, ldEffectiveness, annotations } = hrData;
+export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, focusedSection }) => {
+  const { kpis, crossFunctionalHR, promotionsGlidePath, headcountEfficiency, talentDemand, spiritBeat, ldEffectiveness } = hrData;
 
   const handleKPIClick = (kpi: any) => {
     onDrillDown({
@@ -258,13 +257,6 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
         <div className="req-pin" title="Requirement HR.1">HR.1</div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ HR.1 · cross-functional hr
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               Cross-Functional HR View — Correlated Storytelling
             </h2>
@@ -338,10 +330,6 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
             </p>
           </div>
         </div>
-
-        {showAnnotations && annotations["HR.1"] && (
-          null
-        )}
       </section>
 
       {/* TALENT METRICS - ANNUALISED GLIDE PATH */}
@@ -409,10 +397,6 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
             </div>
           </div>
         </div>
-
-        {showAnnotations && annotations["TLNT"] && (
-          null
-        )}
       </section>
 
       {/* HR.1.1 - EFFICIENCY → HEADCOUNT LINKAGE */}
@@ -420,13 +404,6 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
         <div className="req-pin" title="Requirement HR.1.1">HR.1.1</div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ HR.1.1 · efficiency headcount
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               Efficiency → Headcount Linkage
             </h2>
@@ -488,10 +465,6 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
             </div>
           </div>
         </div>
-
-        {showAnnotations && annotations["HR.1.1"] && (
-          null
-        )}
       </section>
 
       {/* HR.1.2 - TALENT DEMAND OUTLOOK */}
@@ -499,13 +472,6 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
         <div className="req-pin" title="Requirement HR.1.2">HR.1.2</div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ HR.1.2 · demand outlook
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               Talent Demand &amp; Skills Outlook — End-to-End
             </h2>
@@ -549,10 +515,6 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
             })}
           </div>
         </div>
-
-        {showAnnotations && annotations["HR.1.2"] && (
-          null
-        )}
       </section>
 
       {/* HR.1.3 - SPIRIT SURVEY 'WHY' ANALYSIS */}
@@ -560,13 +522,6 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
         <div className="req-pin" title="Requirement HR.1.3">HR.1.3</div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ HR.1.3 · spirit beat why
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               Spirit Beat 'Why' Analysis — Likely Drivers
             </h2>
@@ -633,10 +588,6 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
             </div>
           </div>
         </div>
-
-        {showAnnotations && annotations["HR.1.3"] && (
-          null
-        )}
       </section>
 
       {/* HR.1.4 - L&D / TRAINING EFFECTIVENESS */}
@@ -644,13 +595,6 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
         <div className="req-pin" title="Requirement HR.1.4">HR.1.4</div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ HR.1.4 · training effectiveness
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               L&amp;D / Training Effectiveness — Business &amp; AI Productivity
             </h2>
@@ -724,10 +668,6 @@ export const HRDashboard: React.FC<HRDashboardProps> = ({ onDrillDown, showAnnot
             </div>
           </div>
         </div>
-
-        {showAnnotations && annotations["HR.1.4"] && (
-          null
-        )}
       </section>
     </div>
   );

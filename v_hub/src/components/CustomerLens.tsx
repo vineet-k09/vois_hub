@@ -5,14 +5,11 @@ import Tooltip from './Tooltip';
 
 interface CustomerLensProps {
   onDrillDown: (data: any) => void;
-  showAnnotations: boolean;
 }
 
-const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown, showAnnotations }) => {
+const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown }) => {
   const req04 = dashboardData.sections.find(s => s.id === "REQ 04") as any;
   if (!req04) return null;
-
-  const req04Anno = (dashboardData.annotations as any)["4"];
 
   const handleCustomerClick = () => {
     onDrillDown({
@@ -33,14 +30,6 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown, showAnnotation
       <div>
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
-          <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ 04 · customer lens
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               {req04.title.split('—')[0]}
             </h2>
@@ -195,12 +184,6 @@ const CustomerLens: React.FC<CustomerLensProps> = ({ onDrillDown, showAnnotation
             </div>
           </div>
         </div>
-      </div>
-
-      {/* REQ 04 Annotation Card */}
-      {req04Anno && (
-        null
-      )}
     </section>
   );
 };

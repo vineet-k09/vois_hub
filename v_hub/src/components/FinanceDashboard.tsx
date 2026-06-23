@@ -1,16 +1,15 @@
 import React from 'react';
-import { ExternalLink, Ban } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import financeData from '../data/finance_data.json';
 
 interface FinanceDashboardProps {
   onDrillDown: (data: any) => void;
-  showAnnotations: boolean;
   focusedSection?: string;
 }
 
-export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown, showAnnotations, focusedSection }) => {
-  const { kpis, riskHeatmap, revenueAtRisk, costAtRisk, pqSummary, annotations } = financeData;
+export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown, focusedSection }) => {
+  const { kpis, riskHeatmap, revenueAtRisk, costAtRisk, pqSummary } = financeData;
 
   const COLORS = ['#e60000', '#b8000a', '#5a0006', '#8c7878', '#cba8a8'];
 
@@ -306,13 +305,6 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
         <div className="req-pin" title="Requirement #10">10</div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ 10 · Cross-Functional Risk View
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               Cross-Functional Risk View — OpsAnalytics · CapEx · Revenue
             </h2>
@@ -453,10 +445,6 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
             </div>
           </div>
         </div>
-
-        {showAnnotations && annotations["10"] && (
-          null
-        )}
       </section>
 
       {/* REQ 11 - PXQ / BILLING INTEGRATION */}
@@ -464,13 +452,6 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
         <div className="req-pin" title="Requirement #11">11</div>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ 11 · P×Q / Billing Integration
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               P×Q / Billing Integration — Partnership Success Lens
             </h2>
@@ -560,49 +541,6 @@ export const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ onDrillDown,
             <span className="text-[8px] text-muted-text mt-2 font-medium">SSO Integration Active</span>
           </div>
         </div>
-
-        {showAnnotations && annotations["11"] && (
-          null
-        )}
-      </section>
-
-      {/* REQ 9 - BASIC REPORTING RELIABILITY (PARKED) */}
-      <section id="finance-gov" className="bg-panel border border-panel-border rounded-2xl p-4.5 shadow-sm relative overflow-hidden">
-        <div className="req-pin" title="Requirement #9">9</div>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
-          <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ 09 · Basic Reporting Reliability
-                </span>
-              )}
-            </div>
-            <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
-              REQ 09 ★ Basic Reporting Reliability — Parked
-            </h2>
-            <p className="text-ink-soft text-[10px] italic font-light mt-0.5">Handed to data-governance workstream under the broader Ether programme</p>
-          </div>
-        </div>
-
-        <div className="bg-panel-2/50 border border-panel-border rounded-xl p-5 pl-1 flex items-start gap-4">
-          <div className="w-10 h-10 rounded-full bg-slate-500/10 text-slate-500 flex items-center justify-center font-bold text-xl shrink-0 mt-0.5">
-            <Ban size={18} />
-          </div>
-          <div className="space-y-1.5">
-            <h4 className="text-xs font-bold text-ink uppercase tracking-wider flex items-center gap-2">
-              <span>Not tracked as a VOIS Hub requirement</span>
-              <span className="bg-slate-500 text-panel text-[8px] font-black uppercase tracking-wide px-1.5 py-0.5 rounded">PARKED — ETHER PROGRAMME</span>
-            </h4>
-            <p className="text-[11px] text-ink-soft font-light leading-relaxed">
-              Data reliability of monthly / quarterly / annual reporting cycles is a fundamental <b>data-governance and business-process</b> issue (HR ↔ Finance reconciliation, headcount mastership) — not a reporting one. The Hub will remain the single-source-of-truth landing place and will surface the canonical view (or multiple views with explanation) once upstream governance fixes are made.
-            </p>
-          </div>
-        </div>
-
-        {showAnnotations && annotations["9"] && (
-          null
-        )}
       </section>
     </div>
   );

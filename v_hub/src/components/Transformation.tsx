@@ -4,14 +4,11 @@ import Tooltip from './Tooltip';
 
 interface TransformationProps {
   onDrillDown: (data: any) => void;
-  showAnnotations: boolean;
 }
 
-const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnotations }) => {
+const Transformation: React.FC<TransformationProps> = ({ onDrillDown }) => {
   const req06 = dashboardData.sections.find(s => s.id === "REQ 06") as any;
   if (!req06) return null;
-
-  const req06Anno = (dashboardData.annotations as any)["6"];
 
   // Specifically parse and enrich program metadata for presentation
   const getProgramDetails = (name: string) => {
@@ -79,14 +76,6 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ 06 · transformation
-                </span>
-              )}
-              {/* <span className="w-1.5 h-1.5 rounded-full bg-red-656" /> */}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               {req06.title.split('—')[0]}
             </h2>
@@ -194,10 +183,6 @@ const Transformation: React.FC<TransformationProps> = ({ onDrillDown, showAnnota
         </div>
       </div>
 
-      {/* REQ 06 Annotation Card */}
-      {req06Anno && (
-        null
-      )}
     </section>
   );
 };

@@ -63,7 +63,7 @@ const towerData: Record<
 	}
 > = {
 	Overall: {
-		name: "Overall VOIS Group",
+		name: "Overall VOIS",
 		role: "Consolidated Global Operations",
 		leader: "Gary (Group CEO)",
 		meta: {
@@ -264,7 +264,7 @@ const towerData: Record<
 				label: "Cost Efficiency",
 				val: "€32.80M takeout",
 				status: "amber",
-				desc: "95% of target achieved; onshore agent costs remain high",
+				desc: "95% of {dataA.name}chieved; onshore agent costs remain high",
 			},
 			{
 				key: "ebitda",
@@ -807,7 +807,7 @@ const marketData: Record<string, (typeof towerData)[string]> = {
 				label: "Cost Efficiency",
 				val: "€24.80M takeout",
 				status: "amber",
-				desc: "Under target by €1.5M due to utility and workspace expenses",
+				desc: "Under {dataB.name}y €1.5M due to utility and workspace expenses",
 			},
 			{
 				key: "ebitda",
@@ -1071,8 +1071,8 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 			const oStat = activeData.Overall.radarStats[i] || { A: 0 };
 			return {
 				subject: stat.subject,
-				"Selected Target A": stat.A,
-				"Selected Target B": bStat.A,
+				"Selected {dataA.name}": stat.A,
+				"Selected {dataB.name}": bStat.A,
 				"Group Baseline": oStat.A,
 				fullMark: 100,
 			};
@@ -1086,8 +1086,8 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 			const oItem = activeData.Overall.monthlyPerformance[i] || { value: 0 };
 			return {
 				month: item.month,
-				"Selected Target A": item.value,
-				"Selected Target B": bItem.value,
+				"Selected {dataA.name}": item.value,
+				"Selected {dataB.name}": bItem.value,
 				"Group Baseline": oItem.value,
 			};
 		});
@@ -1143,11 +1143,8 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 					</div>
 
 					{/* SELECTORS ROW */}
-					<div className="flex flex-wrap items-center gap-3 bg-panel-2/60 p-2.5 rounded-xl border border-panel-border self-start md:self-auto">
+					<div className="flex flex-row items-center gap-3 bg-panel-2/60 p-2.5 rounded-xl border border-panel-border self-start md:self-auto">
 						<div className="flex items-center gap-1.5">
-							<span className="text-[9px] font-bold text-ink-soft uppercase tracking-wider leading-none">
-								Target A
-							</span>
 							<select
 								value={towerA}
 								onChange={(e) => setTowerA(e.target.value)}
@@ -1162,7 +1159,7 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 								}}>
 								{isMarkets ? (
 									<>
-										<option value="Overall">Overall Group</option>
+										<option value="Overall">Overall VOIS</option>
 										<option value="India">VOIS India</option>
 										<option value="Egypt">VOIS Egypt</option>
 										<option value="Hungary">VOIS Hungary</option>
@@ -1183,9 +1180,6 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 						<div className="text-accent font-bold text-xs select-none">VS</div>
 
 						<div className="flex items-center gap-1.5">
-							<span className="text-[9px] font-bold text-ink-soft uppercase tracking-wider leading-none">
-								Target B
-							</span>
 							<select
 								value={towerB}
 								onChange={(e) => setTowerB(e.target.value)}
@@ -1200,7 +1194,7 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 								}}>
 								{isMarkets ? (
 									<>
-										<option value="Overall">Overall Group</option>
+										<option value="Overall">Overall VOIS</option>
 										<option value="India">VOIS India</option>
 										<option value="Egypt">VOIS Egypt</option>
 										<option value="Hungary">VOIS Hungary</option>
@@ -1224,7 +1218,7 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 pt-3.5 border-t border-panel-border/40">
 					<div className="space-y-1 pl-1">
 						<div className="text-[9px] font-bold text-ink-soft uppercase tracking-wider">
-							Target A Profile
+							{dataA.name} Profile
 						</div>
 						<div className="flex flex-wrap gap-1.5">
 							<span className="px-2 py-0.5 rounded text-[10px] bg-panel-2 border border-panel-border font-medium text-ink flex items-center gap-1.5">
@@ -1243,7 +1237,7 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 					</div>
 					<div className="space-y-1 pl-1">
 						<div className="text-[9px] font-bold text-ink-soft uppercase tracking-wider">
-							Target B Profile
+							{dataB.name} Profile
 						</div>
 						<div className="flex flex-wrap gap-1.5">
 							<span className="px-2 py-0.5 rounded text-[10px] bg-panel-2 border border-panel-border font-medium text-ink flex items-center gap-1.5">
@@ -1265,14 +1259,11 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 
 			{/* METRIC GRIDS: SIDE-BY-SIDE */}
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-				{/* TARGET A CARD COLUMN */}
+				{/* {dataA.name} CARD COLUMN */}
 				<div className="bg-panel border border-panel-border rounded-2xl p-4 shadow-sm space-y-3">
 					<div className="flex justify-between items-center border-b border-panel-border pb-2">
 						<div>
-							<span className="text-[9px] font-bold text-accent uppercase tracking-widest leading-none">
-								Selected Target A
-							</span>
-							<h3 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
+							<h3 className="text-base font-bold text-accent uppercase tracking-wide mt-0.5">
 								{dataA.name}
 							</h3>
 							<p className="text-[10px] text-ink-soft leading-none mt-0.5 italic">
@@ -1315,14 +1306,11 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 					</div>
 				</div>
 
-				{/* TARGET B CARD COLUMN */}
+				{/* {dataB.name} CARD COLUMN */}
 				<div className="bg-panel border border-panel-border rounded-2xl p-4 shadow-sm space-y-3">
 					<div className="flex justify-between items-center border-b border-panel-border pb-2">
 						<div>
-							<span className="text-[9px] font-bold text-accent uppercase tracking-widest leading-none">
-								Selected Target B
-							</span>
-							<h3 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
+							<h3 className="text-base font-bold text-accent uppercase tracking-wide mt-0.5">
 								{dataB.name}
 							</h3>
 							<p className="text-[10px] text-ink-soft leading-none mt-0.5 italic">
@@ -1390,14 +1378,14 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 								/>
 								<Radar
 									name={dataA.name}
-									dataKey="Selected Target A"
+									dataKey="Selected {dataA.name}"
 									stroke="#e60000"
 									fill="#e60000"
 									fillOpacity={0.15}
 								/>
 								<Radar
 									name={dataB.name}
-									dataKey="Selected Target B"
+									dataKey="Selected {dataB.name}"
 									stroke="#f59e0b"
 									fill="#f59e0b"
 									fillOpacity={0.15}
@@ -1453,7 +1441,7 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 								<Line
 									type="monotone"
 									name={dataA.name}
-									dataKey="Selected Target A"
+									dataKey="Selected {dataA.name}"
 									stroke="#e60000"
 									strokeWidth={2}
 									dot={{ r: 3 }}
@@ -1461,7 +1449,7 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 								<Line
 									type="monotone"
 									name={dataB.name}
-									dataKey="Selected Target B"
+									dataKey="Selected {dataB.name}"
 									stroke="#f59e0b"
 									strokeWidth={2}
 									dot={{ r: 3 }}
@@ -1497,11 +1485,11 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 					<table className="w-full text-left border-collapse text-[10px]">
 						<thead>
 							<tr className="border-b border-panel-border bg-panel-2/45">
-								<th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider min-w-[130px]">
+								<th className="p-2.5 font-bold text-ink-soft uppercase tracking-wider min-w-32.5">
 									Key KPI Metric
 								</th>
 								<th className="p-2.5 font-bold text-ink uppercase tracking-wider text-center bg-accent/5">
-									Overall Group
+									Overall VOIS
 								</th>
 								{isMarkets ? (
 									<>
@@ -1599,7 +1587,7 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 					<div className="space-y-2.5">
 						<span className="text-[9px] font-bold text-ink-soft uppercase tracking-widest block leading-none pl-1 border-l-2 border-accent">
-							Target A Alignment Context
+							{dataA.name} Alignment Context
 						</span>
 						<div className="bg-panel-2/40 p-3 rounded-xl border border-panel-border space-y-1.5 h-[calc(100%-1.25rem)] flex flex-col justify-between">
 							<p className="text-xs text-ink-soft leading-normal font-light italic">
@@ -1607,7 +1595,7 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 							</p>
 							<div className="space-y-1.5 pt-2 border-t border-panel-border/50">
 								<span className="text-[8px] font-bold text-ink-soft uppercase tracking-widest block leading-none">
-									Target A Governance Initiatives
+									{dataA.name} Governance Initiatives
 								</span>
 								<ul className="list-none pl-0 space-y-1">
 									{dataA.actionItems.map((item, i) => (
@@ -1628,7 +1616,7 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 
 					<div className="space-y-2.5">
 						<span className="text-[9px] font-bold text-ink-soft uppercase tracking-widest block leading-none pl-1 border-l-2 border-accent">
-							Target B Alignment Context
+							{dataB.name} Alignment Context
 						</span>
 						<div className="bg-panel-2/40 p-3 rounded-xl border border-panel-border space-y-1.5 h-[calc(100%-1.25rem)] flex flex-col justify-between">
 							<p className="text-xs text-ink-soft leading-normal font-light italic">
@@ -1636,7 +1624,7 @@ export const CompareTowers: React.FC<CompareTowersProps> = ({
 							</p>
 							<div className="space-y-1.5 pt-2 border-t border-panel-border/50">
 								<span className="text-[8px] font-bold text-ink-soft uppercase tracking-widest block leading-none">
-									Target B Governance Initiatives
+									{dataB.name} Governance Initiatives
 								</span>
 								<ul className="list-none pl-0 space-y-1">
 									{dataB.actionItems.map((item, i) => (

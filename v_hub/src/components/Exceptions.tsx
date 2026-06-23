@@ -4,7 +4,6 @@ import Tooltip from './Tooltip';
 
 interface ExceptionsProps {
   onDrillDown: (data: any) => void;
-  showAnnotations: boolean;
 }
 
 const getExceptionTooltip = (name: string) => {
@@ -34,11 +33,9 @@ const getExceptionTooltip = (name: string) => {
   }
 };
 
-const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown, showAnnotations }) => {
+const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown }) => {
   const req03 = dashboardData.sections.find(s => s.id === "REQ 03") as any;
   if (!req03) return null;
-
-  const req03Anno = (dashboardData.annotations as any)["3"];
 
   const handleItemClick = (item: any, groupTitle: string) => {
     onDrillDown({
@@ -61,13 +58,6 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown, showAnnotations })
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2.5 mb-3.5 pl-1">
           <div>
-            <div className="flex items-center gap-2">
-              {showAnnotations && (
-                <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                  REQ 03 · exceptions
-                </span>
-              )}
-            </div>
             <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
               {req03.title.split('—')[0]}
             </h2>
@@ -123,11 +113,6 @@ const Exceptions: React.FC<ExceptionsProps> = ({ onDrillDown, showAnnotations })
           ))}
         </div>
       </div>
-
-      {/* REQ 03 Annotation Card */}
-      {req03Anno && (
-        null
-      )}
     </section>
   );
 };

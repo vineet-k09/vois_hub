@@ -5,7 +5,6 @@ import Tooltip from './Tooltip';
 
 interface KPIGridProps {
   onDrillDown: (data: any) => void;
-  showAnnotations: boolean;
 }
 
 const parseValue = (v: any) => {
@@ -16,11 +15,8 @@ const parseValue = (v: any) => {
   return isNaN(numeric) ? null : numeric;
 };
 
-const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown, showAnnotations }) => {
+const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown }) => {
   const req01 = dashboardData.sections.find(s => s.id === "REQ 01") as any;
-  if (!req01) return null;
-
-  const req01Anno = (dashboardData.annotations as any)["1"];
 
   const handleKPIClick = (kpi: any, clusterName: string) => {
     onDrillDown({
@@ -42,14 +38,6 @@ const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown, showAnnotations }) => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-panel-border pb-2 mb-3.5 pl-1">
         <div>
-          <div className="flex items-center gap-2">
-            {showAnnotations && (
-              <span className="text-[9px] font-black text-ink-soft uppercase tracking-widest bg-panel-2 px-2 py-0.5 rounded border border-panel-border">
-                REQ 01 · top-line performance
-              </span>
-            )}
-            {/* <span className="w-1.5 h-1.5 rounded-full bg-red-655" /> */}
-          </div>
           <h2 className="text-base font-bold text-ink uppercase tracking-wide mt-0.5">
             {req01.title.split('—')[0]}
           </h2>
@@ -249,10 +237,6 @@ const KPIGrid: React.FC<KPIGridProps> = ({ onDrillDown, showAnnotations }) => {
         ))}
       </div>
 
-      {/* REQ 01 Annotation Card */}
-      {req01Anno && (
-        null
-      )}
     </section>
   );
 };
