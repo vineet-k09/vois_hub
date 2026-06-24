@@ -28,6 +28,8 @@ import {
 	Home,
 	GitCompare,
 	User,
+	ArrowUp,
+	ArrowRight,
 } from "lucide-react";
 import { toPng } from "html-to-image";
 import { jsPDF } from "jspdf";
@@ -413,9 +415,9 @@ const App: React.FC = () => {
 						</div>
 
 						<div className="flex gap-2">
-							<Tooltip
-								content="Export the full executive dashboard view into a high-quality PDF report for Board review"
-								position="bottom">
+							{/* <Tooltip */}
+								{/* content="Export the full executive dashboard view into a high-quality PDF report for Board review" */}
+								{/* position="bottom"> */}
 								<button
 									onClick={generatePDF}
 									disabled={isGenerating}
@@ -443,7 +445,7 @@ const App: React.FC = () => {
 									)}
 									{isGenerating ? "Generating..." : "Generate Board PDF"}
 								</button>
-							</Tooltip>
+							{/* </Tooltip> */}
 							<Tooltip
 								content="Directly email the executive monthly package PDF to all board-level stakeholders"
 								position="bottom">
@@ -504,6 +506,76 @@ const App: React.FC = () => {
 			<div>
 				<GoalsAlignment onDrillDown={handleDrillDown} />
 			</div>
+
+			{/* HIERARCHY LEVEL 3.5: TALENT PERFORMANCE SNAPSHOT */}
+			<section
+				id="section-talent-snapshot"
+				className="bg-panel border border-panel-border rounded-2xl p-4.5 shadow-sm relative overflow-hidden"
+			>
+				<div className="req-pin" title="Requirement #10">
+					10
+				</div>
+				<div className="flex flex-col gap-4">
+					<div className="flex items-center gap-2 border-b border-panel-border pb-3 pl-1">
+						<div className="bg-panel-2 text-accent p-1 rounded-lg">
+							<User size={14} />
+						</div>
+						<div>
+							<h2 className="text-sm font-bold text-ink uppercase tracking-wide">
+								Talent Performance Snapshot
+							</h2>
+							<p className="text-ink-soft text-[10px] italic font-light">
+								March 2026 · Performance & Progression Metrics
+							</p>
+						</div>
+					</div>
+
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0.5 px-1">
+						{[
+							{ name: "Female Progression (G to F Band)", target: "45.0%", actual: "42.8%", trend: "up", rag: "amber" },
+							{ name: "Key Talent Promotion Rate", target: "15.0%", actual: "18.2%", trend: "up", rag: "green" },
+							{ name: "Leadership Internal Fill Rate", target: "80.0%", actual: "64.5%", trend: "side", rag: "red" },
+							{ name: "High Potential Retention", target: "95.0%", actual: "94.2%", trend: "side", rag: "green" },
+							{ name: "External Hire Quality Index", target: "4.2", actual: "4.1", trend: "up", rag: "green" },
+							{ name: "Diversity Shortlist Ratio", target: "50.0%", actual: "48.5%", trend: "up", rag: "amber" },
+						].map((item, index) => (
+							<div 
+								key={index}
+								className="flex items-center justify-between py-2.5 border-b border-panel-border/40 last:border-0 md:[&:nth-last-child(-n+2)]:border-0 group hover:bg-panel-2/20 transition-all cursor-pointer"
+								onClick={() => handleDrillDown({ ...item, type: 'kpi', label: item.name })}
+							>
+								<div className="flex items-center gap-3 min-w-0 flex-1">
+									<div className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+										item.rag === 'green' ? 'bg-emerald-500' : 
+										item.rag === 'amber' ? 'bg-amber-500' : 'bg-red-500'
+									}`} />
+									<span className="text-[11px] font-semibold text-ink truncate">{item.name}</span>
+								</div>
+								<div className="flex items-center gap-8 shrink-0">
+									<div className="text-right">
+										<div className="text-[8px] text-ink-soft font-bold uppercase tracking-tighter leading-none mb-1">Target</div>
+										<div className="text-[11px] font-bold text-ink-soft/70 leading-none">{item.target}</div>
+									</div>
+									<div className="text-right min-w-[60px]">
+										<div className="text-[8px] text-ink-soft font-bold uppercase tracking-tighter leading-none mb-1">Actual</div>
+										<div className="flex items-center justify-end gap-1.5 leading-none">
+											<span className={`text-[11px] font-bold ${
+												item.rag === 'green' ? 'text-emerald-600' : 
+												item.rag === 'amber' ? 'text-amber-600' : 'text-red-600'
+											}`}>{item.actual}</span>
+											{item.trend === 'up' ? (
+												<ArrowUp size={11} className="text-emerald-500" strokeWidth={3} />
+											) : (
+												<ArrowRight size={11} className="text-amber-500" strokeWidth={3} />
+											)}
+										</div>
+									</div>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
 
 			{/* HIERARCHY LEVEL 4: TRANSFORMATION TRACKING */}
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-4.5">
